@@ -1,0 +1,169 @@
+<NewDataSet>
+  <P_FETCH_LOGINDETAILS>
+    <USER_NAME>venkatesh</USER_NAME>
+    <LGN_AGENT_ID>RCMAA0500101</LGN_AGENT_ID>
+    <LGN_TERMINAL_ID>RCMAA050010101</LGN_TERMINAL_ID>
+    <LGN_TERMINAL_PREVILAGE>S</LGN_TERMINAL_PREVILAGE>
+    <AGENCY_NAME>Shreyas Internal Corporate</AGENCY_NAME>
+    <AGENCY_NAMEADDRESS>Shreyas Internal Corporate~test streetchennai~shreyas@gmail.com~+91-2569870~9876543210~Shreyas~Internal~test streetchennai~MAA~TN~IN</AGENCY_NAMEADDRESS>
+    <AgencyPaymentDetails>Shreyas~Internal~shreyas@gmail.com~test streetchennai~test streetchennai~MAA~TN~IN</AgencyPaymentDetails>
+    <IATA_NO />
+    <ALLOW_TICKETING>Y</ALLOW_TICKETING>
+    <VIEW_COMMISSION>1|1|1|1|1|1|1|1</VIEW_COMMISSION>
+    <BCH_BRANCH_ID>BNH008</BCH_BRANCH_ID>
+    <BCH_BRANCH_NAME>STS</BCH_BRANCH_NAME>
+    <AGN_ACCESS_IMG />
+    <BRANCH_ACCESS>BNH008</BRANCH_ACCESS>
+    <AIRLINE>Y</AIRLINE>
+    <BUS>Y</BUS>
+    <HOTEL>Y</HOTEL>
+    <TRAIN>Y</TRAIN>
+    <VISA>Y</VISA>
+    <MISC>Y</MISC>
+    <INSURANCE>Y</INSURANCE>
+    <CAR>Y</CAR>
+    <ACT>N</ACT>
+    <MOB>Y</MOB>
+    <ALLOW_MULTICLASS>Y</ALLOW_MULTICLASS>
+    <ALLOW_PG>Y</ALLOW_PG>
+    <PHONE_NO>+91-2569870</PHONE_NO>
+    <ALLOW_CREDIT>N</ALLOW_CREDIT>
+    <AgentAlterMail>veera.sme@shreyastechsolutions.com,vimal@shreyastechsolutions.com</AgentAlterMail>
+    <ALLOW_TOPUP>N</ALLOW_TOPUP>
+    <ALLOW_PASSTHROUGH>N</ALLOW_PASSTHROUGH>
+    <ALLOW_BEST_BUY>N</ALLOW_BEST_BUY>
+    <CTRLRIGHTS>1|1|1|1|1|1|1</CTRLRIGHTS>
+    <VIEW_DOMESTIC>Y</VIEW_DOMESTIC>
+    <VIEW_Q_TICKETING>N</VIEW_Q_TICKETING>
+    <ALLOW_CORP_FARE>Y</ALLOW_CORP_FARE>
+    <VIEW_INTERNATIONAL>Y</VIEW_INTERNATIONAL>
+    <BAJAJ>N</BAJAJ>
+    <TITOS>N</TITOS>
+    <ANCILLARY>N</ANCILLARY>
+    <THEMEPARK>N</THEMEPARK>
+    <TATA>Y</TATA>
+    <GST_REGISTER>Y</GST_REGISTER>
+    <ALLOW_VIEW_BALANCE>Y</ALLOW_VIEW_BALANCE>
+    <VIEW_DASHBOARD>Y</VIEW_DASHBOARD>
+    <TRAIN_USER_ID />
+    <TRAIN_MAC_ID />
+    <MTF>N</MTF>
+    <MUA>N</MUA>
+    <EMAIL_ID>shreyas@gmail.com</EMAIL_ID>
+    <UserName>venkatesh</UserName>
+    <AGENT_TYPE>RC</AGENT_TYPE>
+    <ALLOW_SPLFARE>0</ALLOW_SPLFARE>
+    <ALLOW_BLOCKPNR>N</ALLOW_BLOCKPNR>
+    <ALLOW_MULTICITY>N</ALLOW_MULTICITY>
+    <ALLOW_FARECALENDER>Y</ALLOW_FARECALENDER>
+    <AGREEMENT>1</AGREEMENT>
+    <PG_SERVICE_CHARGE>0</PG_SERVICE_CHARGE>
+    <ASSIGNED_TERMINAL />
+    <POS_THREAD_KEY />
+    <BOA_N_FARE />
+    <PAT_ALLOW_MORE_FLIGHT />
+    <PAT_TRACK_STATUS>Y</PAT_TRACK_STATUS>
+    <PRA_AIR_AIRLINE_CODE />
+    <PRODUCT_CODE>INRC02</PRODUCT_CODE>
+    <COUNTRY_ID>IN</COUNTRY_ID>
+    <StateCode>TN</StateCode>
+    <CityCode>MAA</CityCode>
+    <MOBILENO>9543260698</MOBILENO>
+    <LGN_CORPORATE_ACCESS>RCMAA0500101</LGN_CORPORATE_ACCESS>
+    <PAT_TRAIN_MAC_ID />
+    <PAT_TRAIN_BOOKUSER_ID />
+    <ALLOW_GDS>Y</ALLOW_GDS>
+    <Agency_Details>Shreyas~shreyas@gmail.com~test street,chennai~9876543210~MAA~TN~IN</Agency_Details>
+    <SALESMAN1>venkatesh</SALESMAN1>
+    <SALESMAN2 />
+    <SALESMAN3 />
+    <BCH_COUNTRY />
+    <ALLOW_RETRIEVE>Y</ALLOW_RETRIEVE>
+    <ALLOW_BOOKING>Y</ALLOW_BOOKING>
+    <Currency>INR</Currency>
+    <Thread>1A|1G|1S|6E|AK|FZ|G8|J9|JQ|NDC|SG|TZ|XW</Thread>
+    <FscThread>1A|1G|1S|NDC</FscThread>
+    <LccThread>6E|AK|FZ|G8|G8E|G8M|G8S|G9|IX|J9|JQ|OG|SG|SGE|SGI|SGJ|TZ|ZO|XW</LccThread>
+    <MultiThread>1A|</MultiThread>
+    <SFC>1A|2T|6E|6EM|AK|FZ|G8|G8E|G8G|G8M|G8S|G9|IX|J9|JQ|NDC|OD|SG|SGE|SGU|TZ|ZO</SFC>
+    <NewThread>SG@SGE|SGS|SGJ|SGI~6E@6EE|6ES~G8@G8E|G8M|OSC~AI@SS</NewThread>
+    <NewThreadC>SG@SGE|SGS|SGJ|SGI~6E@6EE|6ES~G8@G8E|G8M|OSC~AI@SS</NewThreadC>
+    <ThreadD>1A|2T|6E|AK|G8|G8E|G8M|IX|OG|SG|SGE|SGI|SGJ|ZO|OSC</ThreadD>
+    <FscThreadD>1A|</FscThreadD>
+    <LccThreadD>6E|AK|G8|G8E|G8M|IX|OG|SG|SGE|SGI|SGJ|ZO</LccThreadD>
+    <MultiThreadD>1A|</MultiThreadD>
+    <SFCD>1A|2T|6E|AK|G8|G8E|G8M|G8S|IX|SG|SGE|ZO</SFCD>
+    <NewThreadD>SG@SGE|SGS|SGJ|SGI~6E@6EE|6ES~G8@G8E|G8M</NewThreadD>
+    <NewThreadCD>SG@SGE|SGS|SGJ|SGI~6E@6EE|6ES~G8@G8E|G8M</NewThreadCD>
+    <CORPORATETHREAD>G8E|G8S|G8U|SGE|SGI|SGJ|G8M|AKC</CORPORATETHREAD>
+    <RETAILTHREAD>G8E|G8S|G8U|SGE|SGI|SGJ|G8M|AKC</RETAILTHREAD>
+    <VIATHREAD>1A|1G|1S|6E|AK|FZ|G8|J9|JQ|NDC|SG|TZ|XW</VIATHREAD>
+    <ARMEDTFARE>
+    </ARMEDTFARE>
+    <STUDENTFARE>
+    </STUDENTFARE>
+    <SRCITIZENTFARE>
+    </SRCITIZENTFARE>
+    <STUDENTFAREDISPMSG>
+      Students above 12 years of age are eligible for Special fares and/or additional baggage allowances on certain airline bookings.
+      Carrying valid student ID cards and student visas (Where applicable) is mandatory.
+    </STUDENTFAREDISPMSG>
+    <ARMEDTFAREDISPMSG>
+      Applicable for serving or retired personnel of the Armed Forces or Paramilitary Forces of India and war widows only.
+      Serving and retired personnel of the Armed or Paramilitary Forces of India, along with their respective spouses and dependent children are also eligible to avail this offer.
+      Proof in the form of Valid Photo ID and relevant Military ID has to be presented at the time of check-in, failing which they will be denied boarding. T&amp;C Apply.
+    </ARMEDTFAREDISPMSG>
+    <SRCITIZENTFAREDISPMSG>
+      Applicable to senior citizens above the age of 60 years.
+      On producing proof of Date of Birth (mandatory), In case of failure to produce proof, prevailing fares will be charged
+    </SRCITIZENTFAREDISPMSG>
+    <INT_1G_AIRLINES />
+    <DOM_1G_AIRLINES />
+    <INT_1S_AIRLINES />
+    <DOM_1S_AIRLINES>6E|G8|UK|AI</DOM_1S_AIRLINES>
+    <CLT_GROUP_ID>GRP2019071300269</CLT_GROUP_ID>
+    <TRAIN_MAC_ID1 />
+    <TRAIN_USER_ID1 />
+    <TDS_PERCENTAGE>0.00</TDS_PERCENTAGE>
+    <Commission>1</Commission>
+    <Markup>1</Markup>
+    <ServiceTax>0</ServiceTax>
+    <ServiceCharge>1</ServiceCharge>
+    <AgentTerminalCount>90</AgentTerminalCount>
+    <PASSWORDRESET>0</PASSWORDRESET>
+    <SHOWCOMMISSION>1</SHOWCOMMISSION>
+    <ETRAVELINSURANCE>0</ETRAVELINSURANCE>
+    <SEQUENCE_ID>24</SEQUENCE_ID>
+    <MailFrom>Sameera BOA</MailFrom>
+    <BlockPnrCategories>FSC</BlockPnrCategories>
+    <CreditAccCategories>FSC</CreditAccCategories>
+    <COMPANYNAME>BOA BETA TESTING</COMPANYNAME>
+    <HOMETEXT>Comming Soon</HOMETEXT>
+    <RIGHTTEXT>Comming Soon</RIGHTTEXT>
+    <STANDARDTEXT>Comming Soon</STANDARDTEXT>
+    <UPPERTEXT>Comming Soon</UPPERTEXT>
+    <TRIPCONFIG>O|R|Y|M|MD</TRIPCONFIG>
+    <pgminamt>3000</pgminamt>
+    <PG_common_servicecharge>2.5</PG_common_servicecharge>
+    <NearThread />
+  </P_FETCH_LOGINDETAILS>
+  <P_FETCH_LOGINDETAILS1>
+    <AST_AGENT_ID>TBMAA0500101</AST_AGENT_ID>
+    <AST_TERMINAL_ID>TBMAA050010101</AST_TERMINAL_ID>
+  </P_FETCH_LOGINDETAILS1>
+  <P_FETCH_LOGINDETAILS2>
+    <WEB_RIGHTS />
+  </P_FETCH_LOGINDETAILS2>
+  <P_FETCH_LOGINDETAILS3>
+    <THREADKEY>1A|1G|1S|6E|AK|FZ|G8|J9|JQ|NDC|SG|TZ|XW</THREADKEY>
+    <FscThread>1A|1G|1S|NDC</FscThread>
+    <LccThread>6E|AK|FZ|G8|G8E|G8M|G8S|G9|IX|J9|JQ|OG|SG|SGE|SGI|SGJ|TZ|ZO|XW</LccThread>
+    <MultiThread>1A|</MultiThread>
+    <SFC>1A|2T|6E|6EM|AK|FZ|G8|G8E|G8G|G8M|G8S|G9|IX|J9|JQ|NDC|OD|SG|SGE|SGU|TZ|ZO</SFC>
+    <NewThread>SG@SGE|SGS|SGJ|SGI~6E@6EE|6ES~G8@G8E|G8M|OSC~AI@SS</NewThread>
+    <NewThreadC>SG@SGE|SGS|SGJ|SGI~6E@6EE|6ES~G8@G8E|G8M|OSC~AI@SS</NewThreadC>
+    <STUDENT>G8</STUDENT>
+    <SRCITIZEN>G8</SRCITIZEN>
+    <ARMED>G8</ARMED>
+  </P_FETCH_LOGINDETAILS3>
+</NewDataSet>

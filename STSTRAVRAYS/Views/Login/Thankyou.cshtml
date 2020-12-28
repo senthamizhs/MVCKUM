@@ -1,0 +1,100 @@
+﻿@{
+    string fileversion = System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"] != null ? System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"].ToString() : "";
+    string allowlogincountry = System.Configuration.ConfigurationManager.AppSettings["Logincountry"] != null ? System.Configuration.ConfigurationManager.AppSettings["Logincountry"].ToString() : "";
+    string strProductType = System.Configuration.ConfigurationManager.AppSettings["Producttype"].ToString();
+    string strFavicon = System.Configuration.ConfigurationManager.AppSettings["LogoUrl"].ToString() + "/" + strProductType + "/favicon.ico?" + fileversion;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Thank you for Agent Registration with Riya Connect</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Thank you for submitting your details to become a Travel Agent at Riya Connect. Our Sales team will contact you in shortly.">
+    <meta name="author" content="Riya Travel & Tours India Pvt Ltd">
+    <link rel="shortcut icon" href="@strFavicon" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" rel="stylesheet" />
+    <link href="~/Content/CSS/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/CSS/RIYA/style-main.css?@fileversion" rel="stylesheet" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CFGNNP3W8P"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-CFGNNP3W8P');
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="@Url.Action("Login","Login")" class="logo">
+                <img src="@Url.Content("~/Images/"+strProductType+"/riya-logo.png")" alt="">
+            </a>
+            <div class="pull-right agentHelpline">
+                <span>Agent  Helpline&nbsp;</span>
+                <a class="mobilesOnly" href="tel:022-71200900" title="24/7 Customer Services | 24/7 Customer Supports for Agents & Customers"><i class="fas fa-phone"></i>+91 022 71200900</a>
+                <a class="mobilesOnly" href="tel:022-25744818">/&nbsp;+91 022 25744818</a>
+            </div>
+        </div>
+    </header>
+    <div class="header-spacer"></div>
+    <div class="bg-white padding-bottom form-rg-holder rg-thank-you" style="background: url('@Url.Content("~/Images/" + strProductType + "/Visa/bg-register.jpg")') no-repeat center center; background-size: cover;">
+        <div class="container">
+            <div class="details-box">
+                <h5 class="heading03 heading04 heading05 text-center">Thank You for Your Interest!</h5>
+                <p class="para-lightgry text-center">
+                    We have received your details
+                    <br>
+                    Our Salesperson will connect with you at the earliest.
+                </p>
+                <a href="@Url.Action("Login","Login")" class="text-center bck-home"><i class="fas fa-home"></i>Home</a>
+                <div class="bg-flight">
+                    <img src="@Url.Content("~/Images/"+strProductType+"/Visa/thank-you-plane.png")" alt="flight">
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="copyright">
+            © Copyright 2019 b2b.riya.travel . All Rights Reserved Version V3.1
+        </div>
+    </footer>
+    <script src="~/js/CommonJS/custom-main.js"></script>
+    <script src="~/js/CommonJS/popup.js"></script>
+    <script src="~/js/CommonJS/swiper-slider.js"></script>
+    <script>
+        var swiper = new Swiper('#home-slider', {
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+
+        var swiper = new Swiper('#services', {
+            slidesPerView: 3,
+            spaceBetween: 100,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+
+        $(document).ready(function () {
+            $(".rconnect-tab-menu .list-group>a").click(function (e) {
+                e.preventDefault();
+                $(this).siblings('a.active').removeClass("active");
+                $(this).addClass("active");
+                var index = $(this).index();
+                $(".rconnect-tab .rconnect-tab-content").removeClass("active");
+                $(".rconnect-tab .rconnect-tab-content").eq(index).addClass("active");
+            });
+        });
+    </script>
+</body>
+</html>

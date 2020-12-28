@@ -1,0 +1,190 @@
+﻿@{
+    string _Product = System.Configuration.ConfigurationManager.AppSettings["Producttype"].ToString();
+    string _Theme = System.Configuration.ConfigurationManager.AppSettings["apptheme"].ToString();
+    string Fileversion = System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"] != null ? System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"].ToString() : "";
+    string IsBSALogin = System.Configuration.ConfigurationManager.AppSettings["APP_HOSTING"].ToString();
+    string strProductName = System.Configuration.ConfigurationManager.AppSettings["Appname"] != null ? System.Configuration.ConfigurationManager.AppSettings["Appname"].ToString() : "";
+    string strtitle = System.Configuration.ConfigurationManager.AppSettings["title"] != null ? System.Configuration.ConfigurationManager.AppSettings["title"].ToString() : "";
+    string strMeta_description = System.Configuration.ConfigurationManager.AppSettings["Meta_description"] != null ? System.Configuration.ConfigurationManager.AppSettings["Meta_description"].ToString() : "";
+    string strTerminalType = Session["TERMINALTYPE"] != null && Session["TERMINALTYPE"].ToString() != "" ? Session["TERMINALTYPE"].ToString() : System.Configuration.ConfigurationManager.AppSettings["TerminalType"].ToString();
+}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" class="headerstrip">
+<head>
+    <title>@strtitle</title>
+    <link rel="icon" href="@Url.Content("~/Images/" + _Product + "/favicon.ico")?@Fileversion" />
+    <meta name="description" content="@strMeta_description" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="Page-Enter" content="blendTrans(Duration=0)" />
+    <meta http-equiv="Page-Exit" content="blendTrans(Duration=0)" />
+    <meta http-equiv="cache-control" content="max-age=1" />
+    <meta http-equiv="cache-control" content="public" />
+    <meta http-equiv="expires" content="1" />
+    <meta http-equiv="pragma" content="public" />
+    <script src="~/js/CommonJS/jquery-1.11.1.js" type="text/javascript"></script>
+    @if ((_Theme == "THEME1" || _Theme == "THEME2") && _Product != "RBOA")
+    {
+        <link href="~/Content/CSS/Theme2/SessionExp.css?@Fileversion" rel="stylesheet" />
+    }
+    else if (_Product == "RIYA")
+    {
+        <link href="/Content/CSS/Theme4/SessionExp.css?@Fileversion" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600" rel="stylesheet" />
+    }
+    else if (_Product == "RBOA")
+    {
+        <link href="/Content/CSS/Riya_BOA/SessionExp.css?@Fileversion" rel="stylesheet" />
+    }
+    else if (_Product == "RUAE")
+    {
+        <link href="/Content/CSS/TME3/SessionExp.css?@Fileversion" rel="stylesheet" />
+    }
+    else
+    {
+        <link href="~/Content/CSS/@_Theme/SessionExp.css?@Fileversion" rel="stylesheet" />
+    }
+</head>
+<body>
+    <div class="clsBoxShdow">
+        <div class="bg-clr">
+            @if (_Product != "RUAE")
+            {
+                <h3 class="clsMyLabel">Your Session has Expired !...</h3>
+            }
+            @if (_Product == "RUAE")
+            {
+                <h3 class="clsMyLabel">Session <span>Expired</span></h3>
+            }
+
+            <div class="brdr"></div>
+            @if (@System.Configuration.ConfigurationManager.AppSettings["DesktopAccess"].ToString() == "N")
+            {
+                <div class="clsBody">
+                    <div class="bg-imgs"></div>
+                    <div class="bg-img-bsa" style="display:none;">
+                        <img src="~/Images/@_Product/session-Expired.png" />
+                    </div>
+                    <h4 class="clsMySubLabel" style="text-align:left;">This error has occured for one of the following reasons.</h4>
+                    <ul class="clsUlContent">
+                        <li>
+                            You have kept the browser window idle for a long time.
+                        </li>
+                        <li>
+                            You have double clicked on any Options/Buttons.
+                        </li>
+                        <li>
+                            You have used Back, Forward or Refresh button of your Browser.
+                        </li>
+                    </ul>
+                    <div class="btnsec">
+                        @if (_Product == "RUAE")
+                        {
+                            <a class="clsButton" id="okLoginPage" href="#">Back to Login</a>
+                        }
+                    </div>
+                </div>
+                <div class="cont-rt">
+                    <div class="bg-img"></div>
+                </div>
+                <div class="brdr"></div>
+                if (IsBSALogin == "BSA" && strTerminalType != "M")
+                {
+                    <a class="clsButton" id="okLoginPage" href="#">Back to Home</a>
+                }
+                else if (strTerminalType != "M" && (IsBSALogin == "BOA" || IsBSALogin == "B2B"))
+                {
+                    <a class="clsButton" id="okLoginPage" href="#">Back to Login</a>
+                }
+                else if (_Theme == "THEME1" || _Theme == "THEME2")
+                {
+                    <a class="clsButton" id="okLoginPage" href="#">Ok, go to Login Page</a>
+                }
+                else if (_Product == "RIYA")
+                {
+                    <a class="clsButton" id="okLoginPage" href="#">Back to Login</a>
+                }
+                else if (_Product == "RBOA")
+                {
+                    <div class="btnsec">
+                        <a class="clsButton" id="okLoginPage" href="#">Back to Login</a>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="clsBody">
+                    <br /><br />
+                    <div class="clsUlContent">
+                        Click on the icon from your desktop to restart the application
+                    </div>
+                    <div class="btnsec">
+                        <a class="clsButton" id="okLoginPage" href="#">Back to Login</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        $('#okLoginPage').click(function () {
+            if (qrystring.indexOf("Logout=Y") != -1) {
+                LoginusingTDID();
+            }
+            else {
+                sessionStorage.setItem("logoutinsertflg", "Y");
+                if ('@IsBSALogin' == "BSA")
+                    window.location.href = "@Url.Action("Flights", "Flights")";
+                else
+                    window.location.href = "@Url.Action("Login", "Login")";
+            }
+        });
+
+        var Templatetype = "@System.Configuration.ConfigurationManager.AppSettings["DesktopAccess"].ToString()";
+        var qrystring = window.location.href;
+        if (Templatetype == "Y") {
+            if (qrystring.indexOf("D=N") != -1) {
+                $("#okLoginPage").hide();
+                $(".clsMyLabel").html("You are not authorized to login..");
+                $("#h3od").hide();
+                $(".clsBoxShdow").css("min-height", "350px");
+            }
+            else if (qrystring.indexOf("Logout=Y") != -1) {
+                $("#okLoginPage").show();
+                $(".clsMyLabel").html("You have been logged out please close the browser.");
+                $("#h3od").hide();
+                $(".clsBoxShdow").css("min-height", "350px");
+            }
+        }
+        function LoginusingTDID() {
+            var Sessionkey = sessionStorage.getItem("Webcheckkeytdid");
+            var CheckSessionvaluse = { sessionKeys: Sessionkey };
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("checksessionKey", "Login")',
+                data: JSON.stringify(CheckSessionvaluse),
+                dataType: "json",
+                success: function (data) {
+                    if (data.Status == "01") {
+                        var resultsKey = data.Results;
+                        localStorage.setItem("secondtimelogincheck", "Y");
+                        console.log(resultsKey);
+                        window.location.href = resultsKey;
+
+                    } else {
+                        alert(data.Message);
+                        console.log(data.Message);
+                    }
+                },
+                error: function (e) {
+                    console.log(e.responseText);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

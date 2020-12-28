@@ -1,0 +1,839 @@
+﻿@{
+    string strProductType = System.Configuration.ConfigurationManager.AppSettings["Producttype"].ToString();
+    string strtitle = System.Configuration.ConfigurationManager.AppSettings["title"] != null ? System.Configuration.ConfigurationManager.AppSettings["title"].ToString() : "";
+    string stragnId = Session["POS_TID"] != null ? Session["POS_TID"].ToString() : "";
+    string stragnNm = Session["agencyname"] != null ? Session["agencyname"].ToString() : "";
+    string strusrNm = Session["username"] != null ? Session["username"].ToString() : "";
+    string strEnvTyp = Session["EnvironmentType"] != null ? Session["EnvironmentType"].ToString() : "";
+    string[] strcntrlpanelrits = Session["cntrlpanelrits"] != null ? Session["cntrlpanelrits"].ToString().Split('|') : "".Split('|');
+    string strprivilage = Session["privilage"] != null ? Session["privilage"].ToString() : "";
+    string[] strsmartScorcard = Session["AllowTab"] != null ? Session["AllowTab"].ToString().Split('|') : null;
+    string strAllowterminaluser = Session["TERMINALTYPE"] != null && Session["TERMINALTYPE"].ToString() != "" ? Session["TERMINALTYPE"].ToString() : System.Configuration.ConfigurationManager.AppSettings["TerminalType"].ToString();
+    string strappthemeversion = System.Configuration.ConfigurationManager.AppSettings["apptheme"] != null ? System.Configuration.ConfigurationManager.AppSettings["apptheme"].ToString() : "THEME1";
+    string strTerminalType = Session["TERMINALTYPE"] != null && Session["TERMINALTYPE"].ToString() != "" ? Session["TERMINALTYPE"].ToString() : System.Configuration.ConfigurationManager.AppSettings["TerminalType"].ToString();
+    string strFileversion = System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"] != null ? System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"].ToString() : "";
+    string strLogourl = System.Configuration.ConfigurationManager.AppSettings["LogoUrl"].ToString();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta content="stunner" name="description" />
+    <meta content="stunner" name="author" />
+
+    <title>@strtitle</title>
+    <link rel="icon" href="@Url.Content("~/Images/"+strProductType+"/favicon.ico")" />
+    <script src="~/js/CommonJS/jquery-1.11.1.js"></script>
+    <script src="~/js/CommonJS/jquery-ui-new.js"></script>
+    <script src="~/js/chosen.jquery.js"></script>
+    <script src="~/js/LayoutJS/Layout.js?@strFileversion"></script>
+    <script src="~/js/jquery.xml2json.js"></script>
+    @Styles.Render("~/Content/LayoutCommonCSS")
+    @Styles.Render("~/Content/CommonAllCSS")
+    @Styles.Render("~/Content/LayoutOtherCSS")
+    <link href="~/Content/CSS/@strappthemeversion/theme2.css?@strFileversion" rel="stylesheet" />
+    <link href="~/Content/CSS/@strappthemeversion/style.css?@strFileversion" rel="stylesheet" />
+    <link href="~/Content/CSS/@strappthemeversion/AvilBuilder.css?@strFileversion" rel="stylesheet" />
+    <link href="~/Content/CSS/@strappthemeversion/responsive.css?@strFileversion" rel="stylesheet" />
+    <link href="~/Content/CSS/homecss.css?@strFileversion" rel="stylesheet" />
+    <style>
+         .modal-backdrop {background-image: url("@Url.Content("~/Images/ui-bg_diagonals-thick_20_666666_40x40.png")")!important;}
+    </style>
+    <style>
+        .nice-select .list {z-index: 1000 !important;}
+        .btnRays-1e:hover, .btnRays-2e:active {color: #ccc;}
+        .wsmenu-list > li > a.active, .wsmenu-list li:hover > a {color: #fff !important;}
+        .wsmenu-list > li > a.active, .wsmenu-list li:hover > a > i {color: #fff !important;}
+        .paymentpopups {text-align: center;height: 40px;border: 1px solid #1faeff;background: #1faeff url(UIImages/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x;color: #ffffff;font-weight: bold;font-size: 20px;padding: 10px 0px 0px 0px;}
+        .headerstrip {background-color: #6C84E5;background: url(../Images/elements_header_background.png),linear-gradient(to bottom,#27a5f5,#27a5f5,rgba(0, 220, 175, 1));background-size: 300px 300px, auto;}
+        .headerstripVrtcal {box-shadow: 0px 1px 5px 0px #ccc;}
+        .wsmenu-list > li > a, .headerstripVrtcal, .wsmenu {background-image: url(../Images/elements_header_background.png);}
+        .wsmenu-list.nav > li > a {padding: 10px !important;}
+        .wsmenu-list.nav > li > a > i.fa {margin-right: 0px !important;}
+        .clsagndetils {font-size: 11px !important;height: 20px !important;width: 100% !important;display: block !important;line-height: 16px !important;/*border: 1px solid;*/color: #000;font-weight: 500;letter-spacing: 1px;background-color: #fff;}
+        .clsagndetilsmob {font-size: 11px !important;width: 100% !important;display: block !important;line-height: 15px !important;border: 1px solid;color: #000;font-weight: 500;margin-top: 2px;max-width: 140px;white-space: pre-wrap;}
+        .clsAicon30 {padding-top: 10px !important;padding-bottom: 7px !important;}
+        .clsAicon30 i {font-size: 30px !important;}
+        .clsAicon25 {line-height: 27px !important;}
+        .clsAicon25 i {font-size: 25px !important;}
+        .clsagnlogo {width: 22px;background-color: rgba(0,0,0,0.1);}
+        .thumb a {background-color: rgba(255,255,255,0.5);border-radius: 50px;padding: 2px 10px 2px 32px; margin-left: -22px;font-weight: 600;}
+        .clsbiglogo {width: 88px;height: 114px;}
+        .clssmallogo {display: none;width: 83px;height: 90px;float: left;}
+        .logo img {transition: 0.5s;}
+        .usrName-hf {overflow: hidden;white-space: nowrap;text-overflow: ellipsis;display: block;float: right;}
+        .mob-usr-det {text-align: center;min-height: 105px;margin-bottom: 2px;}
+        .mob-usr-det-new {text-align: center;min-height: 140px;margin-bottom: 2px;}
+        .myButt {outline: none;border: none;padding: 0px;display: block;margin: 10px auto;cursor: pointer;font-size: 13px;background-color: transparent;position: relative;border: 2px solid #fff;transition: all 0.5s ease;-webkit-transition: all 0.5s ease;-moz-transition: all 0.5s ease;-o-transition: all 0.5s ease;-ms-transition: all 0.5s ease;}
+        .four {overflow: hidden;}
+        .four span {color: #fff;display: inline-block;transition: all 0.3s ease;-webkit-transition: all 0.3s ease;-moz-transition: all 0.3s ease;-o-transition: all 0.3s ease;-ms-transition: all 0.3s ease;}
+        .four .icon {position: absolute;left: -64px;top: 0;color: #fff;padding: 4px;background-color: #2cc185;transition: all 0.3s ease;-webkit-transition: all 0.3s ease;-moz-transition: all 0.3s ease;-o-transition: all 0.3s ease;-ms-transition: all 0.3s ease;}
+        .four:hover .icon {left: 0px;}
+        .four:hover span {color: #fff;margin-left: 50px;}
+        .five {overflow: hidden;color: #fff;}
+        .five .layer {color: #fff;position: absolute;top: -70px;width: 100%;left: 0;padding: 0px 0;background-color: #fff;transition: all 0.3s ease;-webkit-transition: all 0.3s ease;-moz-transition: all 0.3s ease;-o-transition: all 0.3s ease;-ms-transition: all 0.3s ease;}
+        .five:hover .layer {top: 0;}
+        .contact-number {float: right;width: 135px;padding: 4px 0px 0 30px;height: 22px;}
+        .contact-icon {padding: 2px 0 0 15px;height: 25px;font-size: 15px;font-weight: bold;margin-bottom: 7px;}
+        @@media screen and (min-width:200px) and (max-width:768px) {.mobtxt_center {text-align: center;}}
+        .icon_spa {left: -27px !important;}
+        legend {border-bottom: 0px solid #e5e5e5;}
+    </style>
+
+    @Scripts.Render("~/bundles/CommonAllJS")
+    <script src="~/js/CommonJS/bootstrap-typeahead.js?@strFileversion"></script>
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="fixed-leftside fixed-header wsmenucontainer clearfix pace-done mini-navbar _M02body">
+    <div class="theme-config">
+        <div class="theme-config-box ">
+            <div class="spin-icon">
+                <i class="fa fa-cog fa-spin"></i>
+            </div>
+            <div class="skin-settings">
+                <ul class="nav navbar-nav drop-down hover-zoom" style="background: #fff">                  
+                    @if (strprivilage != "S")
+                    {
+                        if (strcntrlpanelrits.Count() > 1 && strcntrlpanelrits[1] == "1")
+                        {
+                            <li><a class="mousecolor" href="@Url.Content("~/CntrlPanel/Changepassword")"><i id="mouseoverwhite_2" class="fa fa-eye-slash mouseoverwhite"></i>Change Password </a></li>
+                        }
+
+                    }
+                    else
+                    {
+                        if (strcntrlpanelrits.Count() > 1 && strcntrlpanelrits[1] == "1")
+                        {
+                            <li><a class="mousecolor" href="@Url.Content("~/CntrlPanel/Changepassword")"><i id="mouseoverwhite_2" class="fa fa-eye-slash mouseoverwhite"></i>Change Password </a></li>
+                        }
+
+                        if (strcntrlpanelrits.Count() > 3 && strcntrlpanelrits[3] == "1")
+                        {
+                            <li><a class="mousecolor" href="@Url.Content("~/CntrlPanel/Transaction")"><i id="mouseoverwhite_3" class="fa fa-database mouseoverwhite"></i>Transaction details </a></li>
+                        }
+
+                        if (strcntrlpanelrits.Count() > 0 && strcntrlpanelrits[0] == "1" && strprivilage == "S")
+                        {
+                            <li><a class="mousecolor" href="@Url.Content("~/CntrlPanel/Agentdetail")"><i id="mouseoverwhite_4" class="fa fa-info-circle mouseoverwhite"></i>Agent details </a></li>
+                        }
+
+                        if (strcntrlpanelrits.Count() > 6 && strcntrlpanelrits[6] == "1")
+                        {
+                            <li><a class="color" href="@Url.Content("~/CntrlPanel/Customerprofile")"><i id="mouseoverwhite_5" class="fa fa-users mouseoverwhite"></i>Customers Profile </a></li>
+                        }
+
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- PRELOADER START -->
+    @if (!Request.Browser.IsMobileDevice)
+    {
+        <div id="loader" class="load-full-screen" style="display: block;">
+            <div class="loading-animation ">
+                <span><i class="fa fa-plane"></i></span>
+                <span><i class="fa fa-bed"></i></span>
+                <span><i class="fa fa-ship"></i></span>
+                <span><i class="fa fa-suitcase"></i></span>
+            </div>
+        </div>
+    }
+    <!-- PRELOADER END -->
+    <!-- BEGIN HEADER -->
+
+
+    <div class="overlapblackbg"></div>
+    <header>
+
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse ">
+                <ul class="nav metismenu" id="side-menu" style="">
+
+                    <li class="nav-header" style="position: relative;">
+                        <div class="dropdown profile-element">
+                            <span>
+                                <img src="@Url.Content("~/Images/"+strProductType+"/layout_logo.png")" />
+                            </span>
+                            <div class="hidden-sm hidden-md hidden-lg">
+                                <ul class="menumob">
+
+                                    <li class="support"><em>Every day 24/7 Service</em></li>
+                                    <li class="mob-num"><em>+91 9944441985 / 8825668297</em></li>
+
+                                    @if (strsmartScorcard != null && strsmartScorcard.Length > 1 && strsmartScorcard[7] != "0")
+                                    {
+                                        <li class="">
+                                            <a class="mousecolor scorecardlnk outline" href="@Url.Content("~/CntrlPanel/Smartscore")">
+                                                <img src="@Url.Content("~/Images/"+strProductType+"/compass.png")" style="width:17px;" />&nbsp;<span class="">Smart View</span>
+                                            </a>
+                                        </li>
+                                    }
+
+                                    <li class="animated my_fadeinright" style="cursor: pointer;">
+                                        <div class="nav-profile">
+                                            <div id="dv-desk-usrnm">
+                                                <div id="dvusrnm" class="thumb">
+                                                    <img src="@Url.Content("~/Images/"+strProductType+"/single-01.png")" class="img-circle clsagnlogo " alt="" />
+                                                    <span class="scorecardlnk q">@strusrNm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <ul class="wsmenu-submenu" style="cursor: default;">
+
+                                            <li>
+                                                <div class="">
+                                                    <span class="scorecardlnk w" style="text-indent: 10px;">@stragnId</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="">
+                                                    @*<div class="label label-md clsagndetils d3">@_agnNm</div>*@
+                                                    <span class="scorecardlnk e" style="text-indent: 10px;">@stragnNm</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="logo-element ">
+                            <a href="@Url.Content("~/Home/HomeMaster")" id="aHome">
+                                <img src="@Url.Content("~/Images/"+strProductType+"/home-top.png")" /><span class="hometext">Home</span>
+                            </a>
+
+                        </div>
+
+                        <div class="closeslilft hidden-sm hidden-md hidden-lg">
+                            <a href="#">
+                                <img src="@Url.Content("~/Images/"+strProductType+"/close-icn.png")" class="slidecls" />
+                            </a>
+                        </div>
+
+                    </li>
+
+                    @if (Session["airline"] != null && Session["airline"].ToString() != "" && Session["airline"].ToString() != "N")
+                    {
+                        <li class="">
+                            <a href="#" class="submenu" id="trflight">
+                                <img src="@Url.Content("~/images/"+strProductType+"/flight.png")" /><span class="nav-label">Flight</span> <span class="nav-lft">Flight</span> <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level collapse" id="flight_list" style="height: 0px;">
+                                <li class="Bookfli"><a id="Bookfli" href="@Url.Content("~/Flights/Flights")" class="clsAothers">Book a Flight</a></li>
+                                <li><a id="Bookhis" href="@Url.Content("~/Pnr/PnrVerification?Tab=0")" class="clsAothers" onclick="Bookedhis('1');">Booked History</a></li>
+                                <li><a id="viewpnr" href="@Url.Content("~/Pnr/PnrVerification?Tab=1")" class="clsAothers" onclick="Bookedhis('2');">PNR Verification</a></li>
+                                <li><a id="cancella" href="@Url.Content("~/Pnr/PnrVerification?Tab=2")" class="clsAothers" onclick="Bookedhis('3');">Cancellation</a></li>
+                                <li><a id="rechedul" href="@Url.Content("~/Pnr/PnrVerification?Tab=3")" class="clsAothers" onclick="Bookedhis('4');">Reschedule</a></li>
+                                @if (Session["CREDITSHELL"] != null && Session["CREDITSHELL"].ToString() != "" && Session["CREDITSHELL"].ToString() == "Y")
+                                {
+                                    <li><a href="#" class="clsAothers otherProduct _M001_R21" id="CSPNR">View Credit Shell PNR</a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+
+                    @if (Session["hotel"] != null && Session["hotel"].ToString() != "" && Session["hotel"].ToString() != "N")
+                    {
+                        <li class="">
+                            <a href="#" class="submenu" id="trhtl">
+                                <img src="@Url.Content("~/images/"+strProductType+"/hotel.png")" /><span class="nav-label">Hotel</span> <span class="nav-lft">Hotel</span> <span class="fa arrow"></span>
+                            </a>
+
+                            <ul class="nav nav-second-level collapse" id="htl_list" style="height: 0px;">
+                                <li><a href="#" id="H" class="clsAothers otherProduct">Book a Hotel</a></li>
+                                <li><a href="#" class="clsAothers otherProduct" id="HBH">Booked History</a></li>
+                                <li><a href="#" class="clsAothers otherProduct" id="HVP">PNR Verification</a></li>
+                                <li><a href="#" class="clsAothers otherProduct" id="HCL">Cancellation</a></li>
+                            </ul>
+
+
+                        </li>
+                    }
+                    @if (Session["Insure"] != null && Session["Insure"].ToString() != "" && Session["Insure"].ToString() != "N")
+                    {
+
+                        <li class="">
+                            <a href="#" class="submenu" id="trIns">
+                                <img src="@Url.Content("~/images/"+strProductType+"/insurance.png")" /><span class="nav-label">Insurance</span> <span class="nav-lft">Insurance</span> <span class="fa arrow"></span>
+                            </a>
+
+                            <ul class="nav nav-second-level collapse" id="ins_list" style="height: 0px;">
+                                <li><a href="#" class="clsAothers otherProduct" id="I">Book a Insurance</a></li>
+                                <li><a href="#" class="clsAothers otherProduct" id="IBH">Booked History</a></li>
+                                <li><a href="#" class="clsAothers otherProduct" id="IVP">PNR Verification</a></li>
+                            </ul>
+
+
+                        </li>
+                    }
+                    @if (Session["bus"] != null && Session["bus"].ToString() != "" && Session["bus"].ToString() != "N")
+                    {
+                        <li class="">
+                            <a href="#" class="submenu" id="trbus">
+                                <img src="@Url.Content("~/images/"+strProductType+"/bus.png")" /><span class="nav-label">Bus</span> <span class="nav-lft">Bus</span> <span class="fa arrow"></span>
+                            </a>
+
+                            <ul class="nav nav-second-level collapse" id="bus_list" style="height: 0px;">
+                                <li><a href="#" class="clsAothers otherProduct" id="B">Book a Bus</a></li>
+                                <li><a href="#" class="clsAothers otherProduct" id="BBH">Booked History</a></li>
+                                <li><a href="#" class="clsAothers otherProduct" id="BVP">PNR Verification</a></li>
+                                <li><a href="#" class="clsAothers otherProduct" id="BCL">Cancellation</a></li>
+                            </ul>
+                        </li>
+                    }
+                    @if (Session["Mobrech"] != null && Session["Mobrech"].ToString() != "" && Session["Mobrech"].ToString() != "N")
+                    {
+                        <li class="">
+                            <a href="#" class="submenu" id="trmob">
+                                <img src="@Url.Content("~/images/"+strProductType+"/mobile.png")" /><span class="nav-label">Mobile</span> <span class="nav-lft">Mobile</span> <span class="fa arrow"></span>
+                            </a>
+
+                            <ul class="nav nav-second-level collapse" id="rec_list" style="height: 0px;">
+                                <li><a href="#" class="clsAothers otherProduct" id="M">Recharge</a></li>
+                                <li><a href="#" class="clsAothers otherProduct" id="MBH">Recharge History</a></li>
+                            </ul>
+                        </li>
+                    }
+                    @if (Session["Visa"] != null && Session["Visa"].ToString() != "" && Session["Visa"].ToString() != "N")
+                    {
+                        <li class="">
+                            <a href="#" class="submenu" id="trvisa">
+                                <img src="@Url.Content("~/images/"+strProductType+"/visa.png")" /><span class="nav-label">Visa</span> <span class="nav-lft">Visa</span> <span class="fa arrow"></span>
+                            </a>
+
+                            <ul class="nav nav-second-level collapse" id="visa_list" style="height: 0px;">
+                                <li><a href="#" class="clsAothers otherProduct" id="V">Visa</a></li>
+                                <li><a href="#" class="clsAothers otherProduct" id="VH">Visa History</a></li>
+                            </ul>
+                        </li>
+                    }
+                    @if (strTerminalType == "T")
+                    {
+                        <li class="">
+                            <a href="#" class="submenu" id="trothers">
+                                <img src="@Url.Content("~/images/"+strProductType+"/bus.png")" /><span class="nav-label">Others</span> <span class="nav-lft">Others</span> <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level collapse" id="Others_list" style="height: 0px;">
+                                <li><a href="#" class="clsAothers otherProduct" id="BTK">Booking Track</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="clsAothers otherProduct _M001_R24" href="@Url.Content("~/CntrlPanel/BulkMail")">
+                                <img src="@Url.Content("~/images/"+strProductType+"/mail.png")" /><span class="nav-label">Bulk Mail</span> <span class="nav-lft">Bulk Mail</span> <span class="fa arrow"></span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="bottom-collapse">
+                <ul class="nav">
+                    @if (strAllowterminaluser != "T")
+                    {
+                        <li class="">
+                            <a href="#" id="aAgnbal" class="clsAicon30 " data-toggle='tooltip' data-placement='left' title="Check&nbsp;Balance" onclick="getbalance()">
+                                <img src="@Url.Content("~/Images/"+strProductType+"/wallet.png")" />
+                                <span class="nav-label" style="line-height: 25px;">Balance</span> <span class="nav-lft">Balance</span>
+                                <div class="Notify-popup displaynon" id="SHOWMONEY" style="WIDTH: 246px;">
+                                    <em id="Agentamount"></em>
+                                    <i class="fa fa-cog fa-spin displayblock" style="font-size: 48px; color: #4fb8f7; width: 40px; display: none;"></i>
+                                    <div class="displaynon" id="viewbalance_display"></div>
+                                </div>
+                                <div id="dvAgnbal" class="clsAgnBal">
+                                    <em id="Agentamount"></em>
+                                    @if (System.Configuration.ConfigurationManager.AppSettings["COUNTRY"].ToString() == "AE")
+                                    {
+                                        <div id="Paymentredirect">
+                                            <em onclick="callpaymentgateway();" style="text-decoration: underline; cursor: pointer;">Click here for online topup</em>
+                                        </div>
+                                    }
+                                </div>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="">
+                            <a href="#" id="aAgnbal" class="clsAicon30 " data-toggle='tooltip' data-placement='left' title="Check&nbsp;Balance" onclick="getbalance()">
+                                <img src="@Url.Content("~/Images/"+strProductType+"/wallet.png")" />
+                                <span class="nav-label" style="line-height: 25px;">Balance</span> <span class="nav-lft">Balance</span>
+                                @*<div class="Notify-popup displaynon" id="SHOWMONEY" style="WIDTH: 246px;">
+                                        <em id="Agentamount"></em>
+                                        <span id="test">abc</span>
+                                        <i class="fa fa-cog fa-spin displayblock" style="font-size: 48px; color: #4fb8f7; width: 40px;"></i>
+                                        <div class="displaynon" id="viewbalance_display"></div>
+                                    </div>*@
+                            </a>
+                        </li>
+                    }
+                    @if (strEnvTyp != "M")
+                    {
+                        <li class="dropdown dropdown-box show-sm-grid animated my_fadeinright aLogout">
+                            <a href="#" class="button clsAicon30 clslogout" data-toggle='tooltip' data-placement='bottom' title="Logout">
+                                <img src="@Url.Content("~/Images/"+strProductType+"/logout.png")" />
+                                <span class="nav-label">Logout</span> <span class="nav-lft">Logout</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+
+            </div>
+        </nav>
+
+        <div class="row top-header">
+            <div class="col-lg-offset-1 col-sm-offset-1 navbar-header col-sm-7 col-md-6 col-lg-5 col-xs-offset-0 col-xs-7">
+                <ul>
+                    <li>
+                        <div id="nav-icon4" class="slidecls">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </li>
+
+                    <li class="logo-top">
+                        <a href="@Url.Content("~/Home/HomeMaster")">
+                            <img src="@Url.Content("~/Images/"+strProductType+"/logo-new.png")" />
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-sm-2 col-md-4 col-xs-3 col-lg-6 col0 menurgt-sec" style="float: right;">
+                @*kalai - 17-11-17*@
+                <div class="navbar-right">
+                    <ul class="nav navbar-nav pull-right wsmenu-list flightheader">
+
+                        <li class="support hidden-xs"><em>Every day 24/7 Service</em></li>
+                        <li class="mob-num hidden-xs"><em>+91 9944441985 / 8825668297</em></li>
+
+                        @if (strsmartScorcard != null && strsmartScorcard.Length > 1 && strsmartScorcard[7] != "0")
+                        {
+                            <li class="hidden-xs">
+                                <a class="mousecolor scorecardlnk" href="@Url.Content("~/CntrlPanel/Smartscore")">
+                                    <img src="@Url.Content("~/Images/"+strProductType+"/compass.png")" style="width:17px;" />&nbsp;<span class="">Smart View</span>
+                                </a>
+                            </li>
+                        }
+
+                        <li class="animated my_fadeinright hidden-xs" style="cursor: pointer;">
+                            <div class="nav-profile">
+                                <div id="dv-desk-usrnm">
+                                    <div id="dvusrnm" class="thumb">
+                                        <img src="@Url.Content("~/Images/"+strProductType+"/single-01.png")" class="img-circle clsagnlogo " alt="" />
+                                        <span class="scorecardlnk t">@strusrNm</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ul class="wsmenu-submenu" style="cursor: default;">
+
+                                <li>
+                                    <div class="hidden-xs">
+                                        @*<div class="label label-md clsagndetils d2">@_agnId</div>*@
+                                        <span class="scorecardlnk y" style="text-indent: 10px;">@stragnId</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="hidden-xs">
+                                        @*<div class="label label-md clsagndetils d3">@_agnNm</div>*@
+                                        <span class="scorecardlnk u" style="text-indent: 10px;">@stragnNm</span>
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </li>
+
+
+                        @if (strsmartScorcard != null && strsmartScorcard.Length > 1 && strsmartScorcard[7] != "0")
+                        {
+                            <li class="dropdown dropdown-box dropdown-tasks hidden-lg hidden-md hidden-sm hidden-xs animated my_fadeinright">
+                                <a href="@Url.Content("~/CntrlPanel/Smartscore")" class="clsAicon25" data-toggle='tooltip' data-placement='bottom' title="Smart Score card">
+                                    <i class="fa fa-dashboard"></i>
+                                </a>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+    </header>
+    <!-- END HEADER -->
+
+    <div class="wrapper">
+
+        @RenderBody()
+
+    </div>
+
+    <input type="hidden" id="time_interval" value="@System.Configuration.ConfigurationManager.AppSettings["time_interval"]">
+    <input type="hidden" id="time_interval_alert" value="@System.Configuration.ConfigurationManager.AppSettings["time_interval_alert"].ToString()">
+    @*  <input type="hidden" id="fileversion" value="@System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"].ToString()">*@
+
+    <!--  Logout Comfirm Popup Start-->
+    <div class="modal fade" id="modal-fr" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-body clsPopupBody" style="padding: 10px;">
+                    <div class="main">
+                        <div class="row">
+                            <div class="col-xs-12" style="text-align: center;">
+                                <h2>Are you sure ?</h2>
+                                <p>Do you want to Logout.</p>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row" style="margin-bottom: 15px;">
+                            <div class="col-md-offset-3 col-md-3 col-xs-6">
+                                <input type="button" value="Yes" class="btn btn-md btn-primary width100per" id="btnyeslogout" style="color: #fff" />
+                            </div>
+                            <div class="col-md-3 col-xs-6">
+                                <input type="button" value="Cancel" data-dismiss="modal" class="btn btn-md btn-danger width100per" id="btnclosepop" style="color: #fff;" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Logout Comfirm Popup End-->
+    @*pnr function popup*@
+
+    <div class="modal fade" id="pnrpopup" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="col-lg-6  col-lg-offset-3 ">
+                <div class="modal-content animated bounceInDown">
+                    <div class="model_head" style="text-align: right; /* color: darkblue; */padding-right: 5px; padding-bottom: 0px; padding-top: 0px;">
+                        <h4 class="modal-title" style="display: none;">Manage Booking </h4>
+                        <label class="" onclick="javascript: return CanOTAappsFunction();">X</label>
+                    </div>
+                    <div class="modal-body clsPopupBody" style="padding: 10px;">
+                        <div class="main">
+
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="/* border: 1px solid; */">
+
+
+                                    <button class="myButt four" style="width: 100%; background-color: #27a5f5;" onclick="javascript: return OTAappviewpnrFunction();">
+                                        <div class="icon" style="font-size: 16px;">
+                                            <span class="fa fa-street-view" style="font-size: 34px; margin-left: 25px;" />
+                                        </div>
+                                        <span>View pnr </span>
+                                    </button>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 " style="/* border: 1px solid; */">
+                                    <button class="myButt four" style="width: 100%; background-color: #27a5f5;" onclick="javascript: return cancellation_process();">
+                                        <div class="icon" style="font-size: 24px;">
+                                            <span class="fa fa-close" />
+                                        </div>
+                                        <span>Cancellation</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 " style="/* border: 1px solid; */">
+                                    <button class="myButt four" style="width: 100%; background-color: #27a5f5;" onclick="javascript: return bookhistoresche_process();">
+                                        <div class="icon" style="font-size: 24px;">
+                                            <span class="fa fa-calendar" style="margin-left: 23px;" />
+                                        </div>
+                                        <span>Reschedule</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 " style="/* border: 1px solid; */">
+                                    <div class="col-xs-12 col-md-6 col-sm-6 col-lg-6" onclick="javascript: return bookedhis_print();" style="padding: 0px">
+                                        <button class="myButt four" style="width: 100%; background-color: #27a5f5;">
+                                            <div class="icon icon_spa" style="font-size: 22px;">
+                                                <span class="fa fa-print" />
+                                            </div>
+                                            <span>Print</span>
+                                        </button>
+                                    </div>
+                                    <div class="col-xs-6 col-md-3 col-sm-3 col-lg-3 mobtxt_center" id="singletic" style="padding: 0px">
+                                        <input style="display: none; color: white; border: 1px solid #27a5f5 !important;" id="Chk_fare2_popup" class="cb db" type="checkbox" name="Chk_fare2_pop">
+                                        <label style="color: white; margin-left: 17px; /* margin-bottom: 10px; */margin-top: 13px;" class="cbx dbx" for="Chk_fare2_popup"></label>
+                                        <legend id="single" style="color: #27a5f5; font-size: 11px; margin-top: -7px; margin-left: 2px; white-space: nowrap;" class="lbl" for="Chk_fare2_popup">Single Ticket</legend>
+                                    </div>
+                                    <div class="col-xs-6 col-md-3 col-sm-3 col-lg-3 mobtxt_center" id="getfr" style="padding: 0px">
+                                        <input style="display: none; color: white; border: 1px solid #27a5f5 !important;" id="Chk_fare_popup" class="cb db srna" type="checkbox" name="Chk_fare_popup">
+                                        <label style="color: white; border-bottom: 2px solid #fff; border-right: 45px solid #fff; margin-left: 18px; margin-top: 13px;" class="cbx dbx " for="Chk_fare_popup"></label>
+                                        <legend id="withfare" style="color: #27a5f5; font-size: 11px; margin-top: -8px; margin-left: 12px; white-space: nowrap;" class="lbl srna">With Fare</legend>
+                                        @*<input style="display: none; color: white; border: 1px solid #27a5f5 !important;" id="Chk_fare" class="cb" type="checkbox" name="Chk_fare">
+                                            <label class="cbx" for="Chk_fare"></label>
+                                            <label class="lbl" for="Chk_fare">With Fare</label>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-agentlist-bal" tabindex="-1" role="dialog" style="display: none">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close popClose" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title custom_align stylishHeader" style="text-align: left; font-size: 18px; font-weight: 500; color: #359be8;">Agent Balance</h5>
+                </div>
+                <div class="modal-body clsPopupBody" style="padding: 10px;">
+                    <div class="main form-group">
+                        <div id="hCorp_x" style="text-align: left; line-height: inherit; font-size: 14px; margin-bottom: 2px;">Agency Name</div>
+                        @* <select class="chosen" id="ddlclient_agentbal" style="font-size: 14px; border: 1px solid #ccc; margin-bottom: 8px;" runat="server">
+                            </select>*@
+                        <input class="form-control ui-autocomplete-input" type="text" id="txtAgencyName" placeholder="Agency Name" />
+                    </div>
+                    <div class="main form-group">
+                        <div class="displaynon" id="dvBalance"></div> @*id="viewbalance_display"*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="pnrpopup" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="col-lg-6 col-lg-offset-3 col-sm-6 col-sm-offset-3 col-xs-12 col0">
+                @*1123*@
+                <div class="modal-content animated bounceInDown">
+                    <div class="" style="text-align: right; padding-right: 5px; padding-bottom: 0px; padding-top: 0px;">
+                        <h4 class="modal-title" style="display: none;">Manage Booking</h4>
+                        <div class="cls-boa">
+                            <label class="" onclick="javascript: return CanOTAappsFunction();" style="cursor: pointer; font-weight: 900; text-align: right; padding-bottom: 0px; padding-top: 0px; margin-bottom: 0px !important; color: #27a5f5">x</label>
+                        </div>
+                    </div>
+                    <div class="modal-body clsPopupBody">
+                        @* style="padding: 20px 10px;"*@
+                        <div class="main" id="wholecontentdiv">
+                            <div class="row spncls">
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="/* border: 1px solid; */">
+                                    <button class="myButt four" style="width: 100%; background-color: #27a5f5;" onclick="javascript: return OTAappviewpnrFunction();">
+                                        <div class="icon" style="font-size: 16px;">
+                                            <span class="fa fa-street-view" style="font-size: 34px; margin-left: 25px;" />
+                                        </div>
+                                        <em class="spritepage" style="display: none;"><span class="sprit_view"></span></em>
+                                        <span class="boa-align">View pnr </span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row spncls">
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 " style="/* border: 1px solid; */">
+                                    <button class="myButt four" style="width: 100%; background-color: #27a5f5;" onclick="javascript: return cancellation_process();">
+                                        <div class="icon" style="font-size: 24px;">
+                                            <span class="fa fa-close" />
+                                        </div>
+                                        <em class="spritepage" style="display: none;"><span class="sprit_cancel"></span></em>
+                                        <span class="boa-align">Cancellation</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row spncls">
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 more-option" style="/* border: 1px solid; */">
+                                    <span onclick="moreoption()">More Options&nbsp;<i class="fa fa-angle-double-down"></i></span>
+                                </div>
+                                <div id="smsemail" style="display: none;">
+                                    <div class="col-sm-6 col-xs-6">
+                                        <button class="myButt four" onclick="SMSVIEW()">
+                                            <em class="spritepage" style="display: none;"><span class="sprit_smsb2b"></span></em>
+                                            <span class="boa-align">SMS</span>
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6">
+                                        <button class="myButt four" onclick="SendEmail()">
+                                            <em class="spritepage" style="display: none;"><span class="sprit_mailb2b"></span></em>
+                                            <span class="boa-align">Email</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row spncls">
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 " style="/* border: 1px solid; */">
+                                    <div class="col-xs-5 col-md-5 col-sm-5 col-lg-5" onclick="javascript: return bookedhis_print();" style="padding: 0px">
+                                        <button class="myButt four bxs-non" style="width: 100%; background-color: #27a5f5;">
+                                            <div class="icon icon_spa" style="font-size: 22px;">
+                                                <span class="fa fa-print" />
+                                            </div>
+                                            <em class="spritepage" style="display: none;"><span class="sprit_printpnrr"></span></em>
+                                            <span class="boa-align printmang">Print</span>
+                                        </button>
+                                    </div>
+                                    <div class="col-xs-4 col-md-3 col-sm-3 col-lg-3 mobtxt_center col10" id="singletic">
+                                        <input style="display: none; color: white; border: 1px solid #27a5f5 !important;" id="Chk_fare2_popup" class="cb db" type="checkbox" name="Chk_fare2_pop">
+                                        <label style="color: white; margin-left: 17px; margin-top: 5px;" class="cbx dbx" for="Chk_fare2_popup"></label>
+                                        <legend id="single" style="color: #27a5f5; font-size: 12px; margin-top: -7px; margin-left: 2px; white-space: nowrap;" class="lbl" for="Chk_fare2_popup">Single Ticket</legend>
+                                    </div>
+                                    <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 mobtxt_center col10" id="getfr">
+                                        <input style="display: none; color: white; border: 1px solid #27a5f5 !important;" id="Chk_fare_popup" class="cb db srna" type="checkbox" name="Chk_fare_popup">
+                                        <label style="color: white; margin-left: 18px; margin-top: 5px; float: left; margin-bottom: 4px;" class="cbx dbx " for="Chk_fare_popup"></label>
+                                        <legend id="withfare" style="color: #27a5f5; font-size: 12px; float: left;" class="lbl srna">With Fare</legend>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*region start sms*@
+                    @*<div id="sendsmsticket" style="display: none; text-align: center;">
+                        <span class="boa-align">SMS Ticket</span>
+                        <div class="row m-0">
+                            <div class="col-sm-12 dv-anim input-effect animationdive" style="margin: 20px 0% !important">
+                                <input class="txt-anim has-content " maxlength="10" onkeypress="isNumericVal(event)" id="SMSNumber" style="border: 1px solid #ccc; width: 100%;" />
+                                <label class="colrcls" for="SMSNumber"><span>Enter Mobile Number</span> </label>
+                            </div>
+                        </div>
+                        <div class="row m-0 modal-footer">
+                            <div class="col-sm-6 col-xs-6 col0 text-right">
+                                <a href="javascript:void(0)" id="smssend" class="smssend color" onclick="btnSMSSend('B')">Send SMS</a>
+                            </div>
+                            <div class="col-sm-6 col-xs-6 text-left">
+                                <a href="javascript:void(0)" id="mailcancel" class="mailcancel colorB1" onclick="CloseSMSPopup()">Cancel</a>
+                            </div>
+                        </div>
+                    </div>*@
+
+                    @*region end sms*@
+                    @*region start Email*@
+                    <div id="sendemailticket" style="display: none; text-align: center;">
+                        <span class="boa-align">Email Ticket</span>
+                        <div class="row m-0">
+                            <div class="col-sm-12 dv-anim input-effect animationdive" style="margin: 20px 0% !important">
+                                <input class="txt-anim has-content " maxlength="50" id="EmailId" style="border: 1px solid #ccc; width: 100%;" />
+                                <label class="colrcls" for="EmailId"><span>Enter Email Id</span> </label>
+                            </div>
+                        </div>
+                        <div class="row m-0 modal-footer">
+                            <div class="col-sm-6 col-xs-6 col0 text-right">
+                                <a href="javascript:void(0)" id="sendmail" class="smssend color" onclick="btnEmailSend('B')">Send Email</a>
+                            </div>
+                            <div class="col-sm-6 col-xs-6 text-left">
+                                <a href="javascript:void(0)" id="cancelmail" class="mailcancel colorB1" onclick="CloseEmailPopup()">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                    @*region end Email*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-Fare" class="iziModal addtop" style=""></div>
+    <div id="modal-alert" class="iziModal"></div>
+    <div id="modal-content" class="iziModal"></div>
+    <div id="modal-iframe" class="iziModal"></div>
+
+    <div id="dvDataProp" data-airportxml-url="@Url.Content("~/XML/CityAirport_Lst.xml")" data-mulsearch-url="@Url.Action("FlightAvail", "Search")"
+         data-session-url="@Url.Action("SessionExp", "Redirect")" data-mulavail-url="@Url.Action("MultiCity", "MultiCity")"
+          data-airline-url="@System.Configuration.ConfigurationManager.AppSettings["FlightUrl"].ToString()">
+    </div>
+    <link href="~/Content/CSS/Login/lobibox.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/LayoutCommonJS")
+    @Scripts.Render("~/bundles/LayoutOtherJS")
+    <script src="~/js/LayoutJS/Layout.js?@strFileversion"></script>
+    <script src="~/js/lobibox.js?@strFileversion"></script>
+    <script>
+
+        var Agentmasterlst = "";
+        var balchk_logindet = "";
+        var balchk_agentdet = "";
+        var balchk_branchdet = "";
+        var LoginUserUniqSessKey = '@Session["UniqueSessionid"]' != null ? '@Session["UniqueSessionid"]' : "";
+        var checkmobile = '@Request.Browser.IsMobileDevice';
+        var loaderbal = "@Url.Content("~/Images/"+strProductType+"/balance.gif")";
+        var PaymentGatewayURL = "@Url.Action("Redirectpaymentpage", "Home")";
+        var ClientDetailsURL = "@Url.Action("GetClientData", "HOME")";
+        var BalanceCheckURL = '@Url.Action("BalanceCheck", "Home")';
+        var BalanceCheckBOAURL = '@Url.Action("BalanceCheckBOA", "Home")';
+        var SessionRedirectURL = "@Url.Action("SessionExp", "Redirect")";
+        var LogoutURL = "@Url.Action("Logoutpopup", "Login")";
+        var OtherProductURL = '@Url.Content("~/OtherProduct/OtherProduct")';
+        var PGRedirectURL = '@Url.Content("~/OtherProduct/PGRedirect")';
+        var strTerminalType = '@strTerminalType';
+        var ThemeVersion = '@strappthemeversion';
+        var ImageUrl = '@strLogourl';
+
+        $(".submenu").click(function () {
+            var remove_id = "";
+            $(".collapse").each(function () {
+                if ($(".collapse").hasClass("in")) {
+                    remove_id = this.id
+                    $("#" + remove_id).removeClass("in")
+                }
+            });
+            var select_id = this.id
+            var selector = $("#" + select_id).next();
+            selector1 = selector[0].id
+            if (remove_id != selector1) {
+                $("#" + select_id).next().toggleClass("in");
+            }
+        });
+
+        $(".slidecls").click(function () {
+            if ($(window).width() < 767) {
+                $(".navbar-header").toggleClass("xscls");
+                $(".rightside").toggleClass("mobcls");
+                $(".mobNoContainer").toggleClass("mobcls")
+            }
+            else {
+                $(this).toggleClass('open');
+            }
+
+            $("body").toggleClass("mini-navbar");
+            // $(this).toggleClass('open');
+            $(".slidecls").toggleClass("menu");
+            $(".sidebar-collapse").toggleClass("scrollmenu");
+            $(".nav-lft").toggleClass("display");
+            if ($("body").hasClass("mini-navbar")) {
+                $("#dvAgnbal").addClass("walletcls1");
+                $("#dvAgnbal").removeClass("clsAgnBal1");
+            } else {
+                $("#dvAgnbal").removeClass("walletcls1");
+                $("#dvAgnbal").addClass("clsAgnBal1");
+            }
+        });
+
+        $(".theme-config-box").click(function () {
+            $(".theme-config-box").toggleClass("show");
+        });
+
+        $(document).ready(function () {
+            if ($("body").hasClass("mini-navbar")) {
+                $("#dvAgnbal").addClass("walletcls1");
+                $("#dvAgnbal").removeClass("clsAgnBal1");
+            }
+            if (!$.browser.webkit) {
+                $('.wrapper-scroll').html('<p>Sorry! Non webkit users. :(</p>');
+            }
+        });
+
+        $('.aLogout').click(function () {
+            $("#modal-fr").modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+        });
+
+        $('#btnyeslogout').click(function () {
+            sessionStorage.setItem("logoutinsertflg", "Y");
+            window.location.href = LogoutURL;
+        });
+    </script>
+</body>
+</html>

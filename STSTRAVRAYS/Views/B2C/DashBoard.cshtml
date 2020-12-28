@@ -1,0 +1,553 @@
+﻿@using System.Configuration;
+@{
+    string strTheme = ConfigurationManager.AppSettings["apptheme"].ToString();
+    string strAirlineLogoURL = ConfigurationManager.AppSettings["FlightUrl"].ToString();
+    string strFlightImgVersion = ConfigurationManager.AppSettings["flightimageversion"].ToString();
+    string strFileversion = ConfigurationManager.AppSettings["UpdateVersion"].ToString();
+    string strProductType = ConfigurationManager.AppSettings["Producttype"] != null ? ConfigurationManager.AppSettings["Producttype"].ToString() : "";
+    string strLoaderURL = ConfigurationManager.AppSettings["LogoUrl"] + strProductType + "/" + "loader.gif?" + strFileversion;
+    string strUserMobileNo = Session["USERMOBILENO"] != null && Session["USERMOBILENO"].ToString() != "" ? Session["USERMOBILENO"].ToString() : "";
+    string strUserEmailID = Session["USERNAME"] != null && Session["USERNAME"].ToString() != "" ? Session["USERNAME"].ToString() : "";
+    string strUserFName = Session["USERFNAME"] != null && Session["USERFNAME"].ToString() != "" ? Session["USERFNAME"].ToString() : "";
+    string strUserLName = Session["USERLNAME"] != null && Session["USERLNAME"].ToString() != "" ? Session["USERLNAME"].ToString() : "";
+    string strUserTitle = Session["USERTITLE"] != null && Session["USERTITLE"].ToString() != "" ? Session["USERTITLE"].ToString() : "";
+    string strUserAddress = Session["USERADDRESS"] != null && Session["USERADDRESS"].ToString() != "" ? Session["USERADDRESS"].ToString() : "";
+    string strUserCity = Session["USERCITY"] != null && Session["USERCITY"].ToString() != "" ? Session["USERCITY"].ToString() : "";
+    string strUserCountry = Session["USERCOUNTRY"] != null && Session["USERCOUNTRY"].ToString() != "" ? Session["USERCOUNTRY"].ToString() : "";
+    string strUserPassportNO = Session["USERPASSPORTNO"] != null && Session["USERPASSPORTNO"].ToString() != "" ? Session["USERPASSPORTNO"].ToString() : "";
+    string strUserDOB = Session["USEROB"] != null && Session["USEROB"].ToString() != "" ? Session["USEROB"].ToString() : "";
+    string strUserPass_EXP = Session["USERPASSPORT_EXP"] != null && Session["USERPASSPORT_EXP"].ToString() != "" ? Session["USERPASSPORT_EXP"].ToString() : "";
+    string strUserISSU_Country = Session["USERPASS_ISSU_COUNTRY"] != null && Session["USERPASS_ISSU_COUNTRY"].ToString() != "" ? Session["USERPASS_ISSU_COUNTRY"].ToString() : "";
+    string strUserPincode = Session["USERPINCODE"] != null && Session["USERPINCODE"].ToString() != "" ? Session["USERPINCODE"].ToString() : "";
+    string strLogoUrl = ConfigurationManager.AppSettings["LogoUrl"].ToString();
+    string strDefaultProfile = (strLogoUrl + strProductType + "/DASHBOARD/profile_img.png");
+    string strUserProfile = Session["USERPROFILEPIC"] != null && Session["USERPROFILEPIC"].ToString() != "" ? Session["USERPROFILEPIC"].ToString() : strDefaultProfile;
+    string strUserPassword = Session["PWD"] != null && Session["PWD"].ToString() != "" ? Session["PWD"].ToString() : "";
+    string strTerminalType = Session["TERMINALTYPE"] != null && Session["TERMINALTYPE"].ToString() != "" ? Session["TERMINALTYPE"].ToString() : ConfigurationManager.AppSettings["TerminalType"].ToString().ToUpper();
+    string strMobileDevice = Request.Browser.IsMobileDevice ? "Y" : "N";
+}
+<link href="~/Content/CSS/@strTheme/Dashboard.css?@strFileversion" rel="stylesheet" />
+<link href="~/Content/CSS/Search/jquerycalender-new.css" rel="stylesheet" />
+<script src="~/js/AppsJS/DashBoard.js?@strFileversion"></script>
+<script src="~/js/CircleJS/vendors.min.js"></script>
+<script src="~/js/CircleJS/main.js"></script>
+
+<style>
+    #dash_bubble {
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .modal-backdrop {
+        z-index: -1;
+    }
+</style>
+
+<div class="pos-rel" id="dash_bubble">
+    <div class="container mobNoContainerd">
+        <div class="row row0 hidden-xs">
+            <div class="col-xs-12 col-sm-12 dash-area mg-btm-15 mg-tp-15 p-0">
+                <div class="col-sm-5 col-xs-12">
+                    <div class="welcome-content">
+                        <h1 class="fnt-siz-25">Dashboard</h1>
+                        <p class="mb-0">View Your recent orders and manage your bookings</p>
+                    </div>
+                </div>
+                <div class="col-sm-7 hidden-xs p-0">
+                    <div class="welcome-img">
+                        <img src="~/Images/@strProductType/DASHBOARD/welcome-img.png" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row row0">
+            <div class="col-sm-3 dash-area mg-btm-15 mg-tp-5">
+                @if (strTerminalType != "M")
+                {
+                    <div class="dash-area">
+                        <div class="float-left w-100">
+                            <h1 class="fnt-siz-18 mg-tp-15 mg-btm-15 font-14-res">Customer Info</h1>
+                        </div>
+                        <div class="float-left w-100 txt-cntr profile-img brdr-btm-das mg-btm-20">
+                            <div class="col-xs-6 col-sm-12">
+                                <img src="@strUserProfile" class="mg-btm-15" />
+                                <span class="float-left w-100 txt-cntr font-14 fnt-wt-600 pad-btm-10 themeclr-blu">@strUserFName&nbsp;@strUserLName</span>
+                                <div class="float-left w-100 mg-tp-15 pad-btm-10 hidden-xs">
+                                    <span class="float-left txt-al-lft font-13 widget_label fnt-wt-600">Email:</span>
+                                    <span class="float-right txt-al-rgt font-13 widget_data">@strUserEmailID</span>
+                                </div>
+                                <div class="float-left w-100 mg-btm-15 hidden-xs">
+                                    <span class="float-left txt-al-lft font-13 widget_label fnt-wt-600">Phone:</span>
+                                    <span class="float-right txt-al-rgt font-13 widget_data">@strUserMobileNo</span>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-12 hidden-lg hidden-sm hidden-md">
+                                <div class="float-left w-100 mg-tp-15 pad-btm-10">
+                                    <div class="row"><span class="float-left txt-al-lft font-12 widget_label fnt-wt-600">Email:</span></div>
+                                    <div class="row"><span class="float-left txt-al-lft font-13 widget_data">@strUserEmailID</span></div>
+                                </div>
+                                <div class="float-left w-100 mg-btm-15">
+                                    <div class="row"><span class="float-left txt-al-lft font-12 widget_label fnt-wt-600">Phone:</span></div>
+                                    <div class="row"><span class="float-left txt-al-lft font-13 widget_data">@strUserMobileNo</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 mg-btm-15">
+                                <ul class="mb-0">
+                                    <li class="nav-item active float-left w-100" id="MyDashBoard" onclick="ChangeTabs(this.id,'D')">
+                                        <a class="nav-link float-left w-100" href="#">
+                                            <span class="icon"><i class="las la-home"></i></span>
+                                            <span class="menu-title font-14-res">Dashboard</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item float-left w-100" id="MyBookings" onclick="ChangeTabs(this.id, 'B')">
+                                        <a class="nav-link float-left w-100" href="#">
+                                            <span class="icon"><i class="las la-check-square"></i></span>
+                                            <span class="menu-title">My Trips</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item float-left w-100" id="MyUpComing" onclick="ChangeTabs(this.id, 'U')">
+                                        <a class="nav-link float-left w-100" href="#">
+                                            <span class="icon"><i class="las la-suitcase-rolling"></i></span>
+                                            <span class="menu-title">Upcoming Trips</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item float-left w-100" id="MyProfile" onclick="ChangeTabs(this.id)">
+                                        <a class="nav-link float-left w-100" href="#">
+                                            <span class="icon"><i class="las la-user-circle"></i></span>
+                                            <span class="menu-title">My Profile</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item float-left w-100 hidden-xs" id="MyCancellation" onclick="ChangeTabs(this.id, 'C')">
+                                        <a class="nav-link float-left w-100" href="#">
+                                            <span class="icon"><i class="las la-file-alt"></i></span>
+                                            <span class="menu-title">View Cancellations</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item float-left w-100" id="MyTravellers" onclick="ChangeTabs(this.id)" style="display:none;">
+                                        <a class="nav-link float-left w-100" href="#">
+                                            <span class="icon"><i class="las la-address-book"></i></span>
+                                            <span class="menu-title">Travellers</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item float-left w-100" id="MakePayment" onclick="ChangeTabs(this.id)" style="display:none;">
+                                        <a class="nav-link float-left w-100" href="#">
+                                            <span class="icon"><i class="las la-wallet"></i></span>
+                                            <span class="menu-title">Make Payment</span>
+                                        </a>
+                                    </li>
+                                    @if (Session["CREDITSHELL"] != null && Session["CREDITSHELL"].ToString() != "" && Session["CREDITSHELL"].ToString() != "N")
+                                    {
+                                        <li class="nav-item float-left w-100 hidden-xs" style="display:none;" id="CSPNRDetails" onclick="ChangeTabs(this.id)">
+                                            <a class="nav-link float-left w-100" href="#">
+                                                <span class="icon"><i class="las la-file-alt"></i></span>
+                                                <span class="menu-title">View Credit Shell PNR Details</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    <li class="nav-item float-left w-100" id="Support" onclick="ChangeTabs(this.id)">
+                                        <a class="nav-link float-left w-100" href="#">
+                                            <span class="icon"><i class="las la-headset"></i></span>
+                                            <span class="menu-title">Support</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-sm-9 mg-btm-15 mg-tp-5 pad-r-0 pad-0-res">
+                @if (strTerminalType != "M")
+                {
+                    <div class="dash-home" id="dvMyDashBoard" style="display:block;">
+                        <div class="dash-area col-sm-12 col-xs-12 breadcrumb-area mb-10" style="padding:20px 15px;">
+                            <h1 class="fnt-siz-18 float-left m-0">Dashboard</h1>
+                            <ol class="breadcrumb float-left">
+                                <li class="item"><a href="#"><i class="las la-home  fnt-siz-18"></i></a></li>
+                                <li class="item">Dashboard</li>
+                            </ol>
+                        </div>
+                        <div class="col-sm-8 col-xs-12 pad-l-r-5 pad-0-res">
+                            <div class="row row0">
+                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 mg-btm-15 pad-lft-5-res pad-rgt-5-res" onclick="ChangeTabs('MyBookings','B')">
+                                    <div class="single-features bg-white txt-cntr">
+                                        <img src="~/Images/@strProductType/DASHBOARD/db1.png" />
+                                        <h3 class="txt-transform-c fnt-wt-600 font-13 mg-btm-0 mg-tp-20">My Bookings</h3>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 mg-btm-15 pad-lft-5-res pad-rgt-5-res" onclick="ChangeTabs('MyUpComing', 'U')">
+                                    <div class="single-features bg-white txt-cntr">
+                                        <img src="~/Images/@strProductType/DASHBOARD/db2.png" />
+                                        <h3 class="txt-transform-c fnt-wt-600 font-13 mg-btm-0 mg-tp-20">Upcoming Trips</h3>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 mg-btm-15 pad-lft-5-res pad-rgt-5-res" onclick="ChangeTabs('MyProfile')">
+                                    <div class="single-features bg-white txt-cntr">
+                                        <img src="~/Images/@strProductType/DASHBOARD/db3.png" />
+                                        <h3 class="txt-transform-c fnt-wt-600 font-13 mg-btm-0 mg-tp-20">My Profile</h3>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 mg-btm-15 pad-lft-5-res pad-rgt-5-res hidden-xs" onclick="ChangeTabs('MyCancellation', 'C')">
+                                    <div class="single-features bg-white txt-cntr">
+                                        <img src="~/Images/@strProductType/DASHBOARD/db4.png" />
+                                        <h3 class="txt-transform-c fnt-wt-600 font-13 mg-btm-0 mg-tp-20">View Cancellation</h3>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 mg-btm-15 pad-lft-5-res pad-rgt-5-res" onclick="ChangeTabs('MyTravellers')" style="display:none;">
+                                    <div class="single-features bg-white txt-cntr">
+                                        <img src="~/Images/@strProductType/DASHBOARD/db5.png" />
+                                        <h3 class="txt-transform-c fnt-wt-600 font-13 mg-btm-0 mg-tp-20">Travellers</h3>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 mg-btm-15 pad-lft-5-res pad-rgt-5-res" onclick="ChangeTabs('MakePayment')" style="display:none;">
+                                    <div class="single-features bg-white txt-cntr">
+                                        <img src="~/Images/@strProductType/DASHBOARD/db6.png" />
+                                        <h3 class="txt-transform-c fnt-wt-600 font-13 mg-btm-0 mg-tp-20">Make Payment</h3>
+                                    </div>
+                                </div>
+                                @if (Session["CREDITSHELL"] != null && Session["CREDITSHELL"].ToString() != "" && Session["CREDITSHELL"].ToString() != "N")
+                                {
+                                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 mg-btm-15 pad-lft-5-res pad-rgt-5-res hidden-xs" onclick="ChangeTabs('CSPNRDetails')">
+                                        <div class="single-features bg-white txt-cntr">
+                                            <img src="~/Images/@strProductType/DASHBOARD/db4.png" />
+                                            <h3 class="txt-transform-c fnt-wt-600 font-13 mg-btm-0 mg-tp-20">View Credit Shell PNR Details</h3>
+                                        </div>
+                                    </div>
+                                }
+                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 mg-btm-15 pad-lft-5-res pad-rgt-5-res" onclick="ChangeTabs('Support')">
+                                    <div class="single-features bg-white txt-cntr">
+                                        <img src="~/Images/@strProductType/DASHBOARD/db7.png" />
+                                        <h3 class="txt-transform-c fnt-wt-600 font-13 mg-btm-0 mg-tp-20">Support</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-xs-12 pad-0-nrml pad-0-res mg-btm-15-res">
+                            <div class="dash-area col-sm-12 scroll_upcoming float-left w-100">
+                                <div class="float-left w-100">
+                                    <h1 class="fnt-siz-18 mg-tp-15 mg-btm-15">Upcoming Trips</h1>
+                                </div>
+                                <div id="dvUpComingTrip" class="float-left w-100" style="display:none;">
+
+                                </div>
+                                <div class="float-left w-100 txt-cntr" id="dvNoUpComingTrips">
+                                    <span>
+                                        <img src="~/Images/@strProductType/DASHBOARD/nodata.png" />
+                                    </span>
+                                    <div class="float-left w-100 pad-btm-15">
+                                        <h3 class="txt-transform-c fnt-wt-600 font-13 mg-btm-0 mg-tp-20 pb-10">No Upcoming Trips</h3>
+                                        <span style="color: #74788d;">When you book a trip, you will see your itinerary here.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="dash-home" id="dvMyBookings" style="display:none;">
+                    @Html.Partial("~/Views/B2C/_MyBookingsB2C.cshtml")
+                </div>
+                <div class="dash-home" id="dvMyProfile" style="display:none;">
+                    @Html.Partial("~/Views/B2C/_MyprofileB2C.cshtml")
+                </div>
+                <div class="dash-home" id="dvSupport" style="display:none;">
+                    @Html.Partial("~/Views/B2C/_SupportB2C.cshtml")
+                </div>
+                <div class="dash-home" id="dvMyTravellers" style="display:none;">
+                    @Html.Partial("~/Views/B2C/_MyTravellersB2C.cshtml")
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="particles-js-circle-bubble-1">
+
+    </div>
+</div>
+<!-- change password -->
+<div class="modal fade pad-0-res" id="change-password" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="row">
+        <div class="modalshow bg-white">
+            <div class="modal-tit float-left w-100 col-sm-12 col-xs-12 bg-clr-cmmntheme pt-10 pb-10 mb-0">
+                <h5 class="white-text float-left mg-btm-0 text-transform-c font-14 fnt-wt-600 mt-0 pl-10" id="changeName">Change Password</h5>
+                <i class="las la-times white-text float-right cursor-point fnt-siz-20 pr-10" data-dismiss="modal"></i>
+            </div>
+            <div class="modalbody dash-area">
+                <div class="col-sm-5 col-xs-12 col-sm-offset-4 col-xs-offset-0 bg-white mg-tp-30 mg-tp-0-res">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 pt-10 pb-10 pass_sec">
+                            <div class="w-100 txt-center pass_img p-10 brdr-radius-2">
+                                <img src="~/Images/@strProductType/DASHBOARD/lock.png" />
+                            </div>
+                            <div class="col-sm-12 col-xs-12 mg-btm-20">
+                                <h4 class="flt-lft w-100 txt-center font-18">Change Password</h4>
+                            </div>
+                            <form>
+                                <div class="col-xs-12 change_new_old_confirm_pass mg-btm-30">
+                                    <div class="dv-anim input-effect m-0">
+                                        <input id="Old_pwdd" maxlength="20" class="txt-anim w-100 clsPassword" type="password" autocomplete="new-password">
+                                        <label class="font-13">Old Password<span style="color: red;">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 change_new_old_confirm_pass mg-btm-30">
+                                    <div class="dv-anim input-effect m-0">
+                                        <input id="New_pwdd" maxlength="20" class="txt-anim w-100 clsPassword" type="password" autocomplete="new-password">
+                                        <label class="font-13">New Password<span style="color: red;">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 change_new_old_confirm_pass mg-btm-30">
+                                    <div class="dv-anim input-effect m-0">
+                                        <input id="Cnf_pwdd" maxlength="20" class="txt-anim w-100 clsPassword" type="password" autocomplete="new-password">
+                                        <label class="font-13">Confirm Password<span style="color: red;">*</span></label>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="col-xs-12">
+                                <div class="cntr txt-cntr m-b-10">
+                                    <input style="display: none;" id="serv_checkstandard" class="cb" type="checkbox" value="0" onchange="togglePassword();">
+                                    <label class="cbx" for="serv_checkstandard"></label>
+                                    <label class="lbl font-13" for="serv_checkstandard">Show Password</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="margin-bottom: 15px">
+                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-3 col-lg-offset-3">
+                                    <input type="button" id="change_pwd" class="action-button shadow animate color" style="width: 100%" value="Save" onclick="UpdatePassword()">
+                                </div>
+                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-3">
+                                    <input type="button" id="clear" class="action-button action-buttonB shadow animate  colorB1" style="width: 100%" value="Clear" onclick="clearPassword()" data-dismiss="modal">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- change password -->
+<!--  Add Traveller -->
+<div class="modal fade" id="modal-addtravel" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="row">
+        <div class="modalshow bg-white">
+            <div class="modal-tit float-left w-100 col-sm-12 col-xs-12 bg-clr-cmmntheme pt-10 pb-10 mb-15">
+                <h5 class="white-text float-left mg-btm-0 text-transform-c font-16 mt-0" id="changeName">Edit Traveller</h5>
+                <i class="las la-times white-text float-right cursor-point fnt-siz-20" onclick="clearpopup()" data-dismiss="modal"></i>
+            </div>
+            <div class="modalbody dash-area">
+                <div class="row row0">
+                    <div class="col-sm-12 col-xs-12 pad-0-res">
+                        <div class="col-sm-4 col-xs-6 mb-15 pos-rel">
+                            <label class="widget_data float-left txt-al-lft font-12 fnt-wt-600-im mb-2">Pax Type</label>
+                            <select id="ddl_paxtype" class="font-14 widget_label form-control" onchange="changetitle()">
+                                <option value="Adult" selected=""> Adult</option>
+                                <option value="Child">Child</option>
+                                <option value="Infant">Infant</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4 col-xs-6 mb-15 pos-rel">
+                            <label class="widget_data float-left txt-al-lft font-12 fnt-wt-600-im mb-2">Title</label>
+                            <select id="ddl_title" class="font-14 widget_label form-control">
+                                <option value="">Select</option>
+                                <option value="Mstr.">Mstr.</option>
+                                <option value="Miss.">Miss.</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4 col-xs-6 mg-btm-15 pos-rel">
+                            <label class="widget_data float-left txt-al-lft font-12 fnt-wt-600-im mb-2">First Name</label>
+                            <form autocomplete="off" novalidate="novalidate">
+                                <input type="text" id="txtfname" required="" class="font-14 widget_label form-control" placeholder="Enter First Name" oninput="uppercase()" onkeypress="nameval(event)" maxlength="25">
+                            </form>
+                        </div>
+                        <div class="col-sm-4 col-xs-6 mg-btm-15 pos-rel">
+                            <label class="widget_data float-left txt-al-lft font-12 fnt-wt-600-im mb-2">Last Name</label>
+                            <form autocomplete="off" novalidate="novalidate">
+                                <input type="text" id="txtlname" required="" class="font-14 widget_label form-control" placeholder="Enter Last Name" oninput="uppercase()" onkeypress="nameval(event)" maxlength="15">
+                            </form>
+                        </div>
+                        <div class="col-sm-4 col-xs-6 mg-btm-15 pos-rel">
+                            <label class="widget_data float-left txt-al-lft font-12 fnt-wt-600-im mb-2">Date of Birth</label>
+                            <input type="text" id="txtdob" required="" class="font-14 widget_label form-control hasDatepicker" placeholder="DD/MM/YYYY" readonly="">
+                        </div>
+                        <div class="col-sm-4 col-xs-6 mg-btm-15 pos-rel">
+                            <label class="widget_data float-left txt-al-lft font-12 fnt-wt-600-im mb-2">Nationality</label>
+                            <select id="ddl_nationality" class="font-14 widget_label form-control">
+                            </select>
+                        </div>
+                        <div class="col-sm-4 col-xs-6 mg-btm-15 pos-rel">
+                            <label class="widget_data float-left txt-al-lft font-12 fnt-wt-600-im mb-2">Passport Number</label>
+                            <form autocomplete="off" novalidate="novalidate">
+                                <input type="text" id="txtpassport" maxlength="10" required="" class="font-14 widget_label form-control" onkeypress="passportvalidate(event)" oninput="uppercase()" placeholder="Enter Passport Number">
+                            </form>
+                        </div>
+                        <div class="col-sm-4 col-xs-6 mg-btm-15 pos-rel">
+                            <label class="widget_data float-left txt-al-lft font-12 fnt-wt-600-im mb-2">Passport Expiry Date</label>
+                            <form autocomplete="off" novalidate="novalidate">
+                                <input type="text" id="txtpasportexpiredate" readonly="" required="" class="font-14 widget_label form-control hasDatepicker" placeholder="DD/MM/YYYY">
+                            </form>
+                        </div>
+                        <div class="col-sm-4 col-xs-6 mg-btm-15 pos-rel">
+                            <label class="widget_data float-left txt-al-lft font-12 fnt-wt-600-im mb-2">Issuing Country</label>
+                            <select id="ddl_issuingCountry" class="font-14 widget_label form-control clsCountry"></select>
+                        </div>
+                        <div class="col-sm-4 col-xs-6 mg-btm-15 pos-rel" style="display:none">
+                            <label class="widget_data float-left txt-al-lft font-12 fnt-wt-600-im mb-2">Visa Type</label>
+                            <select id="ddl_visatype" class="font-14 widget_label form-control">
+                                <option selected="" value="">Select Visa Type</option>
+                                <option value="Mr">Work Visa</option>
+                                <option value="Mrs">Student Visa</option>
+                                <option value="Mrs">Holidays Visa</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12 txt-center mg-tp-15">
+                                    <div class="col-sm-4 col-sm-offset-4 col-xs-12" data-flag="1" data-progress-style="indefinite" id="savebtn">
+                                        <div class="btn1 cursor-point" data-flagdecider="0" id="dvbtncontent" onclick="Fntravellerdetails()">Update</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 txt-center" id="dverror" style="text-align:center"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End -->
+<!--  Send Email -->
+<div class="modal fade" id="modal-sendemail" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="row ht-100">
+        <div class="modalshow bg-white">
+            <div class="modal-tit float-left w-100 col-sm-12 col-xs-12 bg-clr-cmmntheme pt-10 pb-10 mb-15">
+                <h5 class="white-text float-left mg-btm-0 text-transform-c font-16 mt-0" id="changeName">Send Email</h5>
+                <i class="las la-times white-text float-right cursor-point fnt-siz-20" data-dismiss="modal"></i>
+            </div>
+            <div class="modalbody dash-area">
+                <div class="row row0">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="mg-btm-15 pos-rel col-xs-12 col-sm-8 col-sm-offset-2">
+                            <label class="widget_data float-left txt-al-lft font-12 fnt-wt-600-im mb-2">Booking Refrence No.</label>
+                            <form autocomplete="off" novalidate="novalidate">
+                                <input type="text" id="eticket_pnr" class="font-14 widget_label form-control" disabled="disabled" style="background:#e7e7e7 !important;" placeholder="" maxlength="10">
+                            </form>
+                        </div>
+                        <div class="mg-btm-15 pos-rel col-xs-12 col-sm-8 col-sm-offset-2">
+                            <label class="widget_data float-left txt-al-lft font-12 fnt-wt-600-im mb-2">Email-ID</label>
+                            <form autocomplete="off" novalidate="novalidate">
+                                <input type="text" id="mail_id" class="font-14 widget_label form-control" placeholder="" maxlength="100">
+                            </form>
+                        </div>
+
+                        <div class="form-group float-left w-100">
+                            <div class="row row0">
+                                <div class="modal-buttons">
+                                    <div class="col-sm-3 hidden-xs"></div>
+                                    <div class="col-sm-3 col-xs-6 col10" style="text-align: center">
+                                        <button type="button" id="send_mail" class="float-left w-100" onclick="SendMail()">Send</button>
+                                    </div>
+                                    <div class="col-sm-3 col-xs-6 col10" style="text-align: center">
+                                        <button type="button" id="btnclosepop" class="float-left w-100" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                    <div class="col-sm-2 hidden-xs"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 txt-center" id="dverror" style="text-align:center"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End -->
+<script>
+    var strFlightImgVersion = '@strFlightImgVersion';
+    var strAirlineLogoURL = '@strAirlineLogoURL';
+    var strLoaderURL = '@strLoaderURL';
+    var strMobileDevice = '@strMobileDevice'
+    var strNoofMonths = strMobileDevice == "Y" ? 2 : 1;
+    var strFetchMyBookingsURL = '@Url.Action("FetchMyBooking","B2C")';
+    var strFetchMyTravellersURL = '@Url.Action("FetchMyTravellers","B2C")';
+    var strUpdateMyProfileURL = '@Url.Action("UpdateMyProfile", "B2C")';
+    var PrintTicketRedirect = '@Url.Action("PrintTickets", "AfterBooking")';
+    var Mailsendingurl = '@Url.Action("btnEmail_pdforhtml_Click", "AfterBooking")';
+    var strFetchMyViewPNRURL = '@Url.Action("FetchMyViewPNR", "B2C")';
+    var strUpdatePasswordURL = '@Url.Action("UpdateMyPassword", "B2C")';
+    var strCreditShellRedirectURL = '@Url.Action("OtherProduct", "OtherProduct")';
+    var CountryxmlURL = '@Url.Content("~/XML/Country.xml")';
+    var ConvertPDF_URL = "@Url.Action("pdfTktconverter", "AfterBooking")"
+    var FetchPrintTicketURL = "@Url.Action("GetTicketCopy", "AfterBooking")"
+    var strDefaultProfile = '@strDefaultProfile';
+    var strUserProfileImg = '@strUserProfile';
+    var strUserTitle = '@strUserTitle';
+    var strUserFname = '@strUserFName';
+    var strUserLname = '@strUserLName';
+    var strUserMobileNO = '@strUserMobileNo';
+    var strUserEmailID = '@strUserEmailID';
+    var strUserAddress = '@strUserAddress';
+    var strUserCity = '@strUserCity';
+    var strUserCountry = '@strUserCountry';
+    var strUserPassportNo = '@strUserPassportNO';
+    var strUserDOB = '@strUserDOB';
+    var strUserPassEXP = '@strUserPass_EXP';
+    var strUserPassCountry = '@strUserISSU_Country';
+    var strUserPincode = '@strUserPincode';
+    var Today = GetTodayDate();
+    var strDate = Today.split('/')
+    var mindate = CustomDateFormat(strDate, 0, 6, 0, '-');
+    var maxdate = CustomDateFormat(strDate, 1, 0, 0, '+');
+    $('body').data('OLD_PWD', '@strUserPassword');
+    var Flag = '';
+    if ('@strTerminalType' == 'M') {
+        Flag = '@ViewBag.Flag'
+    }
+    else {
+        Flag = sessionStorage.getItem("DashBoardKey") != null ? sessionStorage.getItem("DashBoardKey") : "";
+    }
+    var strQueryString = Flag;
+    if (strQueryString == "" || strQueryString == "D") {
+        FetchupComingTrips();
+    }
+    else {
+        if (strQueryString == "B") {
+            ChangeTabs('MyBookings', 'B')
+        }
+        else if (strQueryString == "U") {
+            ChangeTabs('MyUpComing', 'U')
+        }
+        else if (strQueryString == "C") {
+            ChangeTabs('MyCancellation', 'C')
+        }
+        else if (strQueryString == "S") {
+            ChangeTabs('Support')
+        }
+        else if (strQueryString = 'P') {
+            ChangeTabs('MyProfile')
+        }
+    }
+
+    $(document).ready(function () {
+        $("#txtFromDate_Book").val(Today);
+        $("#txtFromDate_Book").datepicker({
+            minDate: mindate, maxDate: Today, dateFormat: "dd/mm/yy", numberOfMonths: strNoofMonths,
+        });
+        $("#txtToDate_Book").datepicker({
+            minDate: $("#txtFromDate_Book").val(), maxDate: maxdate, dateFormat: "dd/mm/yy", numberOfMonths: strNoofMonths,
+        });
+        $("#txtToDate_Book").val(Today);
+        $("#txtFromDate_Book").on('change', function () {
+            $("#txtToDate_Book").datepicker("destroy");
+            $("#txtToDate_Book").datepicker({
+                minDate: $("#txtFromDate_Book").val(), maxDate: maxdate, dateFormat: "dd/mm/yy", numberOfMonths: strNoofMonths,
+            });
+            $("#txtToDate_Book").val($("#txtFromDate_Book").val());
+        });
+        LoadCountry();
+        ResetProfile();
+    });
+</script>

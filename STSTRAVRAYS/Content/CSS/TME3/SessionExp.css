@@ -1,0 +1,36 @@
+﻿body {font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;background: #f5f5f5;}
+.clsBoxShdow {width: 70%;margin: 0 auto;    margin-top:10%;  }
+.bg-clr {box-shadow: 0px 0px 16px 1px #e8e8e8;background: #fff;float: left;width: 100%;background-image: url(/Images/bg-img-session.png);
+         background-position: bottom;background-size: cover;background-repeat: no-repeat;}
+.clsMyLabel {text-align: center;text-transform: capitalize;font-size: 25px;letter-spacing: 0.2px;}
+h3.clsMyLabel {color: #ac0027;font-weight: 600;float: left;width: 100%;margin-bottom: 0px;padding-bottom: 20px;border-bottom: 1px dashed #ccc;}
+h4.clsMySubLabel {text-align: left;font-size: 20px;color: #c72e39;font-weight: normal;}
+h3.clsMyLabel span {color: #182d42;}
+.clsBody {float: left;width: 55%;padding-left: 60px;padding-top:30px;}
+.cont-rt {float:left;width:30%;}
+.bg-img {background-image: url(/Images/session-RU.png);background-repeat: no-repeat;width: 99px;height: 400px;margin: 0 auto;}
+ul.clsUlContent {padding-left: 20px;font-size: 17px;line-height: 32px;}
+a.clsButton {border-radius: 3px;background: #ac0027;border: 1px solid #ac0027;color: #fff;font-size: 16px;font-weight: 500;width: 175px;
+             text-align: center;float: left;letter-spacing: 0.5px;font-size: 18px;margin-top: 10%;padding:10px;text-decoration:none;}
+a.clsButton:hover {color: #ac0027;background: #fff;transition: all 0.4s ease 0s;}
+.btnsec {float: right;margin-top: 3%;}
+
+@media (max-width:767px) {
+    .clsBoxShdow {width:100% !important;}
+    h4.clsMySubLabel {font-size:17px;}
+    h3.clsMyLabel {margin-bottom: 0px;padding-bottom: 10px;}
+    ul.clsUlContent {font-size: 15px;line-height: 25px;}
+    .clsMyLabel {font-size:20px;}
+    .cont-rt {display:none;}
+    .clsBody {padding-left: 15px;padding-top: 0px;white-space: normal;width:90%;}
+    .btnsec {margin-top: 0;margin-bottom: 5%;}
+    a.clsButton {width: 130px;font-size: 15px;margin-top: 10%;padding:5px;}
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .clsBoxShdow {width:94% !important;}
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+    .clsBoxShdow {width:90% !important;}
+}

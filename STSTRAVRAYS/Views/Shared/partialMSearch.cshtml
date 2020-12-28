@@ -1,0 +1,950 @@
+﻿@{
+    string strAPPCurrency = Session["Allowappcurrency"] != null && Session["Allowappcurrency"].ToString() != "" ? Session["Allowappcurrency"].ToString() : "";
+    string strProduct = System.Configuration.ConfigurationManager.AppSettings["Producttype"].ToString();
+    string strAppTheme = System.Configuration.ConfigurationManager.AppSettings["apptheme"].ToString();
+    string MainCity = System.Configuration.ConfigurationManager.AppSettings["MainCity"].ToString();
+    string Flightno = System.Configuration.ConfigurationManager.AppSettings["Flightno"].ToString();
+    string strAppHosting = System.Configuration.ConfigurationManager.AppSettings["APP_HOSTING"].ToString();
+    string extwid = strProduct.ToString().ToUpper().Trim() == "RBOA" ? "col-md-2" : "col-md-3";
+    string disn = "";
+    //string extwid = "";
+    string AllowCorptab = Session["ALLOW_CORP_FARE"] != null && Session["ALLOW_CORP_FARE"].ToString() != "" ? Session["ALLOW_CORP_FARE"].ToString() : "N";
+    string strTerminalType = Session["TERMINALTYPE"] != null && Session["TERMINALTYPE"].ToString() != "" ? Session["TERMINALTYPE"].ToString() : System.Configuration.ConfigurationManager.AppSettings["TerminalType"].ToString().ToUpper();
+    string strShowhide_BSA = (strAppHosting == "BSA" || strAppHosting == "B2B" || strAppHosting == "BOA") ? "display:none" : "display:block";
+    string strIsAgentlogedin = Session["IsAgentLogin"] != null && Session["IsAgentLogin"].ToString() != "" ? Session["IsAgentLogin"].ToString() : "N";
+
+    if (strProduct.ToString().ToUpper().Trim() == "RBOA")
+    {
+        extwid = "col-md-2";
+        disn = "none";
+    }
+    else
+    {
+        extwid = "col-md-3";
+        disn = "block";
+
+    }
+}
+
+<style>
+    .cls_new {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+
+    #Mulrd_Booklet:disabled + label.custom-control-label {
+        cursor: no-drop !important;
+    }
+
+    label.custom-control-label:hover {
+        cursor: pointer;
+    }
+    .mrgn-tp-15 {
+    margin-top:12px;
+    }
+</style>
+
+
+@if (strAppTheme == "THEME3" || strAppTheme == "THEME4" || strAppHosting == "BSA" || strAppHosting == "B2B" || strAppHosting == "BOA")
+{
+    <section class="search-controls-multi-city clearfix form-search clsModfySercBG col-xs-12 fl-n" style="margin-top: -4px; padding: 0; margin-left: -4px;">
+        <div>
+            <ul id="ul-multi-city-routes" class="clsMultiCityRoutes" style="padding: 0; width: 100%; margin-left: 10px;" data-li-temp="">
+                <li class="clsliMSearchSec">
+                    <div class="row">
+                        <div class="col-sm-3 col-xs-6 cls_new">
+                            <div class="input-style">
+                                <input type="text" autocomplete="off" id="txtMOrigin1" placeholder="Origin" class="form-control clsMflight-from clshideErr clrcity" onkeypress="javascript:return ValidateAlphaCapsspace(event);" onchange="javascript: FocusDestination(this.id); return false;">
+                                @if (strAppHosting == "BSA" || strAppHosting == "B2B" || strAppHosting == "BOA")
+                                {
+                                    <span class="icon-inside icon-inside_M"><i class="las la-dot-circle font-20" style="position:relative;top:3px;"></i></span>
+                                }
+                                else
+                                {
+                                    <span class="icon-inside icon-inside_M"><i class="fas fa-map-marker-alt"></i></span>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-xs-6 cls_new">
+                            <div class="input-style">
+                                <input type="text" autocomplete="off" id="txtMDestinations1" class="form-control clsMflight-to clshideErr clrcity clrcity" onkeypress="javascript:return ValidateAlphaCapsspace(event);" placeholder="Destination" onchange="javascript: FocusDeptDate(this); return false;">
+                                @if (strAppHosting == "BSA" || strAppHosting == "B2B" || strAppHosting == "BOA")
+                                {
+                                    <span class="icon-inside icon-inside_M"><i class="las la-map-marker font-20" style="position:relative;top:3px;"></i></span>
+                                }
+                                else
+                                {
+                                    <span class="icon-inside icon-inside_M"><i class="fas fa-map-marker-alt"></i></span>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col2m col-xs-6 form-field cls_new">
+                            <div class="input-style">
+                                <input type="text" autocomplete="off" placeholder="DD/MM/YYYY" data-type="calendar" style="font-size: 12px !important;" readonly class="cslMulCall form-control clshideErr" id="txtMDeparturdtFlight1">
+                                @if (strAppHosting == "BSA" || strAppHosting == "B2B" || strAppHosting == "BOA")
+                                {
+                                    <span class="icon-inside icon-inside_M"><i class="las la-calendar font-20" style="position:relative;top:3px;"></i></span>
+                                }
+                                else
+                                {
+                                    <span class="icon-inside icon-inside_M"><i class="fas fa-map-marker-alt"></i></span>
+                                }
+                            </div>
+                        </div>
+                        <div class="res-width">
+                            <div class="col-sm-1 col1m col-xs-6 form-field totaldiv1 cls_new">
+                                <div class="input-style">
+                                    <input type="text" autocomplete="off" class="form-control textlcspres fligthnocls flightnumopt" placeholder="Ex : @Flightno" maxlength="6" style="padding: 8px!important" id="Flightno1">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col1m col-xs-6 form-field totaldiv1 cls_new">
+                                <div class="input-style">
+                                    <input type="text" autocomplete="off" class="form-control textlcspres viacls viafltopt" placeholder="Ex : @MainCity" maxlength="3" onkeypress="javascript:return validateAlphabetswithoutspc(event);" style="padding: 8px!important" id="Via1">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col1mc col-xs-6 cls_new">
+                                <button type="button" id="btnCloseMRow1" class="clsCloseMRow" onclick="javascript:CloseMRow(this);return false;" disabled="">
+                                    @if (strAppHosting == "BSA" || strAppHosting == "B2B" || strAppHosting == "BOA")
+                                    {
+                                        <i class="las la-times font-20" style="position:relative;"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-close"></i>
+                                    }
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="clsliMSearchSec">
+                    <div class="row">
+                        <div class="col-sm-3 col-xs-6 cls_new">
+                            <div class="input-style">
+                                <input type="text" autocomplete="off" id="txtMOrigin2" placeholder="Origin" class="form-control clsMflight-from clshideErr clrcity" onkeypress="javascript:return ValidateAlphaCapsspace(event);" onchange="javascript: FocusDestination(this.id); return false;">
+                                @if (strAppHosting == "BSA" || strAppHosting == "B2B" || strAppHosting == "BOA")
+                                {
+                                    <span class="icon-inside icon-inside_M"><i class="las la-dot-circle font-20" style="position:relative;top:3px;"></i></span>
+                                }
+                                else
+                                {
+                                    <span class="icon-inside icon-inside_M"><i class="fas fa-map-marker-alt"></i></span>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-xs-6 cls_new">
+                            <div class="input-style">
+                                <input type="text" autocomplete="off" id="txtMDestinations2" placeholder="Destination" class="form-control clsMflight-to clshideErr clrcity" onkeypress="javascript:return ValidateAlphaCapsspace(event);" onchange="javascript: FocusDeptDate(this); return false;">
+                                @if (strAppHosting == "BSA" || strAppHosting == "B2B" || strAppHosting == "BOA")
+                                {
+                                    <span class="icon-inside icon-inside_M"><i class="las la-map-marker font-20" style="position:relative;top:3px;"></i></span>
+                                }
+                                else
+                                {
+                                    <span class="icon-inside icon-inside_M"><i class="fas fa-map-marker-alt"></i></span>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col2m col-xs-6 form-field cls_new">
+                            <div class="input-style">
+                                <input type="text" autocomplete="off" placeholder="DD/MM/YYYY" data-type="calendar" style="font-size: 12px !important;" class="cslMulCall form-control clshideErr" readonly id="txtMDeparturdtFlight2">
+                                @if (strAppHosting == "BSA" || strAppHosting == "B2B" || strAppHosting == "BOA")
+                                {
+                                    <span class="icon-inside icon-inside_M"><i class="las la-calendar font-20" style="position:relative;top:3px;"></i></span>
+                                }
+                                else
+                                {
+                                    <span class="icon-inside icon-inside_M"><i class="fas fa-map-marker-alt"></i></span>
+                                }
+                            </div>
+                        </div>
+                        <div class="res-width">
+                            <div class="col-sm-1 col1m col-xs-6 totaldiv2 form-field cls_new">
+                                <div class="input-style">
+                                    <input type="text" autocomplete="off" class="form-control textlcspres fligthnocls flightnumopt" placeholder="EX : @Flightno" maxlength="6" style="padding: 8px!important" id="Flightno2">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col1m col-xs-6 totaldiv2 form-field cls_new">
+                                <div class="input-style">
+                                    <input type="text" autocomplete="off" class="form-control textlcspres viacls viafltopt" placeholder="Ex : @MainCity" onkeypress="javascript:return validateAlphabetswithoutspc(event);" maxlength="3" style="padding: 8px!important" id="Via2">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col1mc col-xs-6 cls_new">
+                                <button id="btnCloseMRow2" type="button" class="clsCloseMRow" tabindex="1" disabled="">
+                                    @if (strAppHosting == "BSA" || strAppHosting == "B2B" || strAppHosting == "BOA")
+                                    {
+                                        <i class="las la-times font-20" style="position:relative;"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-close"></i>
+                                    }
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div id="dvAddNewMRow" data-mrow-btn="" data-mul-rowcount="2">
+                <button id="btn-add-multi-city-route" onclick="javascript:AddNewMRow(this);" class="clsAddNewforMCity" tabindex="1">
+                    <i class="fa fa-plus" style="padding-right: 10px;"></i><span>Add Sector</span>
+                </button>
+                @*1*@
+            </div>
+            <hr style="width: 98%;" />
+            <div class="row ">
+    @if (strAppHosting == "BSA" || strAppHosting == "B2B" || strAppHosting == "BOA")
+    {
+        <div class="col-md-5">
+            <div class="row align-items-center">
+                <div class="col-sm-4 col-xs-4">
+                    <p class="mb-0 font-13">Adults <small class="text-muted">(12+ yrs)</small></p>
+                    <div class="form-group">
+                        <select class="custom-select_1" id="cmbMAdultFlight" onchange="javascript: MAdultLoad(); return false;">
+                            <option value="">Adult</option>
+                            <option value="1" selected="selected">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                        </select>
+                        <span id="uaedown_1" class="icon-inside_01"><i class="fas fa-caret-down"></i></span>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-4">
+                    <p class="mb-0 font-13">Children <small class="text-muted">(2-12 yrs)</small></p>
+                    <div class="form-group">
+                        <select class="custom-select_1" id="cmbMChildFlight">
+                            <option value="0">Child</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                        </select>
+                        <span id="uaedown_2" class="icon-inside_01"><i class="fas fa-caret-down"></i></span>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-4">
+                    <p class="mb-0 font-13">Infants <small class="text-muted">(Below 2 yrs)</small></p>
+                    <div class="form-group">
+                        <select class="custom-select_1" id="cmbMInfantFlight">
+                            <option value="0">Infant</option>
+                            <option value="1">1</option>
+                        </select>
+                        <span id="uaedown_3" class="icon-inside_01"><i class="fas fa-caret-down"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="col-lg-3 col-sm-3 col-md-3 travellers-class form-group">
+        <p class="mb-0 font-13 R_label" style="display:none;">Class</p>
+        <input type="text" autocomplete="off" id="flightTravellersClass1" class="travellers-class-input form-control" name="flight-travellers-class" placeholder="Travellers, Class" readonly="" required="" onkeypress="return false;">
+        <a href="#"></a><span class="icon-inside icon-inside_01 icon_clsdrop_down"><i class="fas fa-caret-down"></i></span>
+        <!-- Travellers & Class Dropdown -->
+        <div class="travellers-dropdown" style="display: none;">
+            <div class="row align-items-center Rou_disnone">
+                <div class="col-sm-4">
+                    <p class="mb-sm-0">Adults <small class="text-muted">(12+ yrs)</small></p>
+                    <div class="form-group" id="MulDiv16">
+                        <select class="custom-select_1" id="cmbMAdultFlight" onchange="javascript:MAdultLoad(); return false;">
+                            <option value="">Adult</option>
+                            <option value="1" selected="selected">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                        </select>
+                        <span id="uaedown_1" class="icon-inside icon-inside_01"><i class="fas fa-caret-down"></i></span>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <p class="mb-sm-0">Children <small class="text-muted">(2-12 yrs)</small></p>
+                    <div class="form-group" id="MulDiv18">
+                        <select class="custom-select_1" id="cmbMChildFlight">
+                            <option value="0">Child</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                        </select>
+                        <span id="uaedown_2" class="icon-inside icon-inside_01"><i class="fas fa-caret-down"></i></span>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <p class="mb-sm-0">Infants <small class="text-muted">(Below 2 yrs)</small></p>
+                    <div class="form-group" id="MulDiv19">
+                        <select class="custom-select_1" id="cmbMInfantFlight">
+                            <option value="0">Infant</option>
+                            <option>1</option>
+
+                        </select>
+                        <span id="uaedown_3" class="icon-inside icon-inside_01"><i class="fas fa-caret-down"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3" id="Muldivclas">
+                <div class="custom-control custom-radio" id="grpcmbFlightClass">
+                    <input id="MulflightClassEconomic" name="flight-Mulclass" class="flight-Mulclass custom-control-input" data-value="Economy" value="E" checked="" required="" type="radio">
+                    <label class="custom-control-label" for="MulflightClassEconomic">Economy</label>
+                </div>
+
+                <div class="custom-control custom-radio">
+                    <input id="MulflightClassBusiness" name="flight-Mulclass" class="flight-Mulclass custom-control-input" data-value="Business" value="B" required="" type="radio">
+                    <label class="custom-control-label" for="MulflightClassBusiness">Business</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input id="MulflightClassFirstClass" name="flight-Mulclass" class="flight-Mulclass custom-control-input" data-value="First Class" value="F" required="" type="radio">
+                    <label class="custom-control-label" for="MulflightClassFirstClass">First Class</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input id="MulflightClassPremiumEconomic" name="flight-Mulclass" class="flight-Mulclass custom-control-input" data-value="Premium Economy" value="P" required="" type="radio">
+                    <label class="custom-control-label" for="MulflightClassPremiumEconomic">Premium Economy</label>
+                </div>
+            </div>
+            <button class="btn btn-riya btn-block submit-done" type="button">Done</button>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12 form-group">
+        <p class="mb-0 font-13 R_label" style="display:none;">Preferred Airline</p>
+        <select id="MulFlightName" multiple="multiple" autocomplete="off" onkeyup="disblockall();" placeholder="Airline Code" class="form-control"></select>
+    </div>
+
+    @if (strIsAgentlogedin == "Y" && strAppHosting != "")
+    {
+        <div class="col-sm-2 col-xs-6 form-group mrgn-tp-15" style="display:block !important;">
+            <div class="book_page pr-0">
+                <input style="display: none;" id="Mulrd_Special_fare" class="cb" type="checkbox" name="chkTermsAir">
+                <label class="cbx float-left font-13" for="Mulrd_Special_fare">
+                    <span class="float-left w-100 txt-transform-c pad-lft-25 font-12 fnt-wt-600" style="white-space:nowrap;">Special Fare</span>
+                </label>
+            </div>
+        </div>
+    }
+
+    <div class="col-sm-2 col-xs-6 form-group mrgn-tp-15" style="@strShowhide_BSA">
+        <div class="form-check custom-control custom-checkbox">
+            <input id="Mulrd_Host" name="remember" class="custom-control-input" type="checkbox">
+            <label class="custom-control-label pad-lft-20" for="Mulrd_Host">Host Search</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2 col-xs-6 form-group mrgn-tp-15" style="@strShowhide_BSA">
+        <div class="form-check custom-control custom-checkbox">
+            <input id="Mulrd_direct" name="remember" class="custom-control-input" type="checkbox">
+            <label class="custom-control-label pad-lft-20" for="Mulrd_direct">Direct Flight</label>
+        </div>
+    </div>
+
+    @if (System.Configuration.ConfigurationManager.AppSettings["BookletThread"].ToString() != "")
+    {
+        <div class="col-sm-2 col-xs-12 form-group mrgn-tp-15 clsBookletFare" style="display:none;">
+            <div class="form-check custom-control custom-checkbox">
+                <input id="Mulrd_Booklet" name="remember" class="custom-control-input" type="checkbox">
+                <label class="custom-control-label pad-lft-20" for="Mulrd_Booklet">Booklet Fare</label>
+            </div>
+        </div>
+    }
+
+    <div class="col-lg-2 col-md-1 col-xs-6 col0 b-r-gry" style="display: none;">
+        <div class="ui-paxselect-button">
+            @if (strAPPCurrency != null && strAPPCurrency != "")
+            {
+                if (strAPPCurrency.Split('|').Length > 0)
+                {
+                        <select id="ddlMNationality" class="form-control clshideErrch">
+                            <option value="@strAPPCurrency.Split('|')[0]" selected="selected">@strAPPCurrency.Split('|')[0]</option>
+                        </select>
+                }
+            }
+        </div>
+    </div>
+
+    <div class="col-md-1 col-xs-6 col0 b-r-gry" style="display: none;">
+        <div id="Muldivflightoption" class="ui-paxselect-button">
+            <select class="form-control clshideErrch" id="Mulfli_option" onchange="hideoldavaildetails();" style="border: none; box-shadow: none;">
+                <option selected value="ALL">ALL</option>
+                <option value="LCC">LCC</option>
+                <option value="FSC">FSC</option>
+            </select>
+        </div>
+    </div>
+
+        @*</div>
+
+        <div style="margin: 10px 0px;" class="row row0">*@
+
+    @if (strTerminalType == "T")
+    {
+        string dispcls = strProduct == "DEIRA" ? "display:none" : "display:block";
+        <div class="col-lg-4 col-md-3 col-sm-3 col-xs-12 col-sm-offset-4">
+            <input class="form-control ui-autocomplete-input" type="text" autocomplete="off" id="ddlMulClient" placeholder="Agency Name">
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" style="@dispcls">
+            <select class="custom-select" id="ddlMulTerminalId">
+                <option value="">Terminal ID</option>
+            </select>
+        </div>
+    }
+
+            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 col0" style="float: right;">
+                <div id="dv-disk-search">
+                    <div class="submit-container" id="Msearchcontainer">
+                        <a class="btn btn-riya btn-block submit submit--desktop" id="btnMFlightSearch" onclick="javascript:MulFlightSearch(); return false;">
+                            <i class="fa fa-search" aria-hidden="true"></i>Search Flights
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+        }
+
+    else
+    {
+    <section class="search-controls-multi-city clearfix form-search clsModfySercBG col-xs-12 fl-n" style="margin-top: 1%; padding: 0; margin-left: -4px;">
+        <div>
+            <ul id="ul-multi-city-routes" class="clsMultiCityRoutes" style="padding: 0; width: 100%; margin-left: 10px;" data-li-temp="">
+                <li class="clsliMSearchSec">
+                    <div class="row">
+                        <div class="col-sm-3 col-xs-12 cls_new">
+                            <div class="input-style">
+                                <img src="@Url.Content("~/Images/" + strProduct + "/loc_icon_small.png")" alt="">
+                                <input type="text" autocomplete="off" id="txtMOrigin1" placeholder="Origin" class="form-control clsMflight-from clshideErr" onkeypress="javascript:return ValidateAlphaCapsspace(event);" onchange="javascript: FocusDestination(this.id); return false;">
+                            </div>
+                        </div>
+                        <div class="col-sm-1 col-xs-12 hidden-xs clslefttorightarrow col5 cls_new">
+                            <span>
+                                <div style="height:40px; background:url(@Url.Content("~/Images/" + strProduct + "/orgToDes.png"))no-repeat -72px 10px;"></div>
+                            </span>
+                        </div>
+                        <div class="col-sm-3 col-xs-12 cls_new">
+                            <div class="input-style">
+                                <img src="@Url.Content("~/Images/" + strProduct + "/loc_icon_small.png")" alt="">
+                                <input type="text" autocomplete="off" id="txtMDestinations1" class="form-control clsMflight-to clshideErr" onkeypress="javascript:return ValidateAlphaCapsspace(event);" placeholder="Destination" onchange="javascript: FocusDeptDate(this); return false;">
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col-xs-12 form-field cls_new">
+                            <div class="input-style">
+                                <img src="@Url.Content("~/Images/" + strProduct + "/calendar_icon.png")" alt="">
+                                <input type="text" autocomplete="off" placeholder="DD/MM/YYYY" data-type="calendar" style="width: 100% !important;" readonly class="cslMulCall form-control clshideErr" id="txtMDeparturdtFlight1">
+                            </div>
+                        </div>
+                        <div class="col-sm-1 col-xs-12 form-field totaldiv1 cls_new">
+                            <div class="input-style">
+                                <input type="text" autocomplete="off" class="form-control textlcspres fligthnocls flightnumopt" placeholder="Ex : MS123" maxlength="6" style="padding: 8px!important" id="Flightno1">
+                            </div>
+                        </div>
+                        <div class="col-sm-1 col-xs-12 form-field totaldiv1 cls_new">
+                            <div class="input-style">
+                                <input type="text" autocomplete="off" class="form-control textlcspres viacls viafltopt" placeholder="Ex : CAI" maxlength="3" onkeypress="javascript:return validateAlphabetswithoutspc(event);" style="padding: 8px!important" id="Via1">
+                            </div>
+                        </div>
+                        <div class="col-sm-1 col-xs-12 cls_new">
+                            <button type="button" id="btnCloseMRow1" class="clsCloseMRow" onclick="javascript:CloseMRow(this);return false;" disabled="">
+                                <i class="fa fa-close" style="font-size: 20px; color: #ff5555;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </li>
+                <li class="clsliMSearchSec">
+                    <div class="row">
+                        <div class="col-sm-3 col-xs-12 cls_new">
+                            <div class="input-style">
+                                <img src="@Url.Content("~/Images/" + strProduct + "/loc_icon_small.png")" alt="">
+                                <input type="text" autocomplete="off" id="txtMOrigin2" placeholder="Origin" class="form-control clsMflight-from clshideErr" onkeypress="javascript:return ValidateAlphaCapsspace(event);" onchange="javascript: FocusDestination(this.id); return false;">
+                            </div>
+                            @*<select class="form-control clsMflight-from" id="cmbMflight-from2" onchange="javascript: ChangeMulCity(this); return false;"></select>*@
+                        </div>
+                        <div class="col-sm-1 col-xs-12 hidden-xs clslefttorightarrow col5 cls_new">
+                            @*<span>►</span>*@
+                            <span>
+                                <div style="height:40px; background:url(@Url.Content("~/Images/" + strProduct + "/orgToDes.png"))no-repeat -72px 10px;"></div>
+                            </span>
+                        </div>
+                        <div class="col-sm-3 col-xs-12 cls_new">
+                            <div class="input-style">
+                                <img src="@Url.Content("~/Images/" + strProduct + "/loc_icon_small.png")" alt="">
+                                <input type="text" autocomplete="off" id="txtMDestinations2" placeholder="Destination" class="form-control clsMflight-to clshideErr" onkeypress="javascript:return ValidateAlphaCapsspace(event);" onchange="javascript: FocusDeptDate(this); return false;">
+                            </div>
+                            @*<select class="form-control clsMflight-to" id="cmbMflight-to2" onchange="javascript: LoadNextMFromCity(this); return false;"></select>*@
+                        </div>
+                        <div class="col-sm-2 col-xs-12 form-field cls_new">
+                            <div class="input-style">
+                                <img src="@Url.Content("~/Images/" + strProduct + "/calendar_icon.png")" alt="">
+                                <input type="text" autocomplete="off" placeholder="DD/MM/YYYY" data-type="calendar" style="width: 100% !important;" class="cslMulCall form-control clshideErr" readonly id="txtMDeparturdtFlight2">
+                            </div>
+                            @*<input type="text"  autocomplete="off" id="txtMDeparturdtFlight2" placeholder="Depart" onchange="javascript: SetNextMinDate(this); return false;"
+                                style="cursor:pointer; padding:6%;" maxlength="12" class=" field-input calendar-inputMul2 cslMulCall">*@
+                        </div>
+
+                        <div class="col-sm-1 col-xs-12 totaldiv2 form-field cls_new">
+                            <div class="input-style">
+                                <input type="text" autocomplete="off" class="form-control textlcspres fligthnocls flightnumopt" placeholder="EX :MS123" maxlength="6" style="padding: 8px!important" id="Flightno2">
+                            </div>
+                        </div>
+                        <div class="col-sm-1 col-xs-12 totaldiv2 form-field cls_new">
+                            <div class="input-style">
+                                <input type="text" autocomplete="off" class="form-control textlcspres viacls viafltopt" placeholder="Ex : CAI" onkeypress="javascript:return validateAlphabetswithoutspc(event);" maxlength="3" style="padding: 8px!important" id="Via2">
+                            </div>
+                        </div>
+                        <div class="col-sm-1 col-xs-12 cls_new">
+                            <button id="btnCloseMRow2" type="button" class="clsCloseMRow" tabindex="1" disabled="">
+                                <i class="fa fa-close" style="font-size: 20px; color: #ff5555;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="col-sm-12 col-xs-12 cls_new" id="dvAddNewMRow" data-mrow-btn="" data-mul-rowcount="2">
+                <button id="btn-add-multi-city-route" onclick="javascript:AddNewMRow(this);" class="clsAddNewforMCity" tabindex="1">
+                    <i class="fa fa-plus" style="padding-right: 10px;"></i>
+                    <span>Add Sector</span> @*1*@
+                </button>
+            </div>
+            <hr style="width: 98%;" />
+            <div class="row row0">
+                <div class="@extwid col-xs-12 col0 margintop2">
+                    <div class="row row0">
+                        <div class="col-xs-4 col0 b-r-gry">
+                            <div id="MulDiv16" class="ui-paxselect-button">
+                                <select class="form-control clshideErrch" id="cmbMAdultFlight" onchange="javascript:MAdultLoad(); return false;" style="border: none; box-shadow: none;">
+                                    <option value="">Adult</option>
+                                    <option value="1" selected="selected">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col0 b-r-gry">
+                            <div id="MulDiv18" class="ui-paxselect-button">
+                                <select class="form-control clshideErrch" id="cmbMChildFlight" style="border: none; box-shadow: none;">
+                                    <option value="0">Child</option>
+                                    @*<option value="0">0</option>*@
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col0 b-r-gry">
+                            <div id="MulDiv19" class="ui-paxselect-button">
+                                <select class="form-control clshideErrch" id="cmbMInfantFlight" style="border: none; box-shadow: none;">
+                                    <option value="0">Infant</option>
+                                    @*<option value="0">0</option>*@
+                                    <option value="1">1</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if (strAppTheme == "THEME2")
+                {
+                    <div class="col-lg-2 col-md-2 col-xs-12 margintop2 col0 b-r-gry">
+                        <div id="Muldivclas" class="ui-paxselect-button">
+                            <select class="form-control clshideErrch" id="grpcmbFlightClass" onchange="hideoldavaildetails();" style="border: none; box-shadow: none;">
+                                <option selected="selected" value="E">Economy</option>
+                                <option value="F">First Class</option>
+                                <option value="B">Business</option>
+                            </select>
+                        </div>
+                    </div>
+                }
+                else
+                { /*NAT23*/
+                    <div class="col-lg-1 col-md-1 col-xs-12 margintop2 col0 b-r-gry cls_new">
+                        <div id="Muldivclas" class="ui-paxselect-button">
+                            <select class="form-control clshideErrch" id="grpcmbFlightClass" onchange="hideoldavaildetails();" style="border: none; box-shadow: none;">
+                                <option selected="selected" value="E">Economy</option>
+                                <option value="F">First Class</option>
+                                <option value="B">Business</option>
+                            </select>
+                        </div>
+                    </div>
+                }
+                @if (strProduct == "MYM")
+                {
+                    <div class="col-lg-2 col-md-1 col-xs-6 margintop2 col0 b-r-gry">
+                        <div class="ui-paxselect-button">
+                            @if (strAPPCurrency != null && strAPPCurrency != "")
+                            {
+                                if (strAPPCurrency.Split('|').Length > 0)
+                                {
+
+                                    <select class="form-control clshideErrch" id="ddlMNationality" style="border: none; box-shadow: none;">
+                                        @for (int i = 0; i < strAPPCurrency.Split('|').Length; i++)
+                                        {
+                                            string curr = strAPPCurrency.Split('|')[i] == "MMK" ? "Myanmar National" : "Foreign National";
+                                            if (strAPPCurrency.Split('|')[i] == "MMK")
+                                            {
+                                                <option value="MMK">@curr</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@strAPPCurrency.Split('|')[i]">@curr</option>
+                                            }
+                                        }
+                                    </select>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <select id="ddlMNationality" style="display: none;">
+                        <option value="@strAPPCurrency.Split('|')[0]" selected="selected">@strAPPCurrency.Split('|')[0]</option>
+                    </select>
+                }
+                <div class="col-sm-3 col-lg-2 col-xs-6 margintop2 col0 b-r-gry cls_new">
+                    <div class="ui-geolocate sample" style="content: inherit;">
+                        <div class="clsFtypeahead"></div>
+                        <select autocomplete="off" id="MulFlightName" multiple="multiple" onkeyup="disblockall();" placeholder="Airline Code" autocorrect="off" autocapitalize="off" class="ui-autocomplete-input clshideErr"></select>
+                    </div>
+                </div>
+
+                <div class="col-md-1 col-xs-6 margintop2 col0 b-r-gry cls_new" style="display: none;">
+                    <div id="Muldivflightoption" class="ui-paxselect-button">
+                        <select class="form-control clshideErrch" id="Mulfli_option" onchange="hideoldavaildetails();" style="border: none; box-shadow: none;">
+                            <option selected value="ALL">ALL</option>
+                            <option value="FSC">FSC</option>
+                            <option value="LCC">LCC</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 col-lg-2 col-xs-6 margintop2 commonadvancesearch col0 b-r-gry cls_new" style="">
+                    @*1*@
+                    <div class="cntr" style="text-align: center;">
+                        <input style="display: none;" id="Mulrd_Host" class="cb" type="checkbox">
+                        <label class="cbx" for="Mulrd_Host" style="float: left;margin: 6px 5px 0px 5px;"></label>
+                        <label class="lbl" for="Mulrd_Host" style="font-size: 13px; padding: 0px 2px;float:left;">Host Search</label>
+                    </div>
+                </div>
+
+                @if (AllowCorptab == "Y")
+                {
+                    <div class="col-sm-3 col-lg-3 col-xs-6 margintop2 commonadvancesearch col0 cls_new" style="">
+                        <div class="cntr" style="text-align: center;">
+                            <input style="display: none;" id="Mulrd_direct" class="cb" type="checkbox">
+                            <label class="cbx" for="Mulrd_direct" style="float: left;margin: 6px 5px 0px 5px;"></label>
+                            <label class="lbl" for="Mulrd_direct" style="font-size: 13px; padding: 0px 2px;float:left;">Corporate / Retail Fare</label>
+                        </div>
+                    </div>
+                }
+                else
+                {  @*NAT23*@
+                    <div class="col-sm-3 col-lg-3 col-xs-6 margintop2 commonadvancesearch col0 b-r-gry cls_new" style="">
+                        <div class="cntr" style="text-align: center;">
+                            <input style="display: none;" id="Mulrd_direct" class="cb" type="checkbox">
+                            <label class="cbx" for="Mulrd_direct" style="float: left;margin: 6px 5px 0px 5px;"></label>
+                            <label class="lbl" for="Mulrd_direct" style="font-size: 12px; padding: 0px 2px;float:left;">Corporate / Retail Fare</label>
+                        </div>
+                    </div>
+                }
+
+                @if (System.Configuration.ConfigurationManager.AppSettings["BookletThread"].ToString() != "")
+                {
+                    <div class="col-sm-2 col-lg-2 col-xs-12 margintop2 commonadvancesearch clsBookletFare col0 b-r-gry" style="display:none;">
+                        <div class="cntr" style="text-align: center;">
+                            <input style="display: none;" id="Mulrd_Booklet" class="cb" type="checkbox">
+                            <label class="cbx" for="Mulrd_Booklet" style="float: left;margin: 6px 5px 0px 5px;"></label>
+                            <label class="lbl" for="Mulrd_Booklet" style="font-size: 12px; padding: 0px 2px;float:left;">Booklet Fare</label>
+                        </div>
+                    </div>
+                }
+
+                @if (strTerminalType == "T")
+                {
+                    <div class="col-sm-3 col-xs-6 commonadvancesearch margintop2 col0 b-r-gry" style="padding-bottom:0px;margin-top: 10px !important;">
+                        @*RB25*@
+                        <div class="clsMultiCityRoutesnew clsFtypeahead col-md-4 col-xs-12 col0" style="width: 100%;">
+                            <input class="form-control ui-autocomplete-input" type="text" autocomplete="off" id="ddlMulClient" placeholder="Agency Name">
+                        </div>
+                    </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="margin-top:10px;">
+                                    @*RB25*@
+                                    <select class="custom-select" id="ddlMulTerminalId">
+                                        <option value="">Terminal ID</option>
+                                    </select>
+                                </div>
+                }
+                @*<div class="col-lg-2 col-lg-offset-4 col-md-3 col-md-offset-3 col-sm-5 col-sm-offset-5 col-xs-12 col-xs-offset-0 col0 margintop2" style="margin-top: 10px !important;">*@
+                <div class="col-lg-2 col-md-3 col-sm-5 col-xs-12 col0 margintop2" style="float:right">
+                    <div id="dv-disk-search">
+                        <div class="submit-container" id="Msearchcontainer" style="">
+                            <a class="submit submit--desktop" id="btnMFlightSearch" onclick="javascript:MulFlightSearch(); return false;"><span class="label">Search Flights</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<script>
+    $("#Mulrd_Host").click(function () {
+        hideoldavaildetails();
+    });
+    $("#Mulrd_direct").click(function () {
+        hideoldavaildetails();
+    });
+
+    //added by Manoj
+    $(function () {
+        'use strict';
+
+        // Flight Depart Date
+        $('#flightDepart').daterangepicker({
+            singleDatePicker: true,
+            minDate: moment(),
+            autoUpdateInput: false,
+        }, function (chosen_date) {
+            $('#flightDepart').val(chosen_date.format('MM-DD-YYYY'));
+        });
+
+        // Flight Return Date
+        $('#flightReturn').daterangepicker({
+            singleDatePicker: true,
+            minDate: moment(),
+            autoUpdateInput: false,
+        }, function (chosen_date) {
+            $('#flightReturn').val(chosen_date.format('MM-DD-YYYY'));
+        });
+
+        // Train Depart Date
+        $('#trainDepart').daterangepicker({
+            singleDatePicker: true,
+            minDate: moment(),
+            autoUpdateInput: false,
+        }, function (chosen_date) {
+            $('#trainDepart').val(chosen_date.format('MM-DD-YYYY'));
+        });
+
+        // Bus Depart Date
+        $('#busDepart').daterangepicker({
+            singleDatePicker: true,
+            minDate: moment(),
+            autoUpdateInput: false,
+        }, function (chosen_date) {
+            $('#busDepart').val(chosen_date.format('MM-DD-YYYY'));
+        });
+    });
+
+
+    (function ($) {
+        "use strict";
+
+        // Preloader
+        $(window).on('load', function () {
+            $('[data-loader="circle-side"]').fadeOut(); // will first fade out the loading animation
+            $('#preloader').delay(333).fadeOut('slow'); // will fade out the white DIV that covers the website.
+            $('body').delay(333);
+        });
+
+        /*---------------------------------------------------
+            Primary Menu
+        ----------------------------------------------------- */
+
+        // Dropdown show on hover
+        $('.primary-menu ul.navbar-nav li.dropdown').on("mouseover", function () {
+            if ($(window).width() > 991) {
+                $(this).find('> .dropdown-menu').stop().slideDown('fast');
+                $(this).bind('mouseleave', function () {
+                    $(this).find('> .dropdown-menu').stop().css('display', 'none');
+                });
+            }
+        });
+
+        // When dropdown going off to the out of the screen.
+        $('.primary-menu .dropdown-menu').each(function () {
+            var menu = $('#header .header-row').offset();
+            var dropdown = $(this).parent().offset();
+
+            var i = (dropdown.left + $(this).outerWidth()) - (menu.left + $('#header .header-row').outerWidth());
+
+            if (i > 0) {
+                $(this).css('margin-left', '-' + (i + 5) + 'px');
+            }
+        });
+        $(function () {
+            $(".dropdown li").on('mouseenter mouseleave', function (e) {
+                if ($(window).width() > 991) {
+                    var elm = $('.dropdown-menu', this);
+                    var off = elm.offset();
+                    var l = off.left;
+                    var w = elm.width();
+                    var docW = $(window).width();
+
+                    var isEntirelyVisible = (l + w <= docW);
+                    if (!isEntirelyVisible) {
+                        $(elm).addClass('dropdown-menu-right');
+                    } else {
+                        $(elm).removeClass('dropdown-menu-right');
+                    }
+                }
+            });
+        });
+
+        // Mobile Collapse Nav
+        $('.primary-menu .dropdown-toggle[href="#"], .primary-menu .dropdown-toggle[href!="#"] .arrow').on('click', function (e) {
+            if ($(window).width() < 991) {
+                e.preventDefault();
+                var $parentli = $(this).closest('li');
+                $parentli.siblings('li').find('.dropdown-menu:visible').slideUp();
+                $parentli.find('> .dropdown-menu').stop().slideToggle();
+                $parentli.siblings('li').find('a .arrow.open').toggleClass('open');
+                $parentli.find('> a .arrow').toggleClass('open');
+            }
+        });
+
+        // DropDown Arrow
+        $('.primary-menu').find('a.dropdown-toggle').append($('<i />').addClass('arrow'));
+
+        // Mobile Menu Button Icon
+        $('.navbar-toggler').on('click', function () {
+            $(this).toggleClass('open');
+        });
+        if ("@strAppTheme" == "THEME3" || "@strAppTheme" == "THEME4" || "@strAppTheme" == "THEME5") {
+            TravellersMulticityclass();
+        }
+        function TravellersMulticityclass() {
+            var ddlAdult = $('#cmbMAdultFlight').val() != null && $('#cmbMAdultFlight').val() != "" ? $('#cmbMAdultFlight').val() : "0";
+            var ddlChild = $('#cmbMChildFlight').val() != null && $('#cmbMChildFlight').val() != "" ? $('#cmbMChildFlight').val() : "0";
+            var ddlInfant = $('#cmbMInfantFlight').val() != null && $('#cmbMInfantFlight').val() != "" ? $('#cmbMInfantFlight').val() : "0";
+            var TotalCount = parseInt(ddlAdult) + parseInt(ddlChild) + parseInt(ddlInfant);
+            var Cabin = $("input[name='flight-class']:checked")["0"].dataset.value;// this.labels["0"].innerHTML;
+            $('.flight-Mulclass').each(function () {
+                if (this.checked == true) {
+                    $("#grpcmbFlightClass")[0].value = this.value;
+                    Cabin = $("input[name='flight-Mulclass']:checked")["0"].dataset.value; //this.labels["0"].innerHTML;
+                    return Cabin;
+                }
+            });
+            $('#flightTravellersClass1').val(TotalCount + ' Traveller(s) - ' + Cabin);
+        }
+        /* Flights Travellers and Class */
+        $(document).on('click', '#flightTravellersClass1', function () {
+            $('.travellers-dropdown').slideToggle('fast');
+
+            var ddlAdult = $('#cmbMAdultFlight').val() != null && $('#cmbMAdultFlight').val() != "" ? $('#cmbMAdultFlight').val() : "0";
+            var ddlChild = $('#cmbMChildFlight').val() != null && $('#cmbMChildFlight').val() != "" ? $('#cmbMChildFlight').val() : "0";
+            var ddlInfant = $('#cmbMInfantFlight').val() != null && $('#cmbMInfantFlight').val() != "" ? $('#cmbMInfantFlight').val() : "0";
+            var TotalCount = parseInt(ddlAdult) + parseInt(ddlChild) + parseInt(ddlInfant);
+            var Cabin = $("input[name='flight-class']:checked")["0"].dataset.value;// this.labels["0"].innerHTML;
+            $('.flight-Mulclass').each(function () {
+                if (this.checked == true) {
+                    $("#grpcmbFlightClass")[0].value = this.value;
+                    Cabin = $("input[name='flight-Mulclass']:checked")["0"].dataset.value; //this.labels["0"].innerHTML;
+                    return Cabin;
+                }
+            });
+            $('#flightTravellersClass1').val(TotalCount + ' Traveller(s) - ' + Cabin);
+
+
+
+        });
+
+
+        $(document).on('click', '.flight-Mulclass', function () {
+            var ddlAdult = $('#cmbMAdultFlight').val() != null && $('#cmbMAdultFlight').val() != "" ? $('#cmbMAdultFlight').val() : "0";
+            var ddlChild = $('#cmbMChildFlight').val() != null && $('#cmbMChildFlight').val() != "" ? $('#cmbMChildFlight').val() : "0";
+            var ddlInfant = $('#cmbMInfantFlight').val() != null && $('#cmbMInfantFlight').val() != "" ? $('#cmbMInfantFlight').val() : "0";
+            var TotalCount = parseInt(ddlAdult) + parseInt(ddlChild) + parseInt(ddlInfant);
+            var Cabin = $("input[name='flight-class']:checked")["0"].dataset.value;// this.labels["0"].innerHTML;
+            $('.flight-Mulclass').each(function () {
+                if (this.checked == true) {
+                    $("#grpcmbFlightClass")[0].value = this.value;
+                    Cabin = $("input[name='flight-Mulclass']:checked")["0"].dataset.value; //this.labels["0"].innerHTML;
+                    return Cabin;
+                }
+            });
+            $('#flightTravellersClass1').val(TotalCount + ' Traveller(s) - ' + Cabin);
+        });
+
+
+        /* Hide dropdown when clicking outside */
+        $(document).on('click', function (event) {
+            if (!$(event.target).closest(".travellers-class").length) {
+                $(".travellers-dropdown").hide();
+            }
+
+            /* Hide dropdown when clicking on Done Button */
+            $('.submit-done').on('click', function () {
+
+                var ddlAdult = $('#cmbMAdultFlight').val() != null && $('#cmbMAdultFlight').val() != "" ? $('#cmbMAdultFlight').val() : "0";
+                var ddlChild = $('#cmbMChildFlight').val() != null && $('#cmbMChildFlight').val() != "" ? $('#cmbMChildFlight').val() : "0";
+                var ddlInfant = $('#cmbMInfantFlight').val() != null && $('#cmbMInfantFlight').val() != "" ? $('#cmbMInfantFlight').val() : "0";
+                var TotalCount = parseInt(ddlAdult) + parseInt(ddlChild) + parseInt(ddlInfant);
+                var Cabin = $("input[name='flight-class']:checked")["0"].dataset.value;// this.labels["0"].innerHTML;
+                $('.flight-Mulclass').each(function () {
+                    if (this.checked == true) {
+                        $("#grpcmbFlightClass")[0].value = this.value;
+                        Cabin = $("input[name='flight-Mulclass']:checked")["0"].dataset.value; //this.labels["0"].innerHTML;
+                        return Cabin;
+                    }
+                });
+                $('#flightTravellersClass1').val(TotalCount + ' Traveller(s) - ' + Cabin);
+                $('.travellers-dropdown').fadeOut(function () {
+                    $(this).hide();
+                });
+
+            });
+        });
+
+
+        /*---------------------------------------------------
+           tooltips
+        ----------------------------------------------------- */
+        $('[data-toggle=\'tooltip\']').tooltip({ container: 'body' });
+
+        /*---------------------------------------------------
+           Scroll to top
+        ----------------------------------------------------- */
+        $(function () {
+            $(window).on('scroll', function () {
+                if ($(this).scrollTop() > 150) {
+                    $('#back-to-top').fadeIn();
+                } else {
+                    $('#back-to-top').fadeOut();
+                }
+            });
+        });
+        $('#back-to-top').on("click", function () {
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+            return false;
+        });
+
+    })(jQuery);
+
+</script>

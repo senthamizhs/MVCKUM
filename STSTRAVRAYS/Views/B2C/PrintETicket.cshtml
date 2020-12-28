@@ -1,0 +1,472 @@
+﻿@using System.Configuration;
+@{
+    string strAppTheme = ConfigurationManager.AppSettings["apptheme"].ToString();
+    string fileversion = ConfigurationManager.AppSettings["UpdateVersion"].ToString();
+    string strProduct = ConfigurationManager.AppSettings["Producttype"].ToString();
+}
+<link href="/Content/CSS/@strAppTheme/style.css?@fileversion" rel="stylesheet" />
+<div class="container-fluid">
+    @if (ConfigurationManager.AppSettings["APP_HOSTING"].ToString() == "BSA")
+    {
+        <style>
+            section input:not([type="checkbox"]), section button {
+                width: 100%;
+                border-radius: 3px;
+                border: 1px solid #ddd;
+                margin-bottom: 20px;
+                padding: 15px;
+                font-size: 14px;
+            }
+
+            section input:focus {
+                border-color: #B0072D;
+            }
+
+            section button:nth-child(2) {
+                border-radius: 0 3px 3px 0;
+            }
+
+            section button:hover {
+                opacity: 0.8;
+            }
+
+            section button {
+                background: #B0072D;
+                color: white;
+                margin: 0;
+                border: 0;
+                cursor: pointer;
+                width: 50%;
+                float: left;
+            }
+
+                section button:hover {
+                    opacity: 0.8;
+                    background: #B0072D;
+                    color: white;
+                }
+
+            .OR-heading {
+                font-size: 13px;
+                font-weight: 600;
+                background: #e6e6e6;
+                border-radius: 50%;
+                padding: 8px 7px;
+            }
+
+            .rb-div {
+                min-height: 0px !important;
+            }
+        </style>
+        <section id="ETicket" style="margin:2% 5%;">
+            <div class="row">
+                <div class="col-sm-4 hidden-xs">
+
+                </div>
+                <div class="col-xs-12 col-sm-4" id="dvETicket">
+                    <div class="col-sm-12 col-xs-12 position-relative bgeticket">
+                        <h2 class="heading01" style="text-align:center;"><span class="sub-heading">Print E-Ticket</span></h2>
+                    </div>
+                    <div class="form-group flt-lft w-100 mg-btm-0-res">
+                        <div class="flt-w-100 E_grid">
+                        <form autocomplete="off">
+                            <input type="text" class="txt-anim has-content clshideErr clsAlphaNumeric mb-0" style="text-transform:uppercase;" maxlength="10" autocomplete="off" id="txtpnr" placeholder="Enter SPNR" />                            
+                        </form>
+                        </div>
+                        <div class="flt-w-100 E_grid">
+                            <form autocomplete="off">
+                                <input type="text" class="txt-anim has-content clshideErr" autocomplete="off" id="txtemail" placeholder="Enter Email id / Contact no." style="margin-bottom: 0px !important;" />                                
+                            </form>
+                            <div style="text-align: center;padding: 7px 0px;">
+                                <span class="OR-heading">OR</span>
+                            </div>
+                            <form autocomplete="off">
+                                <input type="text" class="txt-anim has-content clshideErr clsAlpha mb-0" autocomplete="off" id="txtLastName" maxlength="20" placeholder="Enter Last Name" />                                
+                            </form>
+                        </div>
+                    </div>
+                    <div class="button-holder w-100 txt-center">
+                        <button type="submit" id="get_ETicket" class="btn btn01 w-100 mg-btm-20">
+                            Get Ticket
+                        </button>
+                    </div>
+                    @if (Session["CREDITSHELL"] != null && Session["CREDITSHELL"].ToString() != "" && Session["CREDITSHELL"].ToString() != "N")
+                    {
+                        <div class="form-group button-holder w-100 txt-center">
+                            <form autocomplete="off">
+                                <a href="@Url.Action("OtherProduct", "OtherProduct")?Flag=CSPNR">
+                                    <span style="font-weight: 600;font-size: 13px;">View Credit Shell PNR Details</span>
+                                </a>
+                                <span class="focus-border"><i></i></span>
+                            </form>
+                        </div>
+                    }
+                </div>
+                <div class="col-sm-4 hidden-xs"></div>
+                <div class="col-xs-12" id="dvETicketPrint" style="display:none;background:#fff!important;">
+                    <div class="col-lg-12">
+                        <div class="prnt-rgt-icon">
+                            <ul>
+                                <li><img src="@Url.Content("~/Images/PrinterIcon.png")" alt="Print" title="Print" style="float: right;cursor: pointer;" id="PrintTicket" /></li>
+                                <li><input id="SendEmail" class="SendEmail" type="button" alt="Send Email" title="Send Email" /></li>
+                                <li style="display: block;"><input class="pdfconvert pdfprintcopy" type="button" id="PrintPDF" alt="PDF" title="PDF" /></li>
+                                <li><img src="@Url.Content("~/Images/HTML.png")" style="float: right;cursor: pointer;" id="PrintHTML" alt="Save HTML" title="Save HTML" /></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="dvPrintETicket">
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="modal fade" id="modal-Sendmailoption" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-md" style="top: 20%;">
+                <div class="modal-content">
+                    <div class="modal-body clsPopupBody" style="padding: 10px;">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="header paymentpopups">
+                                    <span class="sprite_bookingco"></span><span class="_M001">Send Email</span>
+                                </div>
+                                <span class="spnclosepopup" data-dismiss="modal"><i class="fa fa-close"></i></span>
+                            </div>
+                        </div>
+                        <div class="main">
+                            <div class="row" style="margin: 15px;">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-12" style="margin-bottom: 15px;">
+                                            <p class="validateTips"><span style="color: red;">*</span>All fields are required.</p>
+                                        </div>
+                                    </div>
+                                        <div class="row">
+                                            <div class="col-lg-4 col-lg-offset-4 col-xs-6" style="margin-bottom: 20px;">
+                                                <div class="rb-div">
+                                                    <input type="radio" class="rb" id="htmlclick" name="nameradio">
+                                                    <label for="htmlclick" class="rblbl">Html</label>
+                                                    <div class="bullet">
+                                                        <div class="line zero"></div>
+                                                        <div class="line one"></div>
+                                                        <div class="line two"></div>
+                                                        <div class="line three"></div>
+                                                        <div class="line four"></div>
+                                                        <div class="line five"></div>
+                                                        <div class="line six"></div>
+                                                        <div class="line seven"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-xs-6" style="margin-bottom: 20px;">
+                                                <div class="rb-div">
+                                                    <input type="radio" class="rb" id="pdfclick" name="nameradio" checked>
+                                                    <label for="pdfclick" class="rblbl">PDF</label>
+                                                    <div class="bullet">
+                                                        <div class="line zero"></div>
+                                                        <div class="line one"></div>
+                                                        <div class="line two"></div>
+                                                        <div class="line three"></div>
+                                                        <div class="line four"></div>
+                                                        <div class="line five"></div>
+                                                        <div class="line six"></div>
+                                                        <div class="line seven"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-xs-12">
+                                            <span>Mail Send To</span>
+                                        </div>
+                                        <div class="col-lg-8 col-xs-12" style="margin-bottom: 20px;">
+                                            <div class="dv-anim input-effect m-0 m-sm-t20">
+                                                <input id="txtToEmail" maxlength="50" class="txt-anim has-content" type="text" onkeypress="return AvoidSpace();" />
+                                                <label>Your Email Id</label>
+                                                <span class="focus-border">
+                                                    <i></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-xs-12">
+                                            <span>Subject</span>
+                                        </div>
+                                        <div class="col-lg-8 col-xs-12" style="margin-bottom: 20px;">
+                                            <div class="dv-anim input-effect m-0 m-sm-t20">
+                                                <input id="txtSubject" maxlength="50" class="txt-anim" type="text" />
+                                                <label>Your Electronic Ticket Information</label>
+                                                <span class="focus-border">
+                                                    <i></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-xs-12 col-lg-offset-4" style="margin-bottom: 20px;">
+                                            <div id="pouplitag" style="display: none; text-align: center;">
+                                                <img src="@Url.Content("~/Images/animated-overlay.gif")">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row" style="margin-bottom: 15px;">
+                                    <div class="col-md-offset-3     col-md-3 col-xs-6" style="margin-bottom: 15px;">
+                                        <input type="button" class="btn btn-md btn-primary width100per" id="btnpaymentOKMAil" value="Send" />
+                                    </div>
+                                    <div class="col-md-3 col-xs-6" style="margin-bottom: 15px;">
+                                        <input type="button" value="Cancel" data-dismiss="modal" class="btn btn-md btn-danger width100per" id="btnclosepops" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var strSessionExpURL = '@Url.Action("SessionExp", "Redirect")';
+            var strGetETicketURL = '@Url.Action("GetETicket", "B2C")';
+            var strPrintPDF_URL = '@Url.Action("pdfTktconverter", "AfterBooking")';
+            var Mailsendingurl = '@Url.Action("btnEmail_pdforhtml_Click", "AfterBooking")';
+
+            $(document).on('input', '.clsAlphaNumeric', function () {
+                var txtQty = $(this).val().replace(/[^a-zA-Z0-9]/g, '');
+                $(this).val(txtQty);
+            });
+
+            $(document).on('input', '.clsAlpha', function () {
+                var txtQty = $(this).val().replace(/[^a-zA-Z]/g, '');
+                $(this).val(txtQty);
+            });
+
+            $(document).on('input', '.clsNumeric', function () {
+                var txtQty = $(this).val().replace(/[^0-9]/g, '');
+                $(this).val(txtQty);
+            });
+
+            $(document).on('click', '#get_ETicket', function () {
+                var strPNR = $("#txtpnr").val();
+                var strContact = $("#txtemail").val();
+                var strLastName = $("#txtLastName").val();
+                var strMailID = ""; var strMobileNo = "";
+
+                if (isNaN(strContact)==false && strContact.indexOf("@@")=="-1")
+                    strMobileNo = strContact;
+                else
+                    strMailID = strContact;
+
+
+                if (strPNR == "") {
+                    showerralert("Please Enter PNR", 3000);
+                    $("#txtpnr").focus();
+                    return false;
+                }
+                if (strMailID == "" && strLastName == "" && strContact=="") {
+                    showerralert("Please Enter Email/Contact no (or) Last Name", 3000);
+                    $("#txtemail").focus();
+                    return false;
+                }
+                var filter = /^([\w-]+(?:\.[\w-]+)*)@@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+                if (strMailID != "" && !filter.test(strMailID)) {
+                    showerralert("Please Enter valid Email ID", 3000);
+                    $("#txtemail").focus();
+                    return false;
+                }
+                if (strMailID == "" && strMobileNo != "" && strMobileNo.length != 10) {
+                    showerralert("Please Enter valid Mobile number", 3000);
+                    $("#txtemail").focus();
+                    return false;
+                }
+
+                var param = {
+                    strPNR: strPNR,
+                    strContactNo: strMobileNo,
+                    strMailID: strMailID,
+                    strLastName: strLastName,
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: strGetETicketURL,
+                    data: JSON.stringify(param),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.Status == "01") {
+                            var strResult = data.Result;
+                            if (strResult != null && strResult != "") {
+                                $("#dvETicket").hide();
+                                $("#dvPrintETicket").html(strResult);
+                                $("#dvETicketPrint").show();
+                            }
+                            else {
+                                console.log(data);
+                                showerralert(data.Message, 3000);
+                                return false;
+                            }
+                        }
+                        else {
+                            console.log(data);
+                            showerralert(data.Message, 3000);
+                            return false;
+                        }
+                    },
+                    error: function (e) {
+                        console.log(e);
+                        if (e.status == "500") {
+                            window.location.href = strSessionExpURL;
+                            return false;
+                        }
+                        else {
+                            showerralert("Unable to retrieve ticket details", 3000);
+                        }
+                    }
+                });
+            });
+
+            $(document).on('click', '#PrintTicket', function () {
+                var strTicket = $("#dvPrintETicket").html();
+                var PrintFrame = document.createElement('iframe');
+                PrintFrame.name = 'ETicket';
+                PrintFrame.style.position = 'absolute';
+                PrintFrame.style.top = '-1000000px';
+                document.body.appendChild(PrintFrame);
+                var Frame = PrintFrame.contentWindow ? PrintFrame.contentWindow : PrintFrame.contentDocument.document ? PrintFrame.contentDocument.document : PrintFrame.contentDocument;
+                Frame.document.open();
+                Frame.document.write(strTicket);
+                Frame.document.close();
+                setTimeout(function () {
+                    window.frames["ETicket"].focus();
+                    window.frames["ETicket"].print();
+                    document.body.removeChild(PrintFrame);
+                }, 500);
+                return false;
+            });
+
+            $(document).on('click', '#PrintHTML', function () {
+                var strTicket = $("#dvPrintETicket").html();
+                var strFilename = "E-Ticket ("+$("#txtpnr").val() + ").html";
+                var element = document.createElement('a');
+                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(strTicket));
+                element.setAttribute('download', strFilename);
+                element.style.display = 'none';
+                document.body.appendChild(element);
+                element.click();
+                document.body.removeChild(element);
+            });
+
+            $(document).on('click', '#SendEmail', function () {
+                $("#txtToEmail").val($("#txtemail").val());
+                $("#modal-Sendmailoption").modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            });
+
+            $(document).on('click', "#btnpaymentOKMAil", function () {
+
+                var bValid = true;
+                var strEmail = $("#txtToEmail").val();
+                if (strEmail == "" && strContact == "") {
+                    showerralert("Please Enter Email", 3000);
+                    $("#txtToEmail").focus();
+                    bValid = false;
+                    return false;
+                }
+                var filter = /^([\w-]+(?:\.[\w-]+)*)@@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+                if (strEmail != "" && !filter.test(strEmail)) {
+                    showerralert("Please Enter valid Email ID", 3000);
+                    $("#txtToEmail").focus();
+                    bValid = false;
+                    return false;
+                }
+
+                if (bValid) {
+                    $('#pouplitag').css("display", "block");
+                    var pdf = "NO";
+                    if (document.getElementById("pdfclick").checked == true) {
+                        pdf = "YES";
+                    }
+                    else if (document.getElementById("htmlclick").checked == true) {
+                        pdf = "NO";
+                    }
+                    Pnr = document.getElementById('txtpnr').value;
+
+                    var subject = $("#txtSubject").val();
+
+                    $.ajax({
+                        type: "POST", 		//GET or POST or PUT or DELETE verb
+                        url: Mailsendingurl, 		// Location of the service
+                        data: '{strSPNRNO: "' + Pnr + '" ,txtEmailID: "' + $("#txtToEmail").val() + '",pdf: "' + pdf + '",strSingle: "NO",Subject:"' + subject + '" ,strPaymentmode : "P" ,blntktmailflag : "' + false + '"}',
+                        //async: false,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (json) {//On Successful service call
+                            $("#modal-Sendmailoption").modal("hide");
+                            var result = json.Result;
+                            if (result[1] != "") {
+                                alert(result[1]);
+                                $('#pouplitag').css("display", "none");
+                                $("#txtToEmail").val("");
+                                $("#txtSubject").val("");
+                            }
+                            else {
+                                alert(result[0]);
+                                $('#pouplitag').css("display", "none");
+                                $("#txtToEmail").val("");
+                                $("#txtSubject").val("");
+                            }
+                        },
+                        error: function (e) {//On Successful service call
+                            $("#modal-Sendmailoption").modal("hide");
+                            if (e.status == "500") {
+                                alert("An Internal Problem Occurred. Your Session will Expire.");
+                                window.top.location = sessionExb;
+                                return false;
+                            }
+                        }
+                    });
+                }
+            });
+
+            $(document).on('click', '#PrintPDF', function () {
+                PrintPDF();
+            });
+
+            function PrintPDF()
+            {
+                var strPNR = $("#txtpnr").val();
+                var param = {
+                    strPNR: strPNR
+                }
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: strPrintPDF_URL,
+                    data: JSON.stringify(param),
+                    dataType: "json",
+                    success: function (data) {
+                        var strResult = data.Result;
+                        if (strResult[1] != null && strResult[1] != "") {
+                            window.open(strResult[1], "E-Ticket", 'left=100,top=100,width=800,height=600');
+                            setTimeout(function () { PrintPDF(); }, 5000);
+                        }
+                        else {
+                            console.log(strResult[0]);
+                        }
+                    },
+                    error: function (data) {
+                    }
+                });
+            }
+        </script>
+    }
+    else
+    {
+        <div style="width:100%;">
+            <img src="@Url.Content("~/Images/"+strProduct+"/Not-Support.png")" />
+        </div>
+    }
+</div>

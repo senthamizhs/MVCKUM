@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="STSTRAVRAYS.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="STSTRAVRAYS_Mailref_MyService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://115.124.97.108/TRAVRAYS_APPS_SERVICE/RaysEmail_Insurance/MailService.asmx</Value>
+    </Setting>
+    <Setting Name="STSTRAVRAYS_Rays_service_RaysService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://115.124.97.109/RIYA_BOA_V3_WSDL/RaysService.asmx</Value>
+    </Setting>
+    <Setting Name="STSTRAVRAYS_InplantService_Inplantservice" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://rtappsbeta.mywebcheck.in/Inplantservice.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

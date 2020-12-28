@@ -1,0 +1,87 @@
+﻿
+@{
+    string Producttype = System.Configuration.ConfigurationManager.AppSettings["Producttype"].ToString();
+    string Pnrnameflg = System.Configuration.ConfigurationManager.AppSettings["PNRlbl"].ToString() != "" ? System.Configuration.ConfigurationManager.AppSettings["PNRlbl"].ToString() : "S PNR";
+}
+<div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 fadeInDownSmall" style="padding-top: 10px;" id="VisaViewPnr">
+    <div class="col-sm-12 col0 mobshow hidden-lg hidden-md hidden-sm">
+        @*2212*@
+        <span>PNR Verification</span>
+    </div>
+
+    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 hidediv_toticket pad-0" id="marginbtm">
+        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3">
+
+            <div class="dv-anim input-effect m-0 m-sm-t15">
+                <input id="txtViewSPNR" maxlength="10" value="" class="txt-anim clsAlphaNumeric" type="text" autocomplete="off" style="text-transform: uppercase" />
+
+                <label>@Pnrnameflg</label>
+                <span class="focus-border">
+                    <i></i>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3">
+
+            <div class="dv-anim input-effect m-0 m-sm-t15">
+                <input id="txtViewRefNo" maxlength="10" value="" class="txt-anim clsAlphaNumeric" type="text" autocomplete="off" style="text-transform: uppercase" />
+
+                <label>Payment Ref No.</label>
+                <span class="focus-border">
+                    <i></i>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-sm-2 col-lg-2 pos-relative" style="padding: 0px" id="dvDownloadPDF">
+            <i class="fa fa-file-pdf-o" style="position: absolute;left: 10px;top: 7px;color: #000;font-size: 16px;"></i>
+            <input type="button" id="btnvisapdf" class="action-button action-buttonO shadow animate color" style="color: #000;background: transparent;float: left;width: 100%;text-align: center;" value="Download PDF" onclick="FetchVisaDownloadtckt();" /> @*FetchVisaPDF*@
+        </div>
+        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3" style="display:none;">
+
+            <div class="dv-anim input-effect m-0 m-sm-t15">
+                <select id="ddl_paymentmode" maxlength="10" value="" class="txt-anim clsAlphaNumeric form-control has-content" type="text" autocomplete="off" style="text-transform: uppercase">
+                    @if (Producttype != "RBOA")//Producttype != "RIYA" &&
+                    {
+                    <option selected value="">All</option>
+                    }
+                    <option value="C">Credit</option>
+                    <option value="T">Topup</option>
+                </select>
+
+                <label>Payment mode</label>
+                <span class="focus-border">
+                    <i></i>
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-xs-12 col-md-offset-4 col-md-4 col-sm-4 col-lg-4 hidediv_toticket">
+        <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+            <input type="button" id="get_pnr" class="action-button action-buttonO shadow animate color" style="width: 100%" value="Ok" onclick="GetViewPNR();" />
+        </div>
+        <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+            <input type="button" id="Clear" class="action-button action-buttonB shadow animate  colorB1" value="Clear" style="width: 100%" onclick="ClearPNR();" />
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-lg-4 col-lg-offset-4 hidediv_toticket">
+        <div id="dvGrpBkngerr_view">
+            <div class="message_wrap showhide">
+                <p class="message">
+                    <span id="dvGrpBkngerr_msg_viewpnr" class="error">All field(s) should not be empty.</span>
+                </p>
+            </div>
+        </div>
+
+    </div>
+    <div id="dvViewPNR" class="col-sm-12 col-xs-12 col0" style="margin-top:15px"></div>
+    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 martpplus10 hidediv_toticket" id="show_pnr">
+    </div>
+    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 martpplus10 hidediv_toticket" id="viewpnrShowDiv" style="padding: 0px;">
+    </div>
+    <div id="dvBookinsuccess_dxb" style="display: none; padding: 15px; background: #27a5f5;">
+    </div>
+
+</div>

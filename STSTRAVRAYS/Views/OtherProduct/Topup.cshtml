@@ -1,0 +1,10 @@
+﻿@{
+    string fileversion = System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"] != null ? System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"].ToString() : "";
+}
+<script src="~/js/iframe/iframeResizer.js?@fileversion"></script>
+<script>
+    function resizeIframe(obj) {
+        obj.style.height = (obj.offsetTop - obj.offsetHeight) - 10 + "px";
+    }
+</script>
+<iframe id="iFreme" style="width:100%; border: none;margin-top: 12px;" class="clsIframe" src="@ViewBag.PGQSURL" onload="resizeIframe(this)"></iframe>

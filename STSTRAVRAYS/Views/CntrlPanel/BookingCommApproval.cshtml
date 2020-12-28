@@ -1,0 +1,779 @@
+﻿@using System.Configuration;
+@{
+    string FileVersion = ConfigurationManager.AppSettings["UpdateVersion"] != null ? ConfigurationManager.AppSettings["UpdateVersion"].ToString() : "";
+    string strTerminalType = ConfigurationManager.AppSettings["TerminalType"].ToString();
+    string strProductType = ConfigurationManager.AppSettings["Producttype"].ToString();
+    string strPnrlabel = ConfigurationManager.AppSettings["PNRlbl"].ToString();
+}
+<h2>BookingCommApproval</h2>
+<link href="~/Content/CSS/Riya_BOA/riya_boa.css?@FileVersion" rel="stylesheet" />
+<link href="~/Content/CSS/Controlpanel.css?@FileVersion" rel="stylesheet" />
+<link href="~/js/jqxtable/jqx.base.css?@FileVersion" rel="stylesheet" />
+<link href="~/js/jqxtable/jqx.energyblue.css?@FileVersion" rel="stylesheet" />
+<link href="~/Content/CSS/CommonCSS/W2Grid.css?@FileVersion" rel="stylesheet" />
+<link href="~/Content/CSS/Search/jquerycalender-new.css?@FileVersion" rel="stylesheet" />
+<link href="~/Content/CSS/Login/lobibox.css?@FileVersion" rel="stylesheet" />
+
+<script src="~/js/jqxtable/jqx-all.js"></script>
+<script src="~/js/jqxtable/jqxchart.core.js"></script>
+<script src="~/js/jqxtable/jqxcore.js"></script>
+<script src="~/js/jqxtable/modernizr.js"></script>
+<script src="~/js/moment.min.js"></script>
+<script src="~/js/lobibox.js?@FileVersion"></script>
+<script src="~/js/W2Grid.js"></script>
+<style>
+    .w2ui-grid .w2ui-grid-body table .w2ui-head {
+        color: rgb(51, 61, 72) !important;
+        background-image: linear-gradient(#f5f5f5, #e7eaec) !important;
+    }
+</style>
+<div id="dvsamplemain" class="rightside">
+    <div class="console container pad-0 mobNoContainerd">
+        <div class="row row0">
+            <div class="M_be007 R_box-shadow flt-lft" style="margin-top:3%;">
+                <div class="col-xs-12 col-md-12 col-sm-12 col0">
+                    <div class="cls-header m-b-10" id="Heading">
+                        <h4 class="Rpt_headertilte bg-lt-blu">
+                            <span class="R_transt_sprit sprit_p1"></span><span>Booking Commission Approval</span>
+                        </h4>
+                    </div>
+                    <div class="commapp_card col-xs-12 col-md-12 col-sm-12 col-lg-12 pad-0">
+                        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3">
+                            <span class="clsspntitle">Agency Name</span>
+                            <form autocomplete="off"> <input type="text" id="ddlclient_agent" class="txt-anim" /></form>
+                        </div>
+                        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3">
+                            <span class="clsspntitle">Agency ID</span>
+                            <form autocomplete="off"> <input type="text" id="ddlAgentID" class="txt-anim" /></form>
+                        </div>
+                        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3">
+                            <span class="clsspntitle">Status</span>
+                            <select class="form_input" id="ddlStatus" style="width:100%;">
+                                <option value="">ALL</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Rejected">Rejected</option>
+                                <option value="pending">Pending</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3 _booriypnrmg" id="" autocomplete="off">
+                            <span class="clsspntitle">@strPnrlabel</span>
+                            <input type="text" id="txtRiyapnr" class="form_input" />
+                        </div>
+                        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3 _booriypnrmg">
+                            <div class="dv-anim input-effect m-0 m-sm-t15">
+                                <span class="clsspntitle">From Date</span>
+                                <input readonly="readonly" id="txtFromdate" class="form_input" type="text" />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3 _booriypnrmg">
+                            <div class="input-effect m-0 m-sm-t15">
+                                <span class="clsspntitle">To Date</span>
+                                <input readonly="readonly" id="txtToodate" class="form_input" type="text" />
+                            </div>
+                        </div>
+                        <div class="clitrans_button float-left w-100 mrgn-tp-30res">
+                            <div class="col-xs-6 col-md-2 col-sm-3 col-sm-offset-3" style="margin-bottom:15px;">
+                                <input type="button" class="action-button shadow animate color" id="btn_ok" style="width: 100%;" value="Get" onclick="return getdetails();" />
+                            </div>
+                            <div class="col-xs-6 col-md-2 col-sm-3 col-lg-2">
+                                <input type="button" id="btn_clear" class="action-button action-buttonB shadow animate  colorB1" style="width: 100%;" value="Clear" onclick="return Clearall();" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 mrgn-tp-30res">
+                        <div id="DivData" class="col-xs-12 col-md-12 col-sm-12 col-lg-12 " style="padding: 0px; height: auto; overflow: auto;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="commissionpopup" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated bounceInDown">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Booking Commission Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="content_det001">
+                        <ul class="ulist_001">
+                            <li><p>Agency Name  : <span id="spnAgentname"></span></p></li>
+                            <li><p>Booked User  : <span id="spnUser"></span></p></li>
+                            <li><p>Authorized By: <span id="spnAuth"></span></p></li>
+                        </ul>
+                        <ul class="ulist_002">
+                            <li><p>@strPnrlabel: <span id="spnPnr"></span></p></li>
+                            <li><p>Status   : <span id="spnStatus"></span></p></li>
+                            <li class="debit_cre"><p>Total Debit : <span id="spnDebit">0.00</span></p><p>Total Credit : <span id="spnCredit">0.00</span></p></li>
+                        </ul>
+                    </div>
+                    <div class="divapprove__01" id="divapprove"></div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3">
+                                <span class="clsspntitle">Status</span>
+                                <select class="form_input" id="ddlApproveStatus" style="width:100%;" onchange="AmountCalculate()">
+                                    <option value="">--Select--</option>
+                                    <option value="Approved">Approved</option>
+                                    <option value="Rejected">Rejected</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3 _booriypnrmg">
+                                <div class="input-effect m-0 m-sm-t15">
+                                    <span class="clsspntitle">Remarks</span>
+                                    <input id="txtRemarks" class="form_input" type="text" />
+                                </div>
+                            </div>
+                            <div class="clitrans_button float-left w-100 mrgn-tp-30res">
+                                <div class="col-xs-6 col-md-2 col-sm-3 col-sm-offset-3" style="margin-bottom:15px;">
+                                    <input type="button" class="action-button shadow animate color" id="btn_ok" style="width: 100%;" value="Update" onclick="return SubmitApproveCommission();" />
+                                </div>
+                                <div class="col-xs-6 col-md-2 col-sm-3 col-lg-2">
+                                    <input type="button" id="btn_clear" class="action-button action-buttonB shadow animate  colorB1" style="width: 100%;" value="Cancel" data-dismiss="modal" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/commontable_boostrap.js?@FileVersion"></script>
+<script src="~/js/cbpFWTabs.js?@FileVersion"></script>
+<script src="~/js/Slider/jquery.easing.1.3.js?@FileVersion"></script>
+<script src="~/js/jquery.nice-select.js?@FileVersion"></script>
+<script src="~/js/CommonJS/jquery-ui-new.js"></script>
+
+<script>
+
+    var Terminaltype = '@strTerminalType';
+    var currentDate = "@ViewBag.ServerDateTime";
+    var loaderimgurl = '@Url.Content("~/Images/"+ strProductType + "/Loader.gif")';
+    var strRequesturl = "@Url.Action("FetchApprovedCommission", "CntrlPanel")";
+    var sessionexpurl = "@Url.Action("SessionExp", "Redirect")";  
+    var clientdetailsurl = "@Url.Action("GetClientData", "Home")";
+    var ClientID = "";
+
+    $(document).ready(function () {
+        var day = currentDate.split('/');
+        $("#txtFromdate").val(currentDate);
+        $("#txtFromdate").addClass("has-content");
+        $("#txtFromdate").datepicker({
+            maxDate: currentDate, dateFormat: "dd/mm/yy", changeMonth: true, changeYear: true,
+        });
+        $("#txtToodate").val(currentDate);
+        $("#txtToodate").addClass("has-content");
+        $("#txtToodate").datepicker({
+            minDate: $("#txtFromdate").val(), maxDate: currentDate, dateFormat: "dd/mm/yy", changeMonth: true, changeYear: true,
+        });
+        $("#txtFromdate").on('change keyup paste', function () {
+            $("#txtToodate").datepicker("destroy");
+            $("#txtToodate").datepicker({
+                minDate: $("#txtFromdate").val(), maxDate: currentDate, dateFormat: "dd/mm/yy", changeMonth: true, changeYear: true,
+            });
+        });
+        $("#displayfarecal").css("display", "none");
+        if (Terminaltype == "T") {
+            LoadClient();
+        }
+
+    });
+
+    function getdetails() {
+       
+        try{
+            var AgentName = $("#ddlclient_agent").val();
+            var AgentId = $("#ddlAgentID").val();
+            var status = $("#ddlStatus").val();
+            var Spnr = $("#txtRiyapnr").val();
+            var fromdate = $("#txtFromdate").val();
+            var todate = $("#txtToodate").val();
+            var today = moment().format('DD/MM/YYYY');
+
+            var param = {
+                strAgencyname: AgentName,
+                strAgentId: AgentId,
+                strStatus: status,
+                strRiyapnr: Spnr,
+                strFromdate: moment(fromdate).format("YYYYDDMM"),
+                strTodate:moment(todate).format("YYYYDDMM"),
+                strRemarks: "",
+                strFlag: "FETCH"
+            }
+
+            $.blockUI({
+                message: '<img alt="Please Wait..." src="' + loaderimgurl + '" style="background-color:#fff; border-radius:8px; margin-top:12%;" id="FareRuleLodingImage" />',
+                css: { padding: '5px' }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: strRequesturl,
+                data:JSON.stringify(param),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (json) {
+                    
+                    if (json.Status == "-1") {
+                        $.unblockUI();
+                        window.location.href = sessionexpurl
+                        return false;
+                    }
+                    else {
+                        $.unblockUI();
+                        if (json.Status == "0" || json.Error != "") {
+                            var msg = (json.Error != null && json.Error != "") ? json.Error : "Unable to get the details.";
+                            Lobibox.alert("error", {   //eg: 'error' , 'success', 'info', 'warning'
+                                msg: msg,
+                                closeOnEsc: false,
+                                callback: function ($this, type) {
+                                }
+                            });
+
+                            return false;
+
+                        }
+                        else {
+                            var result = JSON.parse(json.Results);
+                            Creategrid(result);
+                        }
+                    }
+
+                },
+                error: function (e) {
+                    $.unblockUI();
+                    if (e.status == "500") {
+                        alert("Session has been Expired.");
+                        window.location.href = sessionexpurl
+                        return false;
+                    }
+                }
+
+            });
+        }
+        catch (Error) {
+            $.unblockUI();
+            Lobibox.alert("error", {
+                msg: Error.message,
+                closeOnEsc: false,
+                callback: function ($this, type) {
+                }
+            });
+
+            return false;
+        }
+    }
+
+    function Clearall() {
+  
+        $("#DivData").hide();
+        $("#txtRiyapnr").val("");
+        $("#ddlclient_agent").val("");
+        $("#ddlAgentID").val("");
+        $("#ddlStatus").val("");
+        ClientID = "";
+        $('#ddlAgentID').typeahead('destroy');
+        $("#txtFromdate,#txtToodate").val(currentDate);
+    }    
+
+    function Creategrid(result) {
+       
+        if (result !=null && result!= "") {
+            $("#DivData").show();
+            var json = result[1];
+            var obj = result["P_FETCH_UPDATE_RETRIEVEPNR_APPROVE_COMM"];
+            var datafields = new Array();
+            var columns = new Array();
+            for (var i = 0; i < obj.length; i++) {
+                var object1 = {
+                    recid: i,
+                };
+                $.extend(obj[i], object1);
+            }
+            for (var i in obj[0]) {
+                if (i != "recid" && i != "PAT_CTRLPANEL_RIGHTS" && i != "CAC_CLIENT_ID" && i != "TCK_BOOKED_DATE") {
+                    if (i == "CAC_STATUS") {
+                            columns.push({
+                                field: obj, caption: "Status", size: '160px', resizable: true, sortable: true,align:'center',
+                                render: function (record, index, column_index) {
+                                    var html="";
+                                    if(record["CAC_STATUS"] =="Pending"){
+                                        html = '<a class="boa-clr" style="color:#0000ff;cursor: pointer !important;text-align: center;" id="selectstatus' + index + '" data-refid=' + record["CAC_S_PNR"] + ' data-approveright=' +JSON.stringify(record["PAT_CTRLPANEL_RIGHTS"]) + ' onclick="javascript:Showdata(this.id);">' + record["CAC_STATUS"] + '</a>';
+
+                                    }
+                                    else {
+                                        html = '<a id="selectstatus' + index + '" >' + record["CAC_STATUS"] + '</a>';
+                                    }
+                                        return html;
+                                }
+                            });
+
+                    }
+                    else if (i == "CAC_S_PNR") {
+                        columns.push({ field: i, caption: '@strPnrlabel', resizable: true, sortable: true, attr: 'align=left', size: '120px' });
+                    }
+                    else if (i == "TCK_AIRLINE_PNR") {
+                        columns.push({ field: i, caption:"Airline PNR", resizable: true, sortable: true, attr: 'align=left', size: '120px' });
+                    }
+                    else if (i == "TCK_CRS_PNR") {
+                        columns.push({ field: i, caption: "Crs PNR", resizable: true, sortable: true, attr: 'align=left', size: '120px' });
+                    }
+                    else if (i == "TCK_AIRPORT_ID") {
+                        columns.push({ field: i, caption: "Airport", resizable: true, sortable: true, attr: 'align=left', size: '150px' });
+                    }
+                    else if (i == "TCK_PAYMENT_MODE") {
+                        columns.push({ field: i, caption: "Payment Mode", resizable: true, sortable: true, attr: 'align=left', size: '150px' });
+                    }
+                    else if (i == "CAC_REMARKS") {
+                        columns.push({ field: i, caption: "Remarks", resizable: true, sortable: true, attr: 'align=left', size: '200px' });
+                    }
+                    else if (i == "CAC_AUTHORIZED_BY") {
+                        columns.push({ field: i, caption: "Authorized By", resizable: true, sortable: true, attr: 'align=left', hidden: true });
+                    }
+                    else if (i == "TCK_USER_NAME") {
+                        columns.push({ field: i, caption: "PNR Created By", resizable: true, sortable: true, attr: 'align=left', size: '150px' });
+                    }
+                    else if (i == "CAC_CREATED_DATE") {
+                        columns.push({ field: i, caption: "PNR Created Date", resizable: true, sortable: true, attr: 'align=left', size: '200px' });
+                    }
+                    else if (i == "CAC_UPDATED_DATE") {
+                        columns.push({ field: i, caption: "Updated Date", resizable: true, sortable: true, attr: 'align=left', size: '200px' });
+                    } else if (i == "CAC_UPDATED_BY") {
+                        columns.push({ field: i, caption: "Updated By", resizable: true, sortable: true, attr: 'align=left', size: '200px' });
+
+                    }
+                    else {
+                        columns.push({ field: i, caption: i, resizable: true, sortable: true, attr: 'align=left', size: '200px' });
+                    }
+
+                }
+
+            }
+
+            $("#DivData").w2destroy('CommissionApproval');
+            $("#DivData").w2grid(
+            {
+                name: 'CommissionApproval',               
+                recordHeight: 30,
+                show: { footer: true, toolbar: true },
+                columns: columns,
+                records: obj,
+
+            });
+            $("#DivData").css("min-height", "450px");
+        }
+    }
+
+    function LoadClient() {
+        $.blockUI({
+            message: '<img alt="Please Wait..." src="' + loaderimgurl + '" style="background-color:#fff; border-radius:8px; margin-top:12%;" />',
+            css: { padding: '5px' }
+        });
+        $.ajax({
+            type: "POST",
+            url: clientdetailsurl,
+            contentType: "application/json; charset=utf-8",
+            timeout: 180000,
+            dataType: "json",
+            success: function (data) {
+               
+                var data = data["Data"];
+                try {
+                    var arr = JSON.parse(data.Result);
+                    var LoadProducts = JSON.parse(data.ProductList);
+                    if (data.Status == "01") {
+                        function displayBranchResults(strBranch) {
+                         
+                            var selectedbranch = strBranch;
+                            BranchId = selectedbranch;
+                            if (selectedbranch != null && selectedbranch != "") {
+                                var filterarr = $.grep(arr, function (obj) {
+                                    return obj.CLTCODE == selectedbranch;
+                                });
+                            }
+                            else {
+                                var filterarr = arr;
+                            }
+                            $('#ddlAgentID').typeahead('destroy');
+                            $('#ddlAgentID').typeahead({
+                                source: filterarr,
+                                items: 5,
+                                minLength: 0,
+                                displayField: "CLTCODE",
+                                valueField: "CLTCODE",
+                                scrollBar: true,
+                                onSelect: displayResults,
+                            });
+                        }
+
+                        $('#ddlclient_agent').typeahead('destroy');
+                        $('#ddlclient_agent').typeahead({
+                            source: arr,
+                            items: 5,
+                            displayField: "CLTNAME",
+                            valueField: "CLTCODE",
+                            scrollBar: true,
+                            onSelect: displayResults,
+                        });
+                        function displayResults(item) {
+                         
+                            ClientID = item.value;
+                            displayBranchResults(ClientID);
+                        }
+
+                    }
+                    else {
+                        $('#ddlclient_agent').hide();
+
+                    }
+                    $.unblockUI();
+                }
+                catch (err) {
+                    $.unblockUI();
+                    console.log(err.message)
+                }
+            },
+            error: function (e) {
+                $.unblockUI();
+            }
+        });
+    }
+
+    var Alldata = [];
+    function Showdata(ids) {
+  
+        try{
+            Alldata = [];
+            var approverights = $("#" + ids).data("approveright");
+            if (approverights.indexOf("COMMAPPROVE") == -1) {
+                Lobibox.alert("info", {   //eg: 'error' , 'success', 'info', 'warning'
+                    msg: "Your are not authorized to update.",
+                    closeOnEsc: false,
+                    callback: function ($this, type) {
+                    }
+                });
+                return false;
+            }
+            var Spnr = $("#" + ids).data("refid");
+            var AgentName = $("#ddlclient_agent").val();
+            var AgentId = $("#ddlAgentID").val();
+            var status = $("#ddlStatus").val();
+
+            var fromdate = $("#txtFromdate").val();
+            var todate = $("#txtToodate").val();
+            var param = {
+                strAgencyname: AgentName,
+                strAgentId: AgentId,
+                strStatus: status,
+                strRiyapnr: Spnr,
+                strFromdate: moment(fromdate).format("YYYYDDMM"),
+                strTodate: moment(todate).format("YYYYDDMM"),
+                strRemarks: "",
+                strFlag: "FETCH_DISP"
+            }
+
+            $.blockUI({
+                message: '<img alt="Please Wait..." src="' + loaderimgurl + '" style="background-color:#fff; border-radius:8px; margin-top:12%;" id="FareRuleLodingImage" />',
+                css: { padding: '5px' }
+            });
+            $.ajax({
+                type: "POST",
+                url: strRequesturl,
+                data: JSON.stringify(param),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (json) {
+                 
+                    if (json.Status == "-1") {
+                        $.unblockUI();
+                        window.location.href = sessionexpurl
+                        return false;
+                    }
+                    else {
+                        $.unblockUI();
+                        if (json.Status == "0" || json.Error != "") {
+                            var msg = (json.Error != null && json.Error != "") ? json.Error : "Unable to get the details.";
+                            Lobibox.alert("info", {   //eg: 'error' , 'success', 'info', 'warning'
+                                msg: msg,
+                                closeOnEsc: false,
+                                callback: function ($this, type) {
+                                }
+                            });
+                            
+                            return false;
+                        }
+                        else {
+                            var result = JSON.parse(json.Results);
+                            Alldata = result;
+                            Approveddata(result);
+                        }
+                    }
+
+                },
+                error: function (e) {
+                    $.unblockUI();
+                    if (e.status == "500") {
+                        alert("Session has been Expired.");
+                        window.location.href = sessionexpurl
+                        return false;
+                    }
+                }
+
+            });
+
+            $("#commissionpopup").modal({
+                backdrop: 'static',
+                show: true,
+                backdrop: true,
+                keyboard: true
+            });
+        }
+        catch (Error) {
+            $.unblockUI();
+            Lobibox.alert("error", {
+                msg: Error.message,
+                closeOnEsc: false,
+                callback: function ($this, type) {
+                }
+            });
+
+            return false;
+        }
+    }
+
+    function Approveddata(result) {
+       
+        if (result != null && result != "") {
+            var json = result[0];
+            $("#spnAgentname").html(json["AGENCYNAME"]);
+            $("#spnUser").html(json["BOOKEDUSER"]);
+            $("#spnAuth").html(json["AUTHERIZED"]);
+            $("#spnPnr").html(json["PNR"]);
+            $("#spnStatus").html(json["STATUS"]);
+            var obj = result;
+            var datafields = new Array();
+            var columns = new Array();
+            for (var i = 0; i < obj.length; i++) {
+                var object1 = {
+                    recid: i,
+                };
+                $.extend(obj[i], object1);
+            }
+            for (var i in obj[0]) {
+                if (i != "recid") {
+                    if (i == "PAX_TYPE") {
+                        columns.push({ field: i, caption: "Tittle", resizable: true, sortable: true, attr: 'align=left', size: '100px' });
+                    }
+                    else if (i == "PAX_NAME") {
+                        columns.push({ field: i, caption: "Name", resizable: true, sortable: true, attr: 'align=left', size: '200px' });
+                    }
+                    else if (i == "TCK_ORIGIN_CITY_ID") {
+                        columns.push({ field: i, caption: "Origin", resizable: true, sortable: true, attr: 'align=left', size: '100px' });
+                    }
+                    else if (i == "TCK_DESTINATION_CITY_ID") {
+                        columns.push({ field: i, caption: "Destination", resizable: true, sortable: true, attr: 'align=left', size: '100px' });
+                    }
+                    else if (i == "CAC_ACTUAL_COMMISSION") {
+                        columns.push({ field: i, caption: "Actual Commission", resizable: true, sortable: true, attr: 'align=right', size: '150px' });
+                    }
+                    else if (i == "CAC_NEW_COMMISSION") {
+                        columns.push({ field: i, caption: "New Commission", resizable: true, sortable: true, attr: 'align=right', size: '150px' });
+                    }
+                    else if (i == "CAC_ACTUAL_INCENTIVE") {
+                        columns.push({ field: i, caption: "Actual Incentive", resizable: true, sortable: true, attr: 'align=right',size:'150px'});
+                    }
+                    else if (i == "CAC_NEW_INCENTIVE") {
+                        columns.push({ field: i, caption: "New Incentive", resizable: true, sortable: true, attr: 'align=right', size: '150px' });
+                    }
+                    else if (i == "CAC_ACTUAL_PLB") {
+                        columns.push({ field: i, caption: "Actual PLB", resizable: true, sortable: true, attr: 'align=right', size: '100px' });
+                    }
+                    else if (i == "CAC_NEW_PLB") {
+                        columns.push({ field: i, caption: "New PLB", resizable: true, sortable: true, attr: 'align=right', size: '100px' });
+                    } else if (i == "CAC_ACTUAL_SERVICE_TAX") {
+                        columns.push({ field: i, caption: "Actual Service Tax", resizable: true, sortable: true, attr: 'align=right', size: '150px' });
+
+                    }
+                    else if (i == "CAC_NEW_SERVICE_TAX") {
+                        columns.push({ field: i, caption: "New Service Tax", resizable: true, sortable: true, attr: 'align=right', size: '150px' });
+                    } else if (i == "CAC_ACTUAL_TDS") {
+                        columns.push({ field: i, caption: "Actual TDS", resizable: true, sortable: true, attr: 'align=right', size: '150px' });
+
+                    }
+                    else if (i == "CAC_NEW_TDS") {
+                        columns.push({ field: i, caption: "New TDS", resizable: true, sortable: true, attr: 'align=right', size: '150px' });
+                    }
+
+                }
+
+            }
+
+            $("#divapprove").w2destroy('ApprovalCommission');
+            $("#divapprove").w2grid(
+            {
+                name: 'ApprovalCommission',
+                recordHeight: 30,
+                show: { footer: true, toolbar: false },
+                columns: columns,
+                records: obj,
+            });
+            $("#divapprove").css("min-height", "200px");
+            $("#divapprove").show();
+        }
+
+    }
+
+    function AmountCalculate() {
+      
+        try{
+            var approvestatus = $("#ddlApproveStatus").val();
+            var strCOMMISSION = 0;
+            var strINCENTIVE = 0;
+            var strPLB = 0;
+            var strSERVICETAX = 0;
+            var strTDS = 0;
+            if (Alldata != null && Alldata != "")
+            {
+                for (var i = 0; i < Alldata.length; i++) {
+                    var COMMISSION = 0;
+                    var INCENTIVE = 0;
+                    var PLB = 0;
+                    var SERVICETAX = 0;
+                    var TDS = 0;
+                    if (approvestatus.toUpperCase() == "REJECTED") {
+                        COMMISSION = Alldata[i]["CAC_ACTUAL_COMMISSION"];
+                        INCENTIVE = Alldata[i]["CAC_ACTUAL_INCENTIVE"];
+                        PLB = Alldata[i]["CAC_ACTUAL_PLB"];
+                        SERVICETAX = Alldata[i]["CAC_ACTUAL_SERVICE_TAX"];
+                        TDS = Alldata[i]["CAC_ACTUAL_TDS"];
+                    }
+                    else if (approvestatus.toUpperCase() == "APPROVED") {
+                        COMMISSION = Alldata[i]["CAC_NEW_COMMISSION"];
+                        INCENTIVE = Alldata[i]["CAC_NEW_INCENTIVE"];
+                        PLB = Alldata[i]["CAC_NEW_PLB"];
+                        SERVICETAX = Alldata[i]["CAC_NEW_SERVICE_TAX"];
+                        TDS = Alldata[i]["CAC_NEW_TDS"];
+                    }
+                    strCOMMISSION += (COMMISSION != null && COMMISSION !="")?parseFloat(COMMISSION):"0";
+                    strINCENTIVE += (INCENTIVE != null && INCENTIVE != "") ? parseFloat(INCENTIVE) : "0";
+                    strPLB += (PLB != null && PLB != "") ? parseFloat(PLB) : "0";
+                    strSERVICETAX += (SERVICETAX != null && SERVICETAX != "") ? parseFloat(SERVICETAX) : "0";
+                    strTDS += (TDS != null && TDS != "") ? parseFloat(TDS) : "0";
+
+                }
+
+            }
+            var TotCredit = (parseFloat(strCOMMISSION) + parseFloat(strINCENTIVE) + parseFloat(strPLB)).toFixed(2);
+            var TotDebit = (parseFloat(strSERVICETAX) + parseFloat(strTDS)).toFixed(2);
+            $("#spnDebit").html(TotDebit);
+            $("#spnCredit").html(TotCredit);
+        }
+        catch (Error) {
+            $.unblockUI();
+            Lobibox.alert("error", {
+                msg: Error.message,
+                closeOnEsc: false,
+                callback: function ($this, type) {
+                }
+            });
+
+            return false;
+        }
+
+    }
+
+    function SubmitApproveCommission() {
+        try {
+            var status = $("#ddlApproveStatus").val();
+            if (status == null || status == "") {
+                Lobibox.alert("info", {   //eg: 'error' , 'success', 'info', 'warning'
+                    msg: "Please select status.",
+                    closeOnEsc: false,
+                    callback: function ($this, type) {
+                    }
+                });
+                $("#ddlApproveStatus").focus();
+                return false;
+            }
+            var AgentName = $("#ddlclient_agent").val();
+            var AgentId = $("#ddlAgentID").val();
+            var remark = $("#txtRemarks").val();
+            var fromdate = $("#txtFromdate").val();
+            var todate = $("#txtToodate").val();
+            var Spnr = $("#spnPnr").html();
+            $("#commissionpopup").modal("hide");
+            var param = {
+                strAgencyname: AgentName,
+                strAgentId: AgentId,
+                strStatus: status,
+                strRiyapnr: Spnr,
+                strFromdate: moment(fromdate).format("YYYYDDMM"),
+                strTodate: moment(todate).format("YYYYDDMM"),
+                strRemarks: remark,
+                strFlag: "UPDATE"
+            }
+          
+            $.blockUI({
+                message: '<img alt="Please Wait..." src="' + loaderimgurl + '" style="background-color:#fff; border-radius:8px; margin-top:12%;" id="FareRuleLodingImage" />',
+                css: { padding: '5px' }
+            });
+            $.ajax({
+                type: "POST",
+                url: strRequesturl,
+                data: JSON.stringify(param),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (json) {
+                  
+                    if (json.Status == "-1") {
+                        $.unblockUI();
+                        window.location.href = sessionexpurl
+                        return false;
+                    }
+                    else {
+                        $.unblockUI();
+                        if (json.Status == "0" || json.Error != "") {
+                            var msg = (json.Error != null && json.Error != "") ? json.Error : "Unable to Process,Please contact support Team.";
+                            Lobibox.alert("info", {   //eg: 'error' , 'success', 'info', 'warning'
+                                msg: msg,
+                                closeOnEsc: false,
+                                callback: function ($this, type) {
+                                    window.location.href = "@Url.Action("BookingCommApproval", "CntrlPanel")";
+                                }
+                            });
+                          
+                            return false;
+                        }
+                        else {
+                            var result = JSON.parse(json.Results);
+
+                        }
+                    }
+
+                },
+                error: function (e) {
+                    $.unblockUI();
+                    if (e.status == "500") {
+                        alert("Session has been Expired.");
+                        window.location.href = sessionexpurl
+                        return false;
+                    }
+                }
+
+            });
+        }
+        catch (Error) {
+            $.unblockUI();
+            Lobibox.alert("error", {
+                msg: Error.message,
+                closeOnEsc: false,
+                callback: function ($this, type) {
+                }
+            });
+
+            return false;
+        }
+    }
+</script>

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <LOCATIONDET>
+    <ID>0</ID>
+    <Name>-- select --</Name>
+  </LOCATIONDET>
+  <LOCATIONDET>
+    <ID>ABU</ID>
+    <Name>Abu Dhabi</Name>
+  </LOCATIONDET>
+  <LOCATIONDET>
+    <ID>AJM</ID>
+    <Name>Ajman</Name>
+  </LOCATIONDET>
+  <LOCATIONDET>
+    <ID>ALA</ID>
+    <Name>Al Ain</Name>
+  </LOCATIONDET>
+  <LOCATIONDET>
+    <ID>DXB</ID>
+    <Name>Dubai</Name>
+  </LOCATIONDET>
+  <LOCATIONDET>
+    <ID>FUJ</ID>
+    <Name>Fujairah</Name>
+  </LOCATIONDET>
+  <LOCATIONDET>
+    <ID>RKT</ID>
+    <Name>Ras Al Khaimah</Name>
+  </LOCATIONDET>
+  <LOCATIONDET>
+    <ID>SHA</ID>
+    <Name>Sharjah</Name>
+  </LOCATIONDET>
+  <LOCATIONDET>
+    <ID>QIW</ID>
+    <Name>Umm Al Qaiwain</Name>
+  </LOCATIONDET>
+  <LOCATIONDET>
+    <ID>KLF</ID>
+    <Name>Khor Fakkan</Name>
+  </LOCATIONDET>
+</NewDataSet>

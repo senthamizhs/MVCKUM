@@ -1,0 +1,134 @@
+﻿body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.clsBoxShdow {
+    width: 70%;
+    margin: 0 auto;    
+    margin-top:0%;  
+}
+
+.clsMyLabel {
+    text-align: center;
+    text-transform: capitalize;
+    font-size: 25px;
+    letter-spacing: 0.2px;
+}
+
+h3.clsMyLabel {
+    color: #ac0027;
+    font-weight: 600;
+    float: left;
+    width: 100%;
+    margin-bottom: 0px;
+    padding-bottom: 20px;
+    margin-top:5%;
+}
+
+h4.clsMySubLabel {
+    text-align: center !important;
+    font-size: 20px;
+    color: #c72e39;
+    font-weight: normal;
+}
+
+h3.clsMyLabel span {
+    color: #182d42;
+}
+
+.clsBody {
+    float: left;
+    width: 100%;
+    padding-top:0px;
+}
+
+.cont-rt {
+    float:left;
+    width:30%;
+}
+
+.bg-imgs {
+    background-image: url(/Images/session-RB.png);
+    background-repeat: no-repeat;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+}
+
+ul.clsUlContent {
+    padding-left: 20px;
+    font-size: 17px;
+    line-height: 32px;
+    margin-left:28%;
+}
+
+a.clsButton {
+    text-align: center;
+    float: none;
+    margin: 0 auto;
+    width: 161px;
+    display: flex;
+    border-radius: 3px;
+    background: #ac0027;
+    border: 1px solid #ac0027;
+    color: #fff;
+    letter-spacing: 0.5px;
+    font-size: 16px;
+    padding: 10px;
+    text-decoration: none
+}
+
+    a.clsButton:hover {
+        color: #ac0027;
+        background: #fff;
+        transition: all 0.4s ease 0s;
+    }
+
+.btnsec {
+    float: right;
+    margin-top: 0;
+    width: 100%;
+    margin-top:1%;
+}
+
+@media (max-width:767px) {
+    .clsBoxShdow {
+        width:100% !important;
+    }
+
+    h4.clsMySubLabel {
+        font-size:17px;
+    }
+
+    h3.clsMyLabel {
+        margin-bottom: 0px;
+        padding-bottom: 10px;
+    }
+
+    ul.clsUlContent {
+        font-size: 15px;
+        line-height: 25px;
+        margin-left:2%;
+    }
+
+    .clsMyLabel {
+        font-size:20px;
+    }
+    
+    a.clsButton {
+        padding:8px 10px;
+        font-size:13px;
+        margin-bottom:2%;
+    }    
+}
+@media (min-width: 768px) and (max-width: 991px) {
+    ul.clsUlContent {
+        margin-left:8%;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+    ul.clsUlContent {
+        margin-left:18%;
+    }
+}

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" standalone="yes"?>
+
+<NewDataSet>
+  <ROUNDTRIP>
+    <ICON>aeroplane</ICON>
+    <TITLE>Flight</TITLE>
+    <CONTENT>Get exceptional savings on flights, domestic and international by updating airfare on real-time basis.</CONTENT>
+  </ROUNDTRIP>
+  <ROUNDTRIP>
+    <ICON>hotel</ICON>
+    <TITLE>Hotel</TITLE>
+    <CONTENT>We offer you all kinds of hotel deals for every kind of need, occasion, and budget!</CONTENT>
+  </ROUNDTRIP>
+  <ROUNDTRIP>
+    <ICON>sunbed</ICON>
+    <TITLE>Holidays</TITLE>
+    <CONTENT>Choose from a number of travel packages or customize holiday packages according to your needs.</CONTENT>
+  </ROUNDTRIP>
+  <ROUNDTRIP>
+    <ICON>visa</ICON>
+    <TITLE>Visa</TITLE>
+    <CONTENT>From documentation to appointment with consulates ,we guide you through the entire process to make it a hassle free experience</CONTENT>
+  </ROUNDTRIP>
+</NewDataSet>

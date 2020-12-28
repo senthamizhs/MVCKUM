@@ -1,0 +1,1633 @@
+﻿@using System.Data;
+@using Newtonsoft.Json;
+@using STSTRAVRAYS.Models;
+@using System.Configuration;
+@{
+    ViewBag.Title = "Airline_Payment";
+    string assignedcurrency = Session["App_currency"] != null && Session["App_currency"].ToString() != "" ? Session["App_currency"].ToString() : ConfigurationManager.AppSettings["currency"].ToString();
+    string fileversion = ConfigurationManager.AppSettings["UpdateVersion"] != null ? ConfigurationManager.AppSettings["UpdateVersion"].ToString() : "";
+    string Pnrflag = ConfigurationManager.AppSettings["PNRlbl"].ToString();
+    string strApptheme = ConfigurationManager.AppSettings["apptheme"].ToString();
+    string strFileversion = ConfigurationManager.AppSettings["UpdateVersion"].ToString();
+    string strAppName = ConfigurationManager.AppSettings["Appname"].ToString().ToUpper();
+    string strMobileNo = ViewBag.PaxMobileNo != null && ViewBag.PaxMobileNo != "" ? ViewBag.PaxMobileNo : "";
+    string strPaxEmail = ViewBag.PaxEmail != null && ViewBag.PaxEmail != "" ? ViewBag.PaxEmail : "";
+    string strDefaultExtension = Session["TICKETAUTOEMAILFORMAT"] != null && Session["TICKETAUTOEMAILFORMAT"].ToString() != "" ? Session["TICKETAUTOEMAILFORMAT"].ToString() : ConfigurationManager.AppSettings["TicketAutoEmailFormat"].ToString();
+    string strAgentEmail = Session["AGENT_MAILID"] != null && Session["AGENT_MAILID"].ToString() != "" ? Session["AGENT_MAILID"].ToString() : "";
+    string strAgentLogin = Session["IsAgentLogin"] != null && Session["IsAgentLogin"].ToString() != "" ? Session["IsAgentLogin"].ToString() : "N";
+    string strCustomerLogin = Session["CustomerLogin"] != null && Session["CustomerLogin"].ToString() != "" ? Session["CustomerLogin"].ToString() : "N";
+    string strEmail = strAppName == "ROUNDTRIP" && strAgentLogin == "Y" ? strAgentEmail : "";
+    string strProductType = ConfigurationManager.AppSettings["Producttype"].ToString().ToUpper();
+    string Printticketformate = ConfigurationManager.AppSettings["PRINTTICKETFORMAT"].ToString();
+    string HideComissionFor = ConfigurationManager.AppSettings["MINUSCOMISSIONFOR"].ToString();
+    string HideComission = "N";
+    if (strAgentLogin == "Y" && !string.IsNullOrEmpty(HideComissionFor) && (HideComissionFor.Contains("B2B") || HideComissionFor.Contains("BOA") || HideComissionFor == "ALL"))
+    {
+        HideComission = "Y";
+    }
+    else if (strAgentLogin != "Y" && !string.IsNullOrEmpty(HideComissionFor) && (HideComissionFor.Contains("B2C") || HideComissionFor == "ALL"))
+    {
+        HideComission = "Y";
+    }
+    string strLoaderURL = ConfigurationManager.AppSettings["LogoUrl"] + "/" + strProductType + "/loader.gif?" + strFileversion;
+    string strTerminalType = Session["TERMINALTYPE"] != null && Session["TERMINALTYPE"].ToString() != "" ? Session["TERMINALTYPE"].ToString() : System.Configuration.ConfigurationManager.AppSettings["TerminalType"].ToString().ToUpper();
+    RQRS.BookingRS _Bookingdetails = new RQRS.BookingRS();
+    List<RQRS.PnrDetails>
+    _Pnrdetails = new List<RQRS.PnrDetails>();
+    List<RQRS.PnrDetails> _psxdetails = new List<RQRS.PnrDetails>();
+    string flightres = ViewBag.FlightResponse;
+    string GrsFaredetails = ViewBag.GrossFareRespose;
+    string strNetFareDetails = ViewBag.NetFareResponse;
+    string strcls_show = string.Empty;
+    string[] strlistcontact = null;
+    string contactdet = ViewBag.contactdet != null && ViewBag.contactdet != "" ? ViewBag.contactdet : Session["contactdet"] != null && Session["contactdet"] != "" ? Session["contactdet"].ToString() : "";
+    string Airlinetrackid_tune = ViewBag.Airlinetrackid_tune;
+    string paymentdetails = string.Empty;
+
+    string str_blockPnrstatus = string.Empty;
+    string booking_block = string.Empty;
+
+    int adultcount = 0;
+    int childcount = 0;
+    int infantcount = 0;
+    string errormsg = string.Empty;
+
+    int adultcountServicecharge = 0;
+    int childcountServicecharge = 0;
+    int infantcountServicecharge = 0;
+
+    string str_ComPaxType = string.Empty;
+    string str_ticketNo = string.Empty;
+
+    string adt_dis = string.Empty;
+    string chd_dis = string.Empty;
+    string inf_dis = string.Empty;
+
+    if (flightres != null && !(flightres.Contains("TR_PaymentGateway")))
+    {
+        _Pnrdetails = JsonConvert.DeserializeObject<List<RQRS.PnrDetails>>(ViewBag.FlightResponse);
+    }
+    if (ViewBag.contactdet != null || Session["contactdet"] != null)
+    {
+        strlistcontact = contactdet.Split('~');
+    }
+
+    if (ViewBag.PaxResponse != null && ViewBag.PaxResponse != "P")
+    {
+        _psxdetails = JsonConvert.DeserializeObject<List<RQRS.PnrDetails>>(ViewBag.PaxResponse);
+        if (strCustomerLogin == "Y")
+        {
+            paymentdetails = strlistcontact[3] != null && strlistcontact[3].ToString().Trim() == "T" ? "My Balance" : strlistcontact[3] != null && strlistcontact[3].ToString().Trim() == "P" ? "Payment gateway" : "";
+        }
+        else
+        {
+            paymentdetails = strlistcontact[3] != null && strlistcontact[3].ToString().Trim() == "T" ? "Agent Topup Account" : strlistcontact[3] != null && strlistcontact[3].ToString().Trim() == "C" ? "Agent Credit Account" : strlistcontact[3] != null && strlistcontact[3].ToString().Trim() == "P" ? "Payment gateway" : "";
+        }
+    }
+
+    var result = (from item in _psxdetails.AsEnumerable()
+                  group item by item.SPNR into g
+                  select new { ID = g.Key }).ToList();
+
+    string Str_spnrs = String.Join("/", result.Select(A => A.ID.TrimEnd())).ToString().TrimEnd('/');
+    string user_trackid = String.Join("/", (from track in _psxdetails.AsEnumerable()
+                                            group track by track.USERTRACKID into UT
+                                            select new { UTrackid = UT.Key }).ToList().Select(B => B.UTrackid)).ToString().TrimEnd('/');
+
+    string str_user_track_n = string.Empty;
+    string str_user_track_v = string.Empty;
+    if (user_trackid.Contains('/'))
+    {
+        str_user_track_n = "col-lg-2";
+        str_user_track_v = "col-lg-10";
+    }
+    else { str_user_track_n = "col-lg-4"; str_user_track_v = "col-lg-8"; }
+
+}
+<link href="~/Content/CSS/@strApptheme/style.css" rel="stylesheet" />
+<style>
+    .clsMyLabel {
+        font-family: Verdana,Arial,sans-serif;
+        color: #3f3f3f;
+        font-size: 20px;
+    }
+
+    .clsMySubLabel {
+        font-family: Verdana,Arial,sans-serif;
+        color: #878183;
+        font-size: 14px;
+    }
+
+    .clsTable {
+        border: solid 1px #e1e6ef;
+        border-radius: 8px;
+    }
+
+    .clsImage {
+        height: 120px;
+        width: 120px;
+        cursor: pointer;
+        padding: 10px;
+        border-bottom: 3px solid #fe4e12;
+    }
+
+    .clsTitleLabel {
+        font-family: Verdana,Arial,sans-serif;
+        color: #2471e3;
+        font-size: 11px;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    a img {
+        border: none;
+    }
+
+    .clsBody {
+        margin-left: 0%;
+    }
+
+    .clsUlContent {
+        text-align: left;
+        font-size: 17px;
+        font-family: cursive, Arial, sans-serif, monospace;
+        color: #222;
+    }
+
+    .clsButton {
+        padding: 10px;
+        border: 1px solid #27a5f5;
+        border-radius: 5px;
+        color: #27a5f5;
+        text-decoration: initial;
+        float: right;
+        /*margin-top: 20px;
+         margin-right: 30px;*/
+        transition: ease-out 0.5s;
+    }
+
+        .clsButton:hover {
+            background-color: #27a5f5;
+            color: #fff;
+        }
+
+    .textalignleft {
+        text-align: left;
+        font-weight: 700;
+        color: #000;
+    }
+
+    @@media (max-width:480px) {
+        .clsBoxShdow {
+            border-left: solid 3px #fe4e12;
+            background-color: #fff;
+            width: 100%;
+            margin-top: 0%;
+            top: 35px;
+            padding-top: 20px;
+            min-height: 500px;
+            left: 0px;
+        }
+    }
+
+    @@media (max-width:768px) {
+        .no-more-tables tbody tr td.com-pading {
+            padding-left: 145px !important;
+        }
+
+        td.hidden-xs {
+            display: none !important;
+        }
+
+        .clsBoxShdow {
+            border-left: solid 3px #27a5f5;
+        }
+
+        .span-xs-bottom-border-dashed {
+            border-bottom: 1px dashed #d01111;
+        }
+    }
+
+    .message a {
+        color: #fff;
+        background-color: #27a5f5;
+        border-radius: 4px;
+        position: relative;
+        display: block;
+        padding: 10px 15px;
+        float: left;
+    }
+
+    span.label.label-info.arrowed-right.arrowed-in {
+        position: relative;
+        z-index: 1;
+        background-color: #27a5f5;
+        margin-left: 5px;
+        margin-right: 5px;
+        line-height: 1.15;
+        height: 20px;
+        color: #FFF;
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 400;
+        text-shadow: none;
+    }
+
+    span.label.label-info.arrowed-right.arrowed-in {
+        border-width: 10px 5px;
+        left: -10px;
+        border-color: #27a5f5 #27a5f5 #27a5f5 transparent;
+    }
+
+        span.label.label-info.arrowed-right.arrowed-in:before {
+            display: inline-block;
+            content: "";
+            position: absolute;
+            top: 0;
+            z-index: -1;
+            border: 1px solid transparent;
+            left: -8px;
+            border-width: 10px 5px;
+            border-color: #27a5f5 #27a5f5 #27a5f5 transparent;
+        }
+
+        span.label.label-info.arrowed-right.arrowed-in:after {
+            position: absolute !important;
+            margin-right: 5px;
+            top: 0 !important;
+            z-index: -1 !important;
+            border: 1px solid transparent !important;
+            border-width: 10px 6px !important;
+            border-left-color: #27a5f5 !important;
+        }
+
+    .label-info.arrowed-right:after {
+        border-left-color: #27a5f5 !important;
+    }
+
+    .label.arrowed-right:after {
+        right: -15px;
+        border-width: 10px 6px !important;
+    }
+
+    .label.arrowed-in-right:after, .label.arrowed-right:after {
+        display: inline-block;
+        content: "";
+        position: absolute !important;
+        top: 0 !important;
+        z-index: -1 !important;
+        border: 1px solid transparent !important;
+    }
+
+    .table > thead:first-child > tr:first-child > th {
+        color: #fff;
+    }
+
+    .table-bordered > tbody > tr > td {
+        color: #000;
+    }
+
+    .servicepaxdisplay_block {
+        display: block !important;
+    }
+
+    .finalpnrde {
+        padding: 2px;
+        border: 2px solid;
+        text-align: center;
+        padding-top: 10px;
+    }
+
+    .insurnce_head {
+        text-align: center;
+        background-color: coral;
+        padding: 7px;
+        color: black;
+    }
+
+    #policyink {
+        color: rgba(0, 153, 255, 1);
+    }
+
+    .faredecss {
+        background-color: #ccc;
+        color: black;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        text-align: right;
+    }
+</style>
+@if (ViewBag.ResultCode == "1" && ViewBag.Booktext != null && ViewBag.Booktext != "")
+{
+    errormsg = ViewBag.Booktext;
+}
+@if (ViewBag.ResultCode == "1" || ViewBag.ResultCode == "5")   //normal booking-write by sri-11-10-2018
+{
+    booking_block = ViewBag.BlockPnreState == true ? ((errormsg != null && errormsg != "") ? errormsg : "Ticket Blocked Successfully") : ((errormsg != null && errormsg != "") ? errormsg : "Ticket Booked Successfully");
+    <div class="container bsa" style="margin-top: 80px;">
+        @*// class hide by srinath headerstrip*@
+        <div class="row" id="dvBookinsuccess">
+            <div class="col-sm-12 col-xs-12">
+                <div class="col-lg-12 clsBoxShdow col-xs-12">
+                    <div class="flt-lft w-100">
+                        <div class="cls-header m-b-10 changepas_header" id="HeadingTck" style="text-align: left;"><span class="sprite_book"></span><span class="_M001">Ticket Information</span></div>
+                        <h3 class="clsMyLabel" style="color: #2CC185; text-align: center">
+                            <i class="fa fa-check" aria-hidden="true" style="font-size: 15px; border: 1px solid #2CC185; border-radius: 50%; background: #2CC185; color: #fff; padding: 1px;"></i>
+                            <span id="spnBookmessage">@booking_block</span>
+                            <span class="spnInserrormsg"></span>
+                            @if (HideComission == "Y")
+                            {
+                                <span class="flt-lft w-100 txt-cntr font-18 fnt-wt600 pb-10 hidden-lg hidden-md hidden-sm col-xs-12 mt-10" style="color:#333;">@assignedcurrency @strNetFareDetails.Replace("\"", " ").Replace("\"", " ")</span>
+                            }
+                            else
+                            {
+                                <span class="flt-lft w-100 txt-cntr font-18 fnt-wt600 pb-10 hidden-lg hidden-md hidden-sm col-xs-12 mt-10" style="color:#333;">@assignedcurrency @GrsFaredetails.Replace("\"", " ").Replace("\"", " ")</span>
+                            }
+                        </h3>
+                        @if (ViewBag.ResultCode == "5")
+                        {
+                            <div class="dvreturnnfailmsg"> @ViewBag.Returnfailederrormsg </div>
+                        }
+                        <div style="border-top: dashed 1px #eee;"></div>
+                        <div class="row hidden-xs p-0 hidden-sm hidden-md hidden-lg mt-15" style="padding: 2px;">
+                            <div class="@str_user_track_n col-xs-5 textalignleft">
+                                <span class="span-xs-bottom-border-dashed font-12 brdr-noneres">
+                                    Ref. ID :<span>
+                                    </span>
+                                </span>
+                            </div>
+                            <div id="contactperson_trackid" class="col-xs-12 textalignleft font-13">
+                                <span id="usertrack_id"> @_psxdetails[0].USERTRACKID</span>
+                            </div>
+                        </div>
+                        <div class="clsBody pad-0-35 flt-lft w-100 mg-btm-20">
+                            <div class="BookedTicketFirstdiv">
+                                <div class="flt-lft w-100 col-xs-12 p-0 hidden-sm hidden-md hidden-lg col-xs-12">
+                                    <h2 class="font-13 fnt-wt-600 flt-lft m-0">Contact Details</h2>
+                                    <span class="flt-rgt txt-al-rgt hgt-15" style="display:none;">
+                                        <i class="fa fa-angle-down themeclr-red font-20"></i>
+                                    </span>
+                                </div>
+                                <div class="row row5">
+                                    <div class="col-lg-12 col-xs-12">
+                                        <div class="row" style="padding: 5px;">
+                                            <div class="col-lg-6 col-sm-6 brdr-noneres pad-0-res" style="padding: 10px; border-right:1px dashed #ddd;">
+                                                <div class="row pad-tp-5-res pad-btm-5-res" style="padding: 5px 0px;">
+                                                    <div class="col-lg-4 col-sm-4 col-xs-5 textalignleft">
+                                                        <span class="span-xs-bottom-border-dashed brdr-noneres"> E-mail</span><span class="flt-rgt">:</span>
+                                                    </div>
+                                                    <div id="contactperson_mail" class="col-lg-4 col-sm-4 col-lg-offset-0 col-sm-offset-0 col-md-offset-0 col-xs-offset-0 col-xs-7 textalignleft">
+                                                        @strlistcontact[0]
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 p-0 hidden-xs" style="border-top:dashed 1px #eee;padding: 5px 0px;"></div>
+                                                <div class="row pad-tp-5-res pad-btm-5-res">
+                                                    <div class="col-lg-4 col-sm-4 col-xs-5 textalignleft">
+                                                        <span class="span-xs-bottom-border-dashed brdr-noneres">Contact Number</span><span class="flt-rgt">:</span>
+                                                    </div>
+                                                    <div id="contactperson_mobileno" class="col-lg-4 col-sm-4 col-lg-offset-0 col-sm-offset-0 col-md-offset-0 col-xs-offset-0 col-xs-7 textalignleft">
+                                                        @strlistcontact[2]
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-sm-6 brdr-noneres pad-0-res" style="padding: 10px;">
+                                                <div class="row hidden-xs" style="padding: 5px 0px;">
+                                                    <div class="@str_user_track_n col-xs-5 textalignleft">
+                                                        <span class="span-xs-bottom-border-dashed">
+                                                            Track ID
+                                                        </span><span class="flt-rgt">:</span>
+                                                    </div>
+                                                    <div id="contactperson_trackid" class="@str_user_track_v col-sm-6 col-lg-offset-0 col-sm-offset-0 col-md-offset-0 col-xs-offset-0 col-xs-8 textalignleft">
+                                                        <span id="usertrack_id"> @_psxdetails[0].USERTRACKID</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 p-0 hidden-xs" style="border-top:dashed 1px #eee;padding: 5px 0px;"></div>
+                                                <div class="row pad-tp-5-res pad-btm-5-res">
+                                                    <div class="col-lg-4 col-sm-6 col-xs-5 textalignleft">
+                                                        <span class="span-xs-bottom-border-dashed brdr-noneres">
+                                                            Payment mode
+                                                        </span><span class="flt-rgt">:</span>
+                                                    </div>
+                                                    <div id="contactperson_payment" class="col-lg-4 col-sm-6 col-lg-offset-0 col-sm-offset-0 col-md-offset-0 col-xs-offset-0 col-xs-7 textalignleft">
+                                                        <span>@paymentdetails</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 p-0 hidden-xs" style="border-top:dashed 1px #eee;padding: 5px 0px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="border-top: dashed 1px #eee;"></div>
+                        <br />
+
+                        <div class="message pad-0-35">
+                            <span class="label label-info arrowed-right arrowed-in" style="float: left;bottom: 5px;
+                        left: 5px;line-height:18px;">@Pnrflag:<span id="ins_airlinespnr">@Str_spnrs</span></span>
+                    </div>
+                </div>
+                <div class="TicketsDetails pad-0-35" style="margin-top: 0%;">
+                    <div class="row row5">
+                        <div class="col-lg-12 col5">
+                            <div class="divBookedTicket Tickets_Details mb-15" style="margin-top: 2%;">
+                                <div class="flt-lft w-100 col-xs-12 pl-10 pr-10 pt-10 pb-10 hidden-sm hidden-md hidden-lg" id="dvBookflight" onclick="SlideToggle(this.id,'BookFlightDetailsCls')">
+                                    <h2 class="font-13 fnt-wt-600 flt-lft m-0"> Flight Details </h2>
+                                    <span class="flt-rgt txt-al-rgt dis-nonemin hgt-15">
+                                        <i class="fa fa-angle-down themeclr-red font-20"></i>
+                                    </span>
+                                </div>
+                                <table class="no-more-tables table table-responsive table-bordered dis-none" id="BookFlightDetailsCls">
+                                    <thead>
+                                        <tr>
+                                            <th>@Pnrflag</th>
+                                            <th>CRS PNR</th>
+                                            <th>Airline PNR</th>
+                                            <th>Flight No</th>
+                                            <th>Class</th>
+                                            <th>Origin</th>
+                                            <th>Destination</th>
+                                            <th>Departure</th>
+                                            <th>Arrival</th>
+                                            <th>Fare</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            int PnrCount = 0;
+                                            for (int i = 0; i < _Pnrdetails.Count; i++)
+                                            {
+                                                string str_CrsPNR = (_Pnrdetails[i].CRSPNR != null && _Pnrdetails[i].CRSPNR != "" ? _Pnrdetails[i].CRSPNR : "N/A");
+                                                var strPnrDetails = _Pnrdetails.GroupBy(s => s.SPNR).ToList();
+                                                PnrCount = strPnrDetails[0].Count();
+                                                string str_AirlinePNR = (_Pnrdetails[i].AIRLINEPNR != null && _Pnrdetails[i].AIRLINEPNR != "" ? _Pnrdetails[i].AIRLINEPNR : "N/A");
+                                                <tr>
+                                                    <td style="display: none !important;">
+                                                        <input type="text" value="@Str_spnrs" id="S_pnr" />
+                                                    </td>
+                                                    <td data-title="@Pnrflag" class="com-pading"><span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>@_Pnrdetails[i].SPNR</td>
+                                                    <td data-title="CRS PNR" class="com-pading"><span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>@str_CrsPNR</td>
+                                                    <td id="airline_pnr_tune" data-title="Airline PNR" class="com-pading"><span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>@str_AirlinePNR </td>
+                                                    <td data-title="Flight No" class="com-pading"><span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>@_Pnrdetails[i].FLIGHTNO</td>
+                                                    <td data-title="Class" class="com-pading"><span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>@_Pnrdetails[i].CLASS</td>
+                                                    <td data-title="Origin" class="com-pading"><span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>@_Pnrdetails[i].ORIGIN</td>
+                                                    <td data-title="Destination" class="com-pading"><span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>@_Pnrdetails[i].DESTINATION</td>
+                                                    <td data-title="Departure" class="com-pading"><span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>@_Pnrdetails[i].DEPARTUREDATE</td>
+                                                    <td data-title="Arrival" class="com-pading"><span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>@_Pnrdetails[i].ARRIVALDATE</td>
+                                                    @if (HideComission == "Y")
+                                                    {
+                                                        if (i == 0)
+                                                        {
+                                                            <td data-title="Fare" rowspan="@strPnrDetails[0].Count()" class="com-pading"><span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>@_Pnrdetails[i].NetFare</td>
+                                                        }
+                                                        else if (i == strPnrDetails[0].Count())
+                                                        {
+                                                            <td data-title="Fare" rowspan="@strPnrDetails[strPnrDetails.Count - 1].Count()" class="com-pading"><span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>@_Pnrdetails[i].NetFare</td>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        if (i == 0)
+                                                        {
+                                                            <td data-title="Fare" rowspan="@strPnrDetails[0].Count()" class="com-pading"><span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>@_Pnrdetails[i].GROSSFARE</td>
+                                                        }
+                                                        else if (i == strPnrDetails[0].Count())
+                                                        {
+                                                            <td data-title="Fare" rowspan="@strPnrDetails[strPnrDetails.Count - 1].Count()" class="com-pading"><span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>@_Pnrdetails[i].GROSSFARE</td>
+                                                        }
+                                                    }
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="divBookedTicket Tickets_Details mb-15" style="margin-top: 2%;">
+                                <div class="flt-lft w-100 col-xs-12 pt-10 pb-10 hidden-sm hidden-md hidden-lg" id="dvtblbookpaxdet" onclick="SlideToggle(this.id,'tblbookpaxDet')">
+                                    <h2 class="font-13 fnt-wt-600 flt-lft m-0"> Passenger Details </h2>
+                                    <span class="flt-rgt txt-al-rgt dis-nonemin hgt-15">
+                                        <i class="fa fa-angle-down themeclr-red font-20"></i>
+                                    </span>
+                                </div>
+                                <table class="no-more-tables table table-responsive table-bordered dis-none" id="tblbookpaxDet">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Passenger Type</th>
+                                            <th>DOB</th>
+                                            <th>Ticket No</th>
+                                            @*<th style="display:none;">Fare</th>*@
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 0; i < _psxdetails.Count; i++)
+                                        {
+                                            str_ticketNo = _psxdetails[i].TICKETNO != null && _psxdetails[i].TICKETNO != "" ? _psxdetails[i].TICKETNO : "-";
+
+                                            <tr>
+                                                @if (_psxdetails[i].PAXTYPE == "ADT")
+                                                {
+                                                    adultcount++;
+                                                    adultcountServicecharge += Convert.ToInt32(_psxdetails[i].SERVICECHARGE);
+                                                    adt_dis = "servicepaxdisplay_block";
+                                                    str_ComPaxType = "Adult";
+                                                }
+                                                else if (_psxdetails[i].PAXTYPE == "CHD")
+                                                {
+                                                    childcount++;
+                                                    childcountServicecharge += Convert.ToInt32(_psxdetails[i].SERVICECHARGE);
+                                                    chd_dis = "servicepaxdisplay_block";
+                                                    str_ComPaxType = "Child";
+                                                }
+                                                else if (_psxdetails[i].PAXTYPE == "INF")
+                                                {
+                                                    infantcount++;
+                                                    infantcountServicecharge += Convert.ToInt32(_psxdetails[i].SERVICECHARGE);
+                                                    inf_dis = "servicepaxdisplay_block";
+                                                    str_ComPaxType = "Infant";
+                                                }
+
+                                                <td data-title="Title" class="com-pading"><span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>@_psxdetails[i].TITLE</td>
+                                                <td data-title="First Name" class="com-pading"><span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>@_psxdetails[i].FIRSTNAME</td>
+                                                <td data-title="Last Name" class="com-pading"><span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>@_psxdetails[i].LASTNAME</td>
+                                                <td data-title="Passenger Type" class="com-pading"><span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>@str_ComPaxType </td>
+                                                <td data-title="DOB" class="com-pading"><span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>@(!string.IsNullOrEmpty(_psxdetails[i].DATEOFBIRTH) ? _psxdetails[i].DATEOFBIRTH : "-")</td>
+                                                <td data-title="Ticket No" class="com-pading" id="tdTicketNo_@i"><span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>@str_ticketNo</td>
+                                                @*<td data-title="Fare :" class="com-pading" style="display:none;">@_psxdetails[i].GROSSFARE</td>*@
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td colspan="5" style="text-align: right; color: #000" class="hidden-xs"><span class="GrossFareHilight" style="font-weight: 800; font-size: 15px; font-family: sans-serif;">Gross Fare </span></td>
+                                            <td style="color: #000" data-title="Gross Fare" class="com-pading">
+                                                <span class="pos-abs hidden-sm hidden-md hidden-lg" style="left:50%">:</span>
+                                                @if (HideComission == "Y")
+                                                {
+                                                    <span class="GrossFareHilight" style="font-weight: 800;font-size: 15px;">@assignedcurrency<span id="currencyupda">@strNetFareDetails.Replace("\"", " ").Replace("\"", " ")</span></span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="GrossFareHilight" style="font-weight: 800;font-size: 15px;">@assignedcurrency<span id="currencyupda">@GrsFaredetails.Replace("\"", " ").Replace("\"", " ")</span></span>
+                                                }
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @{
+                    str_blockPnrstatus = ViewBag.BlockPnreState == true ? "display:none;" : (ViewBag.Booktext == "" ? "display:block;" : "display:none;");
+                }
+                <div class="row row5" style="margin-bottom: 10px; @str_blockPnrstatus" id="divprintticketdetails">
+                    <div class="col-lg-4" id="insurance_loading" style="display: none;">
+                        <label class="" style="cursor: pointer; color: red;">Please Wait ...Your insurance booking now..<img src="@Url.Content("~/Images/"+strProductType+"/loaderR.gif")" style="width:15%;height:20%;" /></label>
+                    </div>
+                    <div class="col-lg-4" id="multicity_loading" style="display: none;">
+                        <label class="" style="cursor: pointer; color: red;">Please Wait ...Your booking still Processing..<img src="@Url.Content("~/Images/"+strProductType+"/loaderR.gif")" style="width:15%;height:20%;" /></label>
+                    </div>
+                    <div class="col-lg-4 col-lg-offset-3 col5">
+                        @if (Request.Browser.IsMobileDevice)
+                        {
+                            <a class="clsButton" onclick="PrintTicketMobile('@Str_spnrs')" style="cursor: pointer;">Download PDF</a>
+                        }
+                        else
+                        {
+                            <a class="clsButton" onclick="Print_return()" style="cursor: pointer;">Print Ticket</a>
+                        }
+                    </div>
+                    @{
+                        string displogo = "display:none";
+                        string dispbreakup = "display:none";
+                        string dispsf = "display:none";
+                        string strRiyachk = "";
+                        string strRTchk = "";
+                        if (Printticketformate == "RIYA")
+                        {
+                            displogo = "display:block";
+                            dispbreakup = "display:block";
+                            dispsf = "display:block";
+                            strRiyachk = "checked";
+                            strRTchk = "";
+                        }
+                        else if (Printticketformate == "ROUNDTRIP")
+                        {
+                            displogo = "display:block";
+                            dispbreakup = "display:none";
+                            dispsf = "display:none";
+                            strRiyachk = "";
+                            strRTchk = "checked";
+                        }
+                        else
+                        {
+                            displogo = "display:none";
+                            dispbreakup = "display:none";
+                            dispsf = "display:none";
+                            strRiyachk = "";
+                            strRTchk = "";
+                        }
+                        string strDispcls = strAgentLogin != "Y" ? "display:none;" : "display:block;";
+                    }
+                    <div class="col-lg-5 col-xs-8 col0" style="@strDispcls">
+                        @*<input type="checkbox" id="Chk_fare"  style="float: left;margin: 10px 0px 0px"/>
+                            <label for="Chk_fare" style="float: left;margin: 5px;">With Fare</label>*@
+                        <div class="cntr">
+                            <input style="display: none;" id="Chk_fare_@Str_spnrs" class="cb" type="checkbox" checked />
+                            <label class="cbx" for="Chk_fare_@Str_spnrs" style="float: left;margin: 14px 0px 14px 10px;"></label>
+                            <label class="lbl" for="Chk_fare_@Str_spnrs" style="float: left;margin: 5px;">With Fare</label>
+                        </div>
+                        <div class="cntr" style="@displogo">
+                            <input style="display: none;" id="Chk_logo_@Str_spnrs" class="cb" type="checkbox" @strRiyachk @strRTchk />
+                            <label class="cbx" for="Chk_logo_@Str_spnrs" style="float: left;margin: 14px 0px 14px 10px;"></label>
+                            <label class="lbl" for="Chk_logo_@Str_spnrs" style="float: left;margin: 5px;">With Logo</label>
+                        </div>
+                        <div class="cntr" style="@dispbreakup">
+                            <input style="display: none;" id="Chk_breakup_@Str_spnrs" class="cb" type="checkbox" @strRiyachk />
+                            <label class="cbx" for="Chk_breakup_@Str_spnrs" style="float: left;margin: 14px 0px 14px 10px;"></label>
+                            <label class="lbl" for="Chk_breakup_@Str_spnrs" style="float: left;margin: 5px;">With BreakUp</label>
+                        </div>
+                        <div class="cntr" style="@dispsf">
+                            <input style="display: none;" id="Chk_sf_@Str_spnrs" class="cb" type="checkbox" @strRiyachk />
+                            <label class="cbx" for="Chk_sf_@Str_spnrs" style="float: left;margin: 14px 0px 14px 10px;"></label>
+                            <label class="lbl" for="Chk_sf_@Str_spnrs" style="float: left;margin: 5px;">With SF</label>
+                        </div>
+                    </div>
+
+                    @if (_psxdetails.Count > 1)
+                    {
+                        strcls_show = "display:block;";
+                    }
+                    else
+                    {
+                        strcls_show = "display:none;";
+                    }
+                    <div class="col-lg-2 col5" style="@strcls_show">
+                        <div class="cntr">
+                            <input style="display: none;" id="Chk_fare1" class="cb" type="checkbox" />
+                            <label class="cbx" for="Chk_fare1" style="float: left; margin: 10px;"></label>
+                            <label class="lbl" for="Chk_fare1" style="float: left; margin: 5px;">Single Ticket</label>
+                        </div>
+
+
+                        @* <input type="checkbox" id="Chk_fare1"  style="float: left;margin: 10px 0px 0px; "/>
+                            <label for="Chk_fare1" style="float: left;margin: 5px;">Single Ticket</label>*@
+                    </div>
+                </div>
+                @{
+                    str_blockPnrstatus = ViewBag.BlockPnreState == true ? (ViewBag.Booktext == "" ? "display:block;" : "display:none;") : "display:none;";
+                }
+                <div class="row" id="divtoticket" style="margin-bottom: 10px; @str_blockPnrstatus">
+                    <div class="col-lg-4 col-lg-offset-3">
+                        <a class="clsButton" onclick="toTicket()" style="cursor: pointer; width: 50%;">To Ticket</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="row" id="insirance_booking_Detail" style="margin-top: 64%; display: none;">
+        <div class="col-lg-12 clsBoxShdow mb-15">
+            <div class="flt-lft w-100">
+                <div class="cls-header m-b-10 changepas_header" id="HeadingTck____ex" runat="server" style="text-align: left;">Insurance Booking Information</div>
+                <h3 class="clsMyLabel" style="color: #2CC185;">
+                    <i class="fa fa-check" aria-hidden="true" style="font-size: 15px; border: 1px solid #2CC185; border-radius: 50%; background: #2CC185; color: #fff; padding: 1px;"></i>
+                    <span id="spnBookmessage____ex">Insurance Booked Successfully</span>
+                </h3>
+                <div style="border-top: dashed 1px #eee;"></div>
+                <div class="clsBody pad-0-35">
+                    <div class="BookedTicketFirstdiv">
+                        <div class="row row5">
+                            <div class="col-lg-12 col5">
+                                <div class="row" style="padding: 5px;">
+                                    <div class="col-lg-6" style="padding: 10px; border-right: 1px dashed #ddd;">
+                                        <div class="row" style="padding: 2px;">
+                                            <div class="col-lg-6 col-sm-6 col-xs-12 textalignleft">
+                                                <span class="span-xs-bottom-border-dashed">E-mail :</span>
+                                            </div>
+                                            <div class="col-lg-6  col-lg-offset-0 col-sm-offset-0 col-md-offset-0 col-xs-offset-4 col0 col-xs-8 textalignleft">
+                                                @strlistcontact[0]
+                                            </div>
+                                        </div>
+                                        <div class="hidden-lg hidden-md hidden-sm" style="border-top: dashed 1px #eee; padding: 2px;"></div>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-sm-6 col-xs-12 textalignleft">
+                                                <span class="span-xs-bottom-border-dashed">Contact Number:</span>
+                                            </div>
+                                            <div class="col-lg-6 col-lg-offset-0 col-sm-offset-0 col-md-offset-0 col-xs-offset-4 col0 col-xs-8 textalignleft">
+                                                @strlistcontact[2]
+                                            </div>
+                                        </div>
+                                        <div style="border-top: dashed 1px #eee; padding: 2px;"></div>
+                                    </div>
+                                    <div class="col-lg-6" style="padding: 10px;">
+                                        <div class="row" style="padding: 2px;">
+                                            <div class="@str_user_track_n col-xs-12 textalignleft">
+                                                <span class="span-xs-bottom-border-dashed">
+                                                    Track ID :<span>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                            <div class="@str_user_track_v col-lg-offset-0 col-sm-offset-0 col-md-offset-0 col-xs-offset-4 col0 textalignleft">
+                                                <span id="ins_trackid"></span>
+                                            </div>
+                                        </div>
+                                        <div style="border-top: dashed 1px #eee; padding: 2px;"></div>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-sm-6 col-xs-12 textalignleft">
+                                                <span class="span-xs-bottom-border-dashed">
+                                                    Payment mode :<span>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                            <div class="col-lg-6 col-lg-offset-0 col-sm-offset-0 col-md-offset-0 col-xs-offset-4 col0 textalignleft">
+                                                <span>@paymentdetails</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="border-top: dashed 1px #eee;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="border-top: dashed 1px #eee;"></div>
+                <br />
+                <div class="message pad-0-35">
+                    <span class="label label-info arrowed-right arrowed-in" style="float: left; bottom: 5px; left: 5px;line-height:18px;">@Pnrflag : <span id="ins_spnr"></span></span>
+                </div>
+                <div class="TicketsDetails pad-0-35" style="margin-top: 0%;">
+                    <div class="row row5">
+                        <div id="bookingresdetails" class="col-lg-12 col5">
+                        </div>
+                        <div id="faredetails" style="margin-top: 5%; padding-left: 5px; padding-right: 5px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="row row5" style="margin-bottom: 10px;" id="divprintticketdetails___ex">
+                    <div class="row row5">
+                        <div class="col-lg-2 col-lg-offset-5">
+                            @if (ViewBag.hdnallowtune != null && ViewBag.hdnallowtune != "" && ViewBag.hdnallowtune != "0" && ViewBag.hdnallowtune != "N")
+                            {
+                                <a id="ins_btn___ex" class="clsButton" onclick="sendinsurancemail()" style="cursor: pointer; display: none">Send Mail</a>
+                            }
+                            <label id="total_amnt_ins"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else if (ViewBag.ResultCode == "3")//normal booking-write by sri-11-10-2018
+{
+    <div id="sessionerrormessage">
+        @ViewBag.GrossFareRespose
+    </div>
+}
+else if (ViewBag.ResultCode != "4" && ViewBag.ResultCode != "0")
+{
+    <p style="" id="hdnpaymentgateway_code">
+        @ViewBag.ResultCode
+    </p>
+    <p style="" id="hdnpaymentgatewayurl">
+        @ViewBag.paymentUrl
+    </p>
+}
+else
+{
+    <div class="Booking_error" id="errordetails" style="background: rgba(0,0,0,0.3); text-align: center; margin: 20px; height: 200px; position: relative;">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="clsMyLabel" style="color: #fff;"><i class="fa fa-times" aria-hidden="true" style="font-size: 15px; border: 1px solid red; border-radius: 50%; background: red; color: #fff; padding: 2px 4px;"></i>Ticket Booking Failed  !...</h3>
+                <div class="clsnofltfilterouter" style="font-size: 14px; margin: 15px; padding: 5px; box-shadow: 0px 0px 1px 2px #fff; border-radius: 4px; color: #fff; font-weight: 600;">
+                    <div><i class="fa fa-frown-o" style="font-size: 25px;"></i></div>
+                    <p style="" id="errormessage">
+                        @ViewBag.GrossFareRespose
+                    </p>
+                    <p>(or)</p>
+                    <p>Please refind search again...</p>
+                    <p style="display: none" id="p_Airlinetrackid_tune">
+                        @ViewBag.Airlinetrackid_tune
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (ViewBag.ResultCode == "1" || ViewBag.ResultCode == "5")
+{
+    <div class="modal fade" id="modal-servicecharge" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md" style="top: 20%;">
+            <div class="modal-content">
+                <div class="modal-body clsPopupBody" style="padding: 10px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="header paymentpopups">
+                                Service Charge(s)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main">
+                        <div class="row" style="margin: 15px;">
+
+                            <div class="col-lg-4 col-lg-offset-4 col-xs-12" style="text-align: left; margin-bottom: 15px;">
+                                <p class="validateTips" style="text-align: center; display: block; background-color: #ccc;"><span>@Pnrflag :&nbsp;</span>@Str_spnrs.Split('/')[0]</p>
+                            </div>
+                            @if (strAppName == "ROUNDTRIP")
+                            {
+                                var strData = (from _Pnrdetail in _Pnrdetails.AsEnumerable()
+                                               where _Pnrdetail.SPNR.Trim() == Str_spnrs.Split('/')[0].ToString().Trim()
+                                               select _Pnrdetail).ToList();
+                                <div class="col-sm-4 col-sm-offset-2 col-xs-12" style="text-align: left; margin-bottom: 15px;">
+                                    <p class="validateTips" style="text-align: center;display:block;background-color:#ccc;"><span>Gross Fare :&nbsp;</span>@strData[0].GROSSFARE.Replace("\"", " ").Replace("\"", " ")</p>
+                                </div>
+                                <div class="col-sm-4 col-xs-12" style="text-align: left; margin-bottom: 15px;">
+                                    <p class="validateTips" style="text-align: center;display:block;background-color:#ccc;"><span>Net Fare :&nbsp;</span>@strData[0].NetFare.Replace("\"", " ").Replace("\"", " ")</p>
+                                </div>
+                            }
+                            <div class="col-lg-12">
+                                <div class="row @adt_dis" id="adtRow" style="display: none;">
+
+                                    <div class="col-lg-4 col-xs-4" style="text-align: center;">
+                                        <p id="TAdult">Adult</p>
+                                    </div>
+                                    <div class="col-lg-4 col-xs-4">
+                                        *<span id="TAdultcnt"></span>
+                                    </div>
+                                    <div class="col-lg-4 col-xs-4">
+                                        <input name="txtadult" type="text" id="txtadult" maxlength="10" style="width: 75%;" onkeypress="isNumericVal(event)" value="0" class="TxTextbox">
+                                    </div>
+                                </div>
+
+                                <div class="row @chd_dis" id="chdRow" style="display: none;">
+
+                                    <div class="col-lg-4 col-xs-4" style="text-align: center;">
+                                        <p id="TChild">Child</p>
+                                    </div>
+                                    <div class="col-lg-4 col-xs-4">
+                                        *<span id="TChildcnt"></span>
+                                    </div>
+                                    <div class="col-lg-4 col-xs-4">
+                                        <input name="txtadult" type="text" id="txtChild" maxlength="10" style="width: 75%;" onkeypress="isNumericVal(event)" value="0" class="TxTextbox">
+                                    </div>
+                                </div>
+
+                                <div class="row @inf_dis" id="infRow" style="display: none;">
+
+                                    <div class="col-lg-4 col-xs-4" style="text-align: center;">
+                                        <p id="TInfant">Infant</p>
+                                    </div>
+                                    <div class="col-lg-4 col-xs-4">
+                                        *<span id="Tinfantcnt"></span>
+                                    </div>
+                                    <div class="col-lg-4 col-xs-4">
+                                        <input name="txtadult" type="text" id="txtinfant" maxlength="10" style="width: 75%;" onkeypress="isNumericVal(event)" value="0" class="TxTextbox">
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if (user_trackid.Split('/').Length > 1)
+                            {
+
+                                <div class="col-lg-4 col-lg-offset-4 col-xs-12" style="text-align: left; margin-bottom: 15px;">
+                                    <p class="validateTips" style="text-align: center; display: block; background-color: #ccc;"><span>@Pnrflag :&nbsp;</span>@Str_spnrs.Split('/')[1]</p>
+                                </div>
+                                if (strAppName == "ROUNDTRIP")
+                                {
+                                    var strData = (from _Pnrdetail in _Pnrdetails.AsEnumerable()
+                                                   where _Pnrdetail.SPNR == Str_spnrs.Split('/')[1].ToString().Trim()
+                                                   select _Pnrdetail).ToList();
+                                    <div class="col-sm-4 col-sm-offset-2 col-xs-12" style="text-align: left; margin-bottom: 15px;">
+                                        <p class="validateTips" style="text-align: center;display:block;background-color:#ccc;"><span>Gross Fare :&nbsp;</span>@strData[0].GROSSFARE.Replace("\"", " ").Replace("\"", " ")</p>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-12" style="text-align: left; margin-bottom: 15px;">
+                                        <p class="validateTips" style="text-align: center;display:block;background-color:#ccc;"><span>Net Fare :&nbsp;</span>@strData[0].NetFare.Replace("\"", " ").Replace("\"", " ")</p>
+                                    </div>
+                                }
+                                <div class="col-lg-12">
+                                    <div class="row @adt_dis" id="adtRow_roundtrip" style="display: none;">
+
+                                        <div class="col-lg-4 col-xs-4" style="text-align: center;">
+                                            <p id="TAdult_roundtrip">Adult</p>
+                                        </div>
+                                        <div class="col-lg-4 col-xs-4">
+                                            *<span id="TAdultcnt_roundtrip"></span>
+                                        </div>
+                                        <div class="col-lg-4 col-xs-4">
+                                            <input name="txtadult" type="text" id="txtadult_roundtrip" maxlength="10" style="width: 75%;" onkeypress="isNumericVal(event)" value="0" class="TxTextbox">
+                                        </div>
+                                    </div>
+
+                                    <div class="row @chd_dis" id="chdRow_roundtrip" style="display: none;">
+
+                                        <div class="col-lg-4 col-xs-4" style="text-align: center;">
+                                            <p id="TChild_roundtrip">Child</p>
+                                        </div>
+                                        <div class="col-lg-4 col-xs-4">
+                                            *<span id="TChildcnt_roundtrip"></span>
+                                        </div>
+                                        <div class="col-lg-4 col-xs-4">
+                                            <input name="txtadult" type="text" id="txtChild_roundtrip" maxlength="10" style="width: 75%;" onkeypress="isNumericVal(event)" value="0" class="TxTextbox">
+                                        </div>
+                                    </div>
+
+                                    <div class="row @inf_dis" id="infRow_roundtrip" style="display: none;">
+
+                                        <div class="col-lg-4 col-xs-4" style="text-align: center;">
+                                            <p id="TInfant_roundtrip">Infant</p>
+                                        </div>
+                                        <div class="col-lg-4 col-xs-4">
+                                            *<span id="Tinfantcnt_roundtrip"></span>
+                                        </div>
+                                        <div class="col-lg-4 col-xs-4">
+                                            <input name="txtadult" type="text" id="txtinfant_roundtrip" maxlength="10" style="width: 75%;" onkeypress="isNumericVal(event)" value="0" class="TxTextbox">
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                        <hr />
+                        <div class="row" style="margin-bottom: 15px;">
+                            <div class="col-md-offset-3 col-md-3 col-xs-6">
+                                <button value="Ok" class="btn btn-md btn-primary width100per" id="btnpaymentOK" onclick="updateservicecharge()" style="height: auto !important;">
+                                    Submit
+                                    <i id="iLoading" class="fa fa-spinner fa-spin" style="font-size: 25px; color: #292929; display: none; color: #fff; margin-top: -20px; margin-left: 80px;"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-3 col-xs-6">
+                                <input type="button" value="Cancel" data-dismiss="modal" class="btn btn-md btn-danger width100per" onclick="callbooking_insurance_fun()" id="btnclosepops" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="modal fade" id="modal-SendInsurancemail" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md" style="top: 20%;">
+        <div class="modal-content">
+            <div class="modal-body clsPopupBody" style="padding: 10px;">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="header paymentpopups">
+                            Send Email
+                        </div>
+                        <span class="spnclosepopup" data-dismiss="modal"><i class="fa fa-close"></i></span>
+                    </div>
+                </div>
+                <div class="main">
+                    <div class="row" style="margin: 15px;">
+                        <div class="col-lg-12">
+
+                            <div class="row">
+
+                                <div class="col-lg-12" style="margin-bottom: 15px;">
+                                    <p class="validateTips"><span style="color: red;">*</span>All form fields are required.</p>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4 col-xs-12">
+                                    <span>From</span>
+                                </div>
+                                <div class="col-lg-8 col-xs-12" style="margin-bottom: 15px;">
+                                    <div class="dv-anim input-effect m-0 m-sm-t20">
+                                        <input id="txtmailFrom" class="txt-anim FApopupcng" maxlength="50" type="text" onkeypress="return AvoidSpace();" />
+                                        <label>From Mail ID</label>
+                                        <span class="focus-border">
+                                            <i></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-lg-4 col-xs-12">
+                                    <span>Subject</span>
+                                </div>
+
+                                <div class="col-lg-8 col-xs-12" style="margin-bottom: 15px;">
+                                    <div class="dv-anim input-effect m-0 m-sm-t20">
+                                        <input id="txtSubject" class="txt-anim FApopupcng" maxlength="50" value="Insurance Details" type="text" />
+                                        <label>Insurance Details</label>
+                                        <span class="focus-border">
+                                            <i></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-lg-4 col-xs-12">
+                                    <span>Mail to</span>
+                                </div>
+                                <div class="col-lg-8 col-xs-12" style="margin-bottom: 15px;">
+                                    <div class="dv-anim input-effect m-0 m-sm-t20">
+                                        <input id="txtToEmail" maxlength="50" class="txt-anim FApopupcng" type="text" onkeypress="return AvoidSpace();" />
+                                        <label>Your Email Id</label>
+                                        <span class="focus-border">
+                                            <i></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr />
+                        <div class="row" style="margin-bottom: 15px;">
+
+                            <div class="col-md-offset-3 col-md-3 col-xs-6" style="margin-bottom: 15px;">
+                                <input type="button" class="btn btn-md btn-primary width100per" id="btnOKMAil" value="Send" onclick="insurancemailsendings();">send <i id="ipopupLoading" class="fa fa-spinner fa-spin" style="font-size: 18px; color: #fff; display: none;"></i>
+                            </div>
+                            <div class="col-md-3 col-xs-6" style="margin-bottom: 15px;">
+                                <input type="button" value="Clear" class="btn btn-md btn-danger width100per" id="btnclearFAvailmailpops" />
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="margin-bottom: 15px;">
+                            <div class="col-lg-12 col-xs-12">
+                                <div id="dvavailmailerr">
+                                    <div class="message_wrap showhide">
+                                        <p class="message">
+                                            <span id="dvavailmailerr_msg" class="error">All field(s) should not be empty.</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/AppsJS/AvailSelect.js?@fileversion"></script>
+<input type="hidden" id="hdnadultservice_" value="" />
+<input type="hidden" id="hdnchildservice_" value="" />
+<input type="hidden" id="hdninfservice_" value="" />
+<input type="hidden" id="SPNR" value="" />
+
+<script>
+
+    var Mailsendingurl = '@Url.Action("btnEmail_pdforhtml_Click", "AfterBooking")';
+
+    var BookingStatus = '@ViewBag.ResultCode';
+    var BlockPnrStatus = '@ViewBag.BlockPnreState';
+    var tracklength = '@user_trackid.Split('/').Length';
+    var paymentgatewayurl = '@ViewBag.paymentUrl';
+
+
+    var InsuranceMailUrl = '@Url.Action("Mail_insurance", "Booking")';
+    var Asyncbookingres_update = '@Url.Action("Asyncbookingresponse", "Booking")';
+    var servicechargeupdate = '@Url.Action("InsertServiceAmount", "Booking")';
+    var strTerminalType = '@strTerminalType';
+
+    function bookingsendmail_fun() {
+
+        var MobileNumber = '@strMobileNo';
+        var email = '@strPaxEmail';
+        if ('@strPaxEmail' != null && '@strPaxEmail' != "") {
+            if ('@strDefaultExtension' == "PDF") {
+                pdf = "YES";
+            }
+            else {
+                pdf = "NO";
+            }
+            email = '@strEmail' != "" ? '@strEmail' : email;
+            var SingleTkt = "yes";
+            var Subject = document.getElementById('ins_airlinespnr').innerHTML;
+            $.ajax({
+                type: "POST", 		//GET or POST or PUT or DELETE verb
+                url: Mailsendingurl, 		// Location of the service
+                data: '{strSPNRNO: "' + document.getElementById('ins_airlinespnr').innerHTML + '" ,txtEmailID: "' + email + '",pdf: "' + pdf + '",strMobNumber:"' + MobileNumber + '",strSingle:"' + SingleTkt + '",Subject:"' + Subject + '" ,strPaymentmode : "P",blntktmailflag : "' + true + '"}',
+                //async: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (json) {//On Successful service call
+                    var result = json.Result;
+                    if (result[1] != "") {
+                        //alert(result[1]);
+                        //$("#txtToEmail").val("");
+                        //$("#txtSubject").val("");
+                    }
+                    else {
+                        //alert(result[0]);
+                        //$('#pouplitag').css("display", "none");
+                        //$("#txtToEmail").val("");
+                        //$("#txtSubject").val("");
+                    }
+
+                },
+                error: function (e) {//On Successful service call
+                    if (e.status == "500") {
+                        alert("An Internal Problem Occurred. Your Session will Expire.");
+                        window.top.location = sessionExb;
+                        return false;
+                    }
+                }	// When Service call fails
+
+            });
+        }
+    }
+
+    if (BookingStatus == "1" && BlockPnrStatus.toUpperCase() != "TRUE") {
+        @{string strIsAGNLOGIN = Session["IsAgentLogin"] != null && Session["IsAgentLogin"].ToString() != "" ? Session["IsAgentLogin"].ToString() : ""; }
+        if ('@strIsAGNLOGIN' == "Y") {
+            servicepopupshow();
+        }
+        bookingsendmail_fun();
+    }
+    if (BookingStatus == "4" && paymentgatewayurl != null && paymentgatewayurl != "") {
+        window.location.href = paymentgatewayurl;
+    }
+
+    $("#hdnadultservice_").val('@adultcountServicecharge');
+    $("#hdnchildservice_").val('@childcountServicecharge');
+    $("#hdninfservice_").val('@infantcountServicecharge');
+
+    var Adt_Servicecharge = $("#hdnadultservice_").val();
+    var Chd_Servicecharge = $("#hdnchildservice_").val();
+    var Inf_Servicecharge = $("#hdninfservice_").val();
+
+    $("#txtadult").val(Adt_Servicecharge);
+    $("#txtChild").val(Chd_Servicecharge);
+    $("#txtinfant").val(Inf_Servicecharge);
+
+    $("#Tinfantcnt").html('@infantcount');
+    $("#TChildcnt").html('@childcount');
+    $("#TAdultcnt").html('@adultcount');
+
+    if (tracklength > 1) {
+
+        $("#txtadult_roundtrip").val(Adt_Servicecharge);
+        $("#txtChild_roundtrip").val(Chd_Servicecharge);
+        $("#txtinfant_roundtrip").val(Inf_Servicecharge);
+
+        $("#Tinfantcnt_roundtrip").html('@infantcount');
+        $("#TChildcnt_roundtrip").html('@childcount');
+        $("#TAdultcnt_roundtrip").html('@adultcount');
+
+    }
+
+    $("#SPNR").val($("#S_pnr").val());
+
+    BookingRes_Json = '@Html.Raw(ViewBag.bookingresponse)';
+    BookingRes_Json = BookingRes_Json.replace(/(\r\n|\n|\r|\u000d\u000a)/gm, " ");
+
+    if (BookingStatus == "1" && BookingRes_Json != null && BookingRes_Json != "") {
+        var responsejson = JSON.parse(BookingRes_Json);
+        asyncafterbooking(JSON.stringify(responsejson));
+    }
+
+
+    function servicepopupshow() {
+
+        $("#modal-servicecharge").modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    }
+
+
+    function Print_return() {
+        Pnr = document.getElementById('S_pnr').value;
+        if (document.getElementById("Chk_fare_" + Pnr).checked == true)
+            var fare = "yes";
+        else
+            fare = "no";
+        if (document.getElementById("Chk_logo_" + Pnr).checked == true)
+            var logo = "yes";
+        else
+            logo = "no";
+        if (document.getElementById("Chk_breakup_" + Pnr).checked == true)
+            var breakup = "yes";
+        else
+            breakup = "no";
+        if (document.getElementById("Chk_sf_" + Pnr).checked == true)
+            var sf = "yes";
+        else
+            sf = "no";
+
+        if (document.getElementById("Chk_fare1").checked == true)
+            var single = "yes";
+        else
+            single = "no";
+        if ($(window).width() < 768) { //For Mobile View...
+            var iurl = "@Url.Action("PrintTickets", "AfterBooking")" + "?strSPNRNO=" + Pnr + "|" + fare + "|" + logo + "|" + breakup + "|" + sf + "&single=" + single + "&Page=" + "B";
+            var ititle = "Print Ticket";
+            var isubtitle = "";
+            var ifull = false;
+            IziModalIFramePop(iurl, ititle, isubtitle, ifull);
+        }
+        else {
+            newwindow = window.open("@Url.Action("PrintTickets", "AfterBooking")" + "?strSPNRNO=" + Pnr + "|" + fare + "|" + logo + "|" + breakup + "|" + sf + "&single=" + single + "&Page=" + "B");
+        }
+        if (window.focus) { newwindow.focus() }
+        return false;
+
+
+    }
+
+    var ins_s = 0;
+    function bookins(retvaldet, Airlinetrackid_tune, tune_track_insert) {
+
+
+        //document.getElementById('insurance_loading').style.display = "block";
+        var JsonObject = "";
+        if (tune_track_insert != "0") {
+            document.getElementById('insurance_loading').style.display = "block";
+            JsonObject = JSON.parse(retvaldet);
+            var airline_s_pnr = document.getElementById('ins_airlinespnr').innerHTML;
+            var airline_pnr = document.getElementById('airline_pnr_tune').innerHTML;
+            JsonObject.BookStatus = "1";
+            var usertrack_id = document.getElementById('usertrack_id').innerHTML;
+            var contactperson_mail = document.getElementById('contactperson_mail').innerHTML;
+            if (contactperson_mail.trim() != null && contactperson_mail.trim() != "") {
+                JsonObject["Contacts"].EmailAddress = contactperson_mail.trim();
+            }
+            JsonObject["PolicyDetail"].AirlinePNR = airline_pnr.trim();
+            JsonObject["PolicyDetail"].AirlineSPNR = airline_s_pnr.trim();
+            var passenger_count = Number(JsonObject.PolicyDetail.Adult) + Number(JsonObject.PolicyDetail.Child) + Number(JsonObject.PolicyDetail.Infant)
+            var PAYMET = Number(JsonObject.Passenger[0].PremiumAmount);
+            var total_tune = PAYMET * passenger_count;
+            JsonObject.PaymentAmt = total_tune.toString();
+            JsonObject.AirlinetrackId = usertrack_id.toString();
+        }
+        else {
+            //document.getElementById('insurance_loading').style.display = "block";
+            JsonObject = JSON.parse(retvaldet);
+            JsonObject.AirlinetrackId = Airlinetrackid_tune.toString();
+            JsonObject.BookStatus = tune_track_insert.toString();
+        }
+
+        retvaldet = JSON.stringify(JsonObject);
+        var jsondata = retvaldet;
+        var AvailParam = {
+            requeststr: retvaldet
+        }
+
+
+        $.ajax({
+            type: "POST", 		//GET or POST or PUT or DELETE verb
+            url: "@Url.Action("Bookinurance", "Booking")",
+            data: JSON.stringify(AvailParam),
+            async: true,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (json) {
+                ins_s = 1;
+                var result = json.Result;
+
+                if (result[7] != "" && result[7] != null) {
+                    if (result[4] != "" && result[4] != null) {
+                        var tblSomething1 = '';
+                        document.getElementById('insurance_loading').style.display = "none";
+                        document.getElementById('ins_spnr').innerHTML = result[4];
+                        document.getElementById('ins_trackid').innerHTML = result[5];
+                        document.getElementById('insirance_booking_Detail').style.display = "block";
+                    }
+                    if (result[1] != "" && result[1] != null) {
+                        var tblSomething = '';
+                        var ary = JSON.parse(result[1]);
+                        for (var i = 0; i < ary.length; i++) {
+                            if (i == 0) {
+                                tblSomething += ' <table id="bookingtbl" class="no-more-tables table table-responsive table-bordered" ><thead>';
+                                $.each(ary[i], function (key, val) {
+                                    var strsri = key + "head";
+
+                                    if (strsri == "FirstNamehead" || strsri == "PolicyNohead" || strsri == "DOBhead") {
+                                        tblSomething += '<th  id="' + strsri + '">' + key + '</th>';
+                                    }
+                                    else {
+                                        tblSomething += '<th data-hide="phone,tablet" id="' + strsri + '">' + key + '</th>';
+                                    }
+                                });
+                                tblSomething += '</thead >';
+                            }
+                            if (i == 0) {
+                                tblSomething += '<tbody>';
+                            }
+                            tblSomething += '<tr class="dropdown" id="' + i + '" >';
+                            var row = "";
+                            var bookrow = "";
+                            $.each(ary[i], function (key, val) {
+                                var str = key + i;
+                                row = "row" + i;
+                                rowtd = "rowtd" + i;
+                                bookrow = "bookrow" + i;
+                                booktd = "booktd" + i;
+                                var urlid = "PolicyURLLink" + i;
+                                if (str == urlid) {
+                                    tblSomething += '<td id="' + str + '" class="mouserovr"><a id="policyink"  href="' + val + '" target="_blank">Policy Link</a></td>';
+                                }
+                                else {
+                                    tblSomething += '<td id="' + str + '" class="mouserovr">' + val + '</td>';
+                                }
+
+                            });
+                            tblSomething += '</tr>';
+
+                        }
+
+                        tblSomething += '</tbody></table>';
+
+                        $('#bookingresdetails').html(tblSomething);
+                        $('.colour-switch a').click(function (e) {
+                            e.preventDefault();
+                            $('.colour-switch a').each(function () {
+                                $('table').removeClass($(this).data('class'));
+                            });
+                            $('table').addClass($(this).data('class'));
+                        });
+                    }
+
+                    if (result[2] != "" && result[2] != null) {
+                        var tblSomething1 = '';
+                        tblSomething1 += ' <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 faredecss"><label style="color:black">Gross Fare:</label><label  style="color:black">' + result[9] + '</label><label  style="color:black">' + result[2] + '</label></div>';
+                        $('#faredetails').html(tblSomething1);
+                    }
+                }
+                else {
+                    showerralert(result[8]);
+                    //document.getElementById('insurance_loading').style.display = "none";
+                }
+                if (tune_track_insert != "0") {
+                    document.getElementById('insurance_loading').style.display = "none";
+                }
+
+                $.unblockUI();
+            },
+            error: function (e) {//On Successful service call
+                LogDetails(e.responseText, e.status, "Bookinsurance");
+                if (e.status == "500") {
+                    alert("Session has been Expired.");
+                    window.top.location = sessionExb;
+                    return false;
+                }
+
+                $.unblockUI();
+            }	// When Service call fails
+
+        });
+
+    }
+
+    function multicityDomasticfun(segtype, mulreq, i, multicityNoOfFlight) {
+
+        if (segtype == "D" && mulreq == "Y") {
+            $("#multicity_loading").css("display", "block");
+        }
+        else {
+            $("#multicity_loading").css("display", "none");
+        }
+        if (i == multicityNoOfFlight) {
+            $("#multicity_loading").css("display", "none");
+        }
+
+    }
+    function callbooking_insurance_fun() {
+
+        $("#modal-servicecharge").modal("hide");
+        if (sessionStorage.getItem("retvaldet") == "YES") {
+
+            bookins(sessionStorage.getItem("insvalues"));
+        }
+
+    }
+
+    function sendinsurancemail() {
+        $("#modal-SendInsurancemail").modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    }
+
+
+    function insurancemailsendings() {
+        var bValid = document.getElementById('txtToEmail');
+        var fromvalid = document.getElementById('txtmailFrom');
+        var filter = /^([a-zA-Z0-9_\.\-])+\@@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+        var errPdiv = "dvavailmailerr", errdiv_msg = "dvavailmailerr_msg";
+
+        if (fromvalid.value.trim() == "") {
+            showError('Please Enter From email address', errPdiv, errdiv_msg, ""); //Message, Error Parent ID, Error showing ID, Focus ID...
+            setTimeout(function () {
+                fromvalid.focus();
+            }, 300);
+            return false;
+        }
+        if (bValid.value.trim() == "") {
+            showError('Please Enter To email address', errPdiv, errdiv_msg, ""); //Message, Error Parent ID, Error showing ID, Focus ID...
+            setTimeout(function () {
+                bValid.focus();
+            }, 300);
+            return false;
+        }
+
+        if (!filter.test(bValid.value)) {
+            showError('Please provide a valid email address', errPdiv, errdiv_msg, ""); //Message, Error Parent ID, Error showing ID, Focus ID...
+            setTimeout(function () {
+                bValid.focus();
+            }, 300);
+            return false;
+        }
+        if (!filter.test(fromvalid.value)) {
+            showError('Please provide a valid email address', errPdiv, errdiv_msg, ""); //Message, Error Parent ID, Error showing ID, Focus ID...
+            setTimeout(function () {
+                fromvalid.focus();
+            }, 300);
+            return false;
+        }
+        else {
+            $('#ipopupLoading').show();
+            $('#btnOKMAil').disabled = true;
+            var s = "";
+            var Insurancedet = document.getElementById('bookingresdetails').innerHTML;
+
+            $.ajax({
+                type: "POST", 		//GET or POST or PUT or DELETE verb
+                //   url: InsuranceMailUrl, 		// Location of the service
+                url: "@Url.Action("Mail_insurance", "Flights")",
+                data: '{Toadd: "' + bValid.value + '" ,Subject: "' + $('#txtSubject').val() + '" ,Frommail:"' + fromvalid.value + '" ,Insurancedet:"' + Insurancedet + '"}',//,CancelationStatus: "' + $("#hdnPax")[0].value + '" ,BlockTicket: "' + BlockTicket + '",PaymentMode: "' + $("#ddlPaymode").val() + '",TourCode: "' + $("#Tour_Code").val() + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (json) {//On Successful service call
+                    $('#ipopupLoading').hide();
+                    $('#btnOKMAil').disabled = false;
+                    var result = json.Result;
+                    if (json.Status == "-1") {
+                        window.location.href = sessionExb;
+                        return false;
+                    }
+                    else if (json.Status == "01") {
+                        $("#modal-SendAvailmail").modal('hide');
+                        if (result[0] != "") {
+                            showalert(result[0], "OK", "");
+                        }
+                        else {
+                            showerralert(result[1] != "" ? result[1] : "Mail sending failure. Please contact customer care (#03).", "", "");
+                        }
+                    }
+                    else {
+                        $("#modal-SendAvailmail").modal('hide');
+                        showerralert(result[1], "", "");
+                    }
+                },
+                error: function (e) {//On Successful service call
+                    $('#ipopupLoading').hide();
+                    $('#btnOKMAil').disabled = false;
+                    if (e.status == "500") {
+                        window.location.href = sessionExb;
+                        return false;
+                    }
+                }	// When Service call fails
+            });
+        }
+    }
+
+    function asyncafterbooking(bookresponse) {
+
+        $.ajax({
+            type: "POST", 		//GET or POST or PUT or DELETE verb
+            url: Asyncbookingres_update,
+            data: JSON.stringify({ Bookresponse: bookresponse }),
+            timeout: 200000,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: true,
+            success: function (json) {//On Successful service call
+
+                var result = json.Result[0];
+                $.unblockUI();
+            },
+            error: function (e) {// When Service call fails
+                LogDetails(e.responseText, e.status, "AfterBooking");
+                $.unblockUI();
+            }
+
+        });
+    }
+
+    function SlideToggle(ids, divid) {
+        $("#" + divid).slideToggle();
+        if ($("#" + ids + ' i').hasClass('fa-angle-down')) {
+            $("#" + ids + ' i').removeClass('fa-angle-down').addClass('fa-angle-up');
+        }
+        else if ($("#" + ids + ' i').hasClass('fa-angle-up')) {
+            $("#" + ids + ' i').removeClass('fa-angle-up').addClass('fa-angle-down');
+        }
+    }
+
+    function PrintTicketMobile(pnr) {
+        try {
+            SPNR = pnr;
+            if (document.getElementById("Chk_fare_" + pnr).checked == true)
+                var fare = "yes";
+            else
+                fare = "no";
+            if (document.getElementById("Chk_logo_" + pnr).checked == true)
+                var logo = "yes";
+            else
+                logo = "no";
+            if (document.getElementById("Chk_breakup_" + pnr).checked == true)
+                var breakup = "yes";
+            else
+                breakup = "no";
+            if (document.getElementById("Chk_sf_" + pnr).checked == true)
+                var sf = "yes";
+            else
+                sf = "no";
+
+            if (document.getElementById("Chk_fare1").checked == true)
+                var single = "yes";
+            else
+                single = "no";
+            $.blockUI({
+                message: '<img alt="Please Wait..." src="@strLoaderURL" style="background-color:#fff; border-radius:8px; margin-top:12%;" id="FareRuleLodingImage" />',
+                css: { padding: '5px' }
+            });
+            var param = {
+                strSPNRNO: SPNR + "|" + fare + "|" + logo + "|" + breakup + "|" + sf,
+                single: single,
+            }
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetTicketCopy", "AfterBooking")",
+                data: JSON.stringify(param),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (json) {
+                    console.log(json);
+                    if (json.Status == "01") {
+                        PrintTicketPDF(SPNR);
+                    }
+                    else {
+                        showerralert("unable to download ticket.please contact support team(#00)", "", "");
+                        $.unblockUI();
+                    }
+                },
+                error: function (e) {
+                    showerralert("unable to download ticket.please contact support team(#03)", "", "");
+                    $.unblockUI();
+                    if (e.status == "500") {
+                        window.location.href = sessionExb;
+                        return false;
+                    }
+                }
+            });
+        }
+        catch (e) {
+            showerralert("unable to download ticket.please contact support team(#05)", "", "");
+        }
+    }
+
+    function PrintTicketPDF(SPnr) {
+        var param = { strPNR: SPnr }
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("pdfTktconverter", "AfterBooking")",
+            data: JSON.stringify(param),
+            dataType: "json",
+            success: function (result) {
+                var tktparse = result.Result;
+                if (tktparse[1] != null && tktparse[1] != "") {
+                    //if (strTerminalType != "M") {
+                    //    var a = document.createElement('a');
+                    //    a.setAttribute('href', tktparse[1]);
+                    //    a.setAttribute('download', "E-Ticket " + SPNR);
+                    //    var aj = $(a);
+                    //    aj.appendTo('body');
+                    //    aj[0].click();
+                    //    aj.remove();
+                    //}
+                    //else {
+                    var url = tktparse[1];
+                    setTimeout(function () { window.location.href = url; }, 500);
+                    //}
+                    setTimeout(function () { PrintTicketPDF(); }, 10000);
+                    $.unblockUI();
+                }
+                else if (tktparse[0] != null && tktparse[0] != "") {
+                    $.unblockUI();
+                }
+            },
+            error: function (result) {
+                $.unblockUI();
+            }
+        });
+    }
+</script>

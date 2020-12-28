@@ -1,0 +1,337 @@
+﻿@{
+    ViewBag.Title = "CRM";
+}
+
+@{string qrystrflg = System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"].ToString();}
+
+<script src="~/js/jquery.blockUI.js"></script>
+
+<link href="~/Content/CSS/component.css?@qrystrflg" rel="stylesheet" />
+<link href="~/Content/CSS/tbmtSprit.css?@qrystrflg" rel="stylesheet" />
+<link href="~/Content/CSS/jquery.qtip.css?@qrystrflg" rel="stylesheet" type="text/css" />
+<link href="~/Content/CSS/bootstrap.css?@qrystrflg" rel="stylesheet" />
+
+<style>
+    .spncls
+    {
+        text-align: center;
+        margin: 20px 0px;
+    }
+
+    .scrollcls span 
+    {
+        color: #fff;
+    }
+
+    .UlBkdHistry
+    {
+        padding: 0;
+        float: left;
+        background-color: #fff;
+    }
+
+     .UlBkdHistry li
+     {
+         border: 1px solid #eee;
+         width: 170px;
+         background-color: #f6f7f9;
+         float: left;
+     }
+
+    .myicon
+    {
+        font-size: 16px;
+        padding-right: 5px;
+        color: #fff;
+        float: none !important;
+        margin-top: 0px;
+    }
+
+    .nav-tab-item.active .myicon
+    {
+        color: #fff !important;
+    }
+
+    .user-profile
+    {
+        width: 96%;
+        margin-left: 2%;
+        margin-top: 20px;
+    }
+
+    .simple-tab .tab-info
+    {
+        padding: 2% !important;
+    }
+    /*#tbbodycancel .tab-info{
+      padding:0;
+    }*/
+    /*#SearchPG
+    {
+    margin-top:0px !important;
+    }*/
+    .search-controls-My_request
+    {
+        margin: 0px !important;
+    }
+
+    .padoneper
+    {
+        padding: 1%;
+    }
+
+    .dvFilter
+    {
+        box-shadow: 1px 1px 5px #ddd;
+        border: 1px solid #ddd;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .clsPnrList
+    {
+        transition: .4s ease-in;
+        cursor: pointer;
+        padding: 5px;
+        background-color: #efefef;
+        border-radius: 4px;
+        border: 1px solid #f0f;
+        width: 80px;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .clsPnrList:hover
+    {
+        cursor: pointer;
+        background-color: #c0c;
+        padding: 8px;
+        border-radius: 5px;
+        color: #fff;
+    }
+
+    .clsPNRButtons
+    {
+        width: 100%;
+        height: 40px;
+        border-bottom: 2px solid #f0f;
+    }
+
+    .toolti
+    {
+        display: inline-block;
+    }
+
+        .toolti .tooltiptext
+        {
+            visibility: hidden;
+            max-width: 220px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            white-space: pre-wrap;
+            left: 30px;
+        }
+
+        .toolti:hover .tooltiptext
+        {
+            visibility: visible;
+        }
+
+    .printmang
+    {
+        background: #50b0fc;
+        padding: 10px 0;
+        color: #fff;
+        /*border: 1px solid #f4f4f4;*/
+        border-radius: 2px;
+        font-size: 15px;
+        float: left;
+    }
+
+    .mailmang
+    {
+        background: #ff6666;
+        padding: 10px 0;
+        color: #fff;
+        /*border: 1px solid #f4f4f4;*/
+        float: right;
+        border-radius: 2px;
+        font-size: 15px;
+    }
+
+    em.spritepage
+    {
+        float: left;
+        margin-left: 10px;
+    }
+
+    .spncls h5
+    {
+        padding: 12px 0;
+        margin-top: 0;
+        margin-bottom: 0px;
+        border: 1px solid #e7e7e7;
+        box-shadow: 0px 1px 1px 0px #ccc;
+        border-bottom: 2px solid #CCC;
+        border-radius: 2px;
+    }
+
+    .col0
+    {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .spncls h5:hover
+    {
+        background: #f6f6f6;
+    }
+
+        .spncls h5:hover .myicon
+        {
+            color: #fff;
+        }
+
+    .spncls img
+    {
+        float: left;
+        text-align: left;
+        padding-left: 15px;
+    }
+</style>
+<style>
+    @@media (max-width:480px)
+    {
+        .simple-tab.color-1 .nav-tab-item
+        {
+            display: inline-block;
+        }
+
+            .simple-tab.color-1 .nav-tab-item i
+            {
+                margin: 0 !important;
+                padding: 0 10px !important;
+                margin-top: 5px !important;
+                font-size: 16px !important;
+            }
+    }
+
+    .udk-nav-left
+    {    float: left;
+    }
+</style>
+
+<section class="user-profile">
+    <div class="row row10">
+        <div class="col-xs-12 col10" style="margin-top:1%">
+            <div class="b-tabs">
+                <div class="simple-tab tab-4 color-1 tab-wrapper">
+                    <div class="tab-nav-wrapper" style="display:none">
+                        <div class="nav-tab  clearfix scrollcls">
+                            <div class="nav-tab-item udk-nav-left active" id="tbnavCRMManagement" style="padding: 0 5% !important;">
+                                <h5><i class="fa fa-dashboard myicon" style=""></i><span class="hidden-xs">CRM Management</span>
+                                </h5>
+                            </div>
+                            <div class="nav-tab-item udk-nav-left" style="border-left: 1px solid #fff;padding: 0 5% !important;" id="tbnavCRMDashboard">
+                                <h5><i class="fa fa-volume-control-phone myicon"></i><span class="hidden-xs">CRM Dashboard</span>
+                                </h5>
+                            </div>
+                          @*  <div class="nav-tab-item udk-nav-left" style="border-left: 1px solid #fff" id="tbnavcancel">
+                                <h5><i class="fa scls fa-remove myicon"></i><span class="hidden-xs">CRM Customer</span>
+                                </h5>
+                            </div>*@
+                           
+                        </div>
+                    </div>
+                    <div class="tabs-content clearfix">
+
+                        <div id="tbbodybkdhistory" class="tab-info active" style="display: block;height:60px;">
+                           @Html.Partial("_CRMManagement")
+                        </div>
+
+                        <div id="tbbodyviewpnr" class="tab-info" style="display: none;">
+                            @Html.Partial("_CRMEnquiry")
+                        </div>
+
+                       @* <div id="tbbodycancel" class="tab-info " style="display: none;">
+                            @Html.Partial("_CRMCustomer")
+                        </div>*@
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="datailtab" class="modal fade" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+
+            <div class="modal-header clsPopupHead" style="border-bottom: 3px solid #227ac0;">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span style="color: #000"
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Manage Booking</h4>
+            </div>
+
+            <div class="modal-body" id="dvinnerFR" style="padding-bottom: 15px !important;">
+
+                <div class="row row0" style="text-align: center; margin-left: 0px; margin-right: 0px;">
+                    <div class="col-lg-12" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div class="row row0 totickethide" style="margin-left: 0px; margin-right: 0px;">
+                            <div class="col-lg-5 printmang" style="cursor: pointer; width: 48%;" onclick="PrintTicketvpnrBOOK()">
+                                <div class="spritepage"><span class="sprit_print"></span></div>
+                                <span style="vertical-align: top; line-height: 25px;">Print</span>
+                            </div>
+                            @*kalai*@
+                            <div class="col-lg-5 mailmang" style="cursor: pointer; width: 48%;" onclick="EmailPrintTicketpopUp(0)">
+                                <div class="spritepage"><span class="sprit_mail"></span></div>
+                                <span style="vertical-align: top; line-height: 25px;">Mail</span>
+                            </div>
+                            @*kalai*@
+                        </div>
+                        <div class="row spncls" style="text-align: center">
+
+                            <div class="col-lg-12 col0" style="margin-bottom: 15px;">
+                                @*kalai*@
+                                <h5 style="cursor: pointer" onclick="viewpnrdetail('V')"><em class="spritepage"><span
+                                    class="sprit_view"></span></em><span style="font-size: 13px; font-weight: 600;">View
+                                        PNR</span><span id="viewspan_id" style="display: none"></span></h5>
+                            </div>
+                            <div class="col-xs-12 col0 totickethide" style="margin-bottom: 15px;">
+                                @*kalai*@
+                                <h5 style="cursor: pointer" onclick="Cancelationdetail()"><em class="spritepage"><span
+                                    class="sprit_cancel"></span></em><span style="font-size: 13px; font-weight: 600;">Cancellation</span><span
+                                        id="Cancelspan_id" style="display: none"></span></h5>
+                            </div>
+                            <div class="col-xs-12 col0 totickethide">
+                                @*kalai*@
+                                <h5 style="cursor: pointer" onclick="ReshaduleDetail()"><em class="spritepage"><span
+                                    class="sprit_reschedule"></span></em><span style="font-size: 13px; font-weight: 600;">
+                                        Reschedule</span><span id="reshspan_id" style="display: none"></span></h5>
+                            </div>
+                            <div class="col-xs-12 col0 " id="totickdiv" style="display: none">
+                                @*kalai*@
+                                <h5 style="cursor: pointer" onclick="viewpnrdetail('I')"><em class="spritepage"><span
+                                    class="sprit_reschedule"></span></em><span style="font-size: 13px; font-weight: 600;">
+                                        To Ticket</span><span id="To_ticiket" style="display: none"></span></h5>
+                            </div>
+                        </div>
+                    </div>
+                    @*   <div class="col-xs-12 alncenter" style="color:#ccc"> Please refresh your search results to review the latest fares </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdfPrintSession" />
+
+<script src="~/js/CommonJS/jquery-ui-1.8.20.min.js"></script>
+    <script src="~/js/Column_Table/jquery.columns.js"></script>
+    <script src="~/js/Column_Table/mustache.min.js"></script>

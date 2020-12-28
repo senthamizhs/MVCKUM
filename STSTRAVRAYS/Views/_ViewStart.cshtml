@@ -1,0 +1,51 @@
+﻿@{
+    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"].ToString();
+    var action = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString().ToUpper();
+    string themetype = System.Configuration.ConfigurationManager.AppSettings["apptheme"].ToString();
+    string FLAG = Session["FLAG"] != null ? Session["FLAG"].ToString() : "";
+    string strTerminalType = Session["TERMINALTYPE"] != null && Session["TERMINALTYPE"].ToString() != "" ? Session["TERMINALTYPE"].ToString() : System.Configuration.ConfigurationManager.AppSettings["TerminalType"].ToString();
+
+    if (action.ToUpper() == "LOGIN" || action.ToUpper() == "VATREGISTRATIONFORM" || action.ToUpper() == "COMINGSOON" || action.ToUpper() == "BESTBUYFARERULE" || action.ToUpper() == "SESSIONEXP" || action.ToUpper() == "SEATMPAS" || action.ToUpper() == "PAYMENT_MIGS" || action.ToUpper() == "PAYMENT_NI" || action.ToUpper() == "PAYMENT_RESPONSE" || action.ToUpper() == "DOWNLOAD" || action.ToUpper() == "BOOKINSURANCE" || action.ToUpper() == "PAYMENTAPI" || FLAG == "M" || action.ToUpper() == "FORMINGINVOICEDETAILS" || action.ToUpper() == "AGENTREQUEST" || (action.ToUpper() == "CONTACTUS" && System.Configuration.ConfigurationManager.AppSettings["APP_HOSTING"] != "BSA") || action.ToUpper() == "REGISTRATION" || action.ToUpper() == "THANKYOU" || action.ToUpper() == "VISAOFFLINECREATION")
+    {
+
+    }
+    else
+    {
+        if (System.Configuration.ConfigurationManager.AppSettings["APP_HOSTING"] == "B2B" || System.Configuration.ConfigurationManager.AppSettings["APP_HOSTING"] == "BOA")
+        {
+            Layout = "~/Views/Shared/_LayoutBSA_Home.cshtml";
+        }
+        else if (System.Configuration.ConfigurationManager.AppSettings["APP_HOSTING"] == "BSA")
+        {
+            if (action != "FLIGHTS" || strTerminalType == "M")
+            {
+                Layout = "~/Views/Shared/_LayoutBSA_Home.cshtml";
+            }
+            else
+            {
+                Layout = "~/Views/Shared/_LayoutBSA.cshtml";
+            }
+        }
+        else
+        {
+            if (themetype.ToUpper().Trim() == "THEME2")
+            {
+                Layout = "~/Views/Shared/_LayoutTheme2.cshtml";
+            }
+            else if (themetype.ToUpper().Trim() == "THEME3")
+            {
+                Layout = "~/Views/Shared/_LayoutTheme3.cshtml";
+            }
+            else if (themetype.ToUpper().Trim() == "THEME4")
+            {
+                Layout = "~/Views/Shared/_LayoutTheme4.cshtml";
+            }
+            else
+            {
+                Layout = "~/Views/Shared/_Layout.cshtml";
+            }
+
+        }
+    }
+
+}

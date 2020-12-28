@@ -1,0 +1,1642 @@
+﻿@{
+    string qrystrflg = System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"].ToString();
+    string strDisplaycls = string.Empty;
+    strDisplaycls = (System.Configuration.ConfigurationManager.AppSettings["Producttype"].ToString() == "RBOA"|| System.Configuration.ConfigurationManager.AppSettings["Producttype"].ToString() == "DEIRA" ) ? "style=display:none;" : "";
+    string strProduct = System.Configuration.ConfigurationManager.AppSettings["Producttype"].ToString();
+    }
+
+<!DOCTYPE html>
+<html lang="en" data-textdirection="LTR" class="loading">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="dashboard smartview shreyas stunner cbt.">
+    <meta name="keywords" content="admin dashboard panel shreyas stunner cbt travel booking tool scorecard">
+    <meta name="author" content="STUNNER">
+    <title>CRM-Reports </title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <!-- BEGIN VENDOR CSS-->
+    <!-- font icons-->
+    <link href="~/Content/CSS/Dahboard/TemplateOverwriteS.css?@qrystrflg" rel="stylesheet" />
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="~/Content/CSS/Dahboard/animate.css" rel="stylesheet" />
+    <link href="~/Content/CSS/Dahboard/icomoon.css?@qrystrflg" rel="stylesheet" />
+    <link href="~/Content/CSS/Dahboard/circle.css?@qrystrflg" rel="stylesheet" />
+    <link href="~/Content/CSS/Dahboard/headercss.min.css?@qrystrflg" rel="stylesheet" />
+    <link href="~/Content/CSS/Dahboard/headericon.css?@qrystrflg" rel="stylesheet" />
+    <link href="~/Content/CSS/Dahboard/loader.min.css?@qrystrflg" rel="stylesheet" />
+    <link href="~/Content/CSS/Dahboard/style.css?@qrystrflg" rel="stylesheet" />
+    <link href="~/Content/CSS/Dahboard/mydesign.css?@qrystrflg" rel="stylesheet" />
+    <link href="~/Content/CSS/Dahboard/classic.css?@qrystrflg" rel="stylesheet" />
+    <link href="~/Content/CSS/TravelCalendar/fullcalendar.css?@qrystrflg" rel="stylesheet" />
+    <link href="~/Content/CSS/Search/jquerycalender-new.css?@qrystrflg" rel="stylesheet" />
+    <script src="~/js/AppsJS/CBTAPPS.js"></script>
+    <script src="~/js/CommonJS/TravelCalendar/fullcalendarmoment.js?@qrystrflg"></script>
+    <script src="~/js/CommonJS/TravelCalendar/fullcalendar.js?@qrystrflg"></script>
+
+    <style>
+        @@media (min-width:768px) {
+            .row {
+                width: 100%;
+            }
+        }        
+    </style>
+
+    @if (strProduct == "DEIRA")
+    {
+        <style>
+            ._M_RTME5 {
+                overflow-y: auto !important;
+            }
+
+            .wrapper {
+                height: calc(100vh - 100px);
+            }
+        </style>
+    }
+
+</head>
+
+@{
+    string SessionloginKey = Session["Webcheckkeytdid"] != null ? Session["Webcheckkeytdid"].ToString() : "";
+}
+
+<body data-open="click" data-menu="vertical-menu" data-col="2-columns" class="vertical-layout vertical-menu 2-columns  fixed-navbar" style="overflow-x: hidden; overflow-y: scroll">
+    <div id="divchktrvlclderexportexl"></div>
+    <div class="app-content container-fluid" id="homebrd" style="background: #fff;margin-top:80px;width:96%;">
+        <div class="content-wrapper">
+            <div class="content-body">
+
+                <!-- CRM2 stats -->
+                <div class="card sam" @strDisplaycls>
+                    <div class="card-body">
+                        <div class="col-lg-1 col-xs-12 hidden-xs">
+                            <img src="@Url.Content("~/Images/GIF-FIN_1.gif")" class="card-img" />
+                        </div>
+                        <div class="col-lg-11 col-xs-12 header-top">
+                            <div class="row header-navbar">
+                                <div class="col-lg-2 col-xs-6">
+                                    <input type="text" readonly="readonly" class="form-control clsval" placeholder="Fromdate" id="txtFDt" />
+                                    <label for="txtFDt" class="dashCalL"></label>
+                                </div>
+                                <div class="col-sm-3 col-md-2 col-lg-2 col-xs-6" style="position: relative;">
+                                    <input type="text" readonly="readonly" class="form-control clsval" placeholder="Todate" id="txtTDt" />
+                                    <label for="txtTDt" class="dashCalR"></label>
+                                </div>
+
+                                <div class="col-lg-8 col-sm-7 col-xs-12 check-bx">
+                                    <input type="checkbox" class="cursor" onchange="checkboxchange()" id="chekcls" name="" checked value="">
+                                    <label class="cursor lblcls" for="chekcls">All</label>
+                                    <div class="breadcrumb brnch_filr">
+                                        <div class="minwithcls" id="Branch_name" onclick="slidermove('Branch_name')">Branch Name</div>
+                                        <div class="minwithcls" id="Corportate_name" onclick="slidermove('Corportate_name')">Agency Name</div>
+                                        <div class="minwithcls" id="Employee_name" onclick="slidermove('Employee_name')">Users</div>
+                                        <img onclick="GetDBData()" src="@Url.Content("~/Images/" + strProduct + "/search.png")" alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container col0" style="width:100%;">
+                            <div class="row" id="firstdiv">
+                                <div id="dvtotcalforsmg"></div>
+                                <div class="col-xs-12" style="margin-top: 2%;">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="card-block">
+                                                <div class="">
+                                                    <div class="row" style="width: 100%">
+                                                        <div class="col-lg-12 col0">
+                                                            <div class="row" style="margin-left: 0px; margin-right: 0px;">
+                                                                <div class="col-lg-4 udk-right-border-branch">
+                                                                    <div class="md-card-header mycsscls colorcls1" data-background-color="orange" style="top: 0px">
+                                                                        <input type="text" class="textclssa form-control clsval hasDatepicker" onkeyup="namefilter()" id="searchtxt1" style="display: none;" placeholder="Search" /><i class="fa fa-close closecls" id="coloe_1"></i>
+                                                                        <span class="menucls" id="serch_1"><i class="fa fa-search"></i></span>
+                                                                        <h4 class="title">Branch Name</h4> @*1123*@
+                                                                        <p class="category">New employees on 15th September, 2016</p>
+                                                                        <div class="row sortcls">
+                                                                            <div class="col-lg-offset-2 col-lg-10">
+                                                                                <div class="col-lg-2 col-xs-2 col-xs-2 bordclsbrnanch" id="Branch_login" onclick="Sortingdash(this)">Login <i class="fa fa-long-arrow-down faarowcls" aria-hidden="true"></i></div>
+                                                                                <div class="col-lg-4 col-xs-5 col-xs-5 bordclsbrnanch" id="Branch_trans" onclick="Sortingdash(this)">Transactions<i class="fa fa-long-arrow-down faarowcls" aria-hidden="true"></i></div>
+                                                                                <div class="col-lg-4 col-xs-5 col-xs-5 bordclsbrnanch" id="Branch_Avail" onclick="Sortingdash(this)">Avail Req<i class="fa fa-long-arrow-down faarowcls" aria-hidden="true"></i></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="udk-branch-list">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-12 sklistcls">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4 udk-right-border-corporate pnl-fulldet  active">
+                                                                    <div class="md-card-header mycsscls colorcls2" data-background-color="orange">
+                                                                        <input type="text" class="textclssa form-control clsval hasDatepicker" onkeyup="corpfilter()" id="searchtxt2" style="display: none;" placeholder="Search" /><i class="fa fa-close closecls" id="coloe_2"></i>
+                                                                        <span class="menucls" id="serch_2"><i class="fa fa-search"></i></span>
+
+                                                                        <h4 class="title" style="color: #fff!important;">Agency Name</h4> @*1123*@
+                                                                        <p class="category" style="color: #fff!important;">New employees on 15th September, 2016</p>
+                                                                        <div class="row sortcls" style="left: 34px;">
+                                                                            <div class="col-lg-offset-2 col-lg-10">
+                                                                                <div class="col-lg-2 col-xs-2 bordclscrop" id="Corp_login" onclick="Sortingdash(this)">Login <i class="fa fa-long-arrow-down faarowcls" aria-hidden="true"></i></div>
+                                                                                <div class="col-lg-4 col-xs-5 bordclscrop" id="Corp_trans" onclick="Sortingdash(this)">Transactions<i class="fa fa-long-arrow-down faarowcls" aria-hidden="true"></i></div>
+                                                                                <div class="col-lg-4 col-xs-5 bordclscrop" id="Corp_Avail" onclick="Sortingdash(this)">Avail Req<i class="fa fa-long-arrow-down faarowcls" aria-hidden="true"></i></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="udk-corporate-list">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-12 sklistcorp">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4 udk-right-border-employee pnl-fulldet  active">
+                                                                    <div class="md-card-header mycsscls colorcls3" data-background-color="orange">
+                                                                        <h4 class="title" style="color: #fff!important;">Users </h4>
+                                                                        <input type="text" class="textclssa form-control clsval hasDatepicker" onkeyup="employefilter()" id="searchtxt3" style="display: none;" placeholder="Search" /><i class="fa fa-close closecls" id="coloe_3"></i>
+                                                                        <span class="menucls" id="serch_3"><i class="fa fa-search"></i></span>
+                                                                        <p class="category" style="color: #fff!important;">New employees on 15th September, 2016</p>
+                                                                        <div class="row sortcls">
+                                                                            <div class="col-lg-offset-2 col-lg-10">
+                                                                                <div class="col-lg-2 col-xs-2 bordcls" id="User_login" onclick="Sortingdash(this)">Login <i class="fa fa-long-arrow-down faarowcls" aria-hidden="true"></i></div>
+                                                                                <div class="col-lg-4 col-xs-5 bordcls" id="User_trans" onclick="Sortingdash(this)">Transactions<i class="fa fa-long-arrow-down faarowcls" aria-hidden="true"></i></div>
+                                                                                <div class="col-lg-4 col-xs-5 bordcls" id="User_Avail" onclick="Sortingdash(this)">Avail Req<i class="fa fa-long-arrow-down faarowcls" aria-hidden="true"></i></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="udk-employee-list">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-12 sklistemp">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="inputfielfd">
+                                        <div class="col-lg-offset-4 col-lg-4 clschk" style="margin-bottom: 3px">
+                                            <div class="col-lg-12">
+                                                <div class="col-lg-4">
+                                                    <span class="logincls loginclssa"><i class="fa fa-eye "></i>First login</span>
+                                                </div>
+                                                <div class="col-lg-4 last-tan" style="margin-left: -36px;">
+                                                    <span class="logincls trancls"><i class="fa fa-money "></i>Last Transactions</span>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <span class="logincls searchcls"><i class="fa fa-search "></i>Last Avail Request</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                            <div class="card-block" @strDisplaycls>
+                                <div class="container hideforsmsngdiv col10" style="width:100%;">
+                                    @*1123*@
+                                    <div class="row hidesms">
+
+                                        <div class="col-lg-12 hidecmmncls col0">
+                                            <div class="col-lg-2 col-xs-6 marginpadcls">
+                                                <div class="circle-tile">
+                                                    <a href="#">
+                                                        <div class="circle-tile-heading dark-blue">
+                                                            <span class="tcll"></span>
+                                                        </div>
+                                                    </a>
+                                                    <div class="circle-tile-content dark-blue">
+                                                        <div class="circle-tile-description text-faded">
+                                                            Total Call
+                                                        </div>
+                                                        <div class="circle-tile-number text-faded">
+                                                            <span id="Total_caall">0</span>
+
+                                                        </div>
+                                                        <a href="#" class="circle-tile-footer"></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-2  col-xs-6 marginpadcls">
+                                                <div class="circle-tile">
+                                                    <a href="#">
+                                                        <div class="circle-tile-heading orange">
+                                                            <span class="cryfodcll"></span>
+                                                        </div>
+                                                    </a>
+                                                    <div class="circle-tile-content orange">
+                                                        <div class="circle-tile-description text-faded">
+                                                            Carry Forward Call
+                                                        </div>
+                                                        <div class="circle-tile-number text-faded">
+                                                            <span id="carry_forward">0</span>
+                                                        </div>
+                                                        <a href="#" class="circle-tile-footer"></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2  col-xs-6 marginpadcls">
+                                                <div class="circle-tile">
+                                                    <a href="#">
+                                                        <div class="circle-tile-heading green">
+                                                            <span class="opncll"></span>
+                                                        </div>
+                                                    </a>
+                                                    <div class="circle-tile-content green">
+                                                        <div class="circle-tile-description text-faded">
+                                                            Total Open Call
+                                                        </div>
+                                                        <div class="circle-tile-number text-faded">
+                                                            <span id="Tot_Open">0</span>
+                                                        </div>
+                                                        <a href="#" class="circle-tile-footer"></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-2  col-xs-6 marginpadcls">
+                                                <div class="circle-tile">
+                                                    <a href="#">
+                                                        <div class="circle-tile-heading blue">
+                                                            <span class="phncllrot"></span>
+                                                        </div>
+                                                    </a>
+                                                    <div class="circle-tile-content blue">
+                                                        <div class="circle-tile-description text-faded">
+                                                            User Closed Call
+                                                        </div>
+                                                        <div class="circle-tile-number text-faded">
+                                                            <span id="User_Close">0</span>
+
+                                                        </div>
+                                                        <a href="#" class="circle-tile-footer"></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-xs-12 marginpadcls">
+                                                <div class="circle-tile">
+                                                    <a href="#">
+                                                        <div class="circle-tile-heading red">
+                                                            <span class="belaltcll"></span>
+                                                        </div>
+                                                    </a>
+                                                    <div class="circle-tile-content red">
+                                                        <div class="circle-tile-description text-faded">
+                                                            Auto Closed Call
+                                                        </div>
+                                                        <div class="circle-tile-number text-faded">
+                                                            <span id="Auto_Close">0</span>
+
+                                                        </div>
+                                                        <a href="#" class="circle-tile-footer">
+
+                                                            <span class="spnproudctvecalls cmnprodvecalls">
+                                                                @*<span class="spnprodplssign spncmnplusmnsdsn" style=""> [+] </span>*@
+                                                                <span class="">[+] </span>
+                                                                <b style="padding: 2px;">
+                                                                    <span id="Productive_Call" style="font-size: 20px;">0</span>
+                                                                </b>
+                                                            </span>
+                                                            <span class="spnnonproudctvecalls cmnprodvecalls">
+                                                                @*<span class="spnprodminussign spncmnplusmnsdsn" style=""> [-] </span>*@
+                                                                <span class="">[-] </span>
+                                                                <b style="padding: 2px;">
+                                                                    <span id="NonProductive_Call" style="font-size: 20px;">0</span>
+                                                                </b>
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    </div>
+                </div>
+
+                <!-- CRM2 ends -->
+                <!-- Reminder & Graph -->
+                <div class="container col0" style="display: inherit;width:100%;">
+                    <div class="row row0">
+                        <div class="col-lg-12 col-sm-12 col-xs-12 sarath">
+                            <div class="col-lg-4 col-xs-12 padnon">
+                                @*1123*@
+                                <div class="card-block ">
+                                    <div class="container pad-lft pad-rgt mrgn-non" style="width: 100% !important;">
+                                        <div class="col-lg-12 sal-rpt col0">
+                                            <div class="md-layout sal-rpthedr">
+                                                <div class="md-card-header mycsscls colorcls1" data-background-color="orange">
+                                                    <span class="title">SALES REPORT</span>
+                                                    <label class="spritesalserep"></label>
+                                                    <span class="category branchcorp" style="display: block;"><span class="newcity"></span><span class="newcity"></span></span>
+                                                </div>
+                                                <div class="row" style="margin-left: 1px;">
+                                                    <div class="col-lg-6 col-xs-6 wdth49">
+
+                                                        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50 pad-non">
+                                                            <div class="md-card md-card-stats md-theme-default">
+                                                                <div class="md-card-header">
+                                                                    <span class="ttsael"></span>
+                                                                </div>
+                                                                <span class="totalsales"></span>
+                                                                <div class="md-card-content">
+                                                                    <p class="category" style="color: #51d338 !important">Total Sales</p>
+                                                                    <h3 class="title" id="Tot_sales">0</h3>
+                                                                </div>
+                                                                <div class="md-card-actions md-alignment-left">
+                                                                    <div class="stats">
+                                                                        <span class="segntct"></span>
+                                                                        <a href="javascript:void(0)">Segment count <b id="Tot_seg">0</b> </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-xs-6 wdth49">
+                                                        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50 pad-non">
+                                                            <div class="md-card md-card-stats md-theme-default">
+                                                                <div class="md-card-header">
+                                                                    <span class="caclsprte"></span>
+                                                                </div>
+                                                                <div class="md-card-content">
+                                                                    <p class="category " style="color: #d43f3a !important">Cancellation</p>
+                                                                    <h3 class="title" id="cancel_val">
+                                                                        0
+                                                                        <small></small>
+                                                                    </h3>
+                                                                </div>
+                                                                <div class="md-card-actions md-alignment-left">
+                                                                    <div class="stats">
+                                                                        <span class="segntct1"></span>
+                                                                        <a href="#pablo"><a href="javascript:void(0)">Segment count <b id="Cancel_seg">0</b> </a></a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-xs-6 wdth49">
+                                                        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50 pad-non">
+                                                            <div class="md-card md-card-stats md-theme-default">
+                                                                <div class="md-card-header">
+                                                                    <span class="reusprte"></span>
+                                                                </div>
+                                                                <div class="md-card-content">
+                                                                    <p class="category" style="color: #d58512 !important">Reschedule</p>
+                                                                    <h3 class="title" id="reshadule_val">0</h3>
+                                                                </div>
+                                                                <div class="md-card-actions md-alignment-left">
+                                                                    <div class="stats">
+                                                                        <span class="segntct2"></span>
+                                                                        <a href="javascript:void(0)">Segment count <b id="res_seg">0</b> </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-xs-6 wdth49">
+                                                        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50 pad-non">
+                                                            <div class="md-card md-card-stats md-theme-default">
+                                                                <div class="md-card-header">
+                                                                    <span class="bookfald"></span>
+                                                                </div>
+                                                                <div class="md-card-content">
+                                                                    <p class="category" style="color: #e74c3c !important">Booking Failed</p>
+                                                                    <h3 class="title" id="booking_fail">0</h3>
+                                                                </div>
+                                                                <div class="md-card-actions md-alignment-left">
+                                                                    <div class="stats">
+                                                                        <span class="segntct3"></span>
+                                                                        <a href="javascript:void(0)">Segment count <b id="booking_seg">0</b> </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 col-xs-12 sam travel-cal">
+                                <div id="dvCalSearch" class="tab-info active" style="display: block;">
+                                    <div id="dvcalendar" style="width: 100%">
+                                        <label class="spritesalserep"></label>
+                                        <h4 class="sidebar-title color-dark-2 colract trvlcalheading">Duty Care</h4>@*Travel Calendar*@
+                                        <div id="Fullcalendarloading" class="result-item-image txt-ac">
+                                            <div class="full pr txt-ac">
+                                                <div class="sk-wave">
+                                                    <div class="sk-rect sk-rect1"></div>
+                                                    <div class="sk-rect sk-rect2"></div>
+                                                    <div class="sk-rect sk-rect3"></div>
+                                                    <div class="sk-rect sk-rect4"></div>
+                                                    <div class="sk-rect sk-rect5"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="F_yearcal">
+                                            <a href="#">
+                                                <input id="innerfullcalendar" type="hidden" />
+                                            </a>
+                                        </div>
+                                        <div id='Fullcalendar'></div>
+                                        <a style="display: none;" class="popup-text btn wholeanchorexporteclebtn" id="" data-toggle="tooltip" data-placement="bottom" title="Export to Excel">
+                                            <span id="exporticon">
+                                                <input id="overllcheckboxtrvlcalnid" type="checkbox" onchange="overalltrvlcldecheckboxfn(this)" />
+                                            </span>
+                                            <img onclick="trvlclnderexportexl()" src="@Url.Content("~/Images/" + strProduct + "/excel.png")">
+                                            <span class="excelIcon" onclick="trvlclnderexportexl()" style="display: none"></span>
+                                        </a>
+                                        <button onclick="trvlcalclosefun()" type="button" style="display: none" class="close trvlcldpopupbtnclose"><span aria-hidden="true">×</span></button>
+                                        <div id="TvlClndrTotalSelectedCountDetails"></div>
+                                    </div>
+                                </div>
+
+                                <div class="dmy_sale" style="display: none">
+                                    <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50">
+                                        <div class="md-card md-card-nav-tabs md-theme-default">
+                                            <div class="md-card-content" style="margin-left: -18px; width: 106%">
+                                                <span class="md-nav-tabs-title">SMARTY : </span>
+                                                <div class="md-tabs md-success md-alignment-left md-theme-default">
+                                                    <div class="md-tabs-navigation md-elevation-0">
+                                                        <button type="button" class="md-button md-theme-default  md-icon-label mddiv" onclick="slidermovetab('yesterday_div')" id="yesterday_div" mdicon="bug_report">
+                                                            <div class="md-ripple">
+                                                                <div class="md-button-content"><span class="yestrdayicon"></span><span class="md-tab-label fntcls">Yesterday</span></div>
+                                                                <span></span>
+                                                            </div>
+                                                        </button>
+                                                        <button type="button" class="md-button md-theme-default md-icon-label mddiv md-active" onclick="slidermovetab('today_div')" id="today_div" mdicon="code">
+                                                            <div class="md-ripple">
+                                                                <div class="md-button-content"><span class="todayicon"></span><span class="md-tab-label fntcls">Today</span></div>
+                                                                <span><span class="md-ripple-wave"></span></span>
+                                                            </div>
+                                                        </button>
+                                                        <button type="button" class="md-button md-theme-default md-icon-label mddiv" onclick="slidermovetab('tomorrow_div')" id="tomorrow_div" mdicon="cloud">
+                                                            <div class="md-ripple">
+                                                                <div class="md-button-content">
+                                                                    <span class="tomorowicn"></span>
+                                                                    <span class="md-tab-label fntcls">Tomorrow</span>
+                                                                </div>
+
+                                                            </div>
+                                                        </button>
+                                                        <span class="md-tabs-indicator md-tabs-indicator-right"></span>
+                                                    </div>
+                                                    <div class="md-content md-tabs-content md-theme-default overflow" style="height: 363px;">
+                                                        <div class="md-tabs-container sam">
+                                                            <div id="tab-home" class="md-tab">
+                                                                <div class="md-content md-table md-theme-default">
+                                                                    <div class="md-content md-table-content md-scrollbar md-theme-default">
+                                                                        <div class="row yesterday" style="overflow-x: hidden;">
+                                                                            <div class="col-lg-12">
+                                                                                <div class="breadcrumb"><span class="Branch_name brnchclstab" style="font-weight: 400!important;">All Branch Name</span><span class="Corporate_name corpclstab" style="font-weight: 400!important;">All Agency Name</span><span id="Totcnt_yes" class="toalcnt deptcount" style="font-weight: 400!important;">0</span></div>
+                                                                                <div class="col-lg-4"></div>
+                                                                                <div class="col-lg-4"></div>
+                                                                                <div class="col-lg-4"></div>
+                                                                            </div>
+                                                                            <div class="col-lg-12 col-xs-12" id="yesterdaydiv"></div>
+                                                                            <div class="col-md-12 col-xs-12 padoneper " id="Div_Main_Data_Tabe_yesterday">
+                                                                                <div class="row">
+                                                                                    <div class="search-controls-My_request">
+                                                                                        <div id="Yesterdayhistroy" class="columns clr-blk"></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div id="tab-pages" class="md-tab">
+                                                                <div class="md-content md-table md-theme-default">
+                                                                    <div class="md-content md-table-content md-scrollbar md-theme-default">
+                                                                        <div class="row yesterday">
+                                                                            <div class="breadcrumb"><span class="Branch_name brnchclstab" style="font-weight: 400!important;">All Branch Name</span><span class="Corporate_name corpclstab" style="font-weight: 400!important;">All Agency Name</span><span class="deptcount" id="Totcnt_today" class="toalcnt" style="font-weight: 400!important;">0</span></div>
+                                                                            <div class="col-lg-12 col-xs-12" id="todaydiv"></div>
+                                                                            <div class="col-md-12 col-xs-12 padoneper " id="Div_Main_Data_Tabe_Today">
+                                                                                <div class="row">
+                                                                                    <div class="search-controls-My_request">
+                                                                                        <div id="Todayhistory" class="columns clr-blk"></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div id="tab-posts" class="md-tab">
+                                                                <div class="md-content md-table md-theme-default">
+                                                                    <div class="md-content md-table-content md-scrollbar md-theme-default">
+                                                                        <div class="row yesterday">
+                                                                            <div class="breadcrumb"><span class="Branch_name brnchclstab" style="font-weight: 400!important;">All Branch Name</span><span class="Corporate_name corpclstab" style="font-weight: 400!important;">All Agency Name</span><span id="Totcnt_tom" class="toalcnt deptcount" style="font-weight: 400!important;">0</span></div>
+                                                                            <div class="col-lg-12 col-xs-12" id="tomorrow_divtble"></div>
+                                                                            <div class="col-md-12 col-xs-12 padoneper " id="Div_Main_Data_Tabe_tomorrow">
+                                                                                <div class="row">
+                                                                                    <div class="search-controls-My_request">
+                                                                                        <div id="tomorowhistory" class="columns clr-blk"></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row0">
+                        <div class="col-lg-12 myimgcls hidden-xs mrgtp-20 mb-25">
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-block">
+                                            @{string cursopinte = Session["UserName"] != null && Session["UserName"].ToString() == "shankar" ? "cursor:pointer" : ""; }
+                                            <img id="MISimgbtm" style="@cursopinte" src="@Url.Content("~/Images/" + strProduct + "/MIS.png")" alt="" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-block">
+                                            <img id="DMBIimgbtm" style="@cursopinte" src="@Url.Content("~/Images/" + strProduct + "/DMBI.png")" alt="" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-block">
+                                            <img src="@Url.Content("~/Images/" + strProduct + "/artificial-intelligence.png")" alt="" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+    <script src="~/js/CommonJS/jquery-ui-new.js"></script>
+    <script src="~/js/Column_Table/jquery.columns.js"></script>
+    <script src="~/js/Column_Table/mustache.min.js"></script>
+
+    <!-- END PAGE LEVEL JS-->
+
+    <script>
+        var CalendarBookedCount = '@Url.Action("Getcalendarbookedcount", "Home")';
+        var CalendarBookedFlightDetails = '@Url.Action("Getcalendarbookedflightdetails", "Home")';
+        var session_id = ('@Session["UserName"]' != null && '@Session["UserName"]' != '') ? '@Session["UserName"]' : '';
+        var sessionstrguserid = session_id;
+        var sessionpath = '@Url.Action("SessionExp", "Redirect")';
+        sessionStorage.setItem("Loginusername", session_id);
+        sessionStorage.setItem(session_id, "@SessionloginKey");
+        localStorage.setItem("Logoutsesflag", "N");
+        sessionStorage.setItem("secondtimelogincheck", "N");
+        var curdt = "@ViewBag.currentdate";
+
+        var compCode = "@ViewBag.compCode";
+        var useID = "@ViewBag.useID";
+        var usrName = "@ViewBag.usrName";
+        var seqID = "@ViewBag.seqID";
+        var ipAddr = "@ViewBag.ipAddr";
+        $("#txtTDt").val(curdt);
+        var Noimgpath = "@Url.Content("~/Images/" + strProduct + "/nodata.png")"
+        var filterflag = false;
+        $(document).ready(function () {
+
+            var curr = new Date; // get current date
+
+            var first = curr.getDate();
+            var last = curr.getDate() + 6;
+            var flagviewcalender = "month"
+            var fromdate = "";
+            var todate = "";
+            if (flagviewcalender != "month") {
+                fromdate = new Date(curr.setDate(first)).toUTCString();
+                todate = new Date(curr.setDate(last)).toUTCString();
+            } else {
+                var currentdate = curr
+                fromdate = currentdate.setMonth(currentdate.getMonth(), 1);
+                todate = currentdate.setMonth(currentdate.getMonth() + 1, 0);
+            }
+            fromdate = moment(fromdate).format("DD/MM/YYYY");
+            todate = moment(todate).format("DD/MM/YYYY")
+            // End
+
+            Getcalendarbookedcounts(fromdate, todate, flagviewcalender);
+
+            $('#txtFDt').val(curdt).datepicker(
+                {
+                    dateFormat: "dd/mm/yy",
+
+                    maxDate: curdt
+                });
+            $("#txtTDt").datepicker({
+
+                dateFormat: "dd/mm/yy",
+                minDate: $("#txtFDt").val(),
+                maxDate: curdt
+            });
+            $('#txtFDt').change(function () {
+
+                $("#txtTDt").datepicker("destroy");
+
+
+                $("#txtTDt").datepicker({
+
+                    dateFormat: "dd/mm/yy",
+                    minDate: $("#txtFDt").val(),
+                    maxDate: curdt
+                });
+            });
+
+
+            GetDBData();
+        });
+    </script>
+
+    <script>
+        var value = "";
+        function getValue(type) {
+            var value1 = document.getElementById("txt1").value;
+            if ($("#radio1").prop("checked")) {
+                var type = 'c';
+            }
+            else {
+                var type = 'f';
+            }
+            output(value1, type);
+        }
+
+
+        function getType(type) {
+            value = document.getElementById("txt1").value;
+            if (type == 'c') {
+                var btnid = "btncel";
+                $("#btnfar").removeClass("btncol")
+            }
+            else {
+                var btnid = "btnfar";
+                $("#btncel").removeClass("btncol")
+            }
+
+            $("#" + btnid).toggleClass("btncol")
+            output(value, type);
+        };
+
+        function output(city, type) {
+            $.simpleWeather({
+                location: city,
+                woeid: '',
+                unit: type,//'c','f'
+                success: function (weather) {
+                    html = '<h2><i class="wicon icon-' + weather.code + '"></i> ' + weather.temp + '&deg;' + weather.units.temp + '</h2>';
+                    html += '<ul><li>' + weather.city + ', ' + weather.region + '</li>';
+                    html += '<li class="currently">' + weather.currently + '</li>';
+                    html += '<li>' + weather.wind.direction + ' ' + weather.wind.speed + ' ' + weather.units.speed + '</li></ul>';
+
+                    var forecast = weather.forecast;
+                    html += '<ul class="forecast">';
+                    for (var i = 0; i < forecast.length; i++) {
+                        if (i != 0) {
+                            html += '<li><div><span class="wdate">' + forecast[i].date + '</span><p class="wday">( ' + forecast[i].day + ' )</p><p><b>'
+                                + forecast[i].low + ' - ' + forecast[i].high + ' &deg; ' + weather.units.temp + '</b></p></div></li>';
+                        }
+                        if (i == 5)
+                            break;
+                    }
+                    html += '</ul>';
+
+                    $("#weather").html(html);
+                },
+                error: function (error) {
+                    $("#weather").html('<p>' + error + '</p>');
+                }
+            });
+        }
+    </script>
+
+    <script>
+        var colors = ["#37bc9b", "#f95623", "#3bafdb", "#da4452", "#cd82ad", "#2f4074", "#448e4d", "#b7b83f", "#b9783f", "#b93e3d", "#913167"];
+        var branchdetail = [];
+        var corporate = [];
+        var Empdet = [];
+        function GetDBData() {
+
+            var BranchID = $("body").data("BranchID") != null && $("body").data("BranchID") != undefined && $("body").data("BranchID") != "undefined" ? $("body").data("BranchID") : "";
+            var flag = $("body").data("Flag") != null && $("body").data("Flag") != undefined ? $("body").data("Flag") : "";
+            var ClientID = $("body").data("Clientid") != null && $("body").data("Clientid") != undefined && $("body").data("Clientid") != "undefined" ? $("body").data("Clientid") : "";
+            var Username = $("body").data("Loginname") != null && $("body").data("Loginname") != undefined && $("body").data("Loginname") != "undefined" ? $("body").data("Loginname") : "";
+            $("#loader").show();
+            $("#firstdiv").slideUp("slow");
+
+            if ($("#TvlClndrTotalSelectedCountDetails table").length > 0) {
+                $("#TvlClndrTotalSelectedCountDetails").columns("destroy");
+            }
+            var position = $("#firstdiv").offset().top;
+          
+            var param = {
+                frmDt: $('#txtFDt').val() != "" ? $('#txtFDt').val() : moment().format("DD/MM/YYYY"),
+                toDt: $('#txtTDt').val() != "" ? $('#txtTDt').val() : moment().format("DD/MM/YYYY"),
+                Branchid: BranchID,
+                flag: flag,
+                ClientID: ClientID,
+                Loginname: Username,
+                Sector: "",
+                Flowtype: "T"
+            }
+            $.ajax({
+                url: "@Url.Action("GetDashboardData", "Home")",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(param),
+                dataType: "json",
+                async: true,
+                type: "POST",
+                success: function (jdata) {
+                    var jdata = jdata["Data"];
+                    if (jdata.status != "00") {
+                        //$.unblockUI();
+                        $(".spinner").hide();
+                        $("#loader").hide();
+                        var results = JSON.parse(jdata.results);
+                        if (flag == "") {
+                            branchdetail = results.P_FETCH_SMARTVIEW_MASTER
+                            corporate = results.P_FETCH_SMARTVIEW_MASTER1
+                            Empdet = results.P_FETCH_SMARTVIEW_MASTER2
+                            var selesval = results.P_FETCH_SMARTVIEW_MASTER3
+                            var dutycaredet = results.P_FETCH_SMARTVIEW_MASTER4
+                            var calldet = results.P_FETCH_SMARTVIEW_MASTER5
+                            var totdepcnt = results.P_FETCH_SMARTVIEW_MASTER6
+                            loadbranch(branchdetail)
+                            loadcorp(corporate);
+                            loademp(Empdet)
+                            loaddutycar(dutycaredet)
+                            $("#Tot_sales").html(selesval[0].TotalSales)
+                            $("#Tot_seg").html(selesval[0].TotalSeg)
+                            $("#cancel_val").html(selesval[0].CancellationSales)
+                            $("#Cancel_seg").html(selesval[0].CancellationSeg)
+                            $("#reshadule_val").html(selesval[0].RescheduleSales)
+                            $("#res_seg").html(selesval[0].RescheduleSeg)
+                            $("#booking_fail").html(selesval[0].BookingFailedAmt)
+                            $("#booking_seg").html(selesval[0].BookingFailedSeg)
+                            $("#Total_caall ").html(calldet[0]["TOTAL CALL"])
+                            $("#Tot_Open ").html(calldet[0]["OPEN"])
+                            $("#carry_forward ").html(calldet[0]["OPEN_FWD"])
+                            $("#User_Close").html(calldet[0]["USER CLOSED"])
+                            var nonprudcall = calldet[0]["NP_CALLS_CLOSED"] != null && calldet[0]["NP_CALLS_CLOSED"] != "undefined" && calldet[0]["NP_CALLS_CLOSED"] != "" ? calldet[0]["NP_CALLS_CLOSED"] : 0;
+                            $("#Auto_Close").html(Number(calldet[0]["SYSTEM CLOSED"]) + Number(nonprudcall));
+                            $("#Productive_Call").html(calldet[0]["SYSTEM CLOSED"]);
+                            $("#NonProductive_Call").html(nonprudcall);
+                            $("#Totcnt_today").html(totdepcnt[0].TodayDept)
+                            $("#Totcnt_yes").html(totdepcnt[0].YesterdayDept)
+                            $("#Totcnt_tom").html(totdepcnt[0].TomorrowDept)
+                        } else {
+                            var selesval = results.P_FETCH_SMARTVIEW_MASTER
+                            var dutycaredet = results.P_FETCH_SMARTVIEW_MASTER1
+                            var calldet = results.P_FETCH_SMARTVIEW_MASTER2
+                            var totdepcnt = results.P_FETCH_SMARTVIEW_MASTER3
+                            $("#Tot_sales").html(selesval[0].TotalSales)
+                            $("#Tot_seg").html(selesval[0].TotalSeg)
+                            $("#cancel_val").html(selesval[0].CancellationSales)
+                            $("#Cancel_seg").html(selesval[0].CancellationSeg)
+                            $("#reshadule_val").html(selesval[0].RescheduleSales)
+                            $("#res_seg").html(selesval[0].RescheduleSeg)
+                            $("#booking_fail").html(selesval[0].BookingFailedAmt)
+                            $("#booking_seg").html(selesval[0].BookingFailedSeg)
+                            $("#Total_caall ").html(calldet[0]["TOTAL CALL"])
+                            $("#Tot_Open ").html(calldet[0]["OPEN"])
+                            $("#carry_forward ").html(calldet[0]["OPEN_FWD"])
+                            $("#User_Close").html(calldet[0]["USER CLOSED"])
+                            $("#Auto_Close").html(Number(calldet[0]["SYSTEM CLOSED"]) + Number(calldet[0]["NP_CALLS_CLOSED"]));
+                            $("#Productive_Call").html(calldet[0]["SYSTEM CLOSED"]);
+                            $("#NonProductive_Call").html(calldet[0]["NP_CALLS_CLOSED"]);
+                            $("#Totcnt_today").html(totdepcnt[0].TodayDept)
+                            $("#Totcnt_yes").html(totdepcnt[0].YesterdayDept)
+                            $("#Totcnt_tom").html(totdepcnt[0].TomorrowDept)
+                            loaddutycar(dutycaredet)
+
+                        }
+                    } else {
+                        //  $.unblockUI();
+                        $(".spinner").hide();
+                        $("#loader").hide();
+                    }
+                },
+                error: function (err) {
+                    //$.unblockUI();
+                    $(".spinner").hide();
+                    $("#loader").hide();
+                    alert("Internal Error");
+                }
+            });
+        }
+        function loadbranch(Branch) {
+
+            var s = "";
+            var k = "";
+            //   var stylecls1 = "0px";
+            //  var style = Branch[i].FristLogin != null && Branch[i].FristLogin != "" ? "0" :
+            var stylecls1 = "0";
+            var stylecls2 = "0";
+            if (Branch.length > 0) {
+                // for (var i = 0; i < Branch.length; i++) {
+                $.each(Branch, function (obj, val) {
+                    s += '<div class="udk-lst-branch-lst" id="branch_' + val.BRANCH_ID + '" onclick=branchsort("' + val.BRANCH_ID + '") style="padding: 10px;">';
+                    s += '<span id="barchname_' + obj + '">' + val.BRANCH_NAME + '</span> '
+                    var username = val.LOG_USER_NAME != null && val.LOG_USER_NAME != undefined ? val.LOG_USER_NAME : "";
+                    var Bookingname = val.UserName != null && val.UserName != undefined ? val.UserName : "";
+                    var companyname = val.com_company_name != null && val.com_company_name != undefined ? val.com_company_name : "";
+                    if (val.FristLogin != null && val.FristLogin != undefined && val.FristLogin != "") {
+                        s += '<label class="smalltagBranch loginclssa" style="top:0px;"><i class="fa fa-eye lftcls"></i> ' + companyname + ' - ' + username + '(' + val.FristLogin + ')</label><br/>'
+                    }
+                    if (val.LASTBOOKING != null && val.LASTBOOKING != undefined && val.LASTBOOKING != "") {
+                        stylecls1 = "18"
+                        s += ' <label class="smalltagBranch trancls"><i class="fa fa-money lftcls"></i>' + companyname + ' - ' + Bookingname + '(' + val.LASTBOOKING + ')</label> <br/>';
+                    }
+                    if (val.LASTAVAILMAX != null && val.LASTAVAILMAX != undefined && val.LASTAVAILMAX != "") {
+                        stylecls2 = Number(stylecls1) + Number(17)
+                        s += ' <label class="smalltagBranch searchcls"><i class="fa fa-search lftcls"></i>' + val.LastAvailCompanyName + ' - ' + val.LastAvailUser + '(' + val.LASTAVAILMAX + ')</label> <br/>';
+                    }
+                    // s += '<label class="smalltagBranch searchcls" style="top:36px;"><i class="fa fa-search lftcls"></i>STS Corporate - Hari (12:24 PM)</label>';
+                    s += '</div>'
+                    s += '<hr>'
+                });
+
+                //  }
+            }
+            else {
+                s += '<div clss="row"><div class="col-lg-offset-2 col-lg-10"><img src=' + Noimgpath + '></div><div class="col-lg-12"><span class="nodetail">Sorry your selected branch are not having corporate details please select another branch  </span></div></div>'
+            }
+            $(".sklistcls").html(s)
+        }
+        function loadcorp(corp) {
+            var k = "";
+
+            var stylecls1 = "0";
+            var stylecls2 = "0";
+            if (corp.length > 0) {
+
+                stylecls = 0;
+                //for (var m = 0; m < corp.length; m++) {
+                $.each(corp, function (obj, val) {
+                    var leng = val.CLIENT_NAME.length
+                    stylecls
+                    k += '<div class="udk-lst-corporate-lst" id="corporate_' + val.BRANCH_ID + '_' + obj + '" onclick=Corpsort("' + val.BRANCH_ID + '","' + obj + '","' + val.CLIENT_ID + '") style="padding: 10px;">';
+                    k += '<span>' + val.CLIENT_NAME + '</span> ';
+                    //   k += '<label class="smalltagBranch loginclssa" style="top:0px;"><i class="fa fa-eye lftcls"></i>Hari (12:24 PM)</label><br/>';
+                    var bookingname = val.UserName
+                    if (val.LASTBOOKING != null && val.LASTBOOKING != undefined && val.LASTBOOKING != "") {
+                        k += '<label class="smalltagBranch trancls"style="top:' + stylecls1 + 'px;"><i class="fa fa-money lftcls"></i>' + bookingname + ' (' + val.LASTBOOKING + ')</label> <br/>';
+                        stylecls2 = "18"
+                    }
+                    if (val.lastAvailmax != null && val.lastAvailmax != undefined && val.lastAvailmax != "") {
+                        k += ' <label class="smalltagBranch searchcls"style="top:' + stylecls2 + 'px;"><i class="fa fa-search lftcls"></i>' + val.LastAvailUser + '(' + val.lastAvailmax + ')</label> <br/>';
+
+                    }
+                    // k += '<label class="smalltagBranch searchcls" style="top:36px;"><i class="fa fa-search lftcls"></i>Hari (12:24 PM)</label>';
+                    k += '</div>  '
+                    k += '<hr>'
+                    //}
+                });
+            } else {
+
+                k += '<div clss="row"><div class="col-lg-offset-2 col-lg-10"><img src=' + Noimgpath + '></div><div class="col-lg-12"><span class="nodetail">Sorry your selected branch are not having corporate details please select another branch  </span></div></div>'
+
+            }
+            $(".sklistcorp").html(k)
+        }
+        function loademp(emp) {
+            var k = "";
+            var stylecls1 = "0";
+            var stylecls2 = "0";
+            if (emp.length > 0) {
+                //for (var m = 0; m < emp.length; m++) {
+
+                $.each(emp, function (obj, val) {
+                    k += '<div class="udk-lst-employee-lst" id="Employee_' + val.BRANCH_ID + '_' + obj + '" onclick=Empsort("' + val.BRANCH_ID + '","' + obj + '","' + val.LOGIN_NAME + '")  style="padding: 10px;">';
+                    k += '<span>' + val.LOGIN_NAME + '</span> ';
+                    if (val.FristLogin != null && val.FristLogin != "" && val.FristLogin != undefined) {
+                        k += '<label class="smalltagBranch loginclssa" style="top:0px;"><i class="fa fa-eye lftcls"></i>' + val.FristLogin + '</label><br/>';
+                    }
+                    if (val.LASTBOOKING != null && val.LASTBOOKING != "" && val.LASTBOOKING != undefined) {
+                        stylecls1 = "18"
+                        k += '<label class="smalltagBranch trancls"style="top:' + stylecls1 + 'px;"><i class="fa fa-money lftcls"></i>' + val.LASTBOOKING + ' </label> <br/>';
+                    }
+                    if (val.lastAvailmax != null && val.lastAvailmax != "" && val.lastAvailmax != undefined) {
+                        stylecls2 = Number(stylecls1) + Number(16)
+                        k += ' <label class="smalltagBranch searchcls"style="top:' + stylecls2 + 'px;"><i class="fa fa-search lftcls"></i>' + val.lastAvailmax + '</label> <br/>';
+                    }
+                    // k += '<label class="smalltagBranch searchcls" style="top:36px;"><i class="fa fa-search lftcls"></i>12:24 PM</label>';
+                    k += '</div>  '
+                    k += '<hr>'
+                    // }
+                });
+
+            } else {
+
+                k += '<div clss="row"><div class="col-lg-offset-2 col-lg-10"><img src=' + Noimgpath + '></div><div class="col-lg-12"><span>Sorry your selected branch and corporate are not having employe details please select another branch and orporate </span></div></div>'
+            }
+            $(".sklistemp").html(k)
+        }
+        function movecls() {
+            $("#moveids").animate({ left: "-17%" });
+            $("#rightarrow").hide();
+            $("#leftarrow").show();
+        }
+        function moveclsright() {
+            $("#moveids").animate({ left: "0px" });
+            $("#rightarrow").show();
+            $("#leftarrow").hide();
+        }
+        $(document).ready(function () {
+            // setTimeout(function () { $('.udk-right-border-corporate').addClass('active'); }, 300);
+            $('.udk-right-border-corporate').addClass('active')
+            setTimeout(function () { $('.udk-right-border-employee').addClass('active'); }, 500);
+            $("#Branch_name").html("All Branch Name");
+            $("#Corportate_name").html("All Agency Name");
+            $("#Employee_name").html("All Users")
+            // $("#Tot_seg").html("1000")
+
+            slidermovetab('today_div');
+
+        });
+        function branchsort(brandid) {
+
+
+
+            $("body").data("Flag", "1")
+            $("#chekcls").prop("checked", false)
+            var Ids = "branch_" + brandid;
+
+            $(".udk-lst-corporate-lst").removeClass('active');
+            $(".udk-lst-employee-lst").removeClass('active');
+            //$('.udk-right-border-corporate').removeClass('active');
+            //$('.udk-right-border-employee').removeClass('active');
+            //setTimeout(function () { $('.udk-right-border-corporate').addClass('active'); }, 300);
+            //setTimeout(function () { $('.udk-right-border-employee').addClass('active'); }, 300);
+            var corp = "";
+            var Emp = "";
+            var textval = $("#" + Ids + " span").text().trim();
+            if ($("#" + Ids).hasClass("active")) {
+                $("#" + Ids).removeClass("active")
+                filterflag = false
+                corp = corporate
+                Emp = Empdet
+                $("#Branch_name").html("All Branch")
+                $("#Branch_name").removeClass("activecls")
+                $(".Branch_name").html("Branch")
+                $(".minwithcls").removeClass("activecls")
+                $("body").data("BranchID", "")
+                $("body").data("Clientid", "")
+                $("body").data("Loginname", "")
+            } else {
+                $("body").data("BranchID", brandid)
+                filterflag = true
+                $(".udk-lst-branch-lst").removeClass("active")
+                $("#" + Ids).addClass("active")
+                corp = jQuery.grep(corporate, function (n, i) {
+                    return (n.BRANCH_ID == brandid);
+                });
+                Emp = jQuery.grep(Empdet, function (n, i) {
+                    return (n.BRANCH_ID == brandid);
+                });
+                $(".Branch_name").html(textval)
+                $("#Branch_name").html(textval)
+                $("#Branch_name").addClass("activecls");
+            }
+            // $("#Tot_seg").html("100")
+            $("#Corportate_name").removeClass("activecls")
+            $("#Employee_name").removeClass("activecls")
+            $("#Corportate_name").html("All Agent")
+            $("#Employee_name").html("All Users")
+
+            loadcorp(corp)
+            loademp(Emp)
+            slideupdiv()
+        }
+
+
+        function Corpsort(clientid, val, clientidval) {
+
+            $("body").data("Flag", "1")
+            $(".udk-lst-employee-lst").removeClass('active');
+            $("#chekcls").prop("checked", false)
+            $("#Corportate_name").addClass("activecls")
+            $('.udk-right-border-employee').removeClass('active');
+            setTimeout(function () { $('.udk-right-border-employee').addClass('active'); }, 300);
+            var Ids = "corporate_" + clientid + "_" + val;
+            if ($("#" + Ids).hasClass("active")) {
+                $("#" + Ids).removeClass("active")
+
+                $("body").data("Clientid", "")
+                $("body").data("Loginname", "")
+                $("#Corportate_name").html("All Agent")
+                $("#Corportate_name").removeClass("activecls")
+                $(".Corporate_name").html("ALL")
+                // $(".minwithcls").removeClass("activecls")
+            } else {
+
+                $("body").data("Clientid", clientidval)
+                $(".udk-lst-corporate-lst").removeClass("active")
+                $("#" + Ids).addClass("active")
+                var textval = $("#" + Ids + " span").text().trim();
+                $(".Corporate_name").html(textval)
+                $("#Corportate_name").html(textval);
+            }
+            $("#Employee_name").removeClass("activecls")
+            $("#Employee_name").html("All Users")
+            slideupdiv()
+        }
+        function Empsort(brancid, val, loginname) {
+
+            var corp = "";
+            var branch = "";
+
+            $("body").data("Flag", "1")
+            $("#chekcls").prop("checked", false)
+            var Ids = "Employee_" + brancid + "_" + val;
+            if ($("#" + Ids).hasClass("active")) {
+                $("#" + Ids).removeClass("active")
+                corp = corporate
+                branch = branchdetail
+
+                $("body").data("Loginname", "")
+                $("#Employee_name").html("All Users")
+                $("#Employee_name").removeClass("activecls")
+                $(".Employee_name").html("All Users")
+                loadbranch(branch)
+                loadcorp(corp)
+            } else {
+
+                $("body").data("Loginname", loginname)
+                $(".udk-lst-employee-lst").removeClass("active")
+                $("#" + Ids).addClass("active")
+                var textval = $("#" + Ids + " span").text().trim();
+                $("#Employee_name").html(textval)
+                //slidermove("Corportate_name")
+                $("#Employee_name").addClass("activecls")
+                if ($("#Branch_name").text() == "All Branch Name" && $("#Branch_name").text() == "Branch Name" && $("#Corportate_name").text() == "All Agency Name" && $("#Corportate_name").text() == "Agency Name") {
+
+                    corp = jQuery.grep(corporate, function (n, i) {
+                        return (n.BRANCH_ID == brancid);
+                    });
+                    branch = jQuery.grep(branchdetail, function (n, i) {
+                        return (n.BRANCH_ID == brancid);
+                    });
+                    loadbranch(branch)
+                    loadcorp(corp)
+                }
+            }
+            slideupdiv()
+
+        }
+        function slideupdiv() {
+            if ($("#Branch_name").text() != "All Branch Name" && $("#Branch_name").text() != "Branch Name" && $("#Corportate_name").text() != "Agency Name " && $("#Corportate_name").text() != "All Agency Name" && $("#Employee_name").text() != "User Name" && $("#Employee_name").text() != "All Users") {
+                $("#firstdiv").slideUp("slow")
+            }
+        }
+
+        function slidermovetab(arg) {
+
+            var Ids = arg
+            $(".mddiv").removeClass("md-active")
+            $("#" + Ids).addClass("md-active")
+            if (Ids == "yesterday_div") {
+                $(".md-tabs-indicator-right").css("left", "75px")
+                $(".md-tabs-indicator-right").css("width", "109px")
+                $(".md-tabs-container").css("transform", "translate3d(0%, 0px, 0px)")
+            } else if (Ids == "today_div") {
+                $(".md-tabs-indicator-right").css("left", "189px")
+                $(".md-tabs-indicator-right").css("width", "125px")
+                $(".md-tabs-container").css("transform", "translate3d(-100%, 0px, 0px)")
+            }
+            else {
+                $(".md-tabs-container").css("transform", "translate3d(-200%, 0px, 0px)")
+                $(".md-tabs-indicator-right").css("left", "319px")
+                $(".md-tabs-indicator-right").css("width", "121px")
+            }
+        }
+        var build = "";
+        function loaddutycar(dutydata) {
+
+            $(".columns").show();
+            var sector = "";
+            var Yesterday = [];
+            var today = [];
+            var tomorrow = [];
+            Yesterday = jQuery.grep(dutydata, function (n, i) {
+                return (n.YesterdayDept != 0);
+            });
+            today = jQuery.grep(dutydata, function (n, i) {
+                return (n.TodayDept != 0);
+            });
+            tomorrow = jQuery.grep(dutydata, function (n, i) {
+                return (n.TomorrowDept != 0);
+            });
+            yesterdatytabel(Yesterday);
+            todaytable(today);
+            tomorrowtable(tomorrow)
+        }
+        function tomorrowtable(givendata) {
+            var tomooraty = [];
+            var sector = "";
+            tomooraty = givendata
+            if (givendata.length > 0) {
+                try {
+                    $("#tomorrow_divtble").hide();
+                    $(".md-tabs-content").addClass("overflow")
+                    //  $(".ui-columns-search").css("display", "block");
+                    //    $("#Div_Main_Data_Tabe_tomorrow").html("");
+
+                    $("#Div_Main_Data_Tabe_tomorrow").css("display", "block");
+                    if ($("#tomorowhistory table").length > 0) {
+                        $("#tomorowhistory").columns("destroy");
+                    }
+
+                    $('#tomorowhistory').columns({
+                        data: tomooraty,
+                        size: 5,
+                        schema: [
+                            {
+                                "header": "SECTOR", "key": "Sector",
+                                "condition": function (val, row) {
+                                    //    sarath = "";
+                                    sector = val
+                                    return val
+                                }
+                            },
+                              {
+                                  "header": "Total Departure Count", "key": "TomorrowDept",
+                                  "condition": function (val, row) {
+                                      var build = "";
+                                      build = '<div class="columcls" id="sector_' + sector + '_' + val + '_W"  onclick="showingdetails(this)">' + val + '</div>';
+                                      return build;
+                                  }
+                              },
+                        ]
+                    });
+                    $('[data-toggle="tooltip"]').tooltip();
+                }
+                catch (e) {
+                    alert(e.toString());
+                }
+            }
+            else {
+                $("#Div_Main_Data_Tabe_tomorrow").hide()
+                $("#tomorrow_divtble").show();
+                $(".md-tabs-content").removeClass("overflow")
+                var S = "";
+                S += '<div class="row" style="text-align:center">"<img style="width:auto" src="' + Noimgpath + '" />"</div>'
+                $("#tomorrow_divtble").html(S);
+            }
+        }
+        function yesterdatytabel(givendata) {
+            var yesterdayary = [];
+            var sector = "";
+            yesterdayary = givendata
+            if (yesterdayary.length > 0) {
+                $("#yesterdaydiv").hide();
+                $(".md-tabs-content").addClass("overflow")
+                $(".md-tabs-content").removeClass("overflow")
+                try {
+                    build = "";
+                    //$(".ui-columns-search").css("display", "block");
+
+
+                    $("#Div_Main_Data_Tabe_yesterday").css("display", "block");
+
+                    if ($("#Yesterdayhistroy table").length > 0) {
+                        $("#Yesterdayhistroy").columns("destroy");
+                    }
+                    $('#Yesterdayhistroy').columns({
+
+                        data: yesterdayary,
+                        size: 5,
+                        schema: [
+
+                            {
+                                "header": "SECTOR", "key": "Sector",
+                                "condition": function (val, row) {
+                                    sector = val;
+                                    return val;
+                                }
+                            },
+
+                              {
+                                  "header": "Total Departure Count", "key": "YesterdayDept",
+                                  "condition": function (val, row) {
+                                      var build = "";
+                                      build = '<div class="columcls" id="sector_' + sector + '_' + val + '_Y"  onclick="showingdetails(this)">' + val + '</div>';
+                                      return build;
+                                  }
+                              },
+
+
+
+                        ]
+                    });
+                    $('[data-toggle="tooltip"]').tooltip();
+
+                } catch (e) {
+                    //
+                    alert(e.toString());
+                }
+            }
+            else {
+                $("#yesterdaydiv").show();
+
+                $(".md-tabs-content").removeClass("overflow")
+                $("#Div_Main_Data_Tabe_yesterday").hide()
+                var S = "";
+                S += '<div class="row" style="text-align:center">"<img style="width:auto" src="' + Noimgpath + '" />"</div>'
+                $("#yesterdaydiv").html(S);
+            }
+        }
+
+
+        function todaytable(givendata) {
+            var todayary = [];
+            var sector = "";
+            todayary = givendata
+            if (todayary.length > 0) {
+                $("#todaydiv").hide();
+                $(".md-tabs-content").addClass("overflow")
+                try {
+                    build = "";
+                    //$(".ui-columns-search").css("display", "block");
+                    // $("#Div_Main_Data_Tabe_Today").html("");
+
+                    $("#Div_Main_Data_Tabe_Today").css("display", "block");
+                    if ($("#Todayhistory table").length > 0) {
+                        $("#Todayhistory").columns("destroy");
+                    }
+
+                    $('#Todayhistory').columns({
+                        data: todayary,
+                        Default: 1,
+                        size: 5,
+                        schema: [
+                          {
+                              "header": "SECTOR", "key": "Sector",
+                              "condition": function (val, row) {
+                                  sector = val
+                                  return val;
+                              }
+                          },
+                            {
+                                "header": "Total Departure Count", "key": "TodayDept",
+                                "condition": function (val, row) {
+                                    var build = "";
+                                    build = '<div class="columcls" id="sector_' + sector + '_' + val + '_T"  onclick="showingdetails(this)">' + val + '</div>';
+                                    return build;
+                                }
+                            },
+                        ]
+                    });
+                    $('[data-toggle="tooltip"]').tooltip();
+
+                } catch (e) {
+                    //
+                    alert(e.toString());
+                }
+            }
+            else {
+                $(".md-tabs-content").removeClass("overflow")
+                $("#Div_Main_Data_Tabe_Today").hide()
+                $("#todaydiv").show();
+                var S = "";
+                S += '<div class="row" style="text-align:center">"<img style="width:auto" src="' + Noimgpath + '" />"</div>'
+                $("#todaydiv").html(S);
+            }
+        }
+        $(".menucls").click(function () {
+
+            var Ids = this.id;
+            $("#" + Ids).hide();
+
+            var split = Ids.split("_")
+
+            $("#coloe_" + split[1]).show();
+            $("#searchtxt" + split[1]).show();
+            $("#searchtxt" + split[1]).val(" ")
+            $("#searchtxt" + split[1]).focus();
+        });
+
+        $(".closecls").click(function () {
+
+            var Ids = this.id;
+            $("#" + Ids).hide();
+            var split = Ids.split("_")
+
+
+            if (split[1] == "1") {
+                loadbranch(branchdetail)
+            } else if (split[1] == "2") {
+                if (filterflag == false) {
+                    loadcorp(corporate)
+                }
+            } else {
+                if (filterflag == false) {
+                    loademp(Empdet)
+                }
+            }
+            $("#searchtxt" + split[1]).val(" ")
+            $("#serch_" + split[1]).show();
+
+            $("#searchtxt" + split[1]).hide();
+        });
+
+        $(".loginactive span").click(function () {
+            $(".loginactive").hide();
+        });
+
+        $(".udk-lst-employee-lst").click(function () {
+            $("#chekcls").prop("checked", false)
+            var Ids = this.id;
+            $(".udk-lst-employee-lst").removeClass("active")
+            $("#" + Ids).addClass("active")
+            var textval = $("#" + Ids + " span").text().trim();
+            $("#Employee_name").html(textval)
+            //slidermove("Corportate_name")
+            $("#Employee_name").addClass("activecls")
+            if ($("#Branch_name").text() != "Branch Name" && $("#Employee_name").text() != "Agency Name" && $("#Corportate_name").text() != "Users") {
+                $("#firstdiv").slideUp("slow");
+            }
+        });
+
+        $(".clstemp").click(function () {
+            var id = this.id;
+            alert("test")
+        });
+
+        function slidermove(Ids) {
+
+            $(".textclssa").hide();
+            $(".textclssa").val(" ")
+            $(".closecls").hide()
+            $(".menucls").show();
+            $("#firstdiv").slideToggle("slow");
+            //$("#firstdiv").show();
+        }
+
+        function showingdetails(arg) {
+
+            var Ids = arg.id;
+            var sector = Ids.split("_")[1]
+            $("#sector").html(sector);
+            var param = { frmDt: $('#txtFDt').val(), toDt: $('#txtTDt').val(), Branchid: "", flag: "3", ClientID: "", Loginname: "", Sector: sector, Flowtype: Ids.split("_")[3] }
+
+            $("#loader").show();
+            $.ajax({
+                url: "@Url.Action("GetDashboardData", "Home")",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(param),
+                dataType: "json",
+                async: true,
+                type: "POST",
+                success: function (jdata) {
+
+                    //$.unblockUI();
+                    $("#loader").hide();
+                    if (jdata.status == "01") {
+                        var dataval = JSON.parse(jdata.results);
+                        var sectordata = dataval.P_FETCH_SMARTVIEW_MASTER
+                        var build = "";
+                        if (sectordata.length > 0) {
+                            for (var i = 0; i < sectordata.length; i++) {
+                                build += '<div class="col-lg-12 listcls" style="text-align:center">';
+                                build += ' <div class="col-lg-4">' + sectordata[i].TCK_FLIGHT_NO + '</div><div class="col-lg-4">' + sectordata[i].Sector + '</div><div class="col-lg-4">' + sectordata[i].Dept + '</div></div>'
+                            }
+                        } else {
+                            build += "<div class=col-lg-12>No Data</div>"
+                        }
+                        $(".sectorclsdet").html(build);
+                        $("#myModalcomparepop").modal({
+                            backdrop: 'static',
+                            keyboard: false
+                        });
+                        //  $(".modal-backdrop.in").css("display", "none")
+                    } else {
+                        build = "<div class=col-lg-12>No Data</div>"
+                        $(".sectorclsdet").html(build);
+                        $("#myModalcomparepop").modal({
+                            backdrop: 'static',
+                            keyboard: false
+                        });
+                        //  $(".modal-backdrop.in").css("display", "none")
+                    }
+                },
+                error: function (err) {
+                    //$.unblockUI();
+                    $("#loader").hide();
+                    alert("Internal Error");
+                }
+            });
+
+
+        }
+
+
+        function checkboxchange() {
+
+            if ($("#chekcls").prop("checked") == true) {
+                $("body").data("BranchID", "");
+                $("body").data("Flag", "");
+                $("body").data("Clientid", "");
+                $("body").data("Loginname", "");
+                $("#Branch_name").html("All Branch Name")
+                $("#Corportate_name").html("All Agency Name")
+                $("#Employee_name").html("All Users")
+                $(".Branch_name").html("All")
+                $(".Corportate_name").html("All")
+                $(".Employee_name").html("All")
+                $("#firstdiv").slideUp("slow")
+                loadbranch(branchdetail)
+                loadcorp(corporate);
+                loademp(Empdet)
+                $("body").data("BranchID", "")
+                $("body").data("Flag", "")
+                $(".minwithcls").removeClass("activecls")
+                $(".textclssa").hide();
+                $(".textclssa").val(" ")
+                $(".closecls").hide()
+                $(".menucls").show();
+                GetDBData()
+            } else {
+                $("#Branch_name").html("Branch Name")
+                $("#Corportate_name").html("Agency Name")
+                $("#Employee_name").html("Users")
+                $("#firstdiv").slideDown("slow")
+            }
+        }
+        function namefilter() {
+
+            var filter = "";
+            if (filterflag == false) {
+                var textval = $("#searchtxt1").val().toUpperCase().trim();
+
+                filter = jQuery.grep(branchdetail, function (n, i) {
+                    return (n.BRANCH_NAME.toUpperCase().indexOf(textval) != -1);
+                });
+            } else {
+                var branchids = $("body").data("BranchID");
+                var textval = $("#searchtxt1").val().toUpperCase().trim();
+
+                filter = jQuery.grep(branchdetail, function (n, i) {
+                    return (n.BRANCH_NAME.toUpperCase().indexOf(textval) != -1 && n.BRANCH_ID == branchids);
+                });
+            }
+            loadbranch(filter)
+        }
+        function corpfilter() {
+
+            if (filterflag == false) {
+                var textval = $("#searchtxt2").val().toUpperCase().trim();
+                var filter = "";
+                filter = jQuery.grep(corporate, function (n, i) {
+                    return (n.CLIENT_NAME.toUpperCase().indexOf(textval) != -1);
+                });
+            } else {
+                var branchids = $("body").data("BranchID");
+                var textval = $("#searchtxt2").val().toUpperCase().trim();
+
+                filter = jQuery.grep(corporate, function (n, i) {
+                    return (n.CLIENT_NAME.toUpperCase().indexOf(textval) != -1 && n.BRANCH_ID == branchids);
+                });
+            }
+            loadcorp(filter);
+        }
+        function employefilter() {
+            var filter = "";
+
+            if (filterflag == false) {
+                var textval = $("#searchtxt3").val().toUpperCase().trim();
+
+                filter = jQuery.grep(Empdet, function (n, i) {
+                    return (n.LOGIN_NAME.toUpperCase().indexOf(textval) != -1);
+                });
+            } else {
+                var branchids = $("body").data("BranchID");
+                var textval = $("#searchtxt3").val().toUpperCase().trim();
+
+                filter = jQuery.grep(Empdet, function (n, i) {
+                    return (n.LOGIN_NAME.toUpperCase().indexOf(textval) != -1 && n.BRANCH_ID == branchids);
+                });
+            }
+            loademp(filter)
+        }
+        function Sortingdash(arg) {
+
+            var Ids = arg.id;
+
+            var sortingary = Ids.split("_")[0] == "Branch" ? branchdetail : Ids.split("_")[0] == "Corp" ? corporate : Empdet
+            var soringelement = Ids.split("_")[1] == "login" ? "FristLogin" : Ids.split("_")[1] == "trans" ? "LASTBOOKING" : "lastAvailmax"
+            var finalval = [];
+            var subfinal = [];
+            var testar = [];
+            testar = jQuery.grep(sortingary, function (n, i) {
+                return (n[soringelement] != null);
+            });
+
+            if ($("#" + Ids + " i").hasClass("fa-long-arrow-down")) {
+                $("#" + Ids + " i").addClass("fa-long-arrow-up")
+                $("#" + Ids + " i").removeClass("fa-long-arrow-down")
+                if (testar.length > 0) {
+                    finalval = sortingary.sort(function (a, b) {
+                        a = a[soringelement] != null ? a[soringelement].indexOf(":") != -1 ? a[soringelement].split(":")[0] + a[soringelement].split(":")[1] : a[soringelement] : 2400;
+                        b = b[soringelement] != null ? b[soringelement].indexOf(":") != -1 ? b[soringelement].split(":")[0] + b[soringelement].split(":")[1] : b[soringelement] : 2400;
+
+                        return Number(a) - Number(b);
+
+                    });
+                    Ids.split("_")[0] == "Branch" ? loadbranch(finalval) : Ids.split("_")[0] == "Corp" ? loadcorp(finalval) : loademp(finalval)
+                }
+
+            } else {
+                $("#" + Ids + " i").addClass("fa-long-arrow-down")
+                $("#" + Ids + " i").removeClass("fa-long-arrow-up")
+                if (testar.length > 0) {
+                    finalval = sortingary.sort(function (a, b) {
+                        a = a[soringelement] != null ? a[soringelement].indexOf(":") != -1 ? a[soringelement].split(":")[0] + a[soringelement].split(":")[1] : a[soringelement] : 0;
+                        b = b[soringelement] != null ? b[soringelement].indexOf(":") != -1 ? b[soringelement].split(":")[0] + b[soringelement].split(":")[1] : b[soringelement] : 0;
+
+                        return Number(b) - Number(a);
+
+                    });
+                    Ids.split("_")[0] == "Branch" ? loadbranch(finalval) : Ids.split("_")[0] == "Corp" ? loadcorp(finalval) : loademp(finalval)
+                    // loadbranch(sortingary)
+                }
+            }
+
+        }
+        $("#innerfullcalendar").datepicker({
+            dateFormat: "dd/mm/yy",
+            buttonImage: '@Url.Content("~/Images/calendar_icon.png")',
+            buttonImageOnly: true,
+            changeMonth: true,
+            changeYear: true,
+            showOn: 'both',
+            onSelect: function (dateText, inst) {
+
+                var fromdate = new Date(dateText.split("/")[2], Number(dateText.split("/")[1]) - 1, dateText.split("/")[0]);
+                var tempdate = new Date(dateText.split("/")[2], Number(dateText.split("/")[1]) - 1, dateText.split("/")[0]);
+                var todate = "";
+                var defaultview = "";
+                if ($(".fc-listWeek-button").hasClass("fc-state-active")) {
+                    todate = tempdate;//.clone();
+                    todate = todate.setDate(todate.getDate() + 6);
+                    defaultview = 'week';
+                }
+                if ($(".fc-month-button").hasClass("fc-state-active")) {
+                    todate = tempdate;//.clone();
+                    fromdate = fromdate.setMonth(fromdate.getMonth(), 1);
+                    todate = todate.setMonth(todate.getMonth() + 1, 0);
+                    defaultview = 'month';
+                }
+                fromdate = moment(fromdate).format("DD/MM/YYYY");
+                todate = moment(todate).format("DD/MM/YYYY")
+                Getcalendarbookedcounts(fromdate, todate, defaultview)
+            }
+        });
+
+        $("#MISimgbtm").click(function () {
+            if (sessionStorage.getItem("Loginusername") == "shankar")
+                window.location.href = "http://reports.mywebcheck.in/login/QueryLogin?user_id=stsinfra&password=$t$infra"
+        });
+        $("#DMBIimgbtm").click(function () {
+            if (sessionStorage.getItem("Loginusername") == "shankar")
+                window.location.href = "http://travraysmis.mywebcheck.in/login.html/"
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,619 @@
+﻿@{
+    string strApptheme = System.Configuration.ConfigurationManager.AppSettings["apptheme"] != null ? System.Configuration.ConfigurationManager.AppSettings["apptheme"].ToUpper().ToString() : "";
+    string strFileversion = System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"] != null ? System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"].ToString() : "";
+    string country_code = System.Configuration.ConfigurationManager.AppSettings["COUNTRY"] != null ? System.Configuration.ConfigurationManager.AppSettings["COUNTRY"].ToString() : "";
+    string strProduct = System.Configuration.ConfigurationManager.AppSettings["Producttype"] != null ? System.Configuration.ConfigurationManager.AppSettings["Producttype"].ToString() : "";
+    string strFavicon = System.Configuration.ConfigurationManager.AppSettings["LogoUrl"] + "favicon.ico?" + strFileversion;
+    string strProductName = System.Configuration.ConfigurationManager.AppSettings["Appname"].ToString();
+    string strLoaderURL = System.Configuration.ConfigurationManager.AppSettings["LogoUrl"] + "loader.gif?" + strFileversion;
+    string strtitle = System.Configuration.ConfigurationManager.AppSettings["title"] != null ? System.Configuration.ConfigurationManager.AppSettings["title"].ToString() : "";
+    string strMeta_description = System.Configuration.ConfigurationManager.AppSettings["Meta_description"] != null ? System.Configuration.ConfigurationManager.AppSettings["Meta_description"].ToString() : "";
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="google-site-verification" content="_qtY_QW43VAaED4iz72nigGtpdkPRvrOMkBJzJUWhyw" />
+    <title>@strtitle</title>
+    <meta name="description" content="@strMeta_description" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="shortcut icon" href="@strFavicon" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="~/Content/CSS/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/CSS/@strApptheme/style.css?@strFileversion" rel="stylesheet" />
+    <style>
+
+        input[type="file"]::before {
+            content: attr(data-value);
+            display: inline-block;
+            border-radius: 3px;
+            outline: none;
+            padding: 5px 0px;
+            margin: 0px !important;
+            float: left;
+            white-space: nowrap;
+            color: #808080;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        input[type="file"]::-webkit-file-upload-button {
+            visibility: hidden;
+        }
+
+        input[type="file"]::after {
+            content: 'Browse Files';
+            display: inline-block;
+            border: 1px solid #ec182d;
+            border-radius: 3px;
+            outline: none;
+            padding: 10px 10px;
+            margin: -5px;
+            background: #ec182d;
+            float: right;
+            white-space: nowrap;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        input[type="file"]:hover::after {
+            border-color: black;
+        }
+
+        input[type="file"]:active::after {
+            background: #fff;
+            color: #ec182d;
+            border: 1px solid #ec182d;
+        }
+
+        input[type="file"] {
+            -webkit-appearance: none;
+            text-align: left;
+            -webkit-rtl-ordering: left;
+            border: 2px dashed #c7c7c7;
+        }
+
+        .details-box .heading03 {
+            text-align: center;
+        }
+
+        .heading03 {
+            font-family: 'Lato', sans-serif;
+            font-size: 20px !important;
+            color: #000;
+            position: relative;
+            margin: 0 0 40px 0;
+        }
+
+        .rg-thank-you .details-box .para-lightgry {
+            font-size: 14px;
+        }
+
+        .rg-thank-you .details-box {
+            max-width: 650px;
+            margin: 0 auto;
+            min-height: 300px;
+            padding: 65px 40px 60px 40px;
+            background-size: 100% !important;
+        }
+
+        .heading03:before {
+            bottom: -15px;
+            left: 50%;
+            margin-left: -80px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-spacer"></div>
+    <!--header-->
+    <!--section-->
+    <div class="bg-theme-gradnt flt-lft w-100 h-100 pad-tp-20 pad-btm-20">
+        <div class="container">
+            <div class="row" id="dv_Registration">
+                <div class="col-md-3 register-left">
+                    <div class="flt-lft w-100 dis_nond">
+                        <img src="~/Images/@strProduct/logo_white.png" class="txt-center" />
+                        <h3 class="flt-lft txt-center w-100 white font-size-28 fnt-wt-600 mb-15">Welcome</h3>
+                        <p class="flt-lft txt-center w-100 white font-18 mb-0">to</p>
+                        <p class="flt-lft txt-center w-100 white font-18 mb-0">@strProductName</p>@*Roundtrip.in*@
+                        <p class="flt-lft txt-center w-100 white font-18">Become an Agent</p>
+                    </div>
+                    <div class="flt-lft w-100 dis_blk" style="display:none;">
+                        <h3 class="flt-lft txt-center w-100 white font-size-28 fnt-wt-600 mb-15">Welcome</h3>
+                        <p class="flt-lft txt-center w-100 white font-18 mb-0">to</p>
+                        <p class="flt-lft txt-center w-100 white font-18 mb-0">@strProductName</p>@*Roundtrip.in*@
+                        <p class="flt-lft txt-center w-100 white font-18">Become an Agent</p>
+                        <img src="~/Images/@strProduct/REGISTER.png" class="w-100" />
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <div class="flt-lft w-100 p-15 bg-white bx-shadow-new">
+                        <h1 class="heading03 heading04 heading05 pos-rel mg-btm-30 mt-0 txt-center">@strProductName – Registration </h1>
+                        <div class="row" style="padding:0% 5%;">
+                            <div class="col-md-4">
+                                <div class="form-group pos-rel flt-lft w-100 mb-25">
+                                    <input class="effect-input clsAlpha bg-clr-white flt-lft w-100" id="txtfirstname" type="text" maxlength="25" placeholder="First Name*">
+                                    <span class="focus-border"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group pos-rel flt-lft w-100 mb-25">
+                                    <input class="effect-input clsAlpha bg-clr-white flt-lft w-100" id="txtlastname" type="text" maxlength="25" placeholder="Last Name*">
+                                    <span class="focus-border"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group pos-rel flt-lft w-100 mb-25">
+                                    <input class="effect-input clsNumeric bg-clr-white flt-lft w-100 " id="txtlandline" type="text" maxlength="15" placeholder="Landline">
+                                    <span class="focus-border"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group pos-rel flt-lft w-100 mb-25 ">
+                                    <input class="effect-input clsNumeric bg-clr-white flt-lft w-100" id="txtmobilenumber" type="text" maxlength="15" placeholder="Mobile*">
+                                    <span class="focus-border"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group pos-rel flt-lft w-100 mb-25">
+                                    <input class="effect-input bg-clr-white flt-lft w-100" id="txtemailid" type="text" placeholder="E-mail ID*" maxlength="50">
+                                    <span class="focus-border"><i></i></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group pos-rel flt-lft w-100 mb-25">
+                                    <input class="effect-input clsAlphaNumeric bg-clr-white flt-lft w-100" id="txtaddress1" type="text" placeholder="Address*" maxlength="100">
+                                    <span class="focus-border"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 pos-rel">
+                                <div class="form-group pos-rel flt-lft w-100" style="margin-bottom:24px !important;">
+                                    <input class="effect-input clsAlphaNumeric bg-clr-white flt-lft w-100" id="txtaddress2" type="text" placeholder="Landmark*" maxlength="50">
+                                    <span class="focus-border"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 pos-rel">
+                                <div class="form-group pos-rel flt-lft w-100 mb-25">
+                                    <select class="effect-input select-option bg-clr-white h-42 flt-lft w-100" id="txtcountryname">
+                                        <option value="">--Country*--</option>
+                                        <option value="IN" selected>India</option>
+                                    </select>
+                                    <span id="" class="icon-insideb pos-abs"><i class="fas fa-caret-down"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group pos-rel flt-lft w-100 mb-25">
+                                    <select class="effect-input select-option bg-clr-white h-42 flt-lft w-100" id="txtstatename" onchange="Changecity();">
+                                        <option value="">--State*--</option>
+                                        <option value="AN">Andaman and Nicobar Island</option>
+                                        <option value="AP">Andhra Pradesh</option>
+                                        <option value="AR">Arunachal Pradesh</option>
+                                        <option value="AS">Assam</option>
+                                        <option value="BR">Bihar</option>
+                                        <option value="CG">Chattisgarh</option>
+                                        <option value="CH">Chandigarh</option>
+                                        <option value="DD">Daman and Diu</option>
+                                        <option value="DL">Delhi</option>
+                                        <option value="DN">Dadra and Nagar Haveli</option>
+                                        <option value="GA">Goa</option>
+                                        <option value="GJ">Gujarat</option>
+                                        <option value="HP">Himachal Pradesh</option>
+                                        <option value="HR">Haryana</option>
+                                        <option value="JH">Jharkhand</option>
+                                        <option value="JK">Jammu and Kashmir</option>
+                                        <option value="KA">Karnataka</option>
+                                        <option value="KL">Kerala</option>
+                                        <option value="LD">Lakshadweep</option>
+                                        <option value="MH">Maharashtra</option>
+                                        <option value="ML">Meghalaya</option>
+                                        <option value="MN">Manipur</option>
+                                        <option value="MP">Madhya Pradesh</option>
+                                        <option value="MZ">Mizoram</option>
+                                        <option value="NL">Nagaland</option>
+                                        <option value="OR">Orissa</option>
+                                        <option value="PB">Punjab</option>
+                                        <option value="PY">Pondicherry</option>
+                                        <option value="RJ">Rajasthan</option>
+                                        <option value="SK">Sikkim</option>
+                                        <option value="TN">Tamil Nadu</option>
+                                        <option value="TG">Telangana</option>
+                                        <option value="TR">Tripura</option>
+                                        <option value="UP">Uttar Pradesh</option>
+                                        <option value="UT">Uttaranchal</option>
+                                        <option value="WB">West Bengal</option>
+                                    </select>
+                                    <span id="" class="icon-insideb pos-abs"><i class="fas fa-caret-down"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group pos-rel flt-lft w-100">
+                                    <select class="effect-input select-option bg-clr-white h-42 flt-lft w-100" id="txtcityname">
+                                        <option value="">--City*--</option>
+                                    </select>
+                                    <span id="" class="icon-insideb pos-abs"><i class="fas fa-caret-down"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group pos-rel flt-lft w-100">
+                                    <input class="effect-input clsNumeric bg-clr-white flt-lft w-100" id="txtpincode" type="text" placeholder="Postal Code*" maxlength="6">
+                                    <span class="focus-border"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group pos-rel flt-lft w-100 mb-25">
+                                    <select class="effect-input select-option bg-clr-white h-42 flt-lft w-100" id="txtProofType">
+                                        <option value="" selected>--Proof Type--</option>
+                                        <option value="AADHARCARD">Aadhar Card</option>
+                                        <option value="PANCARD">Pan Card</option>
+                                        <option value="DRIVINGLICENSE">Driving License</option>
+                                        <option value="PASSPORT">Passport</option>
+                                        <option value="OTHERS">Others</option>
+                                    </select>
+                                    <span id="" class="icon-insideb pos-abs"><i class="fas fa-caret-down"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="fileuploader fileuploader-theme-dragdrop">
+                                    <div class="form-group pos-rel flt-lft w-100 dvfileupload">
+                                        <input type="file" id="fileToUpload" style="padding: 10px !important;color: transparent;background-color: white;" accept="image/*" class="flt-lft w-100" data-value="Drag and drop files here"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="button-holder txt-al-rgt" style="padding-right:5%;">
+                            <div class="captcha-code">
+                                <div class="g-recaptcha" data-sitekey="6LenQ8UUAAAAACF9XHuQE-oen0T5gConJhMbsI8f" data-callback="verifyRecaptchaCallback" data-expired-callback="expiredRecaptchaCallback"></div>
+                            </div>
+                            <button class="btn btn01" onclick="submitdetails()" id="btnregsubmit">
+                                Submit
+                                <i id="iLoading" class="fa fa-spinner fa-spin" style="font-size: 16px; color: #292929; display: none;"></i>
+                            </button>
+                        </div>
+                        <div class="message_wrap col-sm-12" id="loginpnl" style="border: none;visibility: visible;display:none;">
+                            <p class="message">
+                                <span id="empty-destination-box" style="height: 25px; padding-top: 5px;" class="error"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="dv_thank_you" style="display:none;">
+                <div class="bg-white padding-bottom form-rg-holder rg-thank-you">
+                    <div class="container">
+                        <div class="details-box">
+                            <h5 class="heading03 heading04 heading05 text-center pos-relative">Thank You for Your Interest!</h5>
+                            <h6 class="para-lightgry text-center fnt-siz-16">
+                                Your Request has been successfully submitted our team will connect with you at the earliest.
+                            </h6>
+                            <div class="bg-flight">
+                                <img src="@Url.Content("~/Images/" + strProduct + "/thank-you-plane.png")" alt="flight">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            var country_code = '@country_code';
+            var Statelist = "";
+            $.ajax({
+                type: "GET",
+                url: '@Url.Content("~/XML/State.xml?"+strFileversion)',
+                dataType: "xml",
+                success: function (xmlResponse) {
+                    Statelist += "<option value=''>-- Select State--</option>";
+                    $(xmlResponse).find('STATE').each(function () {
+                        if ($(this).find('COUNTRY_ID').text() == country_code.toUpperCase()) {
+                            var stateid = $(this).find('STATE_ID').text();
+                            var statename = $(this).find('STATE_NAME').text();
+                            Statelist += "<option value=" + stateid + ">" + statename + "</option>";
+                        }
+                    });
+                    $("#txtstatename").html(Statelist);
+                },
+                error: function (e) {
+                }
+            });
+        });
+
+        function Changecity() {
+            $("#txtcityname option").remove();
+            var slctstateid = $('#txtstatename').val();
+            var Citylist = "";
+            $.ajax({
+                url: '@Url.Content("~/XML/City.xml?"+strFileversion)',
+                dataType: "xml",
+                success: function (xmlResponse) {
+                    Citylist += "<option value=''>--Select City--</option>";
+                    $(xmlResponse).find("CITY").each(function () {
+                        var eachstateid = $(this).find('STATE_ID').text();
+                        if (slctstateid == eachstateid) {
+                            var cityid = $(this).find('CITY_ID').text();
+                            var cityname = $(this).find('CITY_NAME').text();
+                            Citylist += "<option value=" + cityid + ">" + cityname + "</option>";
+                        }
+                    });
+                    $("#txtcityname").html(Citylist);
+                }
+
+            });
+        }
+        function submitdetails() {
+            try {
+                var Name = $("#txtfirstname").val();
+                var Lastname = $("#txtlastname").val();
+                var Landline = $("#txtlandline").val();
+                var Address1 = $("#txtaddress1").val();
+                var Address2 = $("#txtaddress2").val();
+                var Emailid = $("#txtemailid").val();
+                var MobileNumber = $("#txtmobilenumber").val();
+                var State = $("select[id=txtstatename] option:selected").val();
+                var City = $("select[id=txtcityname] option:selected").val();
+                var pincode = $("#txtpincode").val();
+                var Country = $("select[id=txtcountryname] option:selected").val();
+                var ProofType = $("select[id=txtProofType] option:selected").val();
+                var errorcls = false;
+                var fileUpload = $("#fileToUpload").get(0);
+                var fileData = new FormData();
+
+                if (Name == null || Name == undefined || Name == "") {
+                    //showError("Please Enter your First Name");
+                    $("#txtfirstname").addClass('errorstyle');
+                    errorcls = true;
+                }
+                if (Lastname == null || Lastname == undefined || Lastname == "") {
+                    //showError("Please Enter your Last Name.");
+                    $("#txtlastname").addClass('errorstyle');
+                    errorcls = true;
+                }
+                if (MobileNumber == null || MobileNumber == undefined || MobileNumber == "") {
+                    //showError("Please Enter  Mobile Number.");
+                    $("#txtmobilenumber").addClass('errorstyle');
+                    errorcls = true;
+                }
+                if (Emailid == null || Emailid == undefined || Emailid == "") {
+                    //showError("Please Enter Email Id");
+                    $("#txtemailid").addClass('errorstyle');
+                    errorcls = true;
+                }
+                if (Address1 == null || Address1 == undefined || Address1 == "") {
+                    //showError("Please Enter Residential / Office Address");
+                    $("#txtaddress1").addClass('errorstyle');
+                    errorcls = true;
+                }
+                if (Address2 == null || Address2 == undefined || Address2 == "") {
+                    //showError("Please Enter Landmark");
+                    $("#txtaddress2").addClass('errorstyle');
+                    errorcls = true;
+                }
+                if (pincode == null || pincode == undefined || pincode == "") {
+                    //showError("Please Enter  Pincode.");
+                    $("#txtpincode").addClass('errorstyle');
+                    errorcls = true;
+                }
+                if (State == null || State == undefined || State == "") {
+                    //showError("Please Select State");
+                    $("#txtstatename").addClass('errorstyle');
+                    errorcls = true;
+                }
+                if (City == null || City == undefined || City == "") {
+                    //showError("Please Select City");
+                    $("#txtcityname").addClass('errorstyle');
+                    errorcls = true;
+                }
+                if (Country == null || Country == undefined || Country == "") {
+                    //showError("Please Select City");
+                    $("#txtcountryname").addClass('errorstyle');
+                    errorcls = true;
+                }
+                
+                var files = fileUpload.files;
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+                if (files.length > 0 && (ProofType == null || ProofType == undefined || ProofType == "")) {
+                    //showError("Please select Proof Type");
+                    $("#txtProofType").addClass('errorstyle');
+                    errorcls = true;
+                }
+                if (ProofType != null && ProofType != undefined && ProofType != "" && files.length <= 0) {
+                    //showError("Please select Image to Upload");
+                    $("#fileToUpload").addClass('errorstyle');
+                    errorcls = true;
+                }
+                if (errorcls == true) {
+                    showError("Mandatory fields cannot be empty.");
+                    return false;
+                }
+                else {
+                    $(".errorstyle").removeClass('errorstyle');
+                }
+                if (MobileNumber != "" && MobileNumber.length < 10) {
+                    showError("Please Enter Valid Mobile Number.");
+                    $("#txtmobilenumber").addClass('errorstyle');
+                    $("#btnregsubmit").focus();
+                    errorcls = true;
+                    return false;
+                }
+                var filter = /^([\w-]+(?:\.[\w-]+)*)@@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+                if (Emailid != "" && !filter.test(Emailid)) {
+                    showError("Please Enter Valid Email Id");
+                    $("#txtemailid").addClass('errorstyle');
+                    $("#btnregsubmit").focus();
+                    errorcls = true;
+                    return false;
+                }
+                if (pincode != "" && pincode.length < 6) {
+                    showError("Please Enter Valid Pincode");
+                    $("#txtpincode").addClass('errorstyle');
+                    errorcls = true;
+                    $("#btnregsubmit").focus();
+                    return false;
+                }
+
+                if (files.length > 0 && !($("#fileToUpload").val().indexOf($("#fileToUpload").attr("accept")))) {//$("#fileToUpload").attr("accept")
+                    showError("Image Format Not Supported");
+                    $("#fileToUpload").addClass('errorstyle');
+                    errorcls = true;
+                    return false;
+                }
+
+                //var response = grecaptcha.getResponse();
+
+                //if (response.length == 0) {
+                //    showError("Please verify that you are not a robot.");
+                //    return false;
+                //}
+
+                //var param = {
+                //    FirstName: Name,
+                //    LastName: Lastname,
+                //    Address1: Address1,
+                //    Address2: Address2,
+                //    StateName: State,
+                //    CityName: City,
+                //    Pincode: pincode,
+                //    MobileNumber: MobileNumber,
+                //    EmailId: Emailid,
+                //    LandLine: Landline,
+                //    ProofType: ProofType,
+                //}
+
+                fileData.append("FirstName", Name);
+                fileData.append("LastName", Lastname);
+                fileData.append("Address1", Address1);
+                fileData.append("Address2", Address2);
+                fileData.append("StateName", State);
+                fileData.append("CityName", City);
+                fileData.append("Pincode", pincode);
+                fileData.append("MobileNumber", MobileNumber);
+                fileData.append("EmailId", Emailid);
+                fileData.append("LandLine", Landline);
+                fileData.append("ProofType", ProofType);
+                $('#iLoading').show();
+                $.ajax({
+                    url: "@Url.Action("AgentRegistration", "Login")",
+                    contentType: false,
+                    processData: false,
+                    data: fileData,//JSON.stringify(param),
+                    dataType: "json",
+                    async: true,
+                    type: "POST",
+                    success: function (jdata) {
+                        $('#iLoading').hide();
+                        if (jdata.Result == "1") {
+                            ClearAgentdetail();
+                            $("#dv_Registration").hide();
+                            $("#dv_thank_you").show();
+                        }
+                        else {
+                            showError(jdata.errMsg != "" ? jdata.errMsg : "unable to process your request please contact suppor team.");
+                        }
+                    },
+                    error: function (e) {
+                        showError(e);
+                        console.log(e);
+                    }
+                });
+
+            }
+            catch (e) {
+                showError(e.message);
+                console.log(e.message);
+            }
+        }
+        function ClearAgentdetail() {
+            $("#txtfirstname").val("");
+            $("#txtlastname").val("");
+            $("#txtaddress1").val("");
+            $("#txtaddress2").val("");
+            $("#txtstatename").val("");
+            $("#txtcityname").val("");
+            $("#txtlandline").val("");
+            $("#txtmobilenumber").val("");
+            $("#txtpincode").val("");
+            $("#txtemailid").val("");
+        }
+    </script>
+    <script>
+        $(document).on('input', '.clsAlpha', function () {
+            var txtQty = $(this).val().replace(/[^a-zA-Z\ ]/g, '');
+            txtQty = txtQty.replace(/  +/g, ' ');
+            $(this).val(txtQty);
+        });
+        $(document).on('input', '.clsAlphaNumeric', function () {
+            var txtQty = $(this).val().replace(/[^a-zA-Z0-9\ ]/g, '');
+            txtQty = txtQty.replace(/  +/g, ' ');
+            $(this).val(txtQty);
+        });
+        $(document).on('input', '.clsNumeric', function () {
+            var txtQty = $(this).val().replace(/[^0-9]/g, '');
+            $(this).val(txtQty);
+        });
+
+        function showError(msg) {
+
+            $(".message").addClass("animation");
+            $("#empty-destination-box").addClass("error_active");
+            $(".details-box").addClass("has_error");
+            $("#loginpnl").show();
+            setTimeout(function () {
+                $(".message").removeClass("animation");
+            }, 200);
+            $("#empty-destination-box").html(msg);
+            $("#empty-destination-box").focus();
+            setTimeout(function () {
+                $(".message").removeClass("animation");
+                $("#empty-destination-box").removeClass("error_active");
+                $("#loginpnl").hide();
+                $(".details-box").removeClass("has_error");
+                $("#empty-destination-box").html("");
+
+            }, 5000);
+        }
+
+        $('#fileToUpload').change(function () {
+            var name = "";
+            if (this.files.length > 0) {
+                name = this.files[0].name
+                var oFReader = new FileReader();
+                oFReader.readAsDataURL(this.files[0]);
+                $(this).attr("data-value", name);
+                oFReader.onload = function (oFREvent) {
+                    $(this).attr("data-value", oFREvent.target.result);
+                };
+                
+                console.log(name);
+            }
+            else {
+                $(this).attr("data-value", "Drag and Drop files here");
+            }
+        });
+
+        $(document).on('click focus', '.errorstyle', function () {
+            var ids = this.id;
+            $("#" + ids).removeClass('errorstyle');
+        });
+    </script>
+</body>
+
+</html>

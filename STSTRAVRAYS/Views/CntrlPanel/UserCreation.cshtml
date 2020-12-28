@@ -1,0 +1,335 @@
+﻿@{
+    string StrVersion = System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"] != null ? System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"].ToString() : "";
+    string strProduct = System.Configuration.ConfigurationManager.AppSettings["Producttype"].ToString();
+    string strImageURL = System.Configuration.ConfigurationManager.AppSettings["LogoUrl"].ToString();
+    string strLoaderURL = strImageURL + "/" + strProduct + "/" + "loader.gif?" + StrVersion;
+}
+
+<link href="~/Content/CSS/Controlpanel.css?@StrVersion" rel="stylesheet" />
+<link href="~/Content/CSS/Login/lobibox.css" rel="stylesheet" />
+
+<style>
+    .txt-anim:focus ~ label, .has-content.txt-anim ~ label {font-weight:600;}
+    #flight_wrapper {padding:0px 15px;}
+    .Rpt_headertilte.bg-lt-blu {margin-bottom:30px;}
+</style>
+
+<div class="container mobNoContainerd">
+    <div class="row row0">
+    <div class="col-sm-12 col-xs-12 R_box-shadow mg-btm-20 bg-white col0 usercreation" style="margin-top:2%;">
+        <div class="">
+            <h4 class="Rpt_headertilte bg-lt-blu">
+                <span class="custprof_sprit sprit_p1"></span><span>User Creation</span>
+            </h4>
+        </div>
+
+        <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+            <div class="row">
+                <div class="col-xs-12 col-sm-3 pos-rel">
+                    <div class="dv-anim input-effect m-0 mg-btm-20" style="display:none;" id="divtxtusrnme">
+                        <input id="txtusername" class="txt-anim" type="text" autocomplete="off" />
+                        <label class="m-0">Username</label>
+                        <span class="focus-border">
+                            <i></i>
+                        </span>
+                    </div>
+                    <div class="dv-anim input-effect m-0 mg-btm-20" id="divddlusrnme">
+                        <span class="clsspntitle">Username</span>
+                        <select class="clscmbanim" id="ddlusername" onchange="EditUserDetails()">
+                            <option value="">--Select--</option>
+                        </select>
+                    </div>
+                    <div class="pos-abs" style="right: 15px;top: -30px;">
+                        <div class="cntr txt-cntr">
+                            <input style="display: none;" id="chkaddnew" class="cb" type="checkbox" value="0" onclick="AddnewUsername()">
+                            <label class="cbx" for="chkaddnew"></label>
+                            <label class="lbl font-11" for="chkaddnew">Add New</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-3 mg-btm-20">
+                    <div class="dv-anim input-effect m-0">
+                        <input id="txtpassword" class="txt-anim" type="text" autocomplete="off" />
+                        <label id="fnme" class="m-0">Password</label>
+                        <span class="focus-border">
+                            <i></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-3 mg-btm-20">
+                    <div class="dv-anim input-effect m-0">
+                        <input id="txtcontactno" class="txt-anim clsNumeric" type="text" maxlength="10" autocomplete="off" />
+                        <label id="fnme" class="m-0">Contact No</label>
+                        <span class="focus-border">
+                            <i></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-3 mg-btm-20">
+                    <div class="dv-anim input-effect m-0">
+                        <input id="txtemailid" class="txt-anim" type="text" autocomplete="off" />
+                        <label id="fnme" class="m-0">Email</label>
+                        <span class="focus-border">
+                            <i></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-3 col-sm-12 col-lg-3 mg-btm-20">
+                    <div class="dv-anim input-effect m-0">
+                        <span class="clsspntitle">Terminal Privilege</span>
+                        <select class="clscmbanim" id="ddlterminalprivilege">
+                            <option value="">--Select--</option>
+                            <option value="S">Supervisor</option>
+                            <option value="C">Travel Consultant</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-1 mg-btm-20">
+                    <div class="rb-div" style="padding: 6px 0px; min-height: inherit">
+                        <input type="radio" class="rb" checked="checked" id="rdactive" onclick="statuschange('A')" name="nameradiogrp">
+                        <label for="rblactive" class="rblbl">Active</label>
+                        <div class="bullet">
+                            <div class="line zero"></div>
+                            <div class="line one"></div>
+                            <div class="line two"></div>
+                            <div class="line three"></div>
+                            <div class="line four"></div>
+                            <div class="line five"></div>
+                            <div class="line six"></div>
+                            <div class="line seven"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-2 mg-btm-20">
+                    <div class="rb-div" style="padding: 6px 0px; min-height: inherit">
+                        <input type="radio" class="rb" id="rdblock" onclick="statuschange('B')" name="nameradiogrp">
+                        <label for="rblblock" class="rblbl">Block</label>
+                        <div class="bullet">
+                            <div class="line zero"></div>
+                            <div class="line one"></div>
+                            <div class="line two"></div>
+                            <div class="line three"></div>
+                            <div class="line four"></div>
+                            <div class="line five"></div>
+                            <div class="line six"></div>
+                            <div class="line seven"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-xs-12" id="dvtxtcmnt" style="display:none;">
+                    <label>Remark</label>
+                    <textarea id="txtcmnt" name="" rows="4" cols="50" autocomplete="off"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-md-2 col-sm-2 col-sm-offset-3 mg-btm-20" id="dvbtnsubmit" style="display:none;">
+                    <input type="button" class="action-button shadow animate color" id="" style="width: 100%;" value="Create" onclick="InsertUserDetails('I')">
+                </div>
+                <div class="col-xs-6 col-md-2 col-sm-2 col-sm-offset-3 mg-btm-20" id="dvbtnupdate" >
+                    <input type="button" class="action-button shadow animate color" id="" style="width: 100%;" value="Update" onclick="InsertUserDetails('U')">
+                </div>
+                <div class="col-xs-6 col-md-2 col-sm-2 mg-btm-20">
+                    <input type="button" class="action-button action-buttonB shadow animate  colorB1" id="" style="width: 100%;" value="Clear" onclick="clearAll()">
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<input type="hidden" id="hdnterminalid"/>
+
+<script src="~/js/AppsJS/common.js"></script>
+<script src="~/js/lobibox.js"></script>
+ <script src="~/js/jquery.blockUI.js?@StrVersion"></script>
+
+ <script>
+     var loaderimgurl = '@Url.Content("~/Images/"+ strProduct + "/Loader.gif")';
+     $(document).ready(function (u, i) {
+         InsertUserDetails("F");
+     })
+
+     function statuschange(flag) {
+            if (flag == "B") {
+                $('#rdactive').prop('checked', false);
+                $('#rdblock').prop('checked', true);
+                $("#dvtxtcmnt").show();
+            } else {
+                $('#rdblock').prop('checked', false);
+                $('#rdactive').prop('checked', true);
+                $("#dvtxtcmnt").hide();
+            }
+        }
+
+    function InsertUserDetails(flag) {
+        
+        if (flag != "F") {
+            if (flag == "I") {
+                if ($("#txtusername").val() == "") { showlobiboxalert("warning", "please enter username");  return false; } 
+            } else { if ($("#ddlusername").val() == "") { showlobiboxalert("warning","please select username"); return false; } }
+            if ($("#txtpassword").val() == "") { showlobiboxalert("warning","please enter password"); return false; }
+            if ($("#txtcontactno").val() == "") { showlobiboxalert("warning", "please enter contact no"); return false; }
+            var filter = /^([\w-\.]+\u0040([\w-]+\.)+[\w-]{2,4})?$/;
+            if (filter.test($("#txtemailid").val())) {
+            }
+            else {
+                showlobiboxalert("warning", "please enter valid email id");
+                return false;
+            }
+            if ($("#txtemailid").val() == "") { showlobiboxalert("warning", "please enter email id"); return false; }
+            if ($("#ddlterminalprivilege").val() == "") { showlobiboxalert("warning","please select terminal privilege"); return false; }
+        }
+        var Status = $("#rdactive").is(":checked") == true ? "A" : "B";
+        var Terminalid = "";
+        if ($("#chkaddnew").is(":checked") == false) {
+            Terminalid = $("#hdnterminalid").val();
+        }
+        var strUsername = flag == "U" ? $('#ddlusername option:selected').html() : $("#txtusername").val();
+        var Param = {
+            strFlag: flag,
+            strUsername: strUsername,
+            strPassword: $("#txtpassword").val(),
+            strcontactno: $("#txtcontactno").val(),
+            stremailid: $("#txtemailid").val(),
+            strterminalprivilege: $("#ddlterminalprivilege").val(),
+            strstatus:Status,
+            strremarks: $("#txtcmnt").val(),
+            strTerminalid: Terminalid
+        }
+        $.blockUI({
+            message: '<img alt="Please Wait..." src="' + loaderimgurl + '" style="background-color:#fff; border-radius:8px; margin-top:12%;" id="FareRuleLodingImage" />',
+            css: { padding: '5px' }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("InsertUserDetails", "CntrlPanel")",
+            data: JSON.stringify(Param),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (json) {
+                 $.unblockUI();
+                var result = "";
+                var Altmsg ="";
+                result = json.Status;
+                if (result == "-1") {
+                    window.location.href = '@Url.Action("SessionExp","Redirect")';
+                    return false;
+                }
+                if (flag == "F" && result == "01") {
+                   var resultJSON = JSON.parse(json.Results);
+                   BuilddropUserName(resultJSON["P_UPDATE_TERMINAL_DETAILS"]);
+                }
+                else if (json.Error != "") {
+                    showlobiboxalert("error", json.Error);
+                    return false;
+                }
+                else if (flag == "F" && result == "00") {
+                    showlobiboxalert("warning", json.Results);
+                    return false;
+                }
+                else {
+                   if (result == "01") {
+                       $('#chkaddnew').prop('checked', false);
+                       AddnewUsername();
+                       InsertUserDetails('F');
+                       flag == "U" ? Altmsg = "User Details Updated Successfully." : Altmsg = "User Details Inserted Successfully.";
+                       showlobiboxalert("success",Altmsg);
+                       return false;
+                    } else {
+                       flag == "U" ? Altmsg = "Unable to Update User Details(#2).": Altmsg = "Unable to Insert User Details(#2).";
+                       showlobiboxalert("success", Altmsg);
+                       return false;
+                    }
+                }
+            },
+            error: function (e) {
+                $.unblockUI();
+                console.log(e);
+                showlobiboxalert("error", "Unable to Connect Internal Server(#2)", "");
+                return false;
+            }
+        })
+    }
+
+    var UserDetails = [];
+    function BuilddropUserName(res) {
+        UserDetails = res;
+          if (res.length > 0) {
+               var build = '<option value="">--Select--</option>';
+               for (var k = 0; k < res.length; k++) {
+                   var style = "";
+                   if (res[k]["ACTIVE STATUS"] == "B") { style = "style=color:red"; }
+                   build += '<option value="' + res[k]["TERMINLAID"] + '" '+style+'>' + res[k]["USERNAME"] + '</option>';
+                }
+                $('#ddlusername').html(build);
+            }
+     }
+
+    function clearAll() {
+        $("#txtusername").val("");
+        $("#ddlusername").val("");
+        $("#txtpassword").val("");
+        $("#txtcontactno").val("");
+        $("#txtemailid").val("");
+        $("#ddlterminalprivilege").val("");
+        $('#rdactive').prop('checked', true);
+        $('#rdblock').prop('checked', false);
+        $("#txtcmnt").val("");
+        $("#dvtxtcmnt").hide();
+        $("#hdnterminalid").val("");
+    }
+
+    function AddnewUsername() {
+        if ($("#chkaddnew").is(":checked") == true) {
+            $("#divtxtusrnme").show();
+            $("#divddlusrnme").hide();
+            $("#dvbtnsubmit").show();
+            $("#dvbtnupdate").hide();
+            clearAll();
+        }
+        else {
+            $("#divddlusrnme").show();
+            $("#divtxtusrnme").hide();
+            $("#dvbtnupdate").show();
+            $("#dvbtnsubmit").hide();
+            clearAll();
+        }
+    }
+
+    function EditUserDetails() {
+        var userterminal = $('#ddlusername').val();
+        var username = $('#ddlusername option:selected').html();
+        for (var i = 0; i < UserDetails.length; i++) {
+            if (userterminal == UserDetails[i]["TERMINLAID"] && username == UserDetails[i]["USERNAME"]) {
+                $('.txt-anim').addClass('has-content');
+                $("#hdnterminalid").val(UserDetails[i]["TERMINLAID"] != "" && UserDetails[i]["TERMINLAID"] != null ? UserDetails[i]["TERMINLAID"] : "");
+                $("#txtpassword").val(UserDetails[i]["PASSWORD"] != "" && UserDetails[i]["PASSWORD"] != null ? UserDetails[i]["PASSWORD"] : "");
+                $("#txtcontactno").val(UserDetails[i]["CONTACTNO"] != "" && UserDetails[i]["CONTACTNO"] != null ? UserDetails[i]["CONTACTNO"] : "");
+                $("#txtemailid").val(UserDetails[i]["MAILID"] != "" && UserDetails[i]["MAILID"] != null ? UserDetails[i]["MAILID"] : "");
+                $("#ddlterminalprivilege").val(UserDetails[i]["PREVILAGE"] != "" && UserDetails[i]["PREVILAGE"] != null ? UserDetails[i]["PREVILAGE"] : "");
+                if (UserDetails[i]["ACTIVE STATUS"] == "A") { // A-Active, B-Block
+                    $('#rdactive').prop('checked', true);
+                    $('#rdblock').prop('checked', false);
+                } else {
+                    $('#rdactive').prop('checked', false);
+                    $('#rdblock').prop('checked', true);
+                }
+            }
+            else if(userterminal == ""){
+                $('.txt-anim').removeClass('has-content');
+                clearAll();
+            }
+         }
+    }
+
+    $(document).on('input', '.clsNumeric', function () {
+        var txtQty = $(this).val().replace(/[^0-9]/g, '');
+        $(this).val(txtQty);
+    });
+
+</script>

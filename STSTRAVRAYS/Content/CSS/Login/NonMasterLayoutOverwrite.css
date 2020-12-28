@@ -1,0 +1,17 @@
+﻿.rkmd-btn.btn-lightBlue {
+    background-color: #d0011b  !important;
+}
+
+.welcome-txt {
+   display:none;
+}
+.colorclssam {
+    background-color:#fff;
+    margin: 0px !important;
+}
+.impro-txt img {
+    padding: 18px 0 0 !important;
+}
+.rkmd-form .log-tdk + .form-title {
+    color:#d0011b !important;
+}

@@ -1,0 +1,305 @@
+﻿@using System.Configuration;
+@{
+    ViewBag.Title = "_Cancellation";
+    string strPNRlabel = ConfigurationManager.AppSettings["PNRlbl"] != null ? ConfigurationManager.AppSettings["PNRlbl"].ToString() : "S PNR";
+    string strProductType = ConfigurationManager.AppSettings["Producttype"] != null ? ConfigurationManager.AppSettings["Producttype"].ToString() : "";
+    string strTerminalType = Session["TerminalType"] != null ? Session["TerminalType"].ToString() : "";
+}
+<style>
+    .alertinfomodify.alert.alert-info:before{
+        margin-top:10px;
+    }
+    .dis-none{
+        display:none;
+    }
+     .alert{
+        color: #31708f !important;
+    }
+   #modal_Penality_Breakup .modal-header,  #modal_ssr_details .modal-header{
+        background-color: initial !important;
+    }
+    #modal_Penality_Breakup .modal-dialog , #modal_ssr_details .modal-dialog {
+        margin: 100px auto;
+    }
+    #modal_Penality_Breakup .modal-body {
+            max-height: 500px;
+    overflow: auto;
+    }
+    @@media screen and (max-width: 750px) and (min-width: 250px) {
+        #marginbtm {
+            margin-bottom: 20px;
+        }
+    }
+
+    /*#dvPenality .table > tbody > tr > td {
+        border-bottom: 1px solid #000 !important;
+    }
+
+    #dvPenality .table > tbody > tr > th {
+        border-bottom: 1px solid #000 !important;
+    }*/
+
+    .cls-header {
+        width: 100% !important;
+        text-align: left !important;
+    }
+
+    .clrwhite {
+        color: #fff;
+    }
+
+    .btn.focus, .btn:focus {
+        color: #fff !important;
+    }
+</style>
+
+<div class="tab-content section-text t-con-style-1 border">
+
+
+
+    <div class="col-sm-12 col-xs-12 AirlinrCancellation">
+        <div class="col-sm-12 col-xs-12 col0 mobshow hidden-lg hidden-md hidden-sm d-lg-none d-md-none d-sm-none">
+            <span>Cancellation</span>
+        </div>
+
+
+        <div class="col-md-2 col-sm-2 col-xs-12">
+            <div class="dv-anim input-effect m-0 m-sm-t15">
+                <input id="can_txt_viewSPNR" maxlength="10" value="" class="txt-anim clsAlphaNumeric" type="text" autocomplete="off" style="text-transform: uppercase" />
+
+                <label for="can_txt_viewSPNR">@strPNRlabel</label>
+                <span class="focus-border">
+                    <i></i>
+                </span>
+            </div>
+
+        </div>
+
+        <div class="col-md-2 col-sm-3 col-xs-12 mg-b-15" id="cnclAirlinePNR">
+            <div class="dv-anim input-effect m-0 m-sm-t15">
+                <input id="can_txt_viewAirPNR" maxlength="10" value="" class="txt-anim clsAlphaNumeric" type="text" autocomplete="off" style="text-transform: uppercase" />
+
+                <label for="can_txt_viewAirPNR">Airline PNR</label>
+                <span class="focus-border">
+                    <i></i>
+                </span>
+            </div>
+
+
+        </div>
+        <div class="col-md-2 col-sm-3 col-xs-12 mg-b-15" id="">
+            <div class="dv-anim input-effect m-0 m-sm-t15">
+                <input id="can_txt_viewCSRPNR" maxlength="10" value="" class="txt-anim clsAlphaNumeric" type="text" autocomplete="off" style="text-transform: uppercase" />
+
+                <label for="can_txt_viewCSRPNR">CRS PNR</label>
+                <span class="focus-border">
+                    <i></i>
+                </span>
+            </div>
+
+        </div>
+        <div class="col-md-2 col-sm-2 col-xs-6">
+            <div class="tabs-block">
+                <div class="input-style">
+                    <a class="action-button action-buttonO shadow animate color c-button b-50 bg-aqua hv-transparent cmn-bg-clr btn-round rounded-20 cursor-point btn w-100 lh-9 mg-b-10-f" id="btncncl_ok" onclick="GetCancellationPNR()"><span class="tx-12 tx-medium white pd-r-5">Search</span></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-2 col-xs-6">
+            <div class="tabs-block">
+                <div class="input-style">
+                    <a class="action-button action-buttonO shadow animate colorB1 c-button b-50 bg-aqua hv-transparent cmn-bg-clr btn-round rounded-20 cursor-point btn w-100 lh-8 mg-b-10-f" id="btncncl_Clear" onclick="ClearCancellationPNR()"><span class="tx-12 tx-medium white pd-r-5">Clear</span></a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <div class="row row0">
+        <div class="col-xs-12" id="show_pnr">
+        </div>
+    </div>
+    <div class="row row0">
+        <div class="col-xs-12 " id="can_viewpnrShowDiv">
+        </div>
+
+        <div class="col-xs-12" id="dvPenality" style="display:none;">
+            <div class="col-xs-12 " id="dvPenalityAirline">
+            </div>
+            <div class="col-xs-12" id="dvPenalityTravel">
+            </div>
+            <div class="col-sm-12">
+                <div class="col-xs-12 col0 cancel_type">
+                    <div class="alert alert-info dvclscanceltype">
+                        Offline Cancellation
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-xs-12">
+                <div class="col-xs-12 col0" id="dvPenalityAction">
+                    <div class="dvclscreditdebit col-xs-12 col-sm-12 col0 margin-bottom-20">
+                        <div class="col-xs-4">
+                            <div class="bg_rd flt-lft width-100p">
+                                <label class="dvclslblretnssr col0">
+
+                                </label>
+                                <label id="lblretrunssr">0</label>
+                             
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4">
+                            <div class="bg_rd flt-lft width-100p">
+                                <label>Total Credit<span style=""> : </span></label>
+                                <label id="lblcredit">0</label>
+                                
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="bg_rd flt-lft width-100p">
+                                <label>Total Debit<span> : </span></label>
+                                <label id="lbldebit">0</label>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-2 dvclswaivertext" style="display:none">
+
+                    </div>
+                    <div class="col-xs-12 col-sm-3 col-sm-offset-2 dvclscancelremarks mt-15">
+                        <div class="dv-anim input-effect m-0 m-sm-t15">
+                            <textarea style="height:60px;width:100%;" id="txt_cancellation_remarks" class="txt-anim has-content" autocomplete="off"></textarea>
+                            <label>Remarks<span style="color:RED!important;">*</span></label>
+                            <span class="focus-border">
+                                <i></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6" style="margin-top:12px;">
+                        <div class="col-xs-4">
+                            <input type="button" onclick="ConfirmCancellation('Y', 'txt_cancellation_remarks');" class="c-button b-50 bg-aqua hv-transparent cmn-bg-clr btn-round rounded-20 cursor-point btn w-100 lh-9 mg-b-10-f clrwhite action-button colorB1" value="Confirm Cancellation">
+                        </div>
+                        <div class="col-xs-4 dvclsofflineaccouting">
+                            <input type="button" onclick="ConfirmCancellation('O', 'txt_cancellation_remarks');" class="c-button b-50 bg-aqua hv-transparent cmn-bg-clr btn-round rounded-20 cursor-point btn w-100 lh-9 mg-b-10-f clrwhite action-button colorB1" value="Offline Accounting">
+                        </div>
+
+                        <div class="col-xs-4 cancel_req">
+                            <input type="button" onclick="ConfirmCancellation('N', 'txt_cancellation_remarks');" class="c-button b-50 bg-aqua hv-transparent cmn-bg-clr btn-round rounded-20 cursor-point btn w-100 lh-9 mg-b-10-f clrwhite action-button color" value="Ignore Request">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+
+<input type="hidden" id="hdnSPNR" value="" />
+<input type="hidden" id="hdnAirPNR" value="" />
+<input type="hidden" id="hdnCRSPNR" value="">
+<input type="hidden" id="hdnCancelSeq" value="" />
+
+<div id="modal_Cancel_Remarks" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title mdtlecnclremarkstitle">Reject Cancellation</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-xs-12">
+                    <label style="color:#000!important;font-weight:600 !important;font-size:14px !important;padding: 10px 0px;">
+                        Are you sure want to cancel the request?
+                    </label>
+                </div>
+                <div class="col-xs-12">
+                    <div class="dv-anim input-effect m-0 m-sm-t15">
+                        <label>Remarks<span style="color:RED!important;">*</span></label>
+                        <textarea id="txt_cancellation_remark" class="txt-anim form-control has-content" autocomplete="off"></textarea>
+                        <span class="focus-border">
+                            <i></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="button" onclick="ConfirmCancellation('N', 'txt_cancellation_remark');" class="btn shadow animate color" style="width: 100%;margin-right:5px;" value="Yes">
+                <input type="button" onclick="$('#modal_Cancel_Remarks').modal('hide');" class="btn shadow animate colorB1 " style="width: 100%" value="No">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="modal_Penality_Breakup" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title mdtlecnclremarkstitle">Penality Breakup</h4>
+            </div>
+            <div class="modal-body">
+                <div class="" id="dvBreakup" style="padding-bottom: 15px !important;">
+                </div>
+            </div>
+            @*<div class="modal-footer">
+                    <input type="button" onclick="ConfirmCancellation('N', 'txt_cancellation_remark');" class="btn shadow animate color" style="width: 100%;margin-right:5px;" value="Yes">
+                    <input type="button" onclick="$('#modal_Cancel_Remarks').modal('hide');" class="btn shadow animate colorB1 " style="width: 100%" value="No">
+                </div>*@
+        </div>
+
+    </div>
+</div>
+
+<div id="modal_ssr_details" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width: 90%;">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title mdtlecnclremarkstitle">SSR Details</h4>
+            </div>
+            <div class="modal-body" style="max-height:400px;overflow:auto;">
+                <div class="" id="dvssrdetails" style="padding-bottom: 15px !important;">
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align:center">
+                <input type="button" onclick="CalculateSSRAmount();" class="btn shadow animate color" value="Ok">
+                @* <input type="button" onclick="$('#modal_ssr_details').modal('hide');" class="btn shadow animate colorB1 "  value="No">*@
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="modal_Penality_Breakup" class="iziModal">
+    <div class="iziModal-wrap" style="top: 0px;">
+        <div class="iziModal-content" style="padding: 0px;overflow-y: auto;max-height:700px !important">
+            <div class="col-xs-12 modal-body text-center" id="dvBreakup" style="padding-bottom: 15px !important;">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var strimagesURL = "";
+    var strFunction = "CANCEL";
+    var cancelPNRDetails = '@Url.Action("GetCancellationPNR", "Cancellation")';
+    var CancelRequestURL = '@Url.Action("RequestCancellation", "Cancellation")';
+    var CancellationURL = '@Url.Action("ConfirmCancellation", "Cancellation")';
+    var sessionExpURL = '@Url.Action("SessionExp", "Redirect")';
+    var strTerminalType = '@strTerminalType';
+    var strPNRLabel = '@strPNRlabel';
+</script>

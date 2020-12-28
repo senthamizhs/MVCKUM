@@ -1,0 +1,165 @@
+<NewDataSet>
+  <P_FETCH_LOGINDETAILS>
+    <USER_NAME>betauser</USER_NAME>
+    <LGN_AGENT_ID>DSSHJ0100101</LGN_AGENT_ID>
+    <LGN_TERMINAL_ID>DSSHJ010010101</LGN_TERMINAL_ID>
+    <LGN_TERMINAL_PREVILAGE>S</LGN_TERMINAL_PREVILAGE>
+    <AGENCY_NAME>B2C AGENT</AGENCY_NAME>
+    <AGENCY_NAMEADDRESS>B2C AGENT~Sharjah~vimal@shreyastechsolutions.com~+971-987654321~9876543210~LIVE~CUSTOMER~Sharjah~SHJ~SR~AE</AGENCY_NAMEADDRESS>
+    <AgencyPaymentDetails>LIVE~CUSTOMER~vimal@shreyastechsolutions.com~Sharjah~Sharjah~SHJ~SR~AE</AgencyPaymentDetails>
+    <IATA_NO />
+    <ALLOW_TICKETING>Y</ALLOW_TICKETING>
+    <VIEW_COMMISSION>1|1|1|1|1|1|1|1</VIEW_COMMISSION>
+    <BCH_BRANCH_ID>BNH001</BCH_BRANCH_ID>
+    <BCH_BRANCH_NAME>DEVELOPMENT</BCH_BRANCH_NAME>
+    <AGN_ACCESS_IMG />
+    <BRANCH_ACCESS>BNH001</BRANCH_ACCESS>
+    <AIRLINE>Y</AIRLINE>
+    <BUS>N</BUS>
+    <HOTEL>N</HOTEL>
+    <TRAIN>N</TRAIN>
+    <VISA>N</VISA>
+    <MISC>N</MISC>
+    <INSURANCE>N</INSURANCE>
+    <CAR>N</CAR>
+    <CRUISES>N</CRUISES>
+    <ACT>N</ACT>
+    <MOB>N</MOB>
+    <ALLOW_MULTICLASS>Y</ALLOW_MULTICLASS>
+    <ALLOW_PG>N</ALLOW_PG>
+    <PHONE_NO>+971-987654321</PHONE_NO>
+    <ALLOW_CREDIT>N</ALLOW_CREDIT>
+    <AgentAlterMail />
+    <ALLOW_TOPUP>Y</ALLOW_TOPUP>
+    <ALLOW_PASSTHROUGH>N</ALLOW_PASSTHROUGH>
+    <ALLOW_BEST_BUY>Y</ALLOW_BEST_BUY>
+    <CTRLRIGHTS>1|1|1|1|1|1|1</CTRLRIGHTS>
+    <VIEW_DOMESTIC>Y</VIEW_DOMESTIC>
+    <VIEW_Q_TICKETING>Y</VIEW_Q_TICKETING>
+    <ALLOW_CORP_FARE>Y</ALLOW_CORP_FARE>
+    <VIEW_INTERNATIONAL>Y</VIEW_INTERNATIONAL>
+    <BAJAJ>Y</BAJAJ>
+    <TITOS>N</TITOS>
+    <ANCILLARY>N</ANCILLARY>
+    <THEMEPARK>N</THEMEPARK>
+    <TATA>Y</TATA>
+    <GST_REGISTER>Y</GST_REGISTER>
+    <ALLOW_VIEW_BALANCE>Y</ALLOW_VIEW_BALANCE>
+    <VIEW_DASHBOARD>Y</VIEW_DASHBOARD>
+    <TRAIN_USER_ID />
+    <TRAIN_MAC_ID />
+    <MTF>N</MTF>
+    <MUA>N</MUA>
+    <EMAIL_ID>vimal@shreyastechsolutions.com</EMAIL_ID>
+    <UserName>betauser</UserName>
+    <AGENT_TYPE>DS</AGENT_TYPE>
+    <ALLOW_SPLFARE>0</ALLOW_SPLFARE>
+    <ALLOW_BLOCKPNR>Y</ALLOW_BLOCKPNR>
+    <ALLOW_MULTICITY>Y</ALLOW_MULTICITY>
+    <ALLOW_FARECALENDER>Y</ALLOW_FARECALENDER>
+    <AGREEMENT>1</AGREEMENT>
+    <PG_SERVICE_CHARGE>0</PG_SERVICE_CHARGE>
+    <ASSIGNED_TERMINAL />
+    <POS_THREAD_KEY />
+    <BOA_N_FARE />
+    <PAT_ALLOW_MORE_FLIGHT />
+    <PAT_TRACK_STATUS>Y</PAT_TRACK_STATUS>
+    <PRA_AIR_AIRLINE_CODE />
+    <PRODUCT_CODE>INRC02</PRODUCT_CODE>
+    <COUNTRY_ID>IN</COUNTRY_ID>
+    <StateCode>TN</StateCode>
+    <CityCode>MAA</CityCode>
+    <MOBILENO>9876543210</MOBILENO>
+    <LGN_CORPORATE_ACCESS>DSSHJ0100101</LGN_CORPORATE_ACCESS>
+    <PAT_TRAIN_MAC_ID />
+    <PAT_TRAIN_BOOKUSER_ID />
+    <ALLOW_GDS>Y</ALLOW_GDS>
+    <Agency_Details>LIVE~vimal@shreyastechsolutions.com~Sharjah~9876543210~SHJ~SR~AE</Agency_Details>
+    <SALESMAN1>karthi</SALESMAN1>
+    <SALESMAN2 />
+    <SALESMAN3 />
+    <BCH_COUNTRY>AE</BCH_COUNTRY>
+    <ALLOW_RETRIEVE>N</ALLOW_RETRIEVE>
+    <ALLOW_BOOKING>Y</ALLOW_BOOKING>
+    <Currency>AED</Currency>
+    <Thread>6E|SG|OD|IX|G9|TZ</Thread>
+    <FscThread>FSC</FscThread>
+    <LccThread>RST</LccThread>
+    <MultiThread>FSC</MultiThread>
+    <SFC />
+    <NewThread />
+    <NewThreadC />
+    <ThreadD />
+    <FscThreadD />
+    <LccThreadD />
+    <MultiThreadD />
+    <SFCD />
+    <NewThreadD />
+    <NewThreadCD />
+    <CORPORATETHREAD />
+    <RETAILTHREAD />
+    <VIATHREAD />
+    <ARMEDTFARE />
+    <STUDENTFARE />
+    <SRCITIZENTFARE />
+    <STUDENTFAREDISPMSG>Students above 12 years of age are eligible for Special fares and/or additional baggage allowances on certain airline bookings. 
+Carrying valid student ID cards and student visas (Where applicable) is mandatory.</STUDENTFAREDISPMSG>
+    <ARMEDTFAREDISPMSG>Applicable for serving or retired personnel of the Armed Forces or Paramilitary Forces of India and war widows only. 
+Serving and retired personnel of the Armed or Paramilitary Forces of India, along with their respective spouses and dependent children are also eligible to avail this offer. 
+Proof in the form of Valid Photo ID and relevant Military ID has to be presented at the time of check-in, failing which they will be denied boarding. T&amp;C Apply.</ARMEDTFAREDISPMSG>
+    <SRCITIZENTFAREDISPMSG>Applicable to senior citizens above the age of 60 years. 
+On producing proof of Date of Birth (mandatory), In case of failure to produce proof, prevailing fares will be charged</SRCITIZENTFAREDISPMSG>
+    <INT_1G_AIRLINES />
+    <DOM_1G_AIRLINES />
+    <INT_1S_AIRLINES />
+    <DOM_1S_AIRLINES />
+    <CLT_GROUP_ID>GRP2020111200256</CLT_GROUP_ID>
+    <TRAIN_MAC_ID1 />
+    <TRAIN_USER_ID1 />
+    <TDS_PERCENTAGE>0.00</TDS_PERCENTAGE>
+    <Commission>1</Commission>
+    <FSCCommission>1</FSCCommission>
+    <Markup>1</Markup>
+    <ServiceTax>0</ServiceTax>
+    <ServiceCharge>1</ServiceCharge>
+    <AgentTerminalCount>1</AgentTerminalCount>
+    <CLT_LOGIN_LOGO_TYPE />
+    <PASSWORDRESET>0</PASSWORDRESET>
+    <SHOWCOMMISSION>1</SHOWCOMMISSION>
+    <Ticketformat />
+    <ETRAVELINSURANCE>1</ETRAVELINSURANCE>
+    <SNO>1</SNO>
+    <SEQUENCE_ID>3</SEQUENCE_ID>
+    <MailFrom />
+    <BlockPnrCategories>FSC</BlockPnrCategories>
+    <CreditAccCategories>FSC</CreditAccCategories>
+    <COMPANYNAME>Deira Travel</COMPANYNAME>
+    <HOMETEXT>Comming Soon</HOMETEXT>
+    <RIGHTTEXT>Comming Soon</RIGHTTEXT>
+    <STANDARDTEXT>Comming Soon</STANDARDTEXT>
+    <UPPERTEXT>Comming Soon</UPPERTEXT>
+    <TRIPCONFIG>O|R|Y|M</TRIPCONFIG>
+    <pgminamt>3000</pgminamt>
+    <PG_common_servicecharge>2</PG_common_servicecharge>
+    <NearThread />
+  </P_FETCH_LOGINDETAILS>
+  <P_FETCH_LOGINDETAILS1>
+    <AST_AGENT_ID>TBMAA0500101</AST_AGENT_ID>
+    <AST_TERMINAL_ID>TBMAA050010101</AST_TERMINAL_ID>
+  </P_FETCH_LOGINDETAILS1>
+  <P_FETCH_LOGINDETAILS2>
+    <WEB_RIGHTS />
+  </P_FETCH_LOGINDETAILS2>
+  <P_FETCH_LOGINDETAILS3>
+    <THREADKEY />
+    <FscThread />
+    <LccThread />
+    <MultiThread />
+    <SFC />
+    <NewThread />
+    <NewThreadC />
+    <STUDENT />
+    <SRCITIZEN />
+    <ARMED />
+  </P_FETCH_LOGINDETAILS3>
+</NewDataSet>

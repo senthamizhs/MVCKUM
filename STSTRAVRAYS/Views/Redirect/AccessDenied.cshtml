@@ -1,0 +1,8 @@
+﻿@{
+    string strProduct = System.Configuration.ConfigurationManager.AppSettings["Producttype"].ToString();
+}
+<div class="container-fluid">
+    <div style="width:100%;">
+        <img src="@Url.Content("~/Images/"+strProduct+"/Not-Support.png")" />
+    </div>
+</div>

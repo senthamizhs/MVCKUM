@@ -1,0 +1,1715 @@
+﻿@{
+    ViewBag.Title = "ThaiVisa";
+    string strProducttype = System.Configuration.ConfigurationManager.AppSettings["Producttype"];
+    string strTheme = System.Configuration.ConfigurationManager.AppSettings["apptheme"];
+    var strVersion = System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"] != null ? System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"].ToString() : "";
+}
+<link href="~/Content/CSS/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/CSS/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/CSS/raysModal.css" rel="stylesheet" />
+<link href="~/Content/CSS/@strTheme/ThaiVisa.css?@strVersion" rel="stylesheet" />
+<link href="~/Content/CSS/@strTheme/style.css" rel="stylesheet" />
+<link href="~/Content/CSS/Search/jquerycalender.css" rel="stylesheet" />
+<link href="~/Content/CSS/Component.css" rel="stylesheet" />
+<link href="~/Content/CSS/Dahboard/font-awesomemin.css" rel="stylesheet" />
+
+<body>
+    <div class="bg-full">
+        <div class="container payment ">
+            <div class="row">
+                <div class="uae-visa-form clsclass float-left w-100">
+                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                        <h1>Thai Visa Form</h1>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-xs-12 uae-visa-form" id="dvvisaform">
+                    <div class="float-left w-100" style="display:none;">
+                        <ul class="float-left w-100">
+                            <li>
+                                <div class="radio Pay-mode" style="visibility: visible;">
+                                    <input id="indivdual" class="Bkpaymentmode" name="radio" type="radio" value="P" onclick="Individual()" checked>
+                                    <label for="indivdual" class="radio-label RDT" title="indivdual">Individual</label>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="radio Pay-mode" style="visibility: visible;">
+                                    <input id="group" class="Bkpaymentmode" name="radio" type="radio" value="P" onclick="GroupBooking()">
+                                    <label for="group" class="radio-label RDT" title="group">Group Booking</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="dvThaiVisa">
+
+                </div>
+                <div class="uae-visa-form">
+                    <div class="col-sm-12 col-xs-12 mg-x-15 txt-align-right M_Add_visa">
+                        <button id="btnAddVisa" class="btnGST_add" onclick="addVisa();"><i class="fa fa-plus"></i>Add Visa</button>
+                        <button id="btnRemoveVisa" class="btnGST_del" onclick="removeVisa();"><i class="fa fa-minus"></i>Remove Visa</button>
+                    </div>
+                    <div class="col-sm-5 col-sm-offset-3">
+                        <input type="button" class="action-button color_S" value="Submit" onclick="btnSubmit();">
+                        <label class="action-button color_C" aria-hidden="true" onclick="btnClear();">Clear</label>
+                    </div>
+                </div>
+                <div id="modal-alert" class="iziModal"></div>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/CommonJS/jquery-1.11.1.js"></script>
+    <script src="~/js/CommonJS/jquery-ui-new.js"></script>
+    <script src="~/js/jquery.blockUI.js?@strVersion"></script>
+    <script src="~/js/bootstrap.min.js?@strVersion"></script>
+    <script src="~/js/raysModal.js?@strVersion"></script>
+    <input type="hidden" id="hdnPassengerCount" value="1" />
+    <input type="hidden" id="hdnGrpPassengerCount" value="2" />
+    <script>
+            $(document).ready(function () {
+                Individual();
+            });
+            function Individual() {
+                $("#btnAddVisa").hide();
+                $("#btnRemoveVisa").hide();
+                var strPassengerCount = $("#hdnPassengerCount").val();
+                addGrpPasenger(strPassengerCount);
+                $("#OverallDetails_" + strPassengerCount).css("display", "block");
+            }
+            function GroupBooking() {
+                $("#btnAddVisa").show();
+                $("#btnRemoveVisa").show();
+                var strGrpCnt = $("#hdnGrpPassengerCount").val();
+                addGrpPasenger(strGrpCnt);
+            }
+            function addVisa() {
+                if (($("#indivdual").is(":checked")) == true) {
+                    var strVisaCnt = $("#hdnPassengerCount").val();
+                    if (strVisaCnt <= 5) {
+                        var strcnt = parseInt(strVisaCnt) + 1;
+                        $("#hdnPassengerCount").val(strcnt);
+                        addPasenger(strcnt);
+                    }
+                }
+                else {
+                    var strVisaCnt = $("#hdnGrpPassengerCount").val();
+                    if (strVisaCnt <= 5) {
+                        var strcnt = parseInt(strVisaCnt) + 1;
+                        $("#hdnGrpPassengerCount").val(strcnt);
+                        addGrpPasenger(strcnt);
+                    }
+
+                }
+            }
+            function removeVisa() {
+                if (($("#indivdual").is(":checked")) == true) {
+                    var strVisaCnt = $("#hdnPassengerCount").val();
+                    if (strVisaCnt > 1) {
+                        document.getElementById("OverallDetails_" + strVisaCnt).remove();
+                        var strcnt = parseInt(strVisaCnt) - 1;
+                        $("#hdnPassengerCount").val(strcnt);
+                    }
+                }
+                else {
+                    var strVisaCnt = $("#hdnGrpPassengerCount").val();
+                    if (strVisaCnt > 2) {
+                        document.getElementById("OverallGrpDetails_" + strVisaCnt).remove();
+                        var strcnt = parseInt(strVisaCnt) - 1;
+                        $("#hdnGrpPassengerCount").val(strcnt);
+                    }
+                }
+            }
+
+            //Individual & GroupBooking
+            function addGrpPasenger(count) {
+                $.blockUI({
+                    message: '<img alt="Please Wait..." src="@Url.Content("~/Images/"+ strProducttype + "/Loader.gif")" style="background-color:#fff; border-radius:8px; margin-top:12%;" id="FareRuleLodingImage" />',
+                    css: { padding: '5px' }
+                });
+
+                var j = count;
+                var strbuilt = "";
+                $("#dvThaiVisa").html("");
+                for (var i = 1; i <= count; i++) {
+                    //Travel Details
+                    if (i == 1) {
+                        strbuilt += "<div class='col-md-12 col-sm-12 col-xs-12'>";
+                        strbuilt += "<fieldset style='padding: 1em;border: 1px solid #999;margin-bottom: 10px;' class='uae-visa-form'>";
+                        strbuilt += "<legend>Travel Details</legend>";
+                        strbuilt += "<div class='marbtmplus10 clsUlContent'>";
+                        strbuilt += "<div class='row row0'>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Arrival Airport
+                        strbuilt += "<span class='clsspntitle'>Arrival Airport<span style='color: red;'>*</span> </span>";
+                        strbuilt += "<select name='ddlArrivalAirport' id='ddlArrivalAirport_1' class='nice-select clscmbanim hideErr clsGstLct w-100 clsclr'>";
+                        strbuilt += "<option value=''>--Select--</option><option value='1'>Suvarnabhumi International Airport</option><option value='2'>Don Mueang International Airport</option><option value='3'>Chiang Mai International Airport</option><option value='4'>Phuket International Airport</option></select></div>";
+                      
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Arrival PNR
+                        strbuilt += "<div class='dv-anim input-effect m-0'>";
+                        strbuilt += "<input type='text' id='txtArrivalPNR_1' class='txt-anim clsGstLct clsAlphaNumeric lblcls clsclr' maxlength='10'>";
+                        strbuilt += "<label>Onward Arrival PNR<span style='color: red;'>*</span></label><span class='focus-border'><i></i></span></div></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Arrival Airlines
+                        strbuilt += "<span class='clsspntitle'>Onward Arrival Airlines <span style='color: red;'>*</span></span>";//<span style='color: red;'>*</span>
+                        strbuilt += "<select name='ddlArrivalAirlines' id='ddlArrivalAirlines_1' class='nice-select clscmbanim hideErr clsGstLct w-100 clsclr'>";
+                        strbuilt += "<option value=''>--Select--</option><option value='1'>Thai Airways</option><option value='2'>Others</option></select></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Arrival Flight Number
+                        strbuilt += "<div class='dv-anim input-effect m-0'>";
+                        strbuilt += "<span class='clsspntitle'>Onward Arrival Flight Number<span style='color: red;'>*</span></span>";
+                        strbuilt += "<input type='text' id='txtArrFlightNo_1' class='txt-anim clsGstLct clsAlphaNumericwithcomma clsclr' maxlength='25'>";
+                        strbuilt += "<span class='focus-border'><i></i></span></div></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Arrival Date
+                        strbuilt += "<div class='dv-anim input-effect m-0'>";
+                        strbuilt += "<span class='clsspntitle'>Onward Arrival Date<span style='color: red;'>*</span></span>";
+                        strbuilt += "<input id='txtArrivalDate_1' class='txt-anim passDepDate clsclr' type='text' placeholder='Arrival Date' readonly='true'>";
+                        strbuilt += "<span class='focus-border'><i></i></span></div></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Arrival Time
+                        strbuilt += "<div class='dv-anim input-effect m-0'>";
+                        strbuilt += "<span class='clsspntitle'>Onward Arrival Time<span style='color: red;'>*</span></span>";
+                        //strbuilt += "<input id='txtArrTime_" + i + "' class='txt-anim' type='text' placeholder='Arrival Time'>";
+                        strbuilt += '<input type="text" class="form-control clsclr clsNumbercolon" id="txtArrTime_' + i + '" maxlength="5" placeholder="HH:MM" onkeyup=' + '"' + "javascript:return validatechar(this.id)" + '"' + '/>';
+                        strbuilt += "<span class='focus-border'><i></i></span></div></div>";
+
+                        strbuilt += " <div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Dept PNR
+                        strbuilt += "<div class='dv-anim input-effect m-0'>";
+                        strbuilt += "<input type='text' id='txtDeptPNR_1' class='txt-anim clsGstLct lblcls clsclr'>";//onkeypress='ValidateSpecialChar(event)'
+                        strbuilt += "<label>Return Departure PNR</label>";
+                        strbuilt += "<span class='focus-border'><i></i></span></div></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Dept Airlines
+                        strbuilt += "<span class='clsspntitle'>Return Departure Airlines</span>";
+                        strbuilt += "<select name='ddlDeptAirlies' id='ddlDeptAirlies_1' class='nice-select clscmbanim hideErr clsGstLct w-100 clsclr'>";
+                        strbuilt += "<option value='0'>--Select--</option><option value='1'>Thai Airways</option><option value='2'>Others</option></select></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Dept Flight No
+                        strbuilt += "<div class='dv-anim input-effect m-0'>";
+                        // strbuilt += "<span class='clsspntitle'>Return Departure Flight Number<span style='color: red;'>*</span></span>";
+                        strbuilt += "<input type='text' id='txtDeptFlightNo_1' class='txt-anim clsGstLct clsAlphaNumericwithcomma lblcls clsclr' maxlength='25'>";
+                        strbuilt += "<label>Return Departure Flight No</label>";
+                        strbuilt += "<span class='focus-border'><i></i></span></div></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Departure Date
+                        strbuilt += "<div class='dv-anim input-effect m-0'>";
+                        strbuilt += "<span class='clsspntitle'>Return Departure Date</span>";
+                        strbuilt += "<input id='txtDepartureDate_1' class='txt-anim passArrDate clsclr' type='text' placeholder='Departure'>";
+                        strbuilt += "<span class='focus-border'><i></i></span></div></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Departure Time
+                        strbuilt += "<div class='dv-anim input-effect m-0'>";
+                        strbuilt += "<span class='clsspntitle'>Return Departure Time </span>";
+                        strbuilt += '<input type="text" class="txt-anim clsclr clsNumbercolon" id="txtDeptTime_1" maxlength="5" placeholder="HH:MM" onkeyup=' + '"' + "javascript:return validatechar(this.id)" + '"' + '/>';
+                        // strbuilt += "<input id='txtDeptTime_1' class='txt-anim hasDatepicker' type='text' placeholder='Departure'>";
+                        strbuilt += "<span class='focus-border'><i></i></span></div></div>";
+                      
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//purpose of visit
+                        strbuilt += "<span class='clsspntitle'>Purpose of visit<span style='color: red;'>*</span> </span>";
+                        strbuilt += "<select name='ddlPurposeofVisit' id='ddlPurposeofVisit_1' class='nice-select clscmbanim hideErr clsGstLct w-100 clsclr'>";
+                        strbuilt += "<option value=''>--Select--</option><option value='4'>Business</option><option value='8'>Convention</option><option value='7'>Education</option><option value='10'>Employment</option><option value='11'>Exhibition</option><option value='1'>Holiday</option><option value='5'>Incentive</option><option value='6'>Medical & Wellness</option><option value='2'>Meeting</option><option value='12'>Others</option><option value='3'>Sports</option><option value='9'>Transit</option>";
+                        strbuilt += "</select></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//boarded city
+                        strbuilt += "<span class='clsspntitle'>Boarded Country<span style='color: red;'>*</span> </span>";
+                        strbuilt += "<select name='ddlBoarededCountry' id='ddlBoarededCountry_1' class='nice-select clscmbanim hideErr clsGstLct w-100 clsCountry clsclr'>";
+                        strbuilt += "</select></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Next city
+                        strbuilt += "<div class='dv-anim input-effect m-0'>";
+                        strbuilt += "<input type='text' id='txtNextCity_1' class='txt-anim clsGstLct clsAlpha lblcls clsclr'>";
+                        strbuilt += "<label>NextCity<span style='color: red;'>*</span></label>";
+                        strbuilt += "<span class='focus-border'><i></i></span></div></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30' style='margin-bottom: 20px;'>";//first time traveller
+                        strbuilt += "<span class='clsspntitle'>First time traveller<span style='color: red;'>*</span> </span>";
+                        strbuilt += "<div class='float-left w-100'>";
+                        strbuilt += "<ul class='float-left w-100'><ul class='float-left w-100'><li>";
+                        strbuilt += "<div class='radio Pay-mode' style='visibility: visible;'>";
+                        strbuilt += "<input id='txtFrstTmeTravelleryes_1' class='Bkpaymentmodes' name='txtFrstTmeTravell' type='radio' value='P' onclick=''>";
+                        strbuilt += "<label for='txtFrstTmeTravelleryes_1' class='radio-label RDT' title='indivdual'>Yes</label>";
+                        strbuilt += "</div></li><li><div class='radio Pay-mode' style='visibility: visible;'><input id='txtFrstTmeTravellerNo_1' class='Bkpaymentmodes' name='txtFrstTmeTravell' type='radio' value='P' onclick=''>";
+                        strbuilt += "<label for='txtFrstTmeTravellerNo_1' class='radio-label RDT' title='group'>No</label>";
+                        strbuilt += "</div></li></ul></div></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//IS priority
+                        strbuilt += "<span class='clsspntitle'>Is Priority<span style='color: red;'>*</span> </span>";
+                        strbuilt += "<div class='float-left w-100'>";
+                        strbuilt += "<ul class='float-left w-100'><ul class='float-left w-100'><li>";
+                        strbuilt += "<div class='radio Pay-mode' style='visibility: visible;'>";
+                        strbuilt += "<input id='txtPriority_1' class='Bkpaymentmodes' name='txtPriority' type='radio' value='P' onclick=''>";
+                        strbuilt += "<label for='txtPriority_1' class='radio-label RDT' title='indivdual'>Yes</label>";
+                        strbuilt += "</div></li><li><div class='radio Pay-mode' style='visibility: visible;'><input id='txtPriority_0' class='Bkpaymentmodes' name='txtPriority' type='radio' value='P' onclick=''>";
+                        strbuilt += "<label for='txtPriority_0' class='radio-label RDT' title='group'>No</label>";
+                        strbuilt += "</div></li></ul></div></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Type of flight
+                        strbuilt += "<span class='clsspntitle'>Type of Flight<span style='color: red;'>*</span> </span>";
+                        strbuilt += "<select name='ddlFlightType' id='ddlFlightType_1' class='nice-select clscmbanim hideErr clsGstLct w-100 clsclr'>";
+                        strbuilt += "<option value=''>--Select--</option><option value= '1'>Charter</option><option value= '2'>Schedule</option></select></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//length of stay
+                        strbuilt += "<div class='dv-anim input-effect m-0'>";
+                        strbuilt += "<input type='text' id='txtLengthofStay_1' class='txt-anim clsGstLct clsNumeric lblcls clsclr' maxlength='4'>";
+                        strbuilt += "<label>Length of Stay<span style='color: red;'>*</span></label>";
+                        strbuilt += "<span class='focus-border'><i></i></span>";
+                        strbuilt += "</div></div>";
+
+                        strbuilt += "<div class='col-sm-3 col-xs-12 mg-btm-20'>";//Minor Travelling
+                        strbuilt += "<div class='float-left w-100'>";
+                        strbuilt += "<span class='clsspntitle'>Is Minor Traveling On Same Passport?<span style='color: red;'>*</span> </span>";
+                        strbuilt += "</div>";
+                        strbuilt += "<div class='float-left w-100'><ul class='float-left w-100'><li><div class='radio Pay-mode' style='visibility: visible;'>";
+                        strbuilt += "<input id='txtMinorYes_" + i + "' class='Bkpaymentmodes' name='txtMinorYes' type='radio' value='P' onclick='GetMinor(" + i + ")'>";
+                        strbuilt += "<label for='txtMinorYes_" + i + "' class='radio-label RDT' title='indivdual'>Yes</label>";
+                        strbuilt += "</div></li><li><div class='radio Pay-mode' style='visibility: visible;'>";
+                        strbuilt += "<input id='txtMinorNo_" + i + "' class='Bkpaymentmodes' name='txtMinorYes' type='radio' value='P' onclick='NoMinor(" + i + ")'>";
+                        strbuilt += "<label for='txtMinorNo_" + i + "' class='radio-label RDT' title='group'>No</label>";
+                        strbuilt += "</div></li></ul></div></div>";
+                        //minor
+                        strbuilt += "<div id='OverallMinor_" + i + "' style='display:none'>";
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Minor Family name
+                        strbuilt += "<div class='dv-anim input-effect m-0'>";
+                        strbuilt += "<input type='text' id='txtMinorFamilyName_" + i + "' class='txt-anim clsGstLct clsAlpha lblcls clsclr'>";
+                        strbuilt += "<label>Minor family name<span style='color: red;'>*</span></label>";
+                        strbuilt += "<span class='focus-border'><i></i></span></div></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Minor Given name
+                        strbuilt += "<div class='dv-anim input-effect m-0'>";
+                        strbuilt += "<input type='text' id='txtMinorGivenName_" + i + "' class='txt-anim clsGstLct clsAlpha lblcls clsclr'>";
+                        strbuilt += "<label>Minor given name<span style='color: red;'>*</span></label>";
+                        strbuilt += "<span class='focus-border'><i></i></span></div></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//minor gender
+                        strbuilt += "<span class='clsspntitle'>Minor gender<span style='color: red;'>*</span> </span>";
+                        strbuilt += "<select name='ddlMinorGender' id='ddlMinorGender_" + i + "' class='nice-select clscmbanim hideErr clsGstLct w-100 clsclr'>";
+                        strbuilt += "<option value=''>--Select--</option><option value='1'>Male</option><option value='2'>Female</option></select></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//minor DOB
+                        strbuilt += "<div class='dv-anim input-effect m-0'>";
+                        strbuilt += "<span class='clsspntitle'>Minor Date of Birth<span style='color: red;'>*</span> </span>";
+                        strbuilt += "<input id='txtDOB_" + i + "' class='txt-anim passIssueDate' type='text' placeholder='D.O.B' readonly='true'>";
+                        strbuilt += "<span class='focus-border'><i></i></span></div></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Minor place of Birth
+                        strbuilt += "<div class='dv-anim input-effect m-0'>";
+                        strbuilt += "<span class='clsspntitle'>Minor Place of Birth<span style='color: red;'>*</span> </span>";
+                        strbuilt += "<input id='txtMinorPlaceofBirth_" + i + "' class='txt-anim lblcls clsclr' type='text' placeholder='Place of Birth'>";
+                        strbuilt += "<span class='focus-border'><i></i></span></div></div></div></div></fieldset></div>";
+
+                        //Accomodation Details
+                        strbuilt += "<div class='col-md-12 col-sm-12 col-xs-12'>";
+                        strbuilt += "<fieldset style='padding: 1em;border: 1px solid #999;margin-bottom: 10px;' class='uae-visa-form clsclr'>";
+                        strbuilt += "<legend>Accommodation Detail</legend>";
+                        strbuilt += "<div class='marbtmplus10 clsUlContent'>";
+                        strbuilt += "<div class='row row0'>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//place of stay
+                        strbuilt += "<span class='clsspntitle'>Place of stay<span style='color: red;'>*</span> </span>";
+                        strbuilt += "<select name='ddlPlaceofStay' id='ddlPlaceofStay_" + i + "' class='nice-select clscmbanim hideErr clsGstLct w-100 clsclr'>";
+                        strbuilt += "<option value=''>--Select--</option><option value='1'>Hotel</option><option value='2'>Youth Hostel</option><option value='3'>Guest House</option><option value='4'>Friend's House</option><option value='5'>Apartment</option><option value='6'>Others</option>";
+                        strbuilt += "</select></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Accomodation/owner name
+                        strbuilt += "<div class='dv-anim input-effect m-0'>";
+                        strbuilt += "<input type='text' id='txtOwnerName_" + i + "' class='txt-anim clsGstLct clsAlpha lblcls clsclr'>";
+                        strbuilt += "<label>Accomodation or Owner Name<span style='color: red;'>*</span></label>";
+                        strbuilt += "<span class='focus-border'><i></i></span></div></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//City
+                        strbuilt += "<div class='dv-anim input-effect m-0'>";
+                        strbuilt += "<span class='clsspntitle'>City<span style='color: red;'>*</span></span>";
+                        //strbuilt += "<input type='text' id='txtCity_" + i + "' class='txt-anim clsGstLct clsNationality'>";
+                        strbuilt += "<select name='txtCity' id='txtCity_1' class='nice-select clscmbanim hideErr clsGstLct w-100 clsNationality clsclr'></select>";
+                        strbuilt += "<span class='focus-border'><i></i></span></div></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//District
+                        strbuilt += "<span class='clsspntitle'>District<span style='color: red;'>*</span> </span>";
+                        strbuilt += "<select name='ddlDistrict' id='ddlDistrict_" + i + "' class='nice-select clscmbanim hideErr clsGstLct w-100 clsclr'></select></div>";
+                        // strbuilt += "<option value=''>--Select--</option><option value ='570'>Chanuman</option><option value ='804'>Hua Taphan</option><option value ='805'>Lue Amnat</option><option value ='569'>Mueang Amnat Charoen</option><option value ='571'>Pathum Ratchawongsa</option><option value ='572'>Phana</option><option value ='803'>Senangkhanikhom</option></select></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Sub District
+                        strbuilt += "<span class='clsspntitle'>Sub District<span style='color: red;'>*</span> </span>";
+                        strbuilt += "<select name='ddlSubDistrict' id='ddlSubDistrict_1' class='nice-select clscmbanim hideErr clsGstLct w-100 clsclr'></select></div>";
+                        //strbuilt += "<option value=''>--Select--</option><option value ='2234'>Pathum Wapi</option><option value ='2231'>Song Dao</option><option value ='2232'>Tha Sila</option><option value ='2233'>Watthana</option></select></div>";
+                     
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Pincode
+                        strbuilt += "<div class='dv-anim input-effect m-0'>";
+                        strbuilt += "<input type='text' id='txtPincode_" + i + "' class='txt-anim clsGstLct clsNumeric lblcls clsclr' maxlenth='6'>";
+                        strbuilt += "<label>Pincode<span style='color: red;'>*</span></label>";
+                        strbuilt += "<span class='focus-border'><i></i></span></div></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Street Address
+                        strbuilt += "<div class='dv-anim input-effect m-0'>";
+                        strbuilt += "<input type='text' id='txtStreetAddress_" + i + "' class='txt-anim clsGstLct clsAlphaNumericwithspecialchar lblcls clsclr'>";
+                        strbuilt += "<label>Street Address<span style='color: red;'>*</span></label>";
+                        strbuilt += "<span class='focus-border'><i></i></span></div></div>";
+
+                        strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Reference Details
+                        strbuilt += "<div class='dv-anim input-effect m-0'>";
+                        strbuilt += "<input type='text' id='txtReferenceDetails_" + i + "' class='txt-anim clsGstLct clsAlphaNumeric lblcls clsclr'>";
+                        strbuilt += "<label>Reference Details<span style='color: red;'>*</span></label>";
+                        strbuilt += "<span class='focus-border'><i></i></span></div></div></div></div></fieldset></div>";
+                    }
+                    //Passenger Details
+                    strbuilt += "<div id='OverallGrpDetails_" + i + "'>";
+                    strbuilt += "<div class='uae-visa-form' style='display:block;'>";//Details Open
+                    strbuilt += "<div class='float-left w-100 uae-visa-form col-sm-12'>";//Passenger Detail header open
+                    strbuilt += "<h2><span class='float-left pad-rgt-10'>Passenger Details</span><span class='float-left fnt-wt-600' style='color: red;'>" + i + "</span></h2></div>";
+                    strbuilt += "<div class='col-md-12 col-sm-12 col-xs-12'>";//Passport Detail open
+                    strbuilt += "<fieldset><legend>Passport Details</legend>";
+                    strbuilt += "<div class='marbtmplus10 clsUlContent'>";//Sub open
+                    strbuilt += "<div class='row row0'>";
+
+                    strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";
+                    strbuilt += "<span class='clsspntitle'>Title<span style='color: red;'>*</span> </span>";
+                    strbuilt += "<select name='ddlTitle' id='ddlTitle_" + i + "' class='nice-select clscmbanim hideErr clsGstLct w-100 clsclr'>";
+                    strbuilt += "<option value=''>--Select--</option>";
+                    strbuilt += "<option value='1'>Mr</option><option value ='2'>Miss</option><option value ='3'>Mrs</option><option value ='4'>Master</option><option value ='14'>Ms</option>";
+                    strbuilt += "</select></div>";
+
+                    strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//FirstName start
+                    strbuilt += "<div class='dv-anim input-effect m-0'>";
+                    strbuilt += "<input type='text' id='txtFirstName_" + i + "' class='txt-anim clsGstLct clsAlpha lblcls clsclr'>";
+                    strbuilt += "<label>First Name<span style='color: red;'>*</span></label>";
+                    strbuilt += "<span class='focus-border'><i></i></span></div></div>";//first name end
+
+                    strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//middle name start
+                    strbuilt += "<div class='dv-anim input-effect m-0'>";
+                    strbuilt += "<input type='text' id='txtMiddleName_" + i + "' class='txt-anim clsGstLct clsAlpha lblcls clsclr'>";
+                    strbuilt += "<label>Middle Name</label>";
+                    strbuilt += "<span class='focus-border'><i></i></span></div></div>";// middle name end
+
+                    strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//last name start
+                    strbuilt += "<div class='dv-anim input-effect m-0'>";
+                    strbuilt += "<input type='text' id='txtLastName_" + i + "' class='txt-anim clsGstLct clsAlpha lblcls clsclr'>";
+                    strbuilt += "<label>Last Name<span style='color: red;'>*</span></label>";
+                    strbuilt += "<span class='focus-border'><i></i></span></div></div>";//last name end
+
+                    strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//gender
+                    strbuilt += "<span class='clsspntitle'>Gender<span style='color: red;'>*</span> </span>";
+                    strbuilt += "<select name='ddlGender' id='ddlGender_" + i + "' class='nice-select clscmbanim hideErr clsGstLct w-100 clsclr'>";
+                    strbuilt += "<option value=''>--Select--</option><option value='1'>Male</option><option value='2'>Female</option></select></div>";
+
+                    strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//email start
+                    strbuilt += "<div class='dv-anim input-effect m-0'>";
+                    strbuilt += "<input type='text' id='txtEmailID_" + i + "' class='txt-anim clsGstLct lblcls clsclr'>";
+                    strbuilt += "<label>Email Id<span style='color: red;'>*</span></label>";
+                    strbuilt += "<span class='focus-border'><i></i></span></div></div>";//email end
+
+                    strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Mobile number start
+                    strbuilt += "<div class='dv-anim input-effect m-0'>";
+                    strbuilt += "<input type='text' id='txtMobileNumber_" + i + "' class='txt-anim clsGstLct clsNumeric lblcls clsclr' maxlength='10'>";
+                    strbuilt += "<label>Mobile Number<span style='color: red;'>*</span></label>";
+                    strbuilt += "<span class='focus-border'><i></i></span></div></div>";//Mobile number end
+
+                    strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Nationality start
+                    strbuilt += "<span class='clsspntitle'>Nationality<span style='color: red;'>*</span> </span>";
+                    strbuilt += "<select name='ddlNationality' id='ddlNationality_" + i + "' class='nice-select clscmbanim hideErr clsGstLct w-100 clsCountry clsclr'></select></div>";//nationality end
+
+                    strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//passport no start
+                    strbuilt += "<div class='dv-anim input-effect m-0'>";
+                    strbuilt += "<input type='text' id='txtPassportNumber_" + i + "' class='txt-anim clsGstLct clsAlphaNumeric lblcls clsclr' maxlength='20' >";
+                    strbuilt += "<label>Passport Number<span style='color: red;'>*</span></label>";
+                    strbuilt += "<span class='focus-border'><i></i></span></div></div>";//passport no end
+
+                    strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//passport issue date
+                    strbuilt += "<div class='dv-anim input-effect m-0'>";
+                    strbuilt += "<span class='clsspntitle'>Passport Issue Date<span style='color: red'>*</span> </span>";
+                    strbuilt += "<input type='text' id='txtPassportIssueDate_" + i + "' class='txt-anim clsGstLct passIssueDate' readonly='true'>"
+                    strbuilt += "<span class='focus-border'><i></i></span></div></div>"//passport issue end
+
+                    strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//passport expire
+                    strbuilt += "<div class='dv-anim input-effect m-0'>";
+                    strbuilt += "<span class='clsspntitle'>Passport Expire Date<span style='color: red;'>*</span></span>";
+                    strbuilt += "<input type='text' id='txtPassportExpireDate_" + i + "' class='txt-anim passExpDate' readonly = 'true'>";
+                    strbuilt += "<span class='focus-border'><i></i></span></div></div>";
+
+                    strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Date of birth
+                    strbuilt += "<div class='dv-anim input-effect m-0'>";
+                    strbuilt += "<span class='clsspntitle'>Date of Birth<span style='color: red;'>*</span></span>";
+                    strbuilt += "<input type='text' id='txtDateofBirth_" + i + "' class='txt-anim passDate' readonly = 'true'>";
+                    strbuilt += "<span class='focus-border'><i></i></span></div></div>";
+
+
+
+                    strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30' style='display:none'>";//Passport Type
+                    strbuilt += "<span class='clsspntitle'>Passport Type<span style='color: red;'>*</span> </span>";
+                    strbuilt += "<select name='ddlPassportType' id='ddlPassportType_" + i + "' class='nice-select clscmbanim hideErr clsGstLct w-100 clsclr'>";
+                    strbuilt += "<option value=''>--Select--</option><option value='1'>Ordinary</option>";
+                    strbuilt += "</select></div>";
+
+                    strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>"//Permanent Address
+                    strbuilt += "<div class='dv-anim input-effect m-0' style='height:35px;'>";
+                    strbuilt += "<span class='clsspntitle'>Permanent Address<span style='color: red;'>*</span></span><textarea class='clsGstLct lblcls clsclr' id='txtPermanentAddrss_" + i + "' wrap='hard' placeholder='' style='width: 100%;'></textarea>";
+                    strbuilt += "</div></div>";
+
+                    strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//State
+                    strbuilt += "<div class='dv-anim input-effect m-0'>";
+                    strbuilt += "<span class='clsspntitle'>State<span style='color: red;'>*</span> </span>";
+                    strbuilt += "<input type='text' id='txtState_" + i + "' class='txt-anim clsGstLct clsAlpha lblcls clsclr'>";
+                    strbuilt += "</div></div>";
+
+                    strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//yearly Income
+                    strbuilt += "<span class='clsspntitle'>Yearly Income<span style='color: red;'>*</span> </span>";
+                    strbuilt += "<select name='ddlYearlyIncome' id='ddlYearlyIncome_" + i + "' class='nice-select clscmbanim hideErr clsGstLct w-100 clsclr'>";
+                    strbuilt += "<option value=''>--Select--</option><option value='1'>Less than 20,000 US$</option><option value='2'>20,001 - 60,000 US$</option><option value='3'>More than 60,000 US$</option><option value='4'>No Income</option></select></div>";
+
+                    strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//Place of Issue
+                    strbuilt += "<span class='clsspntitle'>Place of Issue<span style='color: red;'>*</span> </span>";
+                    strbuilt += "<input name='ddlPlaceofIssue' type='text' id='ddlPlaceofIssue_" + i + "' class='nice-select clscmbanim hideErr clsGstLct w-100 lblcls clsclr'></div>";
+                    //strbuilt += "<select name='ddlPlaceofIssue' id='ddlPlaceofIssue_" + i + "' class='nice-select clscmbanim hideErr clsGstLct w-100'>";
+                    //strbuilt += "<option value=''>--Select--</option></select></div>";
+
+                    strbuilt += "<div class='col-lg-3 col-sm-3 col-xs-12 mg-btm-30'>";//occupation
+                    strbuilt += "<span class='clsspntitle'>Occupation<span style='color: red;'>*</span> </span>";
+                    strbuilt += "<select name='ddlOccupation' id='ddlOccupation_" + i + "' class='nice-select clscmbanim hideErr clsGstLct w-100 clsclr'>";
+                    strbuilt += "<option value=''>--Select--</option><option value='8'>BUSINESSMAN / BUSINESSWOMAN</option><option value='1'>COMMERCIAL TRADER</option><option value='14'>DOCTOR</option><option value='15'>FISHERY</option><option value='5'>FREE ENTERPRISE WORKER</option><option value='3'>GOVERNMENT OFFICER</option><option value='11'>HOUSEKEEPER</option>";
+                    strbuilt += "<option value='9'>INVESTOR</option><option value='6'>NO PAID OCCUPATION</option><option value='7'>OTHERS</option><option value='10'>RETIRED</option><option value='2'>RURAL WORKER</option><option value='13'>SPECIALIST</option><option value='4'>STATE ENTERPRISE WORKER</option><option value='12'>STUDENTS</option></select></div>";
+
+                    strbuilt += "</div></div></fielset></div>";
+
+                    //Upload Documents
+                    strbuilt += "<div class='col-md-12 col-sm-12 col-xs-12'>";
+                    strbuilt += "<fieldset>";
+                    strbuilt += "<legend>Upload Documents <span style = 'color:black';>[Size must be less than 100kb]</span><span style='color:red';>[Upload Atleast Any one Document]</span></legend>";
+                    strbuilt += "<div class='marbtmplus10 clsUlContent'>";
+                    strbuilt += "<div class='row row0'>";
+
+                    strbuilt += "<div class='row'>";
+                    strbuilt += "<div class='form-group col-sm-3'>";//passport first page
+                    strbuilt += "<div class='file-upload'>";
+                    strbuilt += "<p class='file-title'>Passport Cover Page</p>";
+                    strbuilt += "<div class='image-upload-wrap' id='dvPassportFirst_" + i + "'>";
+                    strbuilt += '<input class="file-upload-input" type="file" id="imgpassprtfrst_' + i + '" name=file[] multiple="multiple" accept="image/*" onchange=' + '"' + "readURL(this, 'dvPassportFirst_" + i + "', 'uppsprtfirst_" + i + "', 'imgpsprtfirst_" + i + "')" + '"' + '/>';
+                    strbuilt += "<div class='drag-text'><h3>First Page</h3></div></div>";
+                    strbuilt += "<div class='file-upload-content float-left w-100' id='uppsprtfirst_" + i + "'>";
+                    strbuilt += "<img class='file-upload-image' src='#' alt='your image' id='imgpsprtfirst_" + i + "' />";
+                    strbuilt += "<div class='image-title-wrap col-sm-12 col-xs-12'>";
+                    strbuilt += '<button type="button" onclick=' + '"' + "removeUpload('dvPassportFirst_" + i + "', 'uppsprtfirst_" + i + "','imgpsprtfirst_" + i + "','imgpassprtfrst_"+i+"')" + '"' + ' class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>';
+                    strbuilt += "</div></div></div></div>";
+
+                    strbuilt += "<div class='form-group col-sm-3'>";//Passport Bio Page
+                    strbuilt += "<div class='file-upload'>";
+                    strbuilt += "<p class='file-title'>Passport Bio Page</p>";
+                    strbuilt += "<div class='image-upload-wrap' id='dvPassportBio_" + i + "'>";
+                    strbuilt += '<input class="file-upload-input" type="file" id="imgPassBio_' + i + '" name=file[] multiple="multiple" accept="image/*" onchange=' + '"' + "readURL(this, 'dvPassportBio_" + i + "', 'upPassBio_" + i + "', 'imgPsprtBio_" + i + "')" + '"' + '/>';
+                    strbuilt += "<div class='drag-text'><h3>Bio Page</h3></div></div>";
+                    strbuilt += "<div class='file-upload-content float-left w-100' id='upPassBio_" + i + "'>";
+                    strbuilt += "<img class='file-upload-image' src='#' alt='your image' id='imgPsprtBio_" + i + "' />";
+                    strbuilt += "<div class='image-title-wrap col-sm-12 col-xs-12'>";
+                    strbuilt += '<button type="button" onclick=' + '"' + "removeUpload('dvPassportBio_" + i + "', 'upPassBio_" + i + "','imgPsprtBio_" + i + "','imgPassBio_"+i+"')" + '"' + ' class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>';
+                    strbuilt += "</div></div></div></div>";
+
+                    strbuilt += "<div class='form-group col-sm-3'>";//Photo
+                    strbuilt += "<div class='file-upload'>";
+                    strbuilt += "<p class='file-title'>Photo<span style='color: red;'> jpg</span></p>";
+                    strbuilt += "<div class='image-upload-wrap' id='dvPassPhoto_" + i + "'>";
+                    strbuilt += '<input class="file-upload-input" type="file" id="imgPassPhoto_' + i + '" name=file[] multiple="multiple" accept="image/*" onchange=' + '"' + "readURL(this, 'dvPassPhoto_" + i + "', 'upPassPhoto_" + i + "', 'imgPsprtPhoto_" + i + "')" + '"' + '/>';
+                    strbuilt += "<div class='drag-text'><h3>Photo</h3></div></div>";
+                    strbuilt += "<div class='file-upload-content float-left w-100' id='upPassPhoto_" + i + "'>";
+                    strbuilt += "<img class='file-upload-image' src='#' alt='your image' id='imgPsprtPhoto_" + i + "' />";
+                    strbuilt += "<div class='image-title-wrap col-sm-12 col-xs-12'>";
+                    strbuilt += '<button type="button" onclick=' + '"' + "removeUpload('dvPassPhoto_" + i + "', 'upPassPhoto_" + i + "','imgPsprtPhoto_" + i + "','imgPassPhoto_"+i+"')" + '"' + ' class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>';
+                    strbuilt += "</div></div></div></div>";
+
+                    strbuilt += "<div class='form-group col-sm-3'>";//Arrival flight ticket
+                    strbuilt += "<div class='file-upload'>";
+                    strbuilt += "<p class='file-title'>Arrival Flight Ticket<span style='color: red;'> pdf</span></p>";
+                    strbuilt += "<div class='image-upload-wrap' id='dvArrivalFlightTckt_" + i + "'>";
+                    strbuilt += '<input class="file-upload-input" type="file" id="imgPassArrivalFlightTckt_' + i + '" name=file[] multiple="multiple" accept="Content/pdf" onchange=' + '"' + "readURL(this, 'dvArrivalFlightTckt_" + i + "', 'upPassArrivalFlightTckt_" + i + "', 'imgPassArrFlightTckt_" + i + "')" + '"' + '/>';
+                    strbuilt += "<div class='drag-text'><h3>Arrival Ticket</h3></div></div>";
+                    strbuilt += "<div class='file-upload-content float-left w-100' id='upPassArrivalFlightTckt_" + i + "'>";
+                    strbuilt += "<img class='file-upload-image' src='#' alt='your image' id='imgPassArrFlightTckt_" + i + "' />";
+                    strbuilt += "<div class='image-title-wrap col-sm-12 col-xs-12'>";
+                    strbuilt += '<button type="button" onclick=' + '"' + "removeUpload('dvArrivalFlightTckt_" + i + "', 'upPassArrivalFlightTckt_" + i + "','imgPassArrFlightTckt_" + i + "','imgPassArrivalFlightTckt_"+i+"')" + '"' + ' class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>';
+                    strbuilt += "</div></div></div></div>";
+                    strbuilt += "</div>";
+
+                    strbuilt += "<div class='row'>";
+                    strbuilt += "<div class='form-group col-sm-3'>";//Dept Flight Ticket
+                    strbuilt += "<div class='file-upload'>";
+                    strbuilt += "<p class='file-title'>Departure Flight Ticket<span style='color: red;'> pdf</span></p>";
+                    strbuilt += "<div class='image-upload-wrap' id='dvDeptFlightTicket_" + i + "'>";
+                    strbuilt += '<input class="file-upload-input" type="file" id="imgDeptFlightTckt_' + i + '" name=file[] multiple="multiple" accept="Content/pdf" onchange=' + '"' + "readURL(this, 'dvDeptFlightTicket_" + i + "', 'upDeptFlightTckt_" + i + "', 'imgDeptPsprtFlightTckt_" + i + "')" + '"' + '/>';
+                    strbuilt += "<div class='drag-text'><h3>Departure Ticket</h3></div></div>";
+                    strbuilt += "<div class='file-upload-content float-left w-100' id='upDeptFlightTckt_" + i + "'>";
+                    strbuilt += "<img class='file-upload-image' src='#' alt='your image' id='imgDeptPsprtFlightTckt_" + i + "' />";
+                    strbuilt += "<div class='image-title-wrap col-sm-12 col-xs-12'>";
+                    strbuilt += '<button type="button" onclick=' + '"' + "removeUpload('dvDeptFlightTicket_" + i + "', 'upDeptFlightTckt_" + i + "','imgDeptPsprtFlightTckt_" + i + "','imgDeptFlightTckt_"+i+"')" + '"' + ' class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>';
+                    strbuilt += "</div></div></div></div>";
+
+                    strbuilt += "<div class='form-group col-sm-3'>";//Accomodation
+                    strbuilt += "<div class='file-upload'>";
+                    strbuilt += "<p class='file-title'>Accomodation<span style='color: red;'> pdf</span></p>";
+                    strbuilt += "<div class='image-upload-wrap' id='dvPassAccomodation_" + i + "'>";
+                    strbuilt += '<input class="file-upload-input" type="file" id="imgPassAccomodation_' + i + '" name=file[] multiple="multiple" accept="Content/pdf" onchange=' + '"' + "readURL(this, 'dvPassAccomodation_" + i + "', 'upPassAccomodation_" + i + "', 'imgPassPrtAccomodation_" + i + "')" + '"' + ' />';
+                    strbuilt += "<div class='drag-text'><h3>Accomodation</h3></div></div>";
+                    strbuilt += "<div class='file-upload-content float-left w-100' id='upPassAccomodation_" + i + "'>";
+                    strbuilt += "<img class='file-upload-image' src='#' alt='your image' id='imgPassPrtAccomodation_" + i + "' />";
+                    strbuilt += "<div class='image-title-wrap col-sm-12 col-xs-12'>";
+                    strbuilt += '<button type="button" onclick=' + '"' + "removeUpload('dvPassAccomodation_" + i + "', 'upPassAccomodation_" + i + "','imgPassPrtAccomodation_" + i + "','imgPassAccomodation_"+i+"')" + '"' + ' class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>';
+                    strbuilt += "</div></div></div></div>";
+
+                    strbuilt += "<div class='form-group col-sm-3'>";//Invitation Letter
+                    strbuilt += "<div class='file-upload'>";
+                    strbuilt += "<p class='file-title'>Invitation Letter<span style='color: red;'> pdf</span></p>";
+                    strbuilt += "<div class='image-upload-wrap' id='dvInvitationLettr_" + i + "'>";
+                    strbuilt += '<input class="file-upload-input" type="file" id="imgInvitationLettr_' + i + '" name=file[] multiple="multiple" accept="Content/pdf" onchange=' + '"' + "readURL(this, 'dvInvitationLettr_" + i + "', 'upInvitationLettr_" + i + "', 'imgPsprtInvitationLettr_" + i + "')" + '"' + ' />';
+                    strbuilt += "<div class='drag-text'><h3>Letter</h3></div></div>";
+                    strbuilt += "<div class='file-upload-content float-left w-100' id='upInvitationLettr_" + i + "'>";
+                    strbuilt += "<img class='file-upload-image' src='#' alt='your image' id='imgPsprtInvitationLettr_" + i + "' />";
+                    strbuilt += "<div class='image-title-wrap col-sm-12 col-xs-12'>";
+                    strbuilt += '<button type="button" onclick=' + '"' + "removeUpload('dvInvitationLettr_" + i + "', 'upInvitationLettr_" + i + "','imgPsprtInvitationLettr_" + i + "','imgInvitationLettr_"+i+"')" + '"' + ' class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>';
+                    strbuilt += "</div></div></div></div>";
+
+                    strbuilt += "<div class='form-group col-sm-3'>";//Address proof of host
+                    strbuilt += "<div class='file-upload'>";
+                    strbuilt += "<p class='file-title'>Address Proof<span style='color: red;'> pdf</span></p>";
+                    strbuilt += "<div class='image-upload-wrap' id='dvHouseReg_" + i + "'>";
+                    strbuilt += '<input class="file-upload-input" type="file" id="imgHouseReg_' + i + '" name=file[] multiple="multiple" accept="Content/pdf" onchange=' + '"' + "readURL(this, 'dvHouseReg_" + i + "', 'upHouseReg_" + i + "', 'imgPsprtHouseReg_" + i + "')" + '"' + ' />';
+                    strbuilt += "<div class='drag-text'><h3>Address Proof</h3></div></div>";
+                    strbuilt += "<div class='file-upload-content float-left w-100' id='upHouseReg_" + i + "'>";
+                    strbuilt += "<img class='file-upload-image' src='#' alt='your image' id='imgPsprtHouseReg_" + i + "' />";
+                    strbuilt += "<div class='image-title-wrap col-sm-12 col-xs-12'>";
+                    strbuilt += '<button type="button" onclick=' + '"' + "removeUpload('dvHouseReg_" + i + "', 'upHouseReg_" + i + "','imgPsprtHouseReg_" + i + "','imgHouseReg_"+i+"')" + '"' + ' class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>';
+                    strbuilt += "</div></div></div></div>";
+                    strbuilt += "</div>";
+
+                    strbuilt += "<div class='row'>";
+                    strbuilt += "<div class='form-group col-sm-3'>";//ID card of host
+                    strbuilt += "<div class='file-upload'>";
+                    strbuilt += "<p class='file-title'>ID Card of Host<span style='color: red;'> pdf</span></p>";
+                    strbuilt += "<div class='image-upload-wrap' id='dvIDCard_" + i + "'>";
+                    strbuilt += '<input class="file-upload-input" type="file" id="imgIDCard_' + i + '" name=file[] multiple="multiple" accept="Content/pdf" onchange=' + '"' + "readURL(this, 'dvIDCard_" + i + "', 'upIDCard_" + i + "', 'imgPsprtIDCard_" + i + "')" + '"' + ' />';
+                    strbuilt += "<div class='drag-text'><h3>ID Card</h3></div></div>";
+                    strbuilt += "<div class='file-upload-content float-left w-100' id='upIDCard_" + i + "'>";
+                    strbuilt += "<img class='file-upload-image' src='#' alt='your image' id='imgPsprtIDCard_" + i + "' />";
+                    strbuilt += "<div class='image-title-wrap col-sm-12 col-xs-12'>";
+                    strbuilt += '<button type="button" onclick=' + '"' + "removeUpload('dvIDCard_" + i + "', 'upIDCard_" + i + "','imgPsprtIDCard_" + i + "','imgIDCard_"+i+"')" + '"' + ' class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>';
+                    strbuilt += "</div></div></div></div>";
+
+                    strbuilt += "<div class='form-group col-sm-3'>";//Additional Document 1
+                    strbuilt += "<div class='file-upload'>";
+                    strbuilt += "<p class='file-title'>Additional Document-1<span style='color: red;'> pdf</span></p>";
+                    strbuilt += "<div class='image-upload-wrap' id='dvAddDoct1_" + i + "'>";
+                    strbuilt += '<input class="file-upload-input" type="file" id="imgAddDoct1_' + i + '" name=file[] multiple="multiple" accept="Content/pdf" onchange=' + '"' + "readURL(this, 'dvAddDoct1_" + i + "', 'upAddDoct1_" + i + "', 'imgPsprtAddDoct1_" + i + "')" + '"' + ' />';
+                    strbuilt += "<div class='drag-text'><h3>Additional Document</h3></div></div>";
+                    strbuilt += "<div class='file-upload-content float-left w-100' id='upAddDoct1_" + i + "'>";
+                    strbuilt += "<img class='file-upload-image' src='#' alt='your image' id='imgPsprtAddDoct1_" + i + "' />";
+                    strbuilt += "<div class='image-title-wrap col-sm-12 col-xs-12'>";
+                    strbuilt += '<button type="button" onclick=' + '"' + "removeUpload('dvAddDoct1_" + i + "', 'upAddDoct1_" + i + "','imgPsprtAddDoct1_" + i + "','imgAddDoct1_"+i+"')" + '"' + ' class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>';
+                    strbuilt += "</div></div></div></div>";
+
+
+                    strbuilt += "<div class='form-group col-sm-3'>";//Additional Document 1
+                    strbuilt += "<div class='file-upload'>";
+                    strbuilt += "<p class='file-title'>Additional Document-2<span style='color: red;'> pdf</span></p>";
+                    strbuilt += "<div class='image-upload-wrap' id='dvAddDoct2_" + i + "'>";
+                    strbuilt += '<input class="file-upload-input" type="file" id="imgAddDoct2_' + i + '" name=file[] multiple="multiple" accept="Content/pdf" onchange=' + '"' + "readURL(this, 'dvAddDoct2_" + i + "', 'upAddDoct2_" + i + "', 'imgPsprtAddDoct2_" + i + "')" + '"' + ' />';
+                    strbuilt += "<div class='drag-text'><h3>Additional Document</h3></div></div>";
+                    strbuilt += "<div class='file-upload-content float-left w-100' id='upAddDoct2_" + i + "'>";
+                    strbuilt += "<img class='file-upload-image' src='#' alt='your image' id='imgPsprtAddDoct2_" + i + "' />";
+                    strbuilt += "<div class='image-title-wrap col-sm-12 col-xs-12'>";
+                    strbuilt += '<button type="button" onclick=' + '"' + "removeUpload('dvAddDoct2_" + i + "', 'upAddDoct2_" + i + "','imgPsprtAddDoct2_" + i + "','imgAddDoct2_"+i+"')" + '"' + ' class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>';
+                    strbuilt += "</div></div></div></div>";
+                    strbuilt += "</div>";
+
+                    strbuilt += "</div></div></fieldset></div></div>";
+                    strbuilt += "</div>";
+                }
+                $("#dvThaiVisa").append(strbuilt);
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Content("~/XML/ThaiVisaCity.xml")',
+                    dataType: "xml",
+                    async: true,
+                    success: function (xml) {
+                        var select = $('.clsNationality');
+                        select.append('<option value="">--Select--</option>');
+
+                        $(xml).find('CITY').each(function () {
+                            var url = $(this).find('CITY_ID').text();
+                            var name = $(this).find('CITY_NAME').text();
+                            select.append("<option value='" + url + "'>" + name + "</option>");
+                        });
+                    }
+                });
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Content("~/XML/ThaiVisaNationality.xml")',
+                    dataType: "xml",
+                    async: true,
+                    success: function (xml) {
+                        var select = $('.clsCountry');
+                        select.append('<option value="">--Select--</option>');
+
+                        $(xml).find('COUNTRY').each(function () {
+                            var url = $(this).find('COUNTRY_ID').text();
+                            var name = $(this).find('COUNTRY_NAME').text();
+                            select.append("<option value='" + url + "'>" + name + "</option>");
+                        });
+                    }
+                });
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Content("~/XML/ThaiVisaDistrict.xml")',
+                    dataType: "xml",
+                    async: true,
+                    success: function (xml) {
+                        var select = $('#ddlDistrict_1');
+                        select.append('<option value="">--Select--</option>');
+                        $(xml).find('DISTRICT').each(function () {
+                            var url = $(this).find('DISTRICT_ID').text();
+                            var name = $(this).find('DISTRICT_NAME').text();
+                            select.append("<option value='" + url + "'>" + name + "</option>");
+                       });
+                    }
+                });
+                //District dropdown Based on City
+                $("#txtCity_1").change(function () {
+                    var strCity = $("#txtCity_1").val();
+                    $("#ddlDistrict_1").text("");
+                    $.ajax({
+                        type: "GET",
+                        url: '@Url.Content("~/XML/ThaiVisaDistrict.xml")',
+                        dataType: "xml",
+                        async: true,
+                        success: function (xml) {
+                            var select = $('#ddlDistrict_1');
+                            select.append('<option value="">--Select--</option>');
+                            if (strCity != ""){
+                            $(xml).find('DISTRICT').each(function () {
+                                var url = $(this).find('DISTRICT_ID').text();
+                                var name = $(this).find('DISTRICT_NAME').text();
+                                var CID = $(this).find('CITY_ID').text();
+                                if (strCity != null && strCity != "" && strCity == CID)
+                                {
+                                    select.append("<option value='" + url + "'>" + name + "</option>");
+                                }
+                               
+                            });
+                            }
+                            else {
+                                $(xml).find('DISTRICT').each(function () {
+                                    var url = $(this).find('DISTRICT_ID').text();
+                                    var name = $(this).find('DISTRICT_NAME').text();
+                                    select.append("<option value='" + url + "'>" + name + "</option>");
+                                });
+                            }
+                        }
+                    });
+                });
+
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Content("~/XML/ThaiVisaSubDistrict.xml")',
+                    dataType: "xml",
+                    async: true,
+                    success: function (xml) {
+                        var select = $('#ddlSubDistrict_1');
+                        select.append('<option value="">--Select--</option>');
+                        $(xml).find('SUBDISTRICT').each(function () {
+                            var url = $(this).find('SUBDISTRICT_ID').text();
+                            var name = $(this).find('SUBDISTRICT_NAME').text();
+                            select.append("<option value='" + url + "'>" + name + "</option>");
+                        });
+                    }
+                });
+
+                //Sub District Based on District
+                $("#ddlDistrict_1").change(function () {
+                    
+                    var strDistrict = $("#ddlDistrict_1").val();
+                    $("#ddlSubDistrict_1").text("");
+                    $.ajax({
+                        type: "GET",
+                        url: '@Url.Content("~/XML/ThaiVisaSubDistrict.xml")',
+                        dataType: "xml",
+                        async: true,
+                        success: function (xml) {
+                            var select = $('#ddlSubDistrict_1');
+                            select.append('<option value="">--Select--</option>');
+                            if (strDistrict != null && strDistrict != "") {
+                                $(xml).find('SUBDISTRICT').each(function () {
+                                    
+                                    var url = $(this).find('SUBDISTRICT_ID').text();
+                                    var name = $(this).find('SUBDISTRICT_NAME').text();
+                                    var DISID = $(this).find('DISTRICT_ID').text();
+                                    if (strDistrict != null && strDistrict != "" && strDistrict == DISID) {
+                                        select.append("<option value='" + url + "'>" + name + "</option>");
+                                    }
+
+                                });
+                            }
+                            else {
+                                $(xml).find('SUBDISTRICT').each(function () {
+                                    
+                                    var url = $(this).find('SUBDISTRICT_ID').text();
+                                    var name = $(this).find('SUBDISTRICT_NAME').text();
+                                    select.append("<option value='" + url + "'>" + name + "</option>");
+                                });
+                            }
+                        }
+                    });
+
+
+                });
+
+
+                var currentDate = "@ViewBag.ServerDateTime";
+                maxdate = "@ViewBag.ServerDateTime".split("/");
+                mindatte = maxdate[0] + "/" + maxdate[1] + "/" + (Number(maxdate[2]) + 60);
+                maxdate = "@ViewBag.ServerDateTime";
+                var max_min_date = "@ViewBag.ServerDateTime";
+
+                $(".passExpDate").datepicker({
+                    numberOfMonths: 1,
+                    showButtonPanel: false,
+                    dateFormat: "dd/mm/yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    maxDate: mindatte,
+                    minDate: max_min_date
+                }); $(".passExpDate").addClass('has-content');
+
+                $(".passDepDate").on('change keyup paste', function () {
+                    $(".passArrDate").datepicker({
+                        minDate: currentDate, dateFormat: "dd/mm/yy",
+                    });
+                });
+                var strDepartureDate = $(".passDepDate").val();
+                $(".passDepDate").val(currentDate);
+                $(".passDepDate").addClass("has-content");
+                $(".passDepDate").datepicker({
+                    minDate: currentDate, dateFormat: "dd/mm/yy",
+                });
+
+                $(".passArrDate").val(strDepartureDate);
+                $(".passArrDate").addClass("has-content");
+                $(".passArrDate").datepicker({
+                    minDate: $(".passDepDate").val(), dateFormat: "dd/mm/yy",
+                });
+
+                $(".passDepDate").on('change keyup paste', function () {
+                    $(".passArrDate").datepicker("destroy");
+                    $(".passArrDate").datepicker({
+                        minDate: $(".passDepDate").val(), dateFormat: "dd/mm/yy",
+                    });
+                });
+
+                maxdate = "@ViewBag.ServerDateTime".split("/");//"@ViewBag.ServerDateTime".split("/");
+                mindatte = maxdate[0] + "/" + maxdate[1] + "/" + (Number(maxdate[2]) - 100);
+                maxdate = maxdate[0] + "/" + maxdate[1] + "/" + (Number(maxdate[2]) - 12)
+
+              //  console.log("Passport-IssueDate" + mindatte + "Passport-ExpireDate" + maxdate);
+                $(".passDate").datepicker({
+                    numberOfMonths: 1,
+                    showButtonPanel: false,
+                    dateFormat: "dd/mm/yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    maxDate: maxdate,
+                    minDate: mindatte
+                });
+
+                $(".passDate").addClass('has-content');
+                var datee = "@ViewBag.ServerDateTime".split("/");
+                var mindatee = datee[0] + "/" + datee[1] + "/" + (Number(datee[2]) - 100);
+                var maxdatee = datee[0] + "/" + datee[1] + "/" + datee[2];
+                $(".passIssueDate").datepicker({
+                    numberOfMonths: 1,
+                    showButtonPanel: false,
+                    dateFormat: "dd/mm/yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    maxDate: maxdatee,
+                    minDate: mindatee
+                });
+                maxdate = "@ViewBag.ServerDateTime".split("/"); //"@ViewBag.ServerDateTime".split("/");
+                mindatte = maxdate[0] + "/" + maxdate[1] + "/" + (Number(maxdate[2]) - 12);
+                maxdate = maxdate[0] + "/" + maxdate[1] + "/" + (Number(maxdate[2]) - 2);
+                $(".lblcls").addClass("has-content");
+                $.unblockUI();
+              }
+
+            //validation
+            $(document).on('input', '.clsAlpha', function () {
+                var txtQty = $(this).val().replace(/[^a-zA-Z\ ]/g, '');
+                txtQty = txtQty.replace(/  +/g, ' ');
+                $(this).val(txtQty);
+            });
+            $(document).on('input', '.clsAlphaNumeric', function () {
+                var txtQty = $(this).val().replace(/[^a-zA-Z0-9]/g, '');
+                $(this).val(txtQty);
+            });
+            $(document).on('input', '.clsNumeric', function () {
+                var txtQty = $(this).val().replace(/[^0-9]/g, '');
+                $(this).val(txtQty);
+            });
+            $(document).on('input', '.clsAlphaNumericwithcomma', function () {
+                var txtQty = $(this).val().replace(/[^a-zA-Z0-9, ]/g, '');
+                $(this).val(txtQty);
+            });
+           
+            $(document).on('input', '.clsAlphaNumericwithspecialchar', function () {
+                var txtQty = $(this).val().replace(/[^a-zA-Z0-9.#/ ,-]/g, '');
+                $(this).val(txtQty);
+            });
+
+            $(document).on('input', '.clsNumbercolon', function () {
+                var txtQty = $(this).val().replace(/[^0-9: ]/g, '');
+                $(this).val(txtQty);
+            });
+
+            //submit
+            function btnSubmit() {
+                
+                var strVisaCnt = "";
+                if (($("#indivdual").is(":checked")) == true) {
+                    strVisaCnt = $("#hdnPassengerCount").val();
+                }
+                else {
+                    strVisaCnt = $("#hdnGrpPassengerCount").val();
+                }
+                var fileData = new FormData();
+                var Title = ""; var FirstName = ""; var MiddleName = ""; var LastName = ""; var EmailID = ""; var MobileNumber = "";
+                var Nationality = ""; var PassportNumber = ""; var PassIssueDate = ""; var PassExpDate = ""; var PassDOB = ""; var Gender = ""; var PassType = "";
+                var PermanentAddr = ""; var State = ""; var YearlyIncome = ""; var PlcofIssue = ""; var Occupation = ""; var ArrAirport = ""; var ArrDate = ""; var ArrTime = "";
+                var ArrFlightNo = ""; var ArrAirlines = ""; var ArrPNR = ""; var DeptDate = ""; var DeptTime = ""; var DeptFlightNo = ""; var DeptAirlines = "";
+                var DeptPNR = ""; var PurposeofVisit = ""; var BoardedCountry = ""; var NextCity = ""; var FirstTimeTravel = ""; var TypofFlight = "";
+                var LengthofStay = ""; var MinorTravel = ""; var MinorFamilyName = ""; var MinorGivenName = ""; var MinorGender = ""; var MinorDOB = ""; var PlaceofBirth = "";
+                var PlaceofStay = ""; var OwnerName = ""; var City = ""; var District = ""; var SubDistrict = ""; var AccEmailID = ""; var AccPincode = "";
+                var StreetAddr = ""; var RefDetails = ""; var imgCoverPage = ""; var imgBioPage = ""; var imgPhoto = ""; var imgArrFlightTckt = ""; var imgDeptFlightTckt = "";
+                var imgAccomodation = ""; var imgInvitationLettr = ""; var imgAddressProof = ""; var imgIDCard = ""; var imgAddDoc1 = ""; var imgAddDoc2 = "";
+                var priority = ""; var NationalityName = ""; var GenderName = ""; var TitleName = ""; var PassportTypName = ""; var OccupationName = ""; var PlcOfStyName = "";
+                var stramount = ""; var CityName = ""; var DistrictName = ""; var SubDistrictName = "";
+                for (i = 1; i <= strVisaCnt; i++) {
+                  
+                    //Travel Details
+                    ArrAirport = $("#ddlArrivalAirport_1").val();
+                    if (ArrAirport == null || ArrAirport == undefined || ArrAirport == "") {
+                        infoAlert("Please select Arrival Airport for Travel Details ", "ddlArrivalAirport_1");
+                        $("#ddlArrivalAirport_1").focus();
+                        return false;
+                    }
+                    ArrPNR = $("#txtArrivalPNR_1").val() != null && $("#txtArrivalPNR_1").val() != undefined ? $("#txtArrivalPNR_1").val() : "";
+                    if (ArrPNR == null || ArrPNR == undefined || ArrPNR == "") {
+                        infoAlert("please enter arrival pnr for Travel details ", "txtarrivalpnr_1");
+                        $("#txtarrivalpnr_1").focus();
+                        return false;
+                    }
+                    ArrAirlines = $("#ddlArrivalAirlines_1").val();
+                    if (ArrAirlines == null || ArrAirlines == undefined || ArrAirlines == "") {
+                        infoAlert("Please Select Arrival Airlines for Travel Details ", "ddlArrivalAirlines_1");
+                        $("#ddlArrivalAirlines_1").focus();
+                        return false;
+                    }
+                    ArrFlightNo = $("#txtArrFlightNo_1").val();
+                    if (ArrFlightNo == null || ArrFlightNo == undefined || ArrFlightNo == "") {
+                        infoAlert("Please Enter Arrival Flight No for Travel Details ", "txtArrFlightNo_1");
+                        $("#txtArrFlightNo_1").focus();
+                        return false;
+                    }
+                    ArrDate = $("#txtArrivalDate_1").val();
+                    if (ArrDate == null || ArrDate == undefined || ArrDate == "") {
+                        infoAlert("Please select Arrival Date for Travel Details ", "txtArrivalDate_1");
+                        $("#txtArrivalDate_1").focus();
+                        return false;
+                    }
+                    ArrTime = $("#txtArrTime_1").val();
+                    if (ArrTime == null || ArrTime == undefined || ArrTime == "") {
+                        infoAlert("Please select Arrival Time for Travel Details ", "txtArrTime_1");
+                        $("#txtArrTime_1").focus();
+                        return false;
+                    }
+                  //  DeptPNR = $("#txtDeptPNR_1").val() != null && $("#txtDeptPNR_1").val() != undefined ? $("#txtDeptPNR_1").val() : "";// DeptPNR;                       
+                    //if (DeptPNR == null || DeptPNR == undefined || DeptPNR == "") {
+                    //    infoAlert("Please Select Departure PNR for Travel Details ", "txtArrivalPNR_1");
+                    //    $("#txtArrivalPNR_1").focus();
+                    //    return false;
+                    //} 
+
+                  //  DeptAirlines = $("#ddlDeptAirlies_1").val();
+                    //if (DeptAirlines == null || DeptAirlines == undefined || DeptAirlines == "") {
+                    //    infoAlert("Please Select Departure Airlines for Travel Details ", "ddlDeptAirlies_1");
+                    //    $("#ddlDeptAirlies_1").focus();
+                    //    return false;
+                    //}
+                    //DeptFlightNo = $("#txtDeptFlightNo_1").val();
+                    //if (DeptFlightNo == null || DeptFlightNo == undefined || DeptFlightNo == "") {
+                    //    infoAlert("Please Enter Departure Flight No. for Travel Details ", "txtDeptFlightNo_1");
+                    //    $("#txtDeptFlightNo_1").focus();
+                    //    return false;
+                    //}
+                   // DeptDate = ($("#txtDepartureDate_1").val() != null && $("#txtDepartureDate_1").val() != "" && $("#txtDepartureDate_1").val() != undefined && $("#txtDepartureDate_1").val() != "undefined" ? $("#txtDepartureDate_1").val() : ArrDate);
+                    //if (DeptDate == null || DeptDate == undefined || DeptDate == "") {
+                    //    infoAlert("Please Select Departure Date for Travel Details ", "txtDepartureDate_1");
+                    //    $("#txtDepartureDate_1").focus();
+                    //    return false;
+                    //}
+                    //DeptTime = $("#txtDeptTime_1").val();
+                    //if (DeptTime == null || DeptTime == undefined || DeptTime == "") {
+                    //    infoAlert("Please Select Departure Time for Travel Details ", "txtDeptTime_1");
+                    //    $("#txtDeptTime_1").focus();
+                    //    return false;
+                    //}
+                    // DeptFlightNo = $("#txtDeptFlightNo_1").val();
+                    if ($("#txtDeptPNR_1").val() != "" && $("#txtDeptFlightNo_1").val() == "") {
+                        infoAlert("Please Enter Departure Flight No. for Travel Details ", "txtDeptFlightNo_1");
+                        $("#txtDeptFlightNo_1").focus();
+                        return false;
+                    }
+                    if ($("#txtDeptFlightNo_1").val() != "" && $("#txtDepartureDate_1").val() == "") {
+                        infoAlert("Please Select Departure Date for Travel Details ", "txtDepartureDate_1");
+                        $("#txtDepartureDate_1").focus();
+                        return false;
+                    }
+                    if ($("#txtDepartureDate_1").val() != "" && $("#txtDeptTime_1").val() =="") {
+                        infoAlert("Please Select Departure Time for Travel Details ", "txtDeptTime_1");
+                        $("#txtDeptTime_1").focus();
+                        return false;
+                    }
+                    if ($("#txtDeptTime_1").val() != "" && $("#txtDeptFlightNo_1").val() == "") {
+                        infoAlert("Please Enter Departure Flight No. for Travel Details ", "txtDeptFlightNo_1");
+                        $("#txtDeptFlightNo_1").focus();
+                        return false;
+                    }
+                   
+                   
+                    PurposeofVisit = $("#ddlPurposeofVisit_1").val();
+                    if (PurposeofVisit == null || PurposeofVisit == undefined || PurposeofVisit == "") {
+                        infoAlert("Please Select Purpose of Visit for Travel Details ", "ddlPurposeofVisit_1");
+                        $("#ddlPurposeofVisit_1").focus();
+                        return false;
+                    }
+                    BoardedCountry = $("#ddlBoarededCountry_1").val();
+                    if (BoardedCountry == null || BoardedCountry == undefined || BoardedCountry == "") {
+                        infoAlert("Please Select Boarded Country for Travel Details ", "ddlBoarededCountry_1");
+                        $("#ddlBoarededCountry_1").focus();
+                        return false;
+                    }
+                    NextCity = $("#txtNextCity_1").val();
+                    if (NextCity == null || NextCity == undefined || NextCity == "") {
+                        infoAlert("Please Enter Next City for Travel Details ", "txtNextCity_1");
+                        $("#txtNextCity_1").focus();
+                        return false;
+                    }
+                    //FirstTimeTravel = ($("#txtFrstTmeTravelleryes_1").is(":checked") ? 1 : 0);
+                    //if (FirstTimeTravel == null || FirstTimeTravel == undefined) {
+                    //    infoAlert("Please Select First Time Traveller for Travel Details ", "txtFrstTmeTravelleryes_1");
+                    //    $("#txtFrstTmeTravelleryes_1").focus();
+                    //    return false;
+                    //}
+                    FirstTimeTravel = ($("input[type = 'radio'][name = 'txtFrstTmeTravell']").is(":checked") ? ($("#txtFrstTmeTravelleryes_1").is(":checked") ? 1:0) : "");
+                    if (FirstTimeTravel == null || FirstTimeTravel == undefined || FirstTimeTravel === "") {
+                        infoAlert("Please Select First Time Traveller for Travel Details ", "txtFrstTmeTravelleryes_1");
+                        $("#txtFrstTmeTravelleryes_1").focus();
+                        return false;
+                    }
+                    TypofFlight = $("#ddlFlightType_1").val();
+                    if (TypofFlight == null || TypofFlight == undefined || TypofFlight == "") {
+                        infoAlert("Please Select Type of flight for Travel Details ", "ddlFlightType_1");
+                        $("#ddlFlightType_1").focus();
+                        return false;
+                    }
+                    LengthofStay = $("#txtLengthofStay_1").val();
+                    if (LengthofStay == null || LengthofStay == undefined || LengthofStay == "") {
+                        infoAlert("Please Enter Length of Stay for Travel Details ", "txtLengthofStay_1");
+                        $("#txtLengthofStay_1").focus();
+                        return false;
+                    }
+                    priority = ($("input[type = 'radio'][name = 'txtPriority']").is(":checked") ? ($("#txtPriority_1").is(":checked") ? "1" : "0") : "");
+                    if (priority == "") {
+                        infoAlert("Please Select Priority for Travel Details ", "txtPriority_1");
+                        $("#txtPriority_1").focus();
+                        return false;
+                    }
+                    //if ($("#txtPriority_1").is(":checked") == true) {
+                    //    priority = "1";
+                    //}
+                    //else {
+                    //    priority = "0";
+                    //}
+
+                    if (priority == "1") {
+                        stramount = "2500";
+                    }
+                    else {
+                        stramount = "600";
+                    }
+                    MinorTravel = ($("input[type = 'radio'][name = 'txtMinorYes']").is(":checked") ? ($("#txtMinorYes_1").is(":checked") ? 1 : 0) : "");
+                    if (MinorTravel == null || MinorTravel == undefined || MinorTravel === "") {
+                        infoAlert("Please select Minor Travelling on same Passport", "txtMinorYes_1");
+                        $("#txtMinorYes_1").focus();
+                        return false;
+                    }
+                    if (MinorTravel == 1) {
+                        MinorFamilyName = $("#txtMinorFamilyName_1").val() != null && $("#txtMinorFamilyName_1").val() != undefined && $("#txtMinorFamilyName_1").val() != "undefined" ? $("#txtMinorFamilyName_1").val() : "";
+                        if (MinorFamilyName == "") {
+                            infoAlert("Please Enter Minor Family Name", "txtMinorFamilyName_1");
+                            $("#txtMinorFamilyName_1").focus();
+                            return false;
+                        }
+
+                        MinorGivenName = $("#txtMinorGivenName_1").val() != null && $("#txtMinorGivenName_1").val() != undefined && $("#txtMinorGivenName_1").val() != "undefined" ? $("#txtMinorGivenName_1").val() : "";
+                        if (MinorGivenName == "") {
+                            infoAlert("Please Enter Minor Given Name", "txtMinorGivenName_1");
+                            $("#txtMinorGivenName_1").focus();
+                            return false;
+                        }
+                        MinorGender = $("#ddlMinorGender_1").val() != null && $("#ddlMinorGender_1").val() != undefined && $("#ddlMinorGender_1").val() != "undefined" ? $("#ddlMinorGender_1").val() : "";
+                        if (MinorGender == "") {
+                            infoAlert("Please Select Minor Gender", "ddlMinorGender_1");
+                            $("#ddlMinorGender_1").focus();
+                            return false;
+                        }
+                        MinorDOB = $("#txtDOB_1").val() != null && $("#txtDOB_1").val() != undefined && $("#txtDOB_1").val() != "undefined" ? $("#txtDOB_1").val() : "";
+                        if (MinorDOB == "") {
+                            infoAlert("Please Choose Minor DOB", "txtDOB_1");
+                            $("#txtDOB_1").focus();
+                            return false;
+                        }
+                        PlaceofBirth = $("#txtMinorPlaceofBirth_1").val() != null && $("#txtMinorPlaceofBirth_1").val() != undefined && $("#txtMinorPlaceofBirth_1").val() != "undefined" ? $("#txtMinorPlaceofBirth_1").val() : "";
+                        if (PlaceofBirth == "") {
+                            infoAlert("Please Enter Minor Place of Birth", "txtMinorPlaceofBirth_1");
+                            $("#txtMinorPlaceofBirth_1").focus();
+                            return false;
+                        }
+                    }
+
+                    //Accomodation Details
+                    PlaceofStay = $("#ddlPlaceofStay_1").val();
+                    if (PlaceofStay == null || PlaceofStay == undefined || PlaceofStay == "") {
+                        infoAlert("Please Select Place of Stay for Accomodation Details", "ddlPlaceofStay_1");
+                        $("#ddlPlaceofStay_1").focus();
+                        return false;
+                    }
+                    PlcOfStyName = $("#ddlPlaceofStay_1 option:selected").text();
+                    OwnerName = $("#txtOwnerName_1").val();
+                    if (OwnerName == null || OwnerName == undefined || OwnerName == "") {
+                        infoAlert("Please Enter Owner name for Accomodation Details", "txtOwnerName_1");
+                        $("#txtOwnerName_1").focus();
+                        return false;
+                    }
+                    City = $("#txtCity_1").val();
+                    if (City == null || City == undefined || City == "") {
+                        infoAlert("Please Enter Accomodate City for Accomodation Details ", "txtCity_1");
+                        $("#txtCity_" + i).focus();
+                        return false;
+                    }
+                    CityName = $("#txtCity_1 option:selected").text();
+                    District = $("#ddlDistrict_1").val();
+                    if (District == null || District == undefined || District == "") {
+                        infoAlert("Please Select Accomodate District for Accomodation Details ", "ddlDistrict_1");
+                        $("#ddlDistrict_1").focus();
+                        return false;
+                    }
+                    DistrictName = $("#ddlDistrict_1 option:selected").text();
+                    SubDistrict = $("#ddlSubDistrict_1").val();
+                    if (SubDistrict == null || SubDistrict == undefined || SubDistrict == "") {
+                        infoAlert("Please Select Accomodate Sub District for Accomodation Details ", "ddlSubDistrict_1");
+                        $("#ddlSubDistrict_1").focus();
+                        return false;
+                    }
+                    SubDistrictName = $("#ddlSubDistrict_1 option:selected").text();
+                    AccPincode = $("#txtPincode_1").val();
+                    if (AccPincode == null || AccPincode == undefined || AccPincode == "") {
+                        infoAlert("Please Enter Accomodate Pincode for Accomodation Details ", "txtPincode_1");
+                        $("#txtPincode_1").focus();
+                        return false;
+                    }
+                    StreetAddr = $("#txtStreetAddress_1").val();
+                    if (StreetAddr == null || StreetAddr == undefined || StreetAddr == "") {
+                        infoAlert("Please Enter Accomodate Street Address for Accomodation Details ", "txtStreetAddress_1");
+                        $("#txtStreetAddress_1").focus();
+                        return false;
+                    }
+                    RefDetails = $("#txtReferenceDetails_1").val();
+                    if (RefDetails == null || RefDetails == undefined || RefDetails == "") {
+                        infoAlert("Please Enter Accomodate Reference Details for Accomodation Details ", "txtReferenceDetails_1");
+                        $("#txtReferenceDetails_1").focus();
+                        return false;
+                    }
+
+                    //Passenger Details
+                    Title = $("#ddlTitle_" + i).val();
+                    if (Title == null || Title == "") {
+                        infoAlert("Please Select Title of Passenger Details " + i, "ddlTitle_" + i);
+                        $("#ddlTitle_" + i).focus();
+                        return false;
+                    }
+                    TitleName = $("#ddlTitle_" + i + " option:selected").text();
+                    FirstName = $("#txtFirstName_" + i).val();
+                    if (FirstName == null || FirstName == "") {
+                        infoAlert("Please Enter First Name of Passenger Details " + i, "txtFirstName_" + i);
+                        $("#txtFirstName_" + i).focus();
+                        return false;
+                    }
+                    MiddleName = $("#txtMiddleName_" + i).val() != null && $("#txtMiddleName_" + i).val() != undefined ? $("#txtMiddleName_" + i).val() : "";
+                    LastName = $("#txtLastName_" + i).val();
+                    if (LastName == null || LastName == undefined || LastName == "") {
+                        infoAlert("Please Enter Last Name of Passenger Details " + i, "txtLastName_" + i);
+                        $("#txtLastName_" + i).focus();
+                        return false;
+                    }
+                    EmailID = $("#txtEmailID_" + i).val();
+                    if (EmailID == null || EmailID == undefined || EmailID == "") {
+                        infoAlert("Please Enter Email ID of Passenger Details " + i, "txtEmailID_" + i);
+                        $("#txtEmailID_" + i).focus();
+                        return false;
+                    }
+                    var str = EmailID;
+                    var filter = /^([\w-\.]+\u0040([\w-]+\.)+[\w-]{2,4})?$/;
+                    if (filter.test(str)) {
+                    }
+                    else {
+                        infoAlert("Please Enter valid Email Id", "txtEmailID_" + i);
+                        $("#txtEmailID_" + j).focus();
+                        return false;
+                    }
+                    MobileNumber = $("#txtMobileNumber_" + i).val();
+                    if (MobileNumber == null || MobileNumber == undefined || MobileNumber == "") {
+                        infoAlert("Please Enter Mobile No of Passenger Details " + i, "txtMobileNumber_" + i);
+                        $("#txtMobileNumber_" + i).focus();
+                        return false;
+                    }
+                    Nationality = $("#ddlNationality_" + i).val();
+                    if (Nationality == null || Nationality == undefined || Nationality == "") {
+                        infoAlert("Please Select Nationality of Passenger Details " + i, "ddlNationality_" + i);
+                        $("#ddlNationality_" + i).focus();
+                        return false;
+                    }
+                    NationalityName = $("#ddlNationality_" + i + " option:selected").text();
+                    PassportNumber = $("#txtPassportNumber_" + i ).val();
+                    if (PassportNumber == null || PassportNumber == undefined || PassportNumber == "") {
+                        infoAlert("Please Enter Valid Passport No of Passenger Details " + i, "txtPassportNumber_" + i);
+                        $("#txtPassportNumber_" + i).focus();
+                        return false;
+                    }
+                    PassIssueDate = $("#txtPassportIssueDate_" + i).val();
+                    if (PassIssueDate == null || PassIssueDate == undefined || PassIssueDate == "") {
+                        infoAlert("Please Choose Passport Issue Date of Passenger Details " + i, "txtPassportIssueDate_" + i);
+                        $("#txtPassportIssueDate_" + i).focus();
+                        return false;
+                    }
+                    PassExpDate = $("#txtPassportExpireDate_" + i).val();
+                    if (PassExpDate == null || PassExpDate == undefined || PassExpDate == "") {
+                        infoAlert("Please Choose Passport Expire Date of Passenger Details " + i, "txtPassportExpireDate_" + i);
+                        $("#txtPassportExpireDate_" + i).focus();
+                        return false;
+                    }
+                    PassDOB = $("#txtDateofBirth_" + i).val();
+                    if (PassDOB == null || PassDOB == undefined || PassDOB == "") {
+                        infoAlert("Please Choose Passport DOB of Passenger Details " + i, "txtDateofBirth_" + i);
+                        $("#txtDateofBirth_" + i).focus();
+                        return false;
+                    }
+                    Gender = $("#ddlGender_" + i).val();
+                    if (Gender == null || Gender == undefined || Gender == "") {
+                        infoAlert("Please Select Gender of Passenger Details " + i, "ddlGender_" + i);
+                        $("#ddlGender_" + i).focus();
+                        return false;
+                    } 
+                    GenderName = $("#ddlGender_" + i + " option:selected").text()
+                    $("#ddlPassportType_" + i).val('1');
+                    PassType = $("#ddlPassportType_" + i).val();
+                    if (PassType == null || PassType == undefined || PassType == "") {
+                        infoAlert("Please Select Passport Type of Passenger Details " + i, "ddlPassportType_" + i);
+                        $("#ddlPassportType_" + i).focus();
+                        return false;
+                    }
+                    PassportTypName = $("#ddlPassportType_" + i + " option:selected").text();
+                    PermanentAddr = $("#txtPermanentAddrss_" + i).val();
+                    if (PermanentAddr == null || PermanentAddr == undefined || PermanentAddr == "") {
+                        infoAlert("Please Enter Permanent Address of Passenger Details " + i, "txtPermanentAddrss_" + i);
+                        $("#txtPermanentAddrss_" + i).focus();
+                        return false;
+                    }
+                    State = $("#txtState_" + i).val();
+                    if (State == null || State == undefined || State == "") {
+                        infoAlert("Please Enter State of Passenger Details " + i, "txtState_" + i);
+                        $("#txtState_" + i).focus();
+                        return false;
+                    }
+                    YearlyIncome = $("#ddlYearlyIncome_" + i).val();
+                    if (YearlyIncome == null || YearlyIncome == undefined || YearlyIncome == "") {
+                        infoAlert("Please select Yearly Income of Passenger Details " + i, "ddlYearlyIncome_" + i);
+                        $("#ddlYearlyIncome_" + i).focus();
+                        return false;
+                    }
+                    PlcofIssue = $("#ddlPlaceofIssue_" + i).val();
+                    if (PlcofIssue == null || PlcofIssue == undefined || PlcofIssue == "") {
+                        infoAlert("Please select Place Of Issue for Passenger Details " + i, "ddlPlaceofIssue_" + i);
+                        $("#ddlPlaceofIssue_" + i).focus();
+                        return false;
+                    }
+                    Occupation = $("#ddlOccupation_" + i).val();
+                    if (Occupation == null || Occupation == undefined || Occupation == "") {
+                        infoAlert("Please select Occupation for Passenger Details " + i, "ddlOccupation_" + i);
+                        $("#ddlOccupation_" + i).focus();
+                        return false;
+                    }
+                    OccupationName = $("#ddlOccupation_" + i + " option:selected").text();
+                    //start
+                    //Upload Documents
+
+                    //Passport Cover Page
+                    var fileUpload = $("#imgpassprtfrst_" + i).get(0);
+                    if (fileUpload != undefined) {
+                        var files = fileUpload.files;
+                        for (var j = 0; j < files.length; j++) {
+                            fileData.append("PassportCover_" + i, files[j]);
+                            fileData.append("Datacount", "PassportCover_" + i);
+                            fileData.append("PassCoverfileSize_" + i, files[0].size);
+                        }
+                        //if (files.length <= 0) {
+                        //    infoAlert("Please Select Passport Cover Page of Passenger " + i, "imgpassprtfrst_" + i);
+                        //    return false;
+                        //}
+                        if (files != null && files != "" && files != undefined) {
+                            if (files.length > 0) {
+                                if (files[0].size > 100000) // 2 mb for bytes.
+                                {
+                                    infoAlert("Passport Cover Page File size must be less than 100 kb");
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+
+                    //Passport Bio Page
+                    var fileBio = $("#imgPassBio_" + i).get(0);
+                    var fileBioPage = fileBio.files;
+                    if (fileBio != undefined) {
+                        for (var j = 0; j < fileBioPage.length; j++) {
+                            fileData.append("imgPassBio_" + i, fileBioPage[j]);
+                            fileData.append("PassBiofileSize_" + i, fileBioPage[0].size);
+                        }
+                        //if (fileBioPage.length <= 0) {
+                        //    infoAlert("Please Select Passport Bio Page of Passenger " + i, "imgPassBio_" + i);
+                        //    return false;
+                        //}
+                        if (fileBioPage != null && fileBioPage != "" && fileBioPage != undefined) {
+                            if (fileBioPage.length > 0) {
+                                if (fileBioPage[0].size > 100000) // 2 mb for bytes.
+                                {
+                                    infoAlert("Passport Bio File size must be less than 100 kb");
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                    //Passport Photo
+                    var filePhoto = $("#imgPassPhoto_" + i).get(0);
+                    if (filePhoto != undefined) {
+                        var filePhotos = filePhoto.files;
+                        for (var j = 0; j < filePhotos.length; j++) {
+                            fileData.append("imgPassPhoto_" + i, filePhotos[j]);
+                            fileData.append("PassPhotofileSize_" + i, filePhotos[0].size);
+                        }
+                        if (filePhotos != null && filePhotos != "" && filePhotos != undefined) {
+                            if (filePhotos.length > 0) {
+                                if (filePhotos[0].size > 100000) // 2 mb for bytes.
+                                {
+                                    infoAlert("Passport Photo File size must be less than 100 kb");
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                    //Arrival Flight Ticket
+                    var fileArrFlight = $("#imgPassArrivalFlightTckt_" + i).get(0);
+                    if (fileArrFlight != undefined) {
+                        var fileArr = fileArrFlight.files;
+                        for (var j = 0; j < fileArr.length; j++) {
+                            fileData.append("pdfPassArrivalFlightTckt_" + i, fileArr[j]);
+                            fileData.append("PassArrfileSize_" + i, fileArr[0].size);
+                        }
+                    }
+                    if (fileArr != null && fileArr != "" && fileArr != undefined) {
+                        if (fileArr.length > 0) {
+                            if (fileArr[0].size > 100000) // 2 mb for bytes.
+                            {
+                                infoAlert("Passport Arrival Flight Ticket size must be less than 100 kb");
+                                return false;
+                            }
+                        }
+                    }
+                    //Departure Flight Ticket
+                    var fileDepFlight = $("#imgDeptFlightTckt_" + i).get(0);
+                    if (fileDepFlight != undefined) {
+                        var fileDept = fileDepFlight.files;
+                        for (var j = 0; j < fileDept.length; j++) {
+                            fileData.append("pdfDeptFlightTckt_" + i, fileDept[j]);
+                            fileData.append("PassDeptfileSize_" + i, fileDept[0].size);
+                        }
+                    }
+                    if (fileDept != null && fileDept != "" && fileDept != undefined) {
+                        if (fileDept.length > 0) {
+                            if (fileDept[0].size > 100000) // 2 mb for bytes.
+                            {
+                                infoAlert("Departure Flight Ticket size must be less than 100 kb");
+                                return false;
+                            }
+                        }
+                    }
+                    //Accomodation
+                    var fileAccomodat = $("#imgPassAccomodation_" + i).get(0);
+                    if (fileAccomodat != undefined) {
+                        var fileAcc = fileAccomodat.files;
+                        for (var j = 0; j < fileAcc.length; j++) {
+                            fileData.append("pdfPassAccomodation_" + i, fileAcc[j]);
+                            fileData.append("PassAccfileSize_" + i, fileAcc[0].size);
+                        }
+                    }
+                    if (fileAcc != null && fileAcc != "" && fileAcc != undefined) {
+                        if (fileAcc.length > 0) {
+                            if (fileAcc[0].size > 100000) // 2 mb for bytes.
+                            {
+                                infoAlert("Passport Accomodation size must be less than 100 kb");
+                                return false;
+                            }
+                        }
+                    }
+                    //Invitation Letter
+                    var fileInviteLetter = $("#imgInvitationLettr_" + i).get(0);
+                    if (fileInviteLetter != undefined) {
+                        var fileInvite = fileInviteLetter.files;
+                        for (var j = 0; j < fileInvite.length; j++) {
+                            fileData.append("pdfInvitationLettr_" + i, fileInvite[j]);
+                            fileData.append("PassInvitefileSize_" + i, fileInvite[0].size);
+                        }
+                    }
+                    if (fileInvite != null && fileInvite != "" && fileInvite != undefined) {
+                        if (fileInvite.length > 0) {
+                            if (fileInvite[0].size > 100000) // 2 mb for bytes.
+                            {
+                                infoAlert("Passport Invitation Letter size must be less than 100 kb");
+                                return false;
+                            }
+                        }
+                    }
+                    //House Reg
+
+                    var filehouseReg = $("#imgHouseReg_" + i).get(0);
+                    if (filehouseReg != undefined) {
+                        var fileHouse = filehouseReg.files;
+                        for (var j = 0; j < fileHouse.length; j++) {
+                            fileData.append("pdfHouseReg_" + i, fileHouse[j]);
+                            fileData.append("PassHousefileSize_" + i, fileHouse[0].size);
+                        }
+                    }
+                    if (fileHouse != null && fileHouse != "" && fileHouse != undefined) {
+                        if (fileHouse.length > 0) {
+                            if (fileHouse[0].size > 100000) // 2 mb for bytes.
+                            {
+                                infoAlert("Passport House Registration size must be less than 100 kb");
+                                return false;
+                            }
+                        }
+                    }
+
+                    //ID Card
+                    var fileIDCard = $("#imgIDCard_" + i).get(0);
+                    if (fileIDCard != undefined) {
+                        var fileID = fileIDCard.files;
+                        for (var j = 0; j < fileID.length; j++) {
+                            fileData.append("pdfIDCard_" + i, fileID[j]);
+                            fileData.append("PassIDfileSize_" + i, fileID[0].size);
+                        }
+                    }
+                    if (fileID != null && fileID != "" && fileID != undefined) {
+                        if (fileID.length > 0) {
+                            if (fileID[0].size > 100000) // 2 mb for bytes.
+                            {
+                                infoAlert("Passport ID card size must be less than 100 kb");
+                                return false;
+                            }
+                        }
+                    }
+                    //Additional Document-1
+                    var fileAddDoc = $("#imgAddDoct1_" + i).get(0);
+                    if (fileAddDoc != undefined) {
+                        var fileDoc1 = fileAddDoc.files;
+                        for (var j = 0; j < fileDoc1.length; j++) {
+                            fileData.append("imgAddDoct1_" + i, fileDoc1[j]);
+                            fileData.append("PassDoc1fileSize_" + i, fileDoc1[0].size);
+                        }
+                    }
+                    if (fileDoc1 != null && fileDoc1 != "" && fileDoc1 != undefined) {
+                        if (fileDoc1.length > 0) {
+                            if (fileDoc1[0].size > 100000) // 2 mb for bytes.
+                            {
+                                infoAlert("Passport Additional document 1 size must be less than 100 kb");
+                                return false;
+                            }
+                        }
+                    }
+                    // Additional Document-2
+                    var fileAddDocs = $("#imgAddDoct2_" + i).get(0);
+                    if (fileAddDocs != undefined) {
+                        var fileDoc2 = fileAddDocs.files;
+                        for (var j = 0; j < fileDoc2.length; j++) {
+                            fileData.append("imgAddDoct2_" + i, fileDoc2[j]);
+                            fileData.append("PassDoc2fileSize_" + i, fileDoc2[0].size);
+                        }
+                    }
+                    if (fileDoc2 != null && fileDoc2 != "" && fileDoc2 != undefined) {
+                        if (fileDoc2.length > 0) {
+                            if (fileDoc2[0].size > 100000) // 2 mb for bytes.
+                            {
+                                infoAlert("Passport Additional document 2 size must be less than 100 kb");
+                                return false;
+                            }
+                        }
+                    }
+                    if (files.length == 0 && fileBioPage.length == 0 && filePhotos.length == 0 && fileArr.length == 0 && fileDept.length == 0 && fileAcc.length == 0 && fileInvite.length == 0 && fileHouse.length == 0 && fileID.length == 0 && fileDoc1.length == 0 && fileDoc2.length == 0) {
+                        infoAlert("please select any one document");
+                        return false;
+                    }
+                    //end
+                    
+                    var flag = "I";
+                    fileData.append("strflag_" + i, flag);
+                    fileData.append("strTitle_" + i, Title);
+                    fileData.append("strFirstName_" + i, FirstName);
+                    fileData.append("strMiddleName_" + i, MiddleName);
+                    fileData.append("strLastName_" + i, LastName);
+                    fileData.append("strEmailID_" + i, EmailID);
+                    fileData.append("strMobileNumber_" + i, MobileNumber);
+                    fileData.append("strNationality_" + i, Nationality);
+                    fileData.append("strPassportNumber_" + i, PassportNumber);
+                    fileData.append("strPassIssueDate_" + i, PassIssueDate);
+                    fileData.append("strPassExpDate_" + i, PassExpDate);
+                    fileData.append("strPassDOB_" + i, PassDOB);
+                    fileData.append("strGender_" + i, Gender);
+                    fileData.append("strPassType_" + i, PassType);
+                    fileData.append("strPermanentAddr_" + i, PermanentAddr);
+                    fileData.append("strState_" + i, State);
+                    fileData.append("strYearlyIncome_" + i, YearlyIncome);
+                    fileData.append("strPlcofIssue_" + i, PlcofIssue);
+                    fileData.append("strOccupation_" + i, Occupation);
+                    fileData.append("strArrAirport_" + i, ArrAirport);
+                    fileData.append("strArrDate_" + i, ArrDate);
+                    fileData.append("strArrTime_" + i, ArrTime);
+                    fileData.append("strArrFlightNo_" + i, ArrFlightNo);
+                    fileData.append("strArrAirlines_" + i, ArrAirlines);
+                    fileData.append("strArrPNR_" + i, ArrPNR);
+                    fileData.append("strDeptDate_" + i, DeptDate);
+                    fileData.append("strDeptTime_" + i, DeptTime);
+                    fileData.append("strDeptFlightNo_" + i, DeptFlightNo);
+                    fileData.append("strDeptAirlines_" + i, DeptAirlines);
+                    fileData.append("strDeptPNR_" + i, DeptPNR);
+                    fileData.append("strPurposeofVisit_" + i, PurposeofVisit);
+                    fileData.append("strBoardedCountry_" + i, BoardedCountry);
+                    fileData.append("strNextCity_" + i, NextCity);
+                    fileData.append("strFirstTimeTravel_" + i, FirstTimeTravel);
+                    fileData.append("strTypofFlight_" + i, TypofFlight);
+                    fileData.append("strLengthofStay_" + i, LengthofStay);
+                    fileData.append("strMinorTravel_" + i, MinorTravel);
+                    fileData.append("strMinorFamilyName_" + i, MinorFamilyName);
+                    fileData.append("strMinorGivenName_" + i, MinorGivenName);
+                    fileData.append("strMinorGender_" + i, MinorGender);
+                    fileData.append("strMinorDOB_" + i, MinorDOB);
+                    fileData.append("strPlaceofBirth_" + i, PlaceofBirth);
+                    fileData.append("strPlaceofStay_" + i, PlaceofStay);
+                    fileData.append("strOwnerName_" + i, OwnerName);
+                    fileData.append("strCity_" + i, City);
+                    fileData.append("strDistrict_" + i, District);
+                    fileData.append("strSubDistrict_" + i, SubDistrict);
+                    fileData.append("strAccPincode_" + i, AccPincode);
+                    fileData.append("strStreetAddr_" + i, StreetAddr);
+                    fileData.append("strRefDetails_" + i, RefDetails);
+                    fileData.append("strPriority_"+i, priority);
+                    fileData.append("strAmount_" + i, stramount);
+                    fileData.append("strNationalityName_" + i, NationalityName)
+                    fileData.append("strGenderName_" + i, GenderName);
+                    fileData.append("strTitleName_" + i, TitleName);
+                    fileData.append("strPassportTypName_" + i, PassportTypName);
+                    fileData.append("strOccupationName_" + i, OccupationName);
+                    fileData.append("strPlcOfStyName_" + i, PlcOfStyName);
+                    fileData.append("strCityName_" + i, CityName);
+                    fileData.append("strDistrictName_" + i, DistrictName);
+                    fileData.append("strSubDistrictName_" + i, SubDistrictName);
+                }
+                fileData.append("strPassengerCnt", strVisaCnt);
+                $.blockUI({
+                    message: '<img alt="Please Wait..." src="@Url.Content("~/Images/"+ strProducttype + "/Loader.gif")" style="background-color:#fff; border-radius:8px; margin-top:12%;" id="FareRuleLodingImage" />',
+                    css: { padding: '5px' }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("InsertThaiVisa", "Visa")',
+                    data: fileData,
+                    contentType: false, // Not to set any content header
+                    processData: false,
+                    timeout: 3000000,
+                    //  async: false,
+                    dataType: "json",
+                    success: function (data) {
+                        $.unblockUI();
+                        try {
+                            if (data.Status == "01") {
+                                // alert(data.Results[1]);
+                                var paymentgatewayurl = data.Result[1];
+                                window.location.href = paymentgatewayurl;
+                            }
+                            else {
+                                alert(data.Results[0], "");
+                                return false;
+                            }
+                        }
+                        catch (e) {
+                            $.unblockUI();
+                            infoAlert("Unable to Connect Internal Server", "");
+                            return false;
+                            console.log(e.message);
+                        }
+                    },
+                    error: function (e) {
+                        $.unblockUI();
+                        infoAlert("Unable to Connect Internal Server", "");
+                        return false;
+                        console.log(e.message);
+                    }
+                });
+            }
+            //alert
+            function infoAlert(MSG, ID) {
+
+                $('#modal-alert').iziModal('destroy');
+                $("#modal-alert").iziModal({
+                    title: MSG,
+                    icon: 'fa fa-info',
+                    headerColor: '#bd5b5b',
+                    width: "500px",
+                    onClosed: function () {
+                        $("#" + ID).focus();
+                    }
+                });
+                $('#modal-alert').iziModal('open');
+                return false;
+            }
+            function GetMinor(cnt) {
+                $("#OverallMinor_" + cnt).css("display", "block");
+            }
+            function NoMinor(cnt) {
+                $("#OverallMinor_" + cnt).css("display", "none");
+            }
+            //CLear
+            function btnClear() {
+                var strVisaCnt = "";
+                if (($("#indivdual").is(":checked")) == true) {
+                    strVisaCnt = $("#hdnPassengerCount").val();
+                }
+                else {
+                    strVisaCnt = $("#hdnGrpPassengerCount").val();
+                }
+                for (var i = 1; i <= strVisaCnt-1; i++) {
+
+                    $(".clsclr").val("");
+                    $("#OverallMinor_" + i).css("display", "none");
+                    $('img').attr('src', '');
+                    $("#imgpassprtfrst_" + i).val("");
+                    $("#imgPsprtBio_" + i).val("");
+                    $("#imgPassPhoto_" + i).val("");
+                    $("#imgPassArrivalFlightTckt_" + i).val("");
+                    $("#imgDeptFlightTckt_" + i).val("");
+                    $("#imgPassAccomodation_" + i).val("");
+                    $("#imgInvitationLettr_" + i).val("");
+                    $("#imgHouseReg_" + i).val("");
+                    $("#imgIDCard_" + i).val("");
+                    $("#imgAddDoct1_" + i).val("");
+                    $("#imgAddDoct2_" + i).val("");
+                }
+                
+                $('img').attr('src', '');
+                $(".Bkpaymentmode").prop("checked", true);
+                $(".clsclr").val("");
+               var currentDate = "@ViewBag.ServerDateTime";
+                $(".passDate").val(currentDate);
+                $(".passExpDate").val(currentDate);
+                $(".passArrDate").val(currentDate);
+                $(".passDepDate").val(currentDate);
+                $('.file-upload-content').hide();
+                $('.image-upload-wrap').show();
+                $("#txtCity_1").change();
+                $("#ddlDistrict_1").change();
+            }
+            //Upload Documents Image part
+            function readURL(input, hidearg, showarg, apparg) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("#" + hidearg).hide();
+                        $("#" + apparg).attr('src', e.target.result);
+                        $("#" + showarg).show();
+                        $("#" + hidearg + '.image-title').html(input.files[0].name);
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                } else {
+                    removeUpload();
+                }
+            }
+            function removeUpload(dvdata, updata, id,imgid) {
+
+                $("#" + updata).hide();
+                $("#" + dvdata).show();
+                $("#" + imgid).val("");
+               // $('#' + id).attr('src', '');
+              //  $("#" + id).removeAttr('src');
+            }
+            pageload();
+            function pageload() {
+                $('.image-upload-wrap').bind('dragover', function () {
+                    $('.image-upload-wrap').addClass('image-dropping');
+                });
+                $('.image-upload-wrap').bind('dragleave', function () {
+                    $('.image-upload-wrap').removeClass('image-dropping');
+                });
+
+                $(function () {
+                    $('.pop').on('click', function () {
+                        $('.imagepreview').attr('src', $(this).find('img').attr('src'));
+                        $('#imagemodal').modal('show');
+                    });
+                });
+            }
+
+        //for time
+            function validatechar(idval) {
+                $('#' + idval).on('keyup', keyUpHandler);
+                $('#' + idval).css("font", "13px/24px 'Lato', Arial, sans-serif");
+                function keyUpHandler(e) {
+                    var element = this;
+                    var key = e.keyCode || e.which;
+                    insertTimingColor(element, key)
+                }
+                function insertTimingColor(element, key) {
+                    var inputValue = element.value;
+                    if (element.value.trim().length == 2 && key !== 8) {
+                        element.value = element.value + ':';
+                    }
+                }
+                function insertTimingColor(element, key) {
+                    var inputValue = element.value;
+                    if (element.value.trim().length == 2 && key !== 8) {
+                        element.value = element.value + ':';
+                    }
+                }
+            }
+            function passportvalidate(event) {
+
+                var regex = new RegExp("^[a-zA-Z0-9\b]+$");
+                var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                var keycode = (event.which) ? event.which : event.keyCode
+                if (!regex.test(key) && keycode != 9 && keycode != 32) {
+                    event.preventDefault();
+                    return false;
+                }
+                else { return true; }
+            }
+    </script>
+</body>

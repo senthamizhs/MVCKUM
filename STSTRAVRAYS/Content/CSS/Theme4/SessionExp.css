@@ -1,0 +1,25 @@
+﻿body {background-image: url("/Images/session-RI.png");background-repeat: no-repeat;-webkit-background-size: 100% 100vh;-moz-background-size: 100% 100vh;-o-background-size: cover;background-size: 100% 100vh;overflow-x: hidden;}
+.clsBoxShdow {font-family: 'Poppins', sans-serif !important;margin-top: 15%;height: 400px;background-size: cover;font-size: 14px;font-weight: 600;background-position: center;padding-left: 10%;}
+.clsBoxShdow h3 {color: #c72e39;font-size: 30px;margin: 0px;font-weight: normal;font-weight: 500;}
+.clsMySubLabel {color: #636262;font-weight: 500;font-size: 20px;margin-top: 15px;}
+ul.clsUlContent {padding-left: 15px;}
+ul.clsUlContent li {font-size: 17px;color: #333;font-weight: 500;line-height: 35px;}
+.clsButton {float: left;width: 50%;}
+a.clsButton {border-radius: 3px;background: #c72e39;border: 1px solid #c72e39;color: #fff;font-size: 16px;font-weight: 500;width: 175px;text-align: center;float: left;letter-spacing: 0.5px;font-size: 18px;margin-top: 5%;padding:10px;text-decoration:none;}
+a.clsButton:hover {color: #a60012;background: #fff;transition: all 0.4s ease 0s;}
+
+@media (max-width: 768px) {
+    .clsBoxShdow {padding-left: 10px !important;}
+    .clsBoxShdow h3 {font-size: 22px !important;}
+    .clsMySubLabel {font-size: 16px !important;}
+    ul.clsUlContent li {font-size: 13px !important;line-height: 25px !important;}
+    .clsButton {width: 100% !important;}
+    a.clsButton {font-size: 14px !important;width: 95% !important;padding: 8px 0 !important;}
+    body {background: none !important;}
+
+}
+@media (min-width: 768px) and (max-width: 991px) {
+    .clsBoxShdow h3 {font-size: 30px !important;}
+    .clsMySubLabel {font-size: 20px !important;}
+    ul.clsUlContent li {font-size: 17px !important;}
+}

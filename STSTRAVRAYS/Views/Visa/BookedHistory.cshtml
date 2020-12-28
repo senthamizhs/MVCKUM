@@ -1,0 +1,170 @@
+﻿@{ 
+    string Pnrnameflg = System.Configuration.ConfigurationManager.AppSettings["PNRlbl"].ToString() != "" ? System.Configuration.ConfigurationManager.AppSettings["PNRlbl"].ToString() : "S PNR";
+}
+<div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 fadeInDownSmall" id="VisaBookedHistory">
+    <div class="col-sm-12 col0 mobshow hidden-lg hidden-md hidden-sm">
+        <span>Booked History</span>
+    </div>
+    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 marbtmplus20 martpmins0 pad-0" id="marginbtm">
+        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3">
+            <div class="dv-anim input-effect m-0 m-sm-t15">
+                <input id="txtSPNR" maxlength="10" class="txt-anim clsAlphaNumeric" type="text" style="text-transform: uppercase" />
+                <label>@Pnrnameflg</label>
+                <span class="focus-border">
+                    <i></i>
+                </span>
+            </div>
+        </div>
+       
+   
+        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3 martpmins15">
+            <div class="dv-anim input-effect m-0 m-sm-t15">
+                <input id="txtFromDate" readonly="readonly" maxlength="10" class="txt-anim" type="text" />
+                <label><span id="">Booked</span> From Date</label>
+                <span class="focus-border">
+                    <i></i>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3 martpmins15 marbtmplus15">
+
+            <div class="dv-anim input-effect m-0 m-sm-t15">
+                <input id="txtToDate" maxlength="10" readonly="readonly" class="txt-anim" type="text" />
+
+                <label><span id="">Booked</span> To Date</label>
+                <span class="focus-border">
+                    <i></i>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3">
+           <div class="pos-rel flt-lft w-100">
+                <select id="ddlstatus" class="form_cntrl flt-lft w-100 txt-anim has-content" style="height: 36px !important;background:#fff !important;">
+                    <option value="">--All--</option>
+                    <option value="PENDING">Pending</option>
+                    <option value="APPLIED">Applied</option>
+                    <option value="APPROVED">Approved</option>
+                     <option value="REJECTED">Rejected</option>
+                    <option value="IGNORE">Ignore</option>
+                  </select>
+                <label style="font-weight:600">Status</label>
+              </div>
+      </div>
+   
+    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 ">
+        <div class="col-xs-12 col-md-6 col-sm-8 col-lg-6 col-lg-offset-3 col-md-offset-4 col-sm-offset-3" style="padding: 0px">
+            <div class="col-xs-6 col-md-4 col-sm-4 col-lg-4">
+                <input type="button" id="btn_ok" class="action-button action-buttonO shadow animate color" style="width: 100%" value="Get History" onclick="javascript: return GetBookedHistory();" />
+            </div>
+            <div class="col-xs-6 col-md-4 col-sm-4 col-lg-4 ">
+                <input type="button" id="btn_clear" class="action-button action-buttonB shadow animate  colorB1" value="Clear" style="width: 100%" onclick="javascript: return BtnClear();" />
+            </div>
+            <div class="hidden-xs col-md-4 col-sm-6 col-lg-4 marbtmplus15" style="display: block;">
+
+                @using (Html.BeginForm("ExportExcelThBookH", "Visa", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <input type="submit" id="Btn_excel" class="action-button action-buttonG shadow animate  colorG" value="Export To Excel" style="width: 100%;display:none;" />
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 " style="margin-top: 15px">
+        <div id="dvgrid" style="display:none;">
+        </div>
+        <div id="charterror" class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-4 col-sm-4 col-lg-4 col-lg-offset-3 col-md-offset-4 col-sm-offset-3">
+        <div id="dvGrpBkngerr">
+            <div class="message_wrap showhide">
+                <p class="message">
+                    <span id="dvGrpBkngerr_msg" class="error">All field(s) should not be empty.</span>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<div class="modal fade" id="pnrpopup" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="col-lg-6 col-lg-offset-3 col-xs-12 col0" style="margin-top:70px">
+            @*1123*@
+            <div class="modal-content animated bounceInDown">
+                <div class="" style="padding:10px;border-radius: 0px;padding: 10px;border-bottom: 1px solid #ccc;float: left;width: 100%; background: #fff;">
+                    <h4 class="modal-titles">Manage Booking</h4>
+                    <div class="cls-boa" style="float:right;">
+                        <label class="" onclick="javascript: return CanOTAappsFunction();" style="FONT-WEIGHT: 904; cursor: pointer; font-weight: 900; text-align: right; padding-bottom: 0px; padding-top: 0px; margin-bottom: 0px !important; color: #27a5f5">x</label>
+                    </div>
+                </div>
+                <div class="modal-body clsPopupBody" style="padding: 20px 10px;">
+                    <div class="main">
+                        <div class="row spncls">
+                            <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="/* border: 1px solid; */">
+                                <button class="myButt four" style="width: 100%;" onclick="javascript: return OTAappviewpnrFunction();">
+                                    <div class="icon" style="font-size: 16px;">
+                                        <span class="fa fa-street-view" style="font-size: 34px; margin-left: 25px;" />
+                                    </div>
+                                    <em class="spritepage" style="display: none;"><span class="sprit_view"></span></em>
+                                    <span class="boa-align">View pnr </span>
+                                </button>
+                            </div>
+                            <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="display:none;" id="dvbookprint">
+                                <button class="myButt four" style="width: 100%;" onclick="javascript: return VisaApprovePrint();">
+                                    <div class="icon" style="font-size: 16px;">
+                                        <span class="fa fa-print" style="font-size: 18px; margin-left: 25px;" />
+                                    </div>
+                                    <em class="spritepage" style="display: none;"><span class="sprit_printm"></span></em>
+                                    <span class="boa-align">Print </span>
+                                </button>
+                            </div>
+                        </div>
+                  <div class="row spncls">
+                            @*<div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 " style="/* border: 1px solid; */">
+                                <div class="col-xs-5 col-md-5 col-sm-5 col-lg-5" onclick="javascript: return bookedhis_print();" style="padding: 0px">
+                                    <button class="myButt four bxs-non" style="width: 100%; background-color: #27a5f5;">
+                                        <div class="icon icon_spa" style="font-size: 22px;">
+                                            <span class="fa fa-print" />
+                                        </div>
+                                        <em class="spritepage" style="display: none;"><span class="sprit_printpnr"></span></em>
+                                        <span class="boa-align printmang">Print</span>
+                                    </button>
+                                </div>
+                               </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var errPdiv = "dvGrpBkngerr", errdiv_msg = "dvGrpBkngerr_msg";
+    var currentDate = "@ViewBag.ServerDateTime";
+    var day = currentDate.split('/');
+    var day = day[0];
+    var day2 = day[0];
+    var month = day[1];
+    var year = day[2];
+    $(document).ready(function () {
+        var currentDate = "@ViewBag.ServerDateTime";
+        $("#txtFromDate").val(currentDate);
+        $("#txtFromDate").addClass("has-content");
+        $("#txtFromDate").datepicker({
+            maxDate: currentDate, dateFormat: "dd/mm/yy",
+        });
+        $("#txtToDate").val(currentDate);
+        $("#txtToDate").addClass("has-content");
+        $("#txtToDate").datepicker({
+            minDate: $("#txtFromDate").val(), maxDate: currentDate, dateFormat: "dd/mm/yy",
+        });
+        $("#txtFromDate").on('change keyup paste', function () {
+            $("#txtToDate").datepicker("destroy");
+            $("#txtToDate").datepicker({
+                minDate: $("#txtFromDate").val(), maxDate: currentDate, dateFormat: "dd/mm/yy"
+            });
+        });
+      
+    });
+</script>

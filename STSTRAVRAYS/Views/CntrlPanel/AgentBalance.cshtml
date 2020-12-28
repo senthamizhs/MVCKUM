@@ -1,0 +1,607 @@
+﻿@{
+    string StrVersion = System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"].ToString();
+    string strProduct = System.Configuration.ConfigurationManager.AppSettings["Producttype"].ToString();
+    string strImageURL = System.Configuration.ConfigurationManager.AppSettings["LogoUrl"].ToString();
+    string strLoaderURL = strImageURL + "/" + strProduct + "/" + "loader.gif?" + StrVersion;
+    string BranchID = Session["branchid"] != null ? Session["branchid"].ToString() : "";
+}
+
+<link href="~/Content/CSS/Search/jquerycalender-new.css" rel="stylesheet" />
+<script src="~/js/CommonJS/jquery-ui-new.js"></script>
+
+@if (strProduct == "RBOA")
+{
+    <link href="~/Content/CSS/Riya_BOA/riya_boa.css?@StrVersion" rel="stylesheet" />
+    <link href="~/Content/CSS/Riya_BOA/tbmtSprit.css?@StrVersion" rel="stylesheet" />
+}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 mrgn-tp-100">
+            <div class="M_be007">
+                <div class="row Rpt_headerte bord_b">
+                    <div class="col-xs-12 col-sm-12 col-md-12 text-left pl-0">
+                        <div class="headimg">
+                            <span class="sprit_agbank" style="float: left;"></span>
+                            <h4>Update Agency Balance</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row0">
+                    <div class="col-sm-7 col-xs-12 upd_changes">
+                        <div class="col-xs-6 text-left mb-10">
+                            <label for="txtBranchname">Branch Name<span style="color: red;"> *</span></label>
+                            <input type="text" id="txtBranchname" tabindex="1" class="form-control clsclear clsborder" value="">
+                            <input type="hidden" id="txtBranchID" class="form-control" value="">
+                        </div>
+                        <div class="col-xs-6 mb-10">
+                            <label for="txtAgencyname">Agency Name<span style="color: red;"> *</span></label>
+                            <input type="text" id="txtAgencyname" tabindex="2" class="form-control clsclear clsborder" value="">
+                            <input type="hidden" id="txtAgentID" class="form-control" value="" />
+                            <input type="hidden" id="txtGroupID" class="form-control" value="" />
+                        </div>
+                        <div class="col-xs-6 mb-10">
+                            <label for="txtAccounttype">Account Type</label>
+                            <select tabindex="3" id="txtAccounttype" class="form-control clsborder">
+                                <option value="C" selected>Credit</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-6 mb-10">
+                            <label for="txtCredittype">Credit Type</label>
+                            <select tabindex="4" id="txtCredittype" class="form-control" onchange="DisplayPaymentmode();">
+                                <option value="">-- Select --</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-4 mb-10" id="dvPaymentMode" style="display: none;">
+                            <label for="txtPaymode">Payment Mode</label>
+                            <select name="Country" id="txtPaymode" class="form-control clsborder" onchange="Changepaymentmode();">
+                                <option value="1" selected>Cash</option>
+                                <option value="2">Cheque</option>
+                                <option value="3">Demand Draft</option>
+                                <option value="4">Net Transfer</option>
+                                <option value="8">Cash Deposit</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-4 mb-10 clspaymentmode" style="display: none;">
+                            <label for="txtPaymentDate"><span id="lblPaymentDate">Cheque Date</span><span style="color: red;"> *</span></label>
+                            <input type="text" id="txtPaymentDate" class="form-control"  value='@ViewBag.todaydate' />
+                        </div>
+                        <div class="col-xs-4 mb-10 clspaymentmode" style="display: none;">
+                            <label for="txtPaymentNo"><span id="lblPaymentNo">Cheque No</span><span style="color: red;"> *</span></label>
+                            <input type="text" id="txtPaymentNo" class="form-control clsclear" value='' />
+                        </div>
+                        <div class="col-xs-6 mb-10 clspaymentmode" style="display: none;">
+                            <label for="txtBankName">Bank Name<span style="color: red;"> *</span></label>
+                            <input type="text" id="txtBankName" class="form-control clsclear" value='' />
+                        </div>
+                        <div class="col-xs-6 mb-10 clspaymentmode" style="display: none;">
+                            <label for="txtBankBranch">Bank Branch<span style="color: red;"> *</span></label>
+                            <input type="text" id="txtBankBranch" class="form-control clsclear" value='' />
+                        </div>
+                        <div class="col-xs-4 mb-10">
+                            <label for="txtReqby">Requested By<span style="color: red;"> *</span></label>
+                            <input type="text" id="txtReqby" class="form-control clsAlphaNumeric clsclear" value=''>
+                        </div>
+                        <div class="col-xs-4 mb-10">
+                            <label for="txtEnteredby">Entered By</label>
+                            <input type="text" id="txtEnteredby" class="form-control clsborder" disabled value='@ViewBag.username'>
+                        </div>
+                        <div class="col-xs-4 mb-10">
+                            <label for="txtamount">Amount<span style="color: red;"> *</span></label>
+                            <input type="text" id="txtamount" maxlength="15" tabindex="5" class="form-control clsAmount clsclear" value="">
+                        </div>
+                        <div class="col-xs-12 mb-10">
+                            <label for="txtRemark">Remarks<span style="color: red;"> *</span></label>
+                            <textarea class="remtxt clsclear" id="txtRemark" rows="3" cols="33" tabindex="6" placeholder=""></textarea>
+                        </div>
+                        <div class="col-xs-6">
+                            <button type="submit" id="btnSubmit" class="c-button b-50 bg-aqua hv-transparent action-button color m-b-15" tabindex="7" onclick="ConfirmCreditBalance();" style="width: 100%;">Submit</button>
+                        </div>
+                        <div class="col-xs-6 ">
+                            <button type="button" class="c-button b-50 bg-aqua hv-transparent action-button colorB1 m-b-15" tabindex="8" onclick="Clearvalue()" style="width: 100%;">Clear</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-5 bx-shadow" id="divbalance" style="display: none;">
+                        <div class="col-sm-12 col0">
+                            <h4>Agent Balance</h4>
+                        </div>
+                        <div class="row row0 brd_bd" id="dvlastcredit">
+                            <div class="col-xs-7 col-sm-7 col-md-7 pr-0 showtxt">
+                                <div class="topclsamt">
+                                    <span style="float: left;">
+                                        <img src="@Url.Content("~/Images"+strProduct+"/AddMoney.gif")" />
+                                    </span>
+                                    <span>Credit Amount </span>
+                                    <span id="txtLastcredit" class="R_lrdate"></span>
+                                </div>
+                            </div>
+                            <div class="col-xs-5 col-sm-5 col-md-5 text-right pt-1 R_showamt" style="color: #b00002"><span>Rs.</span><span id="txtCreditAmount"></span></div>
+                        </div>
+                        <div class="row row0 brd_bd">
+                            <div class="col-xs-7 col-sm-7 col-md-7 showtxt"><span class="R_credltsprite" style="padding: 0px 10px 0 0px;"></span><span>Credit Limit</span></div>
+                            <div class="col-xs-5 col-sm-5 col-md-5 text-right R_showamt"><span>Rs.</span><span id="txtCreditLimit"></span></div>
+                        </div>
+                        <div class="row row0 brd_bd">
+                            <div class="col-xs-7 col-sm-7 col-md-7 showtxt"><span class="R_credbalsprite" style="padding: 0px 10px 0 0px;"></span><span>Credit Balance</span> </div>
+                            <div class="col-xs-5 col-sm-5 col-md-5 text-right R_showamt"><span>Rs.</span><span id="txtCreditBalance"></span></div>
+                        </div>
+                        <div class="row row0 brd_bd">
+                            <div class="col-xs-7 col-sm-7 col-md-7 showtxt"><span class="R_outanmt" style="padding: 0px 10px 0 0px;"></span><span>Credit Outstanding</span></div>
+                            <div class="col-xs-5 col-sm-5 col-md-5 text-right R_showamt"><span>Rs.</span><span id="txtCreditOut"></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* CONFIRM POPUP *@
+<div id="submitmodal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 370px;">
+            <div class="modal-header text-center borderb-none">
+                <h4 class="modal-title"><span style="white-space: nowrap;" id="txtmsg"></span></h4>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+                        <button type="button" id="btnConfirmSubmit" style="width: 50% !important;" class="btn btn-logn btn-widsize btn-blck" onclick="SubmitCredit()">Yes</button>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6 text-left">
+                        <button type="button" style="width: 50% !important;" class="btn btn-clr btn-widsize btn-blck" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-submitmodal" class="iziModal" tabindex="-1" role="dialog" aria-hidden="false" style="overflow: hidden;">
+    <div class="row" style="padding: 20px !important;">
+        <div class="col-sm-12 col-xs-12">
+            <h4 id="spntxtMsg"></h4>
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 15px;">
+        <div class="col-md-offset-3 col-md-3 col-xs-6">
+            <input type="button" value="Yes" class="btn btn-md btn-primary width100per" data-izimodal-close="" onclick="javascript: SubmitCredit(1);" />
+        </div>
+        <div class="col-md-3 col-xs-6">
+            <input type="button" value="No" data-izimodal-close="" class="btn btn-md btn-danger width100per" />
+        </div>
+    </div>
+</div>
+<script>
+    var currentdate = '@ViewBag.todaydate';
+
+    var loaderimgurl = '@strLoaderURL';
+    var clientdetailsurl = "@Url.Action("GetClientData", "Home")";
+    var getclientbalanceurl = "@Url.Action("GetClientBalance", "CntrlPanel")";
+    var sessionexpurl = '@Url.Action("SessionExp","Redirect")';
+    var getclientcrediturl = "@Url.Action("GetClientCredit", "CntrlPanel")";
+
+    $(document).ready(function () {
+        getClientDetails();
+        $("#txtPaymentDate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "dd/mm/yy",
+            minDate: "-4y",
+            maxDate: currentdate
+        });
+    });
+
+    function getClientDetails() {
+        try {
+            $.blockUI({
+                message: '<img alt="Please Wait..." src="' + loaderimgurl + '" style="background-color:#fff; border-radius:8px; margin-top:12%;" id="FareRuleLodingImage" />',
+                css: { padding: '5px' }
+            });
+            $.ajax({
+                type: "POST",
+                url: clientdetailsurl,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var data = data["Data"];
+                    if (data.Status == "01") {
+                        $.unblockUI();
+                        var arr = JSON.parse(data.Result);
+                        var filter = "";
+                        var duplication = arr.reduce(function (item, e1) {
+                            var matches = item.filter(function (e2) {
+                                return e1.BNAME == e2.BNAME
+                            });
+                            if (matches.length == 0) {
+                                item.push(e1);
+                            }
+                            return item;
+                        }, []);
+                        $('#txtBranchname').typeahead('destroy');
+                        $('#txtBranchname').typeahead({
+                            source: duplication,
+                            items: 5,
+                            displayField: "BNAME",
+                            valueField: "BID",
+                            scrollBar: true,
+                            onSelect: displayAgencyName,
+                            cache: false,
+                        });
+                        $('#txtAgencyname').typeahead('destroy');
+                        $('#txtAgencyname').typeahead({
+                            source: arr,
+                            items: 5,
+                            displayField: "CLTNAME",
+                            valueField: "CLTCODE",
+                            scrollBar: true,
+                            onSelect: displayAgentID,
+                            cache: false,
+                        });
+
+                        function displayAgencyName(item) {
+                            var selectedvalues = item.value;
+                            filter = $.grep(arr, function (u, i) {
+                                return u.BID == selectedvalues;
+                            });
+                            $("#txtBranchname").css("border", "");
+                            $("#txtAgencyname").css("border", "");
+                            $('#txtAgencyname').val("");
+                            $('#txtAgencyname').typeahead('destroy');
+                            $('#txtAgencyname').typeahead({
+                                source: filter,
+                                items: 5,
+                                displayField: "CLTNAME",
+                                valueField: "CLTCODE",
+                                scrollBar: true,
+                                onSelect: displayAgentID,
+                                cache: false,
+                            });
+                        }
+
+                        function displayAgentID(item) {
+                            var selectedvalues = item.value;
+                            filter = $.grep(arr, function (u, i) {
+                                return u.CLTCODE == selectedvalues;
+                            });
+                            $("#txtBranchname").css("border", "");
+                            $("#txtAgencyname").css("border", "");
+                            $("#txtBranchID").val(filter[0].BID);
+                            $("#txtAgentID").val(filter[0].CLTCODE);
+                            $("#txtAgencyname").val(filter[0].CLTNAME);
+                            $("#txtBranchname").val(filter[0].BNAME);
+                            $("#txtGroupID").val(filter[0].GROUPID);
+                            ClientBalanceCheck();
+                        }
+                    }
+                    else {
+                        $.unblockUI();
+                        alert(data.Result);
+                    }
+                },
+                error: function (ex) {
+                    $.unblockUI();
+                    alert(ex.responseText);
+                }
+            });
+        }
+        catch (e) {
+            console.log(e.message);
+        }
+    }
+
+    function ClientBalanceCheck() {
+        try {
+            var strAgencyname = $("#txtAgencyname").val();
+            var strAgentID = $("#txtAgentID").val();
+
+            if (strAgencyname == "" || strAgentID == "") {
+                document.getElementById("txtAgencyname").focus();
+                $("#txtAgencyname").css("border", "1.5px solid #b60026");
+                $("#txtAgencyname").attr("placeholder", "Please Enter Agency Name");
+                return false;
+            }
+            $.blockUI({
+                message: '<img alt="Please Wait..." src="' + loaderimgurl + '" style="background-color:#fff; border-radius:8px; margin-top:12%;" id="FareRuleLodingImage" />',
+                css: { padding: '5px' }
+            });
+
+            var param = {
+                strAgentID : strAgentID,
+                strBranchId: $("#txtBranchID").val(),
+            }
+
+            $.ajax({
+                type: "POST", 		//GET or POST or PUT or DELETE verb
+                url: getclientbalanceurl,// Location of the service
+                data: JSON.stringify(param),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data.Status == "-1") {
+                        window.location.href = sessionexpurl;
+                        return false;
+                    }
+                    if (data.Status == "01") {
+                        $.unblockUI();
+                        var arr = JSON.parse(data.Result);
+                        var creditbalance = arr.P_FETCH_POS_CREDIT_BALANCE;
+
+                        if (creditbalance.length > 0) {
+                            if (arr.P_FETCH_POS_CREDIT_BALANCE7.length > 0) {
+                                $('#dvlastcredit').show();
+                                $('#txtLastcredit').html(arr.P_FETCH_POS_CREDIT_BALANCE7[0].PAYMENTDATE);
+                            }
+                            else {
+                                $('#dvlastcredit').hide();
+                            }
+                            $('#txtCreditAmount').html(arr.P_FETCH_POS_CREDIT_BALANCE7.length > 0 ? arr.P_FETCH_POS_CREDIT_BALANCE7[0].ADD_CREDIT_AMOUNT : "0");
+                            $('#txtCreditLimit').html(creditbalance[0].CAPPINGAMOUNT);//SHADOWBALANCE_LIMIT
+                            $('#txtCreditBalance').html(creditbalance[0].CREDITBALANCE);
+                            $('#txtCreditOut').html(creditbalance[0].CREDIT_OUTSTANDING);
+
+                            if ((creditbalance[0].CREDITBALANCE.toString().trim() == "" || creditbalance[0].CREDITBALANCE.toString().trim() == "N/A" ||
+                           creditbalance[0].CREDITBALANCE.toString().trim() == "0" || creditbalance[0].CREDITBALANCE.toString().trim() == "0.00") &&
+                           (creditbalance[0].CREDIT_OUTSTANDING.toString().trim() == "" || creditbalance[0].CREDIT_OUTSTANDING.toString().trim() == "N/A" ||
+                           creditbalance[0].CREDIT_OUTSTANDING.toString().trim() == "0" || creditbalance[0].CREDIT_OUTSTANDING.toString().trim() == "0.00")) {
+                                $('#txtCredittype').empty();
+                                $('#txtCredittype').append('<option value="1" >Initial Credit Limit</option>');
+                            }
+                            else {
+                                $('#txtCredittype').empty();
+                                $('#txtCredittype').append('<option value="1" selected>Update Credit Limit</option><option value="2" >Receive Outstanding</option>');
+                            }
+
+                        }
+                        $('#divbalance').show();
+                    }
+                    else {
+                        $.unblockUI();
+                        alert(data.Message);
+                    }
+                },
+                error: function (ex) {
+                    $.unblockUI();
+                    alert(ex.responseText);
+                }
+            });
+        }
+        catch (e) {
+            console.log(e.message);
+        }
+    }
+
+    function SubmitCredit() {
+        try {
+            $("#txtamount").css("border-color", "");
+            var strBranchname = $("#txtBranchname").val();
+            var strBranchId = $("#txtBranchID").val();
+            var strAgencynameicustid = $("#txtAgencyname").val();
+            var strAgencyname = strAgencynameicustid.split('-')[0];
+            var strAgentID = $("#txtAgentID").val();
+            var strAcctype = $("#txtAccounttype").val();
+            var strPaymode = $("#txtPaymode").val();
+            var strReqby = $("#txtReqby").val();
+            var strAmount = $("#txtamount").val();
+            var strRemark = $("#txtRemark").val();
+            var credittype = $('#txtCredittype').val();
+            var EnteredBy = $('#txtEnteredby').val();
+            var StrIcustID = strAgencyname.indexOf('(') != -1 ? strAgencyname.split('(')[1].replace(')', '') : "";
+            var StrGroupID = $("#txtGroupID").val();
+            var ChequeNumber = "", ChequeDate = "", BankName = "", BankBranch = "";
+            if (strPaymode != "1") {
+                ChequeDate = $('#txtPaymentDate').val();
+                ChequeNumber = $('#txtPaymentNo').val();
+                BankName = $('#txtBankName').val();
+                BankBranch = $('#txtBankBranch').val();
+            }
+
+            strPaymode = credittype == "1" ? "" : strPaymode;
+
+            var Param = {
+                strBranchname: strBranchname.split('(')[0].trim(),
+                strBranchId: strBranchId,
+                strAgencyname: strAgencyname,
+                strAgentID: strAgentID,
+                strAcctype: strAcctype,
+                strPaymode: strPaymode,
+                strReqby: strReqby,
+                strAmount: strAmount,
+                strRemark: strRemark,
+                strCreditType: credittype,
+                strChequeNO: ChequeNumber,
+                strCheqeDate: ChequeDate,
+                strBankName: BankName,
+                strBankBranch: BankBranch,
+                strEnteredBy: EnteredBy,
+                StrIcustID: StrIcustID,
+                StrGroupID: StrGroupID,
+            };
+
+            $("#btnConfirmSubmit").prop('disabled', true);
+            $.blockUI({
+                message: '<img alt="Please Wait..." src="' + loaderimgurl + '" style="background-color:#fff; border-radius:8px; margin-top:12%;" id="FareRuleLodingImage" />',
+                css: { padding: '5px' }
+            });
+            $.ajax({
+                type: "POST", 		//GET or POST or PUT or DELETE verb
+                url: getclientcrediturl,// Location of the service//GetClientTopup
+                data: JSON.stringify(Param),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data.Status == "-1") {
+                        window.location.href = sessionexpurl;
+                        return false;
+                    }
+                    if (data.Status == "01") {
+                        $.unblockUI();
+                        alert(data.Results);
+                        $("#txtamount").val("");
+                        $("#txtRemark").val("");
+                        $("#txtReqby").val("");
+                        ClientBalanceCheck();
+                    }
+                    else {
+                        $.unblockUI();
+                        alert("unable to update balance. Please contact support team.");
+                        return false;
+                    }
+                },
+                error: function (ex) {
+                    $.unblockUI();
+                    alert(ex.responseText);
+                }
+            });
+        }
+        catch (e) {
+            console.log(e.message);
+        }
+    }
+
+    function ConfirmCreditBalance() {
+        try {
+            $("#txtamount").css("border-color", "");
+            var strBranchname = $("#txtBranchname").val();
+            var strBranchId = $("#txtBranchID").val();
+            var strAgencynameicustid = $("#txtAgencyname").val();
+            var strAgencyname = strAgencynameicustid.split('-')[0];
+            var strAgentID = $("#txtAgentID").val();
+            var strAcctype = $("#txtAccounttype").val();
+            var strPaymode = $("#txtPaymode").val();
+            var strReqby = $("#txtReqby").val();
+            var strAmount = $("#txtamount").val();
+            var strRemark = $("#txtRemark").val();
+            var credittype = $('#txtCredittype').val();
+            var EnteredBy = $('#txtEnteredby').val();
+            var ChequeDate = $('#txtPaymentDate').val();
+            var ChequeNumber = $('#txtPaymentNo').val();
+            var BankName = $('#txtBankName').val();
+            var BankBranch = $('#txtBankBranch').val();
+
+            if (strBranchname == "" || strBranchname == null || strBranchId == "" || strBranchId == null) {
+                $("#txtBranchname").focus();
+                $("#txtBranchname").css("border", "1.5px solid #b60026");
+                $("#txtBranchname").attr("placeholder", "Please Enter the Branch Name");
+                return false;
+            }
+            if (strAgencyname == "" || strAgencyname == null || strAgentID == "" || strAgentID == null) {
+                $("#txtAgencyname").focus();
+                $("#txtAgencyname").css("border", "1.5px solid #b60026");
+                $("#txtAgencyname").attr("placeholder", "Please Enter the Agency Name");
+                return false;
+            }
+            if (strAcctype == "" || strAcctype == null) {
+                $("#txtAccounttype").focus();
+                $("#txtAccounttype").css("border", "1.5px solid #b60026");
+                return false;
+            }
+            if (credittype != "1" && (strPaymode == "" || strPaymode == null)) {
+                $("#txtPaymode").focus();
+                $("#txtPaymode").css("border", "1.5px solid #b60026");
+                return false;
+            }
+            if (credittype != "1" && strPaymode != "1" && (ChequeNumber == "" || ChequeNumber == null)) {
+                $("#txtPaymentNo").focus();
+                $("#txtPaymentNo").css("border", "1.5px solid #b60026");
+                return false;
+            }
+            if (credittype != "1" && strPaymode != "1" && (BankName == "" || BankName == null)) {
+                $("#txtBankName").focus();
+                $("#txtBankName").css("border", "1.5px solid #b60026");
+                return false;
+            }
+            if (credittype != "1" && strPaymode != "1" && (BankBranch == "" || BankBranch == null)) {
+                $("#txtBankBranch").focus();
+                $("#txtBankBranch").css("border", "1.5px solid #b60026");
+                return false;
+            }
+            if (strReqby == "" || strReqby == null) {
+                $("#txtReqby").focus();
+                $("#txtReqby").css("border", "1.5px solid #b60026");
+                $("#txtReqby").attr("placeholder", "Please Enter the Request By");
+                return false;
+            }
+            if (strAmount == "" || strAmount == null) {
+                $("#txtamount").focus();
+                $("#txtamount").css("border", "1.5px solid #b60026");
+                $("#txtamount").attr("placeholder", "Please Enter the Amount");
+                return false;
+            }
+            if (strAmount == "0") {
+                $("#txtamount").val("");
+                $("#txtamount").focus();
+                $("#txtamount").css("border", "1.5px solid #b60026");
+                $("#txtamount").attr("placeholder", "Please Enter Valid Amount");
+                return false;
+            }
+            $('#spntxtMsg').html("Are you sure want to update Credit Balance - Rs. " + $("#txtamount").val() + " for Agent: " + $("#txtAgentID").val() + " - " + $("#txtAgencyname").val());
+            CallWidgetpopup("Update Agent Balance", "modal-submitmodal", "500px");
+        }
+        catch (e) {
+            console.log(e.message);
+        }
+    }
+
+    function Clearvalue() {
+        $("#btnConfirmSubmit").prop('disabled', false);
+        $(".clsborder").css("border", "");
+        $(".clsborder").attr("placeholder", "");
+        $(".clsclear").val("");
+        $("#txtAccounttype").val("C");
+        $('#txtCredittype').val("1")
+        $("#txtPaymode").val("1");
+        $('#divbalance').hide();
+        $('.clspaymentmode').hide();
+        $('#dvPaymentMode').hide();
+    }
+
+    $(document).on('input', '.clsAmount', function () {
+        var txtQty = $(this).val().replace(/[^0-9\-\.]/g, '');
+        if (txtQty.length > 1 && txtQty.substr(txtQty.length - 1, txtQty.length) == '-')
+            txtQty = $(this).val().substr(0, $(this).val().length - 1);
+        //else if (txtQty.substr(0, 1) == '0' || (txtQty.substr(0, 1) == '-' && txtQty.substr(1, 2) == '0'))
+        //    txtQty = $(this).val().substr(0, $(this).val().length - 1);
+        else if (txtQty.indexOf('.') != -1 && (txtQty.split('.').length > 2 || txtQty.split('.')[1].length > 2))
+            txtQty = $(this).val().substr(0, $(this).val().length - 1);
+        $(this).val(txtQty);
+    });
+
+    $(document).on('input', '.clsAlphaNumeric', function () {
+        var txtQty = $(this).val().replace(/[^a-zA-Z0-9]/g, '');
+        $(this).val(txtQty);
+    });
+
+    function DisplayPaymentmode() {
+        var credittype = $('#txtCredittype').val();
+        if (credittype == "1") {
+            $('#dvPaymentMode').hide();
+            $('.clspaymentmode').hide();
+        }
+        else if (credittype == "2") {
+            $("#txtPaymode").val("1");
+            $('#dvPaymentMode').show();
+        }
+    }
+
+    function Changepaymentmode() {
+        var paymenttype = $('#txtPaymode').val();
+        if (paymenttype == "1") {
+            $('.clspaymentmode').hide();
+        }
+        else {
+            if (paymenttype == "2") {
+                $('#lblPaymentDate').html("Cheque Date");
+                $('#lblPaymentNo').html("Cheque No");
+            }
+            else if (paymenttype == "3") {
+                $('#lblPaymentDate').html("DD Date");
+                $('#lblPaymentNo').html("DD Number");
+            }
+            else if (paymenttype == "4" || paymenttype == "4") {
+                $('#lblPaymentDate').html("Transfer Date");
+                $('#lblPaymentNo').html("Transfer ID");
+            }
+            $('.clspaymentmode').show();
+        }
+    }
+</script>

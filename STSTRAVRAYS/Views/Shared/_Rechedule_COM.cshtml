@@ -1,0 +1,333 @@
+﻿@{
+    ViewBag.Title = "_Rechedule";
+    string Pnrnameflg = System.Configuration.ConfigurationManager.AppSettings["Appname"].ToString().ToUpper() == "RIYA" ? "R PNR" : "S PNR";
+    string Producttype = System.Configuration.ConfigurationManager.AppSettings["Producttype"] != null ? System.Configuration.ConfigurationManager.AppSettings["Producttype"].ToString() : ""; 
+    string StrVersion = System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"] != null ? System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"].ToString() : "";
+    string strImageURL = System.Configuration.ConfigurationManager.AppSettings["LogoUrl"] != null ? System.Configuration.ConfigurationManager.AppSettings["LogoUrl"].ToString() : "";
+    string strLoaderURL = strImageURL + "/" + Producttype + "/" + "loader.gif?" + StrVersion;
+}
+
+
+<!--pnr-->
+
+<link href="~/Content/CSS/Boostrap-table.css" rel="stylesheet" type="text/css">
+<style>
+    #Exist_flight_details, #Reschedule_paxdet,
+    #Reschedule_faredetails {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+        #Exist_flight_details table, #Reschedule_paxdet table,
+        #Reschedule_faredetails table {
+            float: left;
+            background: #fff;
+            border: 1px solid #dfdddd;
+            width: 100%;
+        }
+
+            #Exist_flight_details table thead tr, #Reschedule_paxdet table thead tr,
+            #Reschedule_faredetails table thead tr {
+                background: #309cf1;
+            }
+
+                #Exist_flight_details table thead tr th, #Reschedule_paxdet table thead tr th,
+                #Reschedule_faredetails table thead tr th {
+                    color: #fff;
+                    padding: 5px 10px;
+                    text-align: center;
+                    font-weight: 500;
+                    border-right: 1px solid #c3c3c3;
+                    white-space: nowrap;
+                    background: #646464;
+                }
+
+            #Exist_flight_details table tbody tr td, #Reschedule_paxdet table tbody tr td,
+            #Reschedule_faredetails table tbody tr td {
+                padding: 10px 10px;
+                text-align: center;
+                border: 1px solid #e6e6e6;
+                font-weight: 500;
+                color: #030303;
+                white-space: nowrap;
+            }
+
+    #Reschedule_body {
+        float: left;
+        width: 100%;
+        background: #f6f6f6;
+    }
+
+        #Reschedule_body .hdr-tit {
+            background-color: #fff !important;
+            margin-bottom: 1px !important;
+            padding: 6px 10px;
+            box-shadow: 0px 1px 1px 1px #efefef;
+            border: none !important;
+            text-decoration: none !important;
+            color: #272727;
+            font-weight: 600 !important;
+            font-family: "Poppins", sans-serif !important;
+            font-size: 14px;
+        }
+
+    .scroll-reqconfirm {
+        height: 100px;
+    }
+
+    #myModal_reschdule_confirm .modal-dialog {
+        width: 80%;
+    }
+
+    #myModal_reschdule_confirm .modal-body {
+        padding: 15px 0px;
+    }
+
+    @@media screen and (max-width: 750px) and (min-width: 250px) {
+        #marginbtm {
+            margin-bottom: 20px;
+        }
+
+        #reschedule_body_availability .no-more-tables.table > tbody > tr > td {
+            padding-left: 50% !important;
+        }
+    }
+
+    .backcolor {
+        border-style: double;
+        /*background: repeating-linear-gradient( 45deg, #337ab7, #27a5f5 10px, rgba(0,0,0,.8) 10px, #262626 20px );
+        color: white;
+        font-weight: 700;*/
+    }   
+
+    .showdivreschedule {
+        display: none;
+    }
+
+        .showdivreschedule.vpnrtbl {
+            padding: 10px !important;
+            background: #fff !important;
+            border-style: none !important;
+        }
+
+    #reschehide .col-lg-offset-2 {
+        margin-left: 0%;
+    }
+
+    ._M_RTME4 #section-topline-4 .vpnrtbl tbody > tr > th {
+        padding: 6px 10px !important;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    body input[type=text], body select {
+        border: 1px solid #e2e2e2 !important;
+    }
+
+    .reschedulebtn ul li {
+        color: #fff;
+        text-align: center;
+        display: inline-block;
+        float: none;
+        cursor: pointer;
+        margin: 0 8px;
+        width: 13%;
+    }
+
+    .reschedulebtn ul {
+        margin: 0 auto;
+        float: none;
+        width: 100%;
+        text-align: center;
+        padding-left: 0px;
+    }
+
+    ._M_RTME4 .mycss-content-wrap #section-topline-2 .cls-header, ._M_RTME4 .mycss-content-wrap #section-topline-4 .cls-header {
+        background-color: #fff !important;
+        margin-bottom: 2px !important;
+        padding: 10px 20px;
+        box-shadow: 0px 1px 1px 1px #efefef;
+        border: none !important;
+        text-decoration: none !important;
+        color: #272727;
+        font-weight: 600 !important;
+        font-family: "Poppins", sans-serif !important;
+        font-size: 14px;
+    }
+
+    .tickethead {
+        position: relative;
+        font-weight: bold !important;
+        left: 26px;
+    }
+
+    .modal-open .modal {
+        z-index: 999;
+    }
+
+    .tckstauts {
+        font-size: 14px;
+        font-weight: bold;
+        color: #df2d3d;
+    }
+</style>
+
+<div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 fadeInDownSmall">
+    <div class="col-sm-12 col0 mobshow hidden-lg hidden-md hidden-sm">
+        @*2212*@
+        <span>Reschedule</span>
+    </div>
+
+    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 pad-0t" id="marginbtm" style="margin-bottom:15px;">
+        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3">
+
+            <div class="dv-anim input-effect m-0 m-sm-t15">
+                <input id="reche_txt_viewSPNR" maxlength="10" value="" class="txt-anim clsAlphaNumeric" type="text" autocomplete="off" style="text-transform: uppercase" />
+
+                <label>@Pnrnameflg</label>
+                <span class="focus-border">
+                    <i></i>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3">
+
+            <div class="dv-anim input-effect m-0 m-sm-t15">
+                <input id="reche_txt_viewAirPNR" maxlength="10" value="" class="txt-anim clsAlphaNumeric" type="text" autocomplete="off" style="text-transform: uppercase" />
+
+                <label>Airline PNR</label>
+                <span class="focus-border">
+                    <i></i>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3">
+
+            <div class="dv-anim input-effect m-0 m-sm-t15">
+                <input id="reche_txt_viewCSRPNR" maxlength="10" value="" class="txt-anim clsAlphaNumeric" type="text" autocomplete="off" style="text-transform: uppercase" />
+
+                <label>CRS PNR</label>
+                <span class="focus-border">
+                    <i></i>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3" style="display:none;">
+
+            <div class="dv-anim input-effect m-0 m-sm-t15">
+                <select id="reche_ddl_paymentmode" maxlength="10" value="" class="txt-anim clsAlphaNumeric  has-content form-control" type="text" autocomplete="off" style="text-transform: uppercase">
+                    <option selected value="">All</option>
+                    <option value="C">Credit</option>
+                    <option value="T">Topup</option>
+                </select>
+                <label>Payment mode</label>
+                <span class="focus-border">
+                    <i></i>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-offset-4 col-md-4 col-sm-4 col-lg-4 mt-15">
+        <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+            <input type="button" id="get_pnr" class="action-button action-buttonO shadow animate color" style="width: 100%" value="Ok" onclick="Reschedule_pnr();" />
+        </div>
+        <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+            <input type="button" id="Clear" class="action-button action-buttonB shadow animate  colorB1" value="Clear" style="width: 100%" onclick="clear_rescheule_pnr();" />
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-4 col-sm-4 col-lg-4 col-lg-offset-4 col-md-offset-4 col-sm-offset-4" style="display:none">
+        <div id="rech_dvGrpBkngerr">
+            <div class="message_wrap showhide">
+                <p class="message">
+                    <span id="rech_dvGrpBkngerr_msg" class="error">All field(s) should not be empty.</span>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div id="reschehide" class="col-xs-12 col-md-12 col-sm-12 col-lg-12 fadeInDownSmall" style="text-align: left; padding: 0px;">
+    <h5 class="cls-header m-b-10" style="display: none">Agent Details</h5>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        @*<h5 class="cls-header m-b-10 showdivreschedule">
+                <i class="fa fa-file-text"></i>Contact Details<a href="#">
+                    <div class="fa fa-chevron-up rotate_a"></div>
+                </a>
+            </h5>*@
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-0" id="reschedule_contact_tbl">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 showdivreschedule vpnrtbl" style="border-style: double;padding:0px;">
+                <table class="table table-responsive bx-shdow-re">
+                    <tr style="background-color: #ccc;">
+                        <th colspan='3'>Contact Details</th>
+                    </tr>
+                    <tr>
+                        <td>User Name </td>
+                        <td>:</td>
+                        <td id="usern"></td>
+                    </tr>
+                    <tr>
+                        <td>Contact No </td>
+                        <td>:</td>
+                        <td id="contno"></td>
+                    </tr>
+                    <tr>
+                        <td>Email ID </td>
+                        <td>:</td>
+                        <td id="emailid"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 showdivreschedule vpnrtbl" style="border-style: double;padding:0px;">
+                <table class="table table-responsive bx-shdow-re">
+                    <tr style="background-color: #ccc;">
+                        <th colspan='3'>Booking Details</th>
+                    </tr>
+
+                    <tr>
+                        <td>Booked Terminal</td>
+                        <td>:</td>
+                        <td id="bookingtermina"></td>
+                    </tr>
+
+                    <tr>
+                        <td>P-Mode</td>
+                        <td>:</td>
+                        <td id="p_mode"></td>
+                    </tr>
+                    <tr>
+                        <td>Issued Date</td>
+                        <td>:</td>
+                        <td id="issuedate"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col10 pl-15 pr-15">
+        <h5 id="" class="ticket_dets showdivreschedule" style="font-weight:bold!important">
+            Ticket Details
+        </h5>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col0 pl-15 pr-15" id="air_reschedule_table"></div>
+        @*<h5 id="" class="cls-header m-b-10 showdivreschedule">Ticket Details<a href="#"><div class="fa fa-chevron-up rotate_c"></div>
+            </a></h5>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " id="air_tckt_reschedule_table"></div>*@
+    </div>
+
+</div>
+
+<script>
+    var get_reschedule_process = "@Url.Action("get_reschedule_process", "Reschedule")"
+    var Spinner = "@strLoaderURL";
+    var Rescheduleavailablity = "@Url.Action("Rescheduleavailablity", "Reschedule")";
+    var Reschedulefarerule = "@Url.Action("Reschedulefarerule", "Reschedule")";
+    var Onlinereschedule = "@Url.Action("Onlinereschedule", "Reschedule")";
+    var CityAirport_Lst = "@Url.Content("~/XML/CityAirport_Lst.xml")"
+</script>
+<!--end of pnr verfication details-->

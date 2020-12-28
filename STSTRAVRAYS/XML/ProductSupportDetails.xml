@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <ROUNDTRIP>
+    <ADDRESS>
+      <DETAILS>
+        Roundtrip.in
+      </DETAILS>
+    </ADDRESS>
+    <ADDRESS>
+      <DETAILS> #83, Sydenhams Road, 2nd Floor, Opp. Nehru Stadium Gate 1, Periamet,</DETAILS>
+    </ADDRESS>
+    <ADDRESS>
+      <DETAILS>Chennai- 600003</DETAILS>
+    </ADDRESS>
+    <CALLCENTERNO>
+      <NUMBER>+91 44 40000005</NUMBER>
+    </CALLCENTERNO>
+    <ENQUIRY>
+      <NAME>for Domestic and international tickets</NAME>
+      <EMAILID>support@roundtrip.in</EMAILID>
+    </ENQUIRY>
+    <ENQUIRY>
+      <NAME>for Hotels and Holiday Packages</NAME>
+      <EMAILID>holidays@roundtrip.in</EMAILID>
+    </ENQUIRY>
+    <ENQUIRY>
+      <NAME>for Visa and Insurance</NAME>
+      <EMAILID>visa@roundtrip.in</EMAILID>
+    </ENQUIRY>
+    <IMAP>
+      <LINK>https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.185287261384!2d80.26757531430543!3d13.087440715868093!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265fc0cafbe29%3A0x748453cf17a92cc1!2s83%2C+Sydenhams+Rd%2C+Periyamedu%2C+Periyamet%2C+Chennai%2C+Tamil+Nadu+600007!5e0!3m2!1sen!2sin!4v1543395630722</LINK>
+    </IMAP>
+    <FOOTER>
+      <CONTENT>
+        <HEAD>Quick Links</HEAD>
+        <DETAILS>
+          <NAME>Home</NAME>
+          <LINK>/Flights/Flights</LINK>
+        </DETAILS>
+        <DETAILS>
+          <NAME>About us</NAME>
+          <LINK>/B2C/About</LINK>
+        </DETAILS>
+        <DETAILS>
+          <NAME>Contact Us</NAME>
+          <LINK>/B2C/Contactus_RT</LINK>
+        </DETAILS>
+
+      </CONTENT>
+      <CONTENT>
+        <HEAD>Support &amp; Help</HEAD>
+        <DETAILS>
+          <NAME>Disclaimer</NAME>
+          <LINK>/B2C/Disclaimer</LINK>
+        </DETAILS>
+        <DETAILS>
+          <NAME>Privacy Policy</NAME>
+          <LINK>/B2C/Privacypolicy</LINK>
+        </DETAILS>
+        <DETAILS>
+          <NAME>Terms &amp; Conditions</NAME>
+          <LINK>/B2C/termsandconditions</LINK>
+        </DETAILS>
+
+      </CONTENT>
+      <CONTENT>
+        <HEAD>Partner With Us</HEAD>
+        <DETAILS>
+          <NAME>Become an Agent</NAME>
+          <LINK>/Login/RTRegistration</LINK>
+        </DETAILS>
+        <DETAILS>
+          <NAME>User Agreement</NAME>
+          <LINK>/B2C/Useragreement</LINK>
+        </DETAILS>
+        <DETAILS>
+          <NAME>Products &amp; Services</NAME>
+          <LINK>/B2C/productsandserivces</LINK>
+        </DETAILS>
+
+      </CONTENT>
+      <CONTENT>
+        <HEAD>PAYMENT</HEAD>
+        <DETAILS>
+          <NAME>lab la-cc-visa</NAME>
+        </DETAILS>
+        <DETAILS>
+          <NAME>lab la-cc-mastercard</NAME>
+        </DETAILS>
+      </CONTENT>
+    </FOOTER>
+  </ROUNDTRIP>
+  <DEIRA>
+    <ADDRESS>
+      <DETAILS>Deira Travel - Online B2B Travel Portal Dubai</DETAILS>
+    </ADDRESS>
+    <ADDRESS>
+      <DETAILS> A903, Centurion Star Tower, Port Saeed, Deira, Dubai - United Arab Emirates</DETAILS>
+    </ADDRESS>
+    <ADDRESS>
+      <DETAILS>United Arab Emirates</DETAILS>
+    </ADDRESS>
+    <CALLCENTERNO>
+      <NUMBER>971 4 2295 444</NUMBER>
+    </CALLCENTERNO>
+    <ENQUIRY>
+      <NAME>For any Queries,</NAME>
+      <EMAILID>helpdesk@deiratravels.com</EMAILID>
+    </ENQUIRY>
+    <IMAP>
+      <LINK>https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d115471.7160777458!2d55.2586172!3d25.2540591!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5cd8ecb0a101%3A0x73bbb9885676c9b!2sDeira+Travel+And+Tourist+Agency+Co+LLC.+Corporate+Office!5e0!3m2!1sen!2sae!4v1499600435810</LINK>
+    </IMAP>
+    <CRSNAME>
+      <SUPPLIER>
+        <NAME>Amadeus</NAME>
+        <ID>1A</ID>
+      </SUPPLIER>
+      <SUPPLIER>
+        <NAME>Galileo</NAME>
+        <ID>1G</ID>
+      </SUPPLIER>
+      <SUPPLIER>
+        <NAME>Sabre</NAME>
+        <ID>1S</ID>
+      </SUPPLIER>
+    </CRSNAME>
+    <FOOTER>
+      <CONTENT>
+        <HEAD>Affiliations</HEAD>
+        <DETAILS>
+          <NAME>Travel Agent</NAME>
+          <LINK></LINK>
+        </DETAILS>
+        <DETAILS>
+          <NAME>Hotelier</NAME>
+          <LINK></LINK>
+        </DETAILS>
+        <DETAILS>
+          <NAME>Transportations</NAME>
+          <LINK></LINK>
+        </DETAILS>
+        <DETAILS>
+          <NAME>SMEs and Corporates</NAME>
+          <LINK></LINK>
+        </DETAILS>
+      </CONTENT>
+      <CONTENT>
+        <HEAD>Why Deira Travel</HEAD>
+        <DETAILS>
+          <NAME>Simple 4 Steps Booking</NAME>
+          <LINK></LINK>
+        </DETAILS>
+        <DETAILS>
+          <NAME>User Friendly  Search Options</NAME>
+          <LINK></LINK>
+        </DETAILS>
+        <DETAILS>
+          <NAME>24/7 Dedicated Customer Support</NAME>
+          <LINK></LINK>
+        </DETAILS>
+        <DETAILS>
+          <NAME>Secure Payment Options</NAME>
+          <LINK></LINK>
+        </DETAILS>
+      </CONTENT>
+
+      <CONTENT>
+        <HEAD>Partner With Us</HEAD>
+        <DETAILS>
+          <NAME>Become an Agent</NAME>
+          <LINK>/Login/RTRegistration</LINK>
+        </DETAILS>
+        <DETAILS>
+          <NAME>User Agreement</NAME>
+          <LINK>/B2C/Useragreement</LINK>
+        </DETAILS>
+        <DETAILS>
+          <NAME>Terms &amp; Conditions</NAME>
+          <LINK>/B2C/termsandconditions</LINK>
+        </DETAILS>
+      </CONTENT>
+    </FOOTER>
+  
+</DEIRA>
+  <RBOA>
+    <CRSNAME>
+      <SUPPLIER>
+        <NAME>Amadeus</NAME>
+        <ID>1A</ID>
+      </SUPPLIER>
+      <SUPPLIER>
+        <NAME>Galileo</NAME>
+        <ID>1G</ID>
+      </SUPPLIER>
+      <SUPPLIER>
+        <NAME>Sabre</NAME>
+        <ID>1S</ID>
+      </SUPPLIER>
+    </CRSNAME>
+  </RBOA>
+</NewDataSet>

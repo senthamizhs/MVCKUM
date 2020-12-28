@@ -1,0 +1,1358 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8FEA6E33-E465-4F7D-A4B1-C071B1A526D7}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>STSTRAVRAYS</RootNamespace>
+    <AssemblyName>STSTRAVRAYS</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <UseGlobalApplicationHostFile />
+    <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.AspNet">
+      <HintPath>..\..\STSTRAVRAYS\STSTRAVRAYS\bin\DotNetOpenAuth.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.Core">
+      <HintPath>..\..\STSTRAVRAYS\STSTRAVRAYS\bin\DotNetOpenAuth.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.0.5.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\STSTRAVRAYS\STSTRAVRAYS\bin\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker">
+      <HintPath>..\..\STSTRAVRAYS\STSTRAVRAYS\bin\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NReco.PdfGenerator, Version=1.1.14.0, Culture=neutral, PublicKeyToken=231663d50a41b451, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\STSTRAVRAYS\STSTRAVRAYS\bin\NReco.PdfGenerator.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>C:\Users\STS\Desktop\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Globalization" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.RegularExpressions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Serialization" />
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.2.0.20710.0\lib\net40\Microsoft.Web.WebPages.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.2.0.20710.0\lib\net40\WebMatrix.WebData.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\AuthConfig.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AfterBookingController.cs" />
+    <Compile Include="Controllers\B2CController.cs" />
+    <Compile Include="Controllers\BookingController.cs" />
+    <Compile Include="Controllers\CancellationController.cs" />
+    <Compile Include="Controllers\CntrlPanelController.cs" />
+    <Compile Include="Controllers\CRMController.cs" />
+    <Compile Include="Controllers\FlightsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\OtherProductController.cs" />
+    <Compile Include="Controllers\PnrController.cs" />
+    <Compile Include="Controllers\RedirectController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\RescheduleController.cs" />
+    <Compile Include="Controllers\RetriveBookingController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Controllers\VisaController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Avail.cs" />
+    <Compile Include="Models\Base.cs" />
+    <Compile Include="Models\BLL.cs" />
+    <Compile Include="Models\DBHandler.cs" />
+    <Compile Include="Models\GdsRQRS.cs" />
+    <Compile Include="Models\Insurance_Common.cs" />
+    <Compile Include="Models\MyWebclient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Models\OnlineserviceRQRS.cs" />
+    <Compile Include="Models\QTKT_RQRS.cs" />
+    <Compile Include="Models\RQRS.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\InplantService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\Mailref\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\Rays_service\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\CSS\animate.css" />
+    <Content Include="Content\CSS\animate.min.css">
+      <DependentUpon>animate.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\Boostrap-table.css" />
+    <Content Include="Content\CSS\bootstrap-multiselect.css" />
+    <Content Include="Content\CSS\CommonCSS\footable.bootstrap.css" />
+    <Content Include="Content\CSS\CommonCSS\W2Grid.css" />
+    <Content Include="Content\CSS\FileUpload.css" />
+    <Content Include="Content\CSS\Theme1\CommonVisa.css" />
+    <Content Include="Content\CSS\Theme1\style-main.css" />
+    <Content Include="Content\CSS\Theme4\CommonVisa.css" />
+    <Content Include="Content\Fonts\font-awesome\fontawesome-webfont.svg" />
+    <Content Include="Content\Fonts\icomoon_t5\icomoon.svg" />
+    <Content Include="Content\Fonts\icomoon_t6\icomoon.svg" />
+    <Content Include="Content\Fonts\icons.css" />
+    <Content Include="Content\Fonts\line-awesome\la-brands-400.svg" />
+    <Content Include="Content\Fonts\line-awesome\la-regular-400.svg" />
+    <Content Include="Content\Fonts\line-awesome\la-solid-900.svg" />
+    <Content Include="Content\Fonts\line-awesome\line-awesome.min.css" />
+    <Content Include="Content\Fonts\webfonts\fa-brands-400.svg" />
+    <Content Include="Content\Fonts\webfonts\fa-regular-400.svg" />
+    <Content Include="Content\Fonts\webfonts\fa-solid-900.svg" />
+    <Content Include="Content\CSS\GDSAvail.css" />
+    <Content Include="Content\CSS\AvilBuilder.css" />
+    <Content Include="Content\CSS\AvilBuilder.min.css">
+      <DependentUpon>AvilBuilder.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\bootstrap.css" />
+    <Content Include="Content\CSS\bootstrap.min.css">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\Calenderimages\download.png" />
+    <Content Include="Content\CSS\Calenderimages\leftarrow.png" />
+    <Content Include="Content\CSS\Calenderimages\rightarrow.png" />
+    <Content Include="Content\CSS\chosen.css" />
+    <Content Include="Content\CSS\chosen.min.css">
+      <DependentUpon>chosen.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\Colors.css" />
+    <Content Include="Content\CSS\Colors.min.css">
+      <DependentUpon>Colors.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\Columns_Table\classic.css" />
+    <Content Include="Content\CSS\Columns_Table\classic.min.css">
+      <DependentUpon>classic.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\Component.css" />
+    <Content Include="Content\CSS\Component.min.css">
+      <DependentUpon>Component.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\Controlpanel.css" />
+    <Content Include="Content\CSS\Controlpanel.min.css">
+      <DependentUpon>Controlpanel.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\Dahboard\animate.css" />
+    <Content Include="Content\CSS\Dahboard\bootstrap.min.css" />
+    <Content Include="Content\CSS\Dahboard\circle.css" />
+    <Content Include="Content\CSS\Dahboard\classic.css" />
+    <Content Include="Content\CSS\Dahboard\font-awesomemin.css" />
+    <Content Include="Content\CSS\Dahboard\headercss.min.css" />
+    <Content Include="Content\CSS\Dahboard\headericon.css" />
+    <Content Include="Content\CSS\Dahboard\icomoon.css" />
+    <Content Include="Content\CSS\Dahboard\loader.min.css" />
+    <Content Include="Content\CSS\Dahboard\mydesign.css" />
+    <Content Include="Content\CSS\Dahboard\style.css" />
+    <Content Include="Content\CSS\Dahboard\TemplateOverwriteS.css" />
+    <Content Include="Content\CSS\daterangepicker-bs3.css" />
+    <Content Include="Content\CSS\daterangepicker-bs3.min.css">
+      <DependentUpon>daterangepicker-bs3.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\DTBL\Boostrap-table.css" />
+    <Content Include="Content\CSS\DTBL\Boostrap-table.min.css">
+      <DependentUpon>Boostrap-table.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\DTBL\bootstrap-table-filter.css" />
+    <Content Include="Content\CSS\DTBL\bootstrap-table-filter.min.css">
+      <DependentUpon>bootstrap-table-filter.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\font-awesome.css" />
+    <Content Include="Content\CSS\font-awesome.min.css">
+      <DependentUpon>font-awesome.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\GoogleFonts.css" />
+    <Content Include="Content\CSS\GoogleFonts.min.css">
+      <DependentUpon>GoogleFonts.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\helpers.css" />
+    <Content Include="Content\CSS\helpers.min.css">
+      <DependentUpon>helpers.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\homecss.css" />
+    <Content Include="Content\CSS\homecss.min.css">
+      <DependentUpon>homecss.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\ionicons.css" />
+    <Content Include="Content\CSS\ionicons.min.css">
+      <DependentUpon>ionicons.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\Login\custombox.css" />
+    <Content Include="Content\CSS\Login\lobibox.css" />
+    <Content Include="Content\CSS\Login\Login_Style.min.css">
+      <DependentUpon>Login_Style.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\Login\LOGIN_STYLE_New.css" />
+    <Content Include="Content\CSS\Login\NonMasterLayoutOverwrite.css" />
+    <Content Include="Content\CSS\Login\TemplateOverwriteS.css" />
+    <Content Include="Content\CSS\Login\travrays_login.css" />
+    <Content Include="Content\CSS\Login\travrays_style.css" />
+    <Content Include="Content\CSS\Login\travrays_support_login.css" />
+    <Content Include="Content\CSS\material.min.css">
+      <DependentUpon>material.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\plugins.min.css">
+      <DependentUpon>plugins.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\raysModal.css" />
+    <Content Include="Content\CSS\Login\Login_Style.css" />
+    <Content Include="Content\CSS\material.css" />
+    <Content Include="Content\CSS\plugins.css" />
+    <Content Include="Content\CSS\raysModal.min.css">
+      <DependentUpon>raysModal.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\responsive.css" />
+    <Content Include="Content\CSS\responsive.min.css">
+      <DependentUpon>responsive.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\rickshaw.min.css" />
+    <Content Include="Content\CSS\RIYA\normalize.css" />
+    <Content Include="Content\CSS\RIYA\style-main.css" />
+    <Content Include="Content\CSS\RIYA\swiper.min.css" />
+    <Content Include="Content\CSS\Riya_BOA\fullcalendar.css" />
+    <Content Include="Content\CSS\Riya_BOA\riya_boa.css" />
+    <Content Include="Content\CSS\Riya_BOA\SessionExp.css" />
+    <Content Include="Content\CSS\Riya_BOA\tbmtSprit.css" />
+    <Content Include="Content\CSS\Theme1\home.css" />
+    <Content Include="Content\CSS\Theme1\style.css" />
+    <Content Include="Content\CSS\Theme2\SessionExp.css" />
+    <Content Include="Content\CSS\Theme4\AvilBuilder.css" />
+    <Content Include="Content\Fonts\webfonts\fontawesome-all.min.css" />
+    <Content Include="Content\CSS\Theme4\Login.css" />
+    <Content Include="Content\CSS\Theme4\SessionExp.css" />
+    <Content Include="Content\CSS\Theme4\style.css" />
+    <Content Include="Content\CSS\Theme5\AvilBuilder.css" />
+    <Content Include="Content\CSS\Theme5\Dashboard.css" />
+    <Content Include="Content\CSS\Theme5\Login.css" />
+    <Content Include="Content\CSS\Theme5\SessionExp.css" />
+    <Content Include="Content\CSS\Theme5\style.css" />
+    <Content Include="Content\CSS\Theme6\AvilBuilder.css" />
+    <Content Include="Content\CSS\Theme6\Dashboard.css" />
+    <Content Include="Content\CSS\Theme6\Login.css" />
+    <Content Include="Content\CSS\Theme6\SessionExp.css" />
+    <Content Include="Content\CSS\Theme6\style.css" />
+    <Content Include="Content\CSS\TME3\AvilBuilder.css" />
+    <Content Include="Content\CSS\TME3\fontawesome-all.min.css" />
+    <Content Include="Content\CSS\TME3\Login_RUAE.css" />
+    <Content Include="Content\CSS\TME3\riya_uae.css" />
+    <Content Include="Content\CSS\Search\jquerycalender-new.css" />
+    <Content Include="Content\CSS\Search\jquerycalender.css" />
+    <Content Include="Content\CSS\Search\jquerycalender.min.css">
+      <DependentUpon>jquerycalender.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\slider.css" />
+    <Content Include="Content\CSS\slider.min.css">
+      <DependentUpon>slider.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\Slider\camera.css" />
+    <Content Include="Content\CSS\Slider\camera.min.css">
+      <DependentUpon>camera.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\style.css" />
+    <Content Include="Content\CSS\style.min.css">
+      <DependentUpon>style.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\Theme2\AvilBuilder.css" />
+    <Content Include="Content\CSS\Theme2\Component.css" />
+    <Content Include="Content\CSS\Theme2\responsive.css" />
+    <Content Include="Content\CSS\Theme2\slider.css" />
+    <Content Include="Content\CSS\Theme2\style.css" />
+    <Content Include="Content\CSS\Theme2\tbmtSprit.css" />
+    <Content Include="Content\CSS\Theme2\theme2.css" />
+    <Content Include="Content\CSS\TME3\SessionExp.css" />
+    <Content Include="Content\CSS\tooltipster.css" />
+    <Content Include="Content\CSS\tooltipster.min.css">
+      <DependentUpon>tooltipster.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\TravelCalendar\fullcalendar.css" />
+    <Content Include="Images\BTN\Seat.png" />
+    <Content Include="Images\DEIRA\Other.png" />
+    <Content Include="Images\DEIRA\process_loader.gif" />
+    <Content Include="Images\EGY\Seat.png" />
+    <Content Include="Images\NAT\Other.png" />
+    <Content Include="Images\NAT\Seat.png" />
+    <Content Include="Images\Process\B2B.jpg" />
+    <Content Include="Images\RBOA\AddMoney.gif" />
+    <Content Include="Images\RBOA\artificial-intelligence.png" />
+    <Content Include="Images\RBOA\Avail_Info.gif" />
+    <Content Include="Images\RBOA\BOAsprit.png" />
+    <Content Include="Images\RBOA\clearout.png" />
+    <Content Include="Images\RBOA\close-icn.png" />
+    <Content Include="Images\RBOA\Credit.png" />
+    <Content Include="Images\RBOA\crmnewimg.png" />
+    <Content Include="Images\RBOA\DMBI.png" />
+    <Content Include="Images\RBOA\excel.png" />
+    <Content Include="Images\RBOA\favicon.ico" />
+    <Content Include="Images\RBOA\GIF-FIN_1.gif" />
+    <Content Include="Images\RBOA\layout_logo.png" />
+    <Content Include="Images\RBOA\Leftarrow.png" />
+    <Content Include="Images\RBOA\loader.gif" />
+    <Content Include="Images\RBOA\logo.png" />
+    <Content Include="Images\RBOA\MIS.png" />
+    <Content Include="Images\RBOA\nodata.png" />
+    <Content Include="Images\RBOA\open-call.png" />
+    <Content Include="Images\RBOA\orgToDes.png" />
+    <Content Include="Images\RBOA\Other.png" />
+    <Content Include="Images\RBOA\RightArrow.png" />
+    <Content Include="Images\RBOA\sameeraDeal.gif" />
+    <Content Include="Images\RBOA\SameeraSprite.png" />
+    <Content Include="Images\RBOA\SameeraSprite_flbook.png" />
+    <Content Include="Images\RBOA\search.png" />
+    <Content Include="Images\RBOA\Seat.png" />
+    <Content Include="Images\RBOA\semeeradEAL.gif" />
+    <Content Include="Images\RBOA\soon.gif" />
+    <Content Include="Images\RBOA\topsprite.png" />
+    <Content Include="Images\RIYA\AddMoney.gif" />
+    <Content Include="Images\RIYA\Avail_Info.gif" />
+    <Content Include="Images\RIYA\clearout.png" />
+    <Content Include="Images\RIYA\Credit.png" />
+    <Content Include="Images\RIYA\excel.png" />
+    <Content Include="Images\RIYA\flight.png" />
+    <Content Include="Images\RIYA\hotel.png" />
+    <Content Include="Images\RIYA\Icons\ship.png" />
+    <Content Include="Images\RIYA\Other.png" />
+    <Content Include="Images\RIYA\Seat.png" />
+    <Content Include="Images\RIYA\spritnew.png" />
+    <Content Include="Images\RIYA\thank-you-building.jpg" />
+    <Content Include="Images\RIYA\Visa\bg-register.jpg" />
+    <Content Include="Images\RIYA\Visa\history.png" />
+    <Content Include="Images\RIYA\Visa\search.png" />
+    <Content Include="Images\RIYA\Visa\thank-you-building.jpg" />
+    <Content Include="Images\RIYA\Visa\thank-you-plane.png" />
+    <Content Include="Images\RIYA\Visa\visa_img.jpeg" />
+    <Content Include="Images\ROUNDTRIP\artificial-intelligence.png" />
+    <Content Include="Images\ROUNDTRIP\DMBI.png" />
+    <Content Include="Images\ROUNDTRIP\MIS.png" />
+    <Content Include="Images\ROUNDTRIP\Other.png" />
+    <Content Include="Images\ROUNDTRIP\search.png" />
+    <Content Include="Images\UAE\Other.png" />
+    <Content Include="Images\UAE\Visa\thank-you-building.png" />
+    <Content Include="Images\UAE\Visa\history.png" />
+    <Content Include="Images\UAE\Visa\search.png" />
+    <Content Include="Images\UAE\Visa\thank-you-plane.png" />
+    <Content Include="Images\UAE\Visa\Visa-Footer.png" />
+    <Content Include="Images\UAE\Visa\visa_img.jpeg" />
+    <Content Include="js\CommonJS\TravelCalendar\fullcalendar.js" />
+    <Content Include="js\CommonJS\TravelCalendar\fullcalendarmoment.js" />
+    <Content Include="Content\CSS\w2ui-1.5.css" />
+    <Content Include="Content\CSS\webslidemenu.css" />
+    <Content Include="Content\CSS\webslidemenu.min.css">
+      <DependentUpon>webslidemenu.css</DependentUpon>
+    </Content>
+    <Content Include="Content\CSS\Zebra\Zebra_datepicker.css" />
+    <Content Include="Content\CSS\Zebra\Zebra_datepicker.min.css" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\4.jpg" />
+    <Content Include="Images\Alert.png" />
+    <Content Include="Images\animated-overlay.gif" />
+    <Content Include="Images\avatar.png" />
+    <Content Include="Images\Banner.png" />
+    <Content Include="Images\bg-img-session.png" />
+    <Content Include="Images\bn-arrows.png" />
+    <Content Include="Images\Browsers\Chrome.png" />
+    <Content Include="Images\Browsers\Firebox.png" />
+    <Content Include="Images\Browsers\ie.png" />
+    <Content Include="Images\Browsers\Opera.png" />
+    <Content Include="Images\Browsers\Safari.jpg" />
+    <Content Include="Images\BTN\calendar_icon.png" />
+    <Content Include="Images\BTN\Car.png" />
+    <Content Include="Images\BTN\favicon.ico" />
+    <Content Include="Images\BTN\layout_logo.png" />
+    <Content Include="Images\BTN\loader.gif" />
+    <Content Include="Images\BTN\loc_icon_small.png" />
+    <Content Include="Images\BTN\orgToDes.png" />
+    <Content Include="Images\BTN\Tours.png" />
+    <Content Include="Images\BTN\Train.png" />
+    <Content Include="Images\BTN\travrayslogin.png" />
+    <Content Include="Images\BTN\utility.png" />
+    <Content Include="Images\bullet.png" />
+    <Content Include="Images\bus.png" />
+    <Content Include="Images\calendar_icon.png" />
+    <Content Include="Images\camera-loader.gif" />
+    <Content Include="Images\camera_skins.png" />
+    <Content Include="Images\cancelbag.png" />
+    <Content Include="Images\car.png" />
+    <Content Include="Images\chosen-sprite.png" />
+    <Content Include="Images\country-flag.png" />
+    <Content Include="Images\DEIRA\1.jpg" />
+    <Content Include="Images\DEIRA\2.jpg" />
+    <Content Include="Images\DEIRA\3.jpg" />
+    <Content Include="Images\DEIRA\4.jpg" />
+    <Content Include="Images\DEIRA\AddMoney.gif" />
+    <Content Include="Images\DEIRA\aeroplane.png" />
+    <Content Include="Images\DEIRA\air-go.png" />
+    <Content Include="Images\DEIRA\Anci.png" />
+    <Content Include="Images\DEIRA\artificial-intelligence.png" />
+    <Content Include="Images\DEIRA\Avail_Info.gif" />
+    <Content Include="Images\DEIRA\BajajAllianzLogo.png" />
+    <Content Include="Images\DEIRA\balance.gif" />
+    <Content Include="Images\DEIRA\bg_login.jpg" />
+    <Content Include="Images\DEIRA\Bkg.png" />
+    <Content Include="Images\DEIRA\Bus.png" />
+    <Content Include="Images\DEIRA\calendar_icon.png" />
+    <Content Include="Images\DEIRA\Car.png" />
+    <Content Include="Images\DEIRA\Control.png" />
+    <Content Include="Images\DEIRA\Credit.png" />
+    <Content Include="Images\DEIRA\DASHBOARD\db1.png" />
+    <Content Include="Images\DEIRA\DASHBOARD\db2.png" />
+    <Content Include="Images\DEIRA\DASHBOARD\db3.png" />
+    <Content Include="Images\DEIRA\DASHBOARD\db4.png" />
+    <Content Include="Images\DEIRA\DASHBOARD\db5.png" />
+    <Content Include="Images\DEIRA\DASHBOARD\db6.png" />
+    <Content Include="Images\DEIRA\DASHBOARD\db7.png" />
+    <Content Include="Images\DEIRA\DASHBOARD\dummy_F.png" />
+    <Content Include="Images\DEIRA\DASHBOARD\dummy_M.png" />
+    <Content Include="Images\DEIRA\DASHBOARD\Gift Card.png" />
+    <Content Include="Images\DEIRA\DASHBOARD\lock.png" />
+    <Content Include="Images\DEIRA\DASHBOARD\map.png" />
+    <Content Include="Images\DEIRA\DASHBOARD\no-record.jpg" />
+    <Content Include="Images\DEIRA\DASHBOARD\nodata.png" />
+    <Content Include="Images\DEIRA\DASHBOARD\profile_img.png" />
+    <Content Include="Images\DEIRA\DASHBOARD\unnamed.png" />
+    <Content Include="Images\DEIRA\DASHBOARD\welcome-img.png" />
+    <Content Include="Images\DEIRA\DMBI.png" />
+    <Content Include="Images\DEIRA\eticket.png" />
+    <Content Include="Images\DEIRA\excel.png" />
+    <Content Include="Images\DEIRA\favicon.ico" />
+    <Content Include="Images\DEIRA\flight.png" />
+    <Content Include="Images\DEIRA\flight_icon_1.png" />
+    <Content Include="Images\DEIRA\flight_icon_2.png" />
+    <Content Include="Images\DEIRA\footer.png" />
+    <Content Include="Images\DEIRA\footer_bg.png" />
+    <Content Include="Images\DEIRA\footer_bghome.png" />
+    <Content Include="Images\DEIRA\Google-icon.png" />
+    <Content Include="Images\DEIRA\Home.png" />
+    <Content Include="Images\DEIRA\hotel.png" />
+    <Content Include="Images\DEIRA\icons\baggage.png" />
+    <Content Include="Images\DEIRA\icons\FAQ.png" />
+    <Content Include="Images\DEIRA\icons\Meals.png" />
+    <Content Include="Images\DEIRA\icons\Other.png" />
+    <Content Include="Images\DEIRA\icons\seat.png" />
+    <Content Include="Images\DEIRA\icon_shape.png" />
+    <Content Include="Images\DEIRA\info.gif" />
+    <Content Include="Images\DEIRA\Insurance.png" />
+    <Content Include="Images\DEIRA\Leftarrow.png" />
+    <Content Include="Images\DEIRA\Loader.gif" />
+    <Content Include="Images\DEIRA\loaderH.gif" />
+    <Content Include="Images\DEIRA\loaderR.gif" />
+    <Content Include="Images\DEIRA\loc_icon_small.png" />
+    <Content Include="Images\DEIRA\logo.png" />
+    <Content Include="Images\DEIRA\logo_white.png" />
+    <Content Include="Images\DEIRA\MEAL.png" />
+    <Content Include="Images\DEIRA\MIS.png" />
+    <Content Include="Images\DEIRA\nodata.png" />
+    <Content Include="Images\DEIRA\Not-Support.png" />
+    <Content Include="Images\DEIRA\open-call.png" />
+    <Content Include="Images\DEIRA\orgToDes.png" />
+    <Content Include="Images\DEIRA\PricolSprite_flbook.png" />
+    <Content Include="Images\DEIRA\prime.png" />
+    <Content Include="Images\DEIRA\REGISTER.png" />
+    <Content Include="Images\DEIRA\RightArrow.png" />
+    <Content Include="Images\DEIRA\roundtrip.png" />
+    <Content Include="Images\DEIRA\RoundWait.gif" />
+    <Content Include="Images\DEIRA\SameeraSprite.png" />
+    <Content Include="Images\DEIRA\search.png" />
+    <Content Include="Images\DEIRA\seat.png" />
+    <Content Include="Images\DEIRA\seats.png" />
+    <Content Include="Images\DEIRA\session-Expired.png" />
+    <Content Include="Images\DEIRA\soon.gif" />
+    <Content Include="Images\DEIRA\spicemax.png" />
+    <Content Include="Images\DEIRA\spritnew.png" />
+    <Content Include="Images\DEIRA\sunbed.png" />
+    <Content Include="Images\DEIRA\Train.png" />
+    <Content Include="Images\DEIRA\User.png" />
+    <Content Include="Images\DEIRA\visa.png" />
+    <Content Include="Images\DOCS.png" />
+    <Content Include="Images\EGY\calendar_icon.png" />
+    <Content Include="Images\EGY\Car.png" />
+    <Content Include="Images\EGY\favicon.ico" />
+    <Content Include="Images\EGY\layout_logo.png" />
+    <Content Include="Images\EGY\loader.gif" />
+    <Content Include="Images\EGY\loc_icon_small.png" />
+    <Content Include="Images\EGY\orgToDes.png" />
+    <Content Include="Images\EGY\Tours.png" />
+    <Content Include="Images\EGY\Train.png" />
+    <Content Include="Images\EGY\travrayslogin.png" />
+    <Content Include="Images\EGY\utility.png" />
+    <Content Include="Images\elements_header_background.png" />
+    <Content Include="Images\Error.png" />
+    <Content Include="Images\Failure.png" />
+    <Content Include="Images\fileuploader-dragdrop-icon.png" />
+    <Content Include="Images\flight.png" />
+    <Content Include="Images\FlightSearch.png" />
+    <Content Include="Images\flight_icon_1.png" />
+    <Content Include="Images\flight_icon_2.png" />
+    <Content Include="Images\flight_icon_Arrival.png" />
+    <Content Include="Images\flight_icon_Arrival1.png" />
+    <Content Include="Images\flight_icon_Arrival2.png" />
+    <Content Include="Images\flight_icon_Departure.png" />
+    <Content Include="Images\flight_icon_Departure1.png" />
+    <Content Include="Images\flight_icon_Departure2.png" />
+    <Content Include="Images\GIF-FIN_1.gif" />
+    <Content Include="Images\Google-icon.png" />
+    <Content Include="Images\heroAccent.png" />
+    <Content Include="Images\hotel.png" />
+    <Content Include="Images\HTML.png" />
+    <Content Include="Images\Icons\ArrowLeftWhite.png" />
+    <Content Include="Images\Icons\ArrowRightWhite.png" />
+    <Content Include="Images\Icons\controlpanel_sprit.png" />
+    <Content Include="Images\Icons\MailSendWhite.png" />
+    <Content Include="Images\Icons\MEAL.png" />
+    <Content Include="Images\Icons\Message.png" />
+    <Content Include="Images\Icons\PrinterIcon.png" />
+    <Content Include="Images\Icons\PrinterWhitepng.png" />
+    <Content Include="Images\Icons\SaveWhite.png" />
+    <Content Include="Images\Icons\Whats-App.png" />
+    <Content Include="Images\Icons\Whatsapp.png" />
+    <Content Include="Images\INDIFI.PNG" />
+    <Content Include="Images\info.gif" />
+    <Content Include="Images\Information.png" />
+    <Content Include="Images\Insurance.png" />
+    <Content Include="Images\jod\cir-ds.png" />
+    <Content Include="Images\jod\cir-en.png" />
+    <Content Include="Images\jod\jod-logo.png" />
+    <Content Include="Images\jod\jod_bg.png" />
+    <Content Include="Images\jod\list.png" />
+    <Content Include="Images\jod\loading.gif" />
+    <Content Include="Images\jod\logo-mob.png" />
+    <Content Include="Images\jod\playbutton.png" />
+    <Content Include="Images\jod\settings.png" />
+    <Content Include="Images\jod\spritnew.png" />
+    <Content Include="Images\jod\Thumbs.db" />
+    <Content Include="Images\jod\wallet.png" />
+    <Content Include="Images\Leftarrow.png" />
+    <Content Include="Images\loaderH.gif" />
+    <Content Include="Images\loaderR.gif" />
+    <Content Include="Images\loc_icon_small.png" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\logo_big.png" />
+    <Content Include="Images\mail.png" />
+    <Content Include="Images\main.png" />
+    <Content Include="Images\MessagesNew.png" />
+    <Content Include="Images\Mobile.png" />
+    <Content Include="Images\NAT\AddMoney.gif" />
+    <Content Include="Images\NAT\balance.gif" />
+    <Content Include="Images\NAT\bus.png" />
+    <Content Include="Images\NAT\calendar_icon.png" />
+    <Content Include="Images\NAT\close-icn.png" />
+    <Content Include="Images\NAT\compass.png" />
+    <Content Include="Images\NAT\favicon.ico" />
+    <Content Include="Images\NAT\flight.png" />
+    <Content Include="Images\NAT\home-top.png" />
+    <Content Include="Images\NAT\hotel.png" />
+    <Content Include="Images\NAT\Insurance.png" />
+    <Content Include="Images\NAT\layout_logo.png" />
+    <Content Include="Images\NAT\loader.gif" />
+    <Content Include="Images\NAT\loc_icon_small.png" />
+    <Content Include="Images\NAT\Login.gif" />
+    <Content Include="Images\NAT\logo-new.png" />
+    <Content Include="Images\NAT\logo.png" />
+    <Content Include="Images\NAT\logonew.png" />
+    <Content Include="Images\NAT\logout.png" />
+    <Content Include="Images\NAT\mail.png" />
+    <Content Include="Images\NAT\Mobile.png" />
+    <Content Include="Images\NAT\orgToDes.png" />
+    <Content Include="Images\NAT\single-01.png" />
+    <Content Include="Images\NAT\Travrays_naveen.gif" />
+    <Content Include="Images\NAT\TRlogo.png" />
+    <Content Include="Images\NAT\visa.png" />
+    <Content Include="Images\NAT\wallet.png" />
+    <Content Include="Images\Not-Support.png" />
+    <Content Include="Images\orderedList0.png" />
+    <Content Include="Images\orderedList1.png" />
+    <Content Include="Images\orderedList2.png" />
+    <Content Include="Images\orderedList3.png" />
+    <Content Include="Images\orderedList4.png" />
+    <Content Include="Images\orderedList5.png" />
+    <Content Include="Images\orderedList6.png" />
+    <Content Include="Images\orderedList7.png" />
+    <Content Include="Images\orderedList8.png" />
+    <Content Include="Images\orderedList9.png" />
+    <Content Include="Images\orgToDes.png" />
+    <Content Include="Images\overlay2.png" />
+    <Content Include="Images\pattern1.png" />
+    <Content Include="Images\PDFExport.png" />
+    <Content Include="Images\pet.png" />
+    <Content Include="Images\plane.png" />
+    <Content Include="Images\PrinterIcon.png" />
+    <Content Include="Images\riyalogin_bg.png" />
+    <Content Include="Images\RIYA\appscreen.png" />
+    <Content Include="Images\RIYA\appstore.png" />
+    <Content Include="Images\RIYA\banner-caption.png" />
+    <Content Include="Images\RIYA\bg-parallax.jpg" />
+    <Content Include="Images\RIYA\BulkMail\020190604201144.ico" />
+    <Content Include="Images\RIYA\BulkMail\020190604201438.ico" />
+    <Content Include="Images\RIYA\bus.png" />
+    <Content Include="Images\RIYA\captcha-img.jpg" />
+    <Content Include="Images\RIYA\car.png" />
+    <Content Include="Images\RIYA\favicon.png" />
+    <Content Include="Images\RIYA\growth.png" />
+    <Content Include="Images\RIYA\Icons\Bus.png" />
+    <Content Include="Images\RIYA\Icons\Car.png" />
+    <Content Include="Images\RIYA\Icons\Control.png" />
+    <Content Include="Images\RIYA\Icons\flight.png" />
+    <Content Include="Images\RIYA\Icons\Home.png" />
+    <Content Include="Images\RIYA\Icons\hotel.png" />
+    <Content Include="Images\RIYA\Icons\Insurance.png" />
+    <Content Include="Images\RIYA\Icons\More.png" />
+    <Content Include="Images\RIYA\Icons\Tours.png" />
+    <Content Include="Images\RIYA\Icons\Train.png" />
+    <Content Include="Images\RIYA\Icons\utility.png" />
+    <Content Include="Images\RIYA\img01.jpg" />
+    <Content Include="Images\RIYA\innovation.png" />
+    <Content Include="Images\RIYA\insurance.png" />
+    <Content Include="Images\RIYA\layout_logo.png" />
+    <Content Include="Images\RIYA\loader.gif" />
+    <Content Include="Images\RIYA\logo.png" />
+    <Content Include="Images\RIYA\lounge.png" />
+    <Content Include="Images\RIYA\map-icon.png" />
+    <Content Include="Images\RIYA\meal.png" />
+    <Content Include="Images\RIYA\mobile-banner.jpg" />
+    <Content Include="Images\RIYA\more-services.png" />
+    <Content Include="Images\RIYA\park.png" />
+    <Content Include="Images\RIYA\play.png" />
+    <Content Include="Images\RIYA\progress.png" />
+    <Content Include="Images\RIYA\rail.png" />
+    <Content Include="Images\RIYA\riya-logo.png" />
+    <Content Include="Images\RIYA\roundtrip.png" />
+    <Content Include="Images\RIYA\sim.png" />
+    <Content Include="Images\RIYA\slider-01.jpg" />
+    <Content Include="Images\RIYA\sprite-img.png" />
+    <Content Include="Images\RIYA\travel.png" />
+    <Content Include="Images\riya_left.png" />
+    <Content Include="Images\riya_logo.png" />
+    <Content Include="Images\RoundHigh.png" />
+    <Content Include="Images\ROUNDTRIP\1.jpg" />
+    <Content Include="Images\ROUNDTRIP\2.jpg" />
+    <Content Include="Images\ROUNDTRIP\3.jpg" />
+    <Content Include="Images\ROUNDTRIP\4.jpg" />
+    <Content Include="Images\ROUNDTRIP\AddMoney.gif" />
+    <Content Include="Images\ROUNDTRIP\aeroplane.png" />
+    <Content Include="Images\ROUNDTRIP\air-go.png" />
+    <Content Include="Images\ROUNDTRIP\Anci.png" />
+    <Content Include="Images\ROUNDTRIP\Avail_Info.gif" />
+    <Content Include="Images\ROUNDTRIP\BajajAllianzLogo.png" />
+    <Content Include="Images\ROUNDTRIP\balance.gif" />
+    <Content Include="Images\ROUNDTRIP\Bkg.png" />
+    <Content Include="Images\ROUNDTRIP\Bus.png" />
+    <Content Include="Images\ROUNDTRIP\calendar_icon.png" />
+    <Content Include="Images\ROUNDTRIP\Car.png" />
+    <Content Include="Images\ROUNDTRIP\Control.png" />
+    <Content Include="Images\ROUNDTRIP\DASHBOARD\db1.png" />
+    <Content Include="Images\ROUNDTRIP\DASHBOARD\db2.png" />
+    <Content Include="Images\ROUNDTRIP\DASHBOARD\db3.png" />
+    <Content Include="Images\ROUNDTRIP\DASHBOARD\db4.png" />
+    <Content Include="Images\ROUNDTRIP\DASHBOARD\db5.png" />
+    <Content Include="Images\ROUNDTRIP\DASHBOARD\db6.png" />
+    <Content Include="Images\ROUNDTRIP\DASHBOARD\db7.png" />
+    <Content Include="Images\ROUNDTRIP\DASHBOARD\dummy_F.png" />
+    <Content Include="Images\ROUNDTRIP\DASHBOARD\dummy_M.png" />
+    <Content Include="Images\ROUNDTRIP\DASHBOARD\Gift Card.png" />
+    <Content Include="Images\ROUNDTRIP\DASHBOARD\lock.png" />
+    <Content Include="Images\ROUNDTRIP\DASHBOARD\map.png" />
+    <Content Include="Images\ROUNDTRIP\DASHBOARD\no-record.jpg" />
+    <Content Include="Images\ROUNDTRIP\DASHBOARD\nodata.png" />
+    <Content Include="Images\ROUNDTRIP\DASHBOARD\profile_img.png" />
+    <Content Include="Images\ROUNDTRIP\DASHBOARD\unnamed.png" />
+    <Content Include="Images\ROUNDTRIP\DASHBOARD\welcome-img.png" />
+    <Content Include="Images\ROUNDTRIP\eticket.png" />
+    <Content Include="Images\ROUNDTRIP\favicon.ico" />
+    <Content Include="Images\ROUNDTRIP\flight.png" />
+    <Content Include="Images\ROUNDTRIP\flight_icon_1.png" />
+    <Content Include="Images\ROUNDTRIP\flight_icon_2.png" />
+    <Content Include="Images\ROUNDTRIP\footer.png" />
+    <Content Include="Images\ROUNDTRIP\footer_bg.png" />
+    <Content Include="Images\ROUNDTRIP\footer_bghome.png" />
+    <Content Include="Images\ROUNDTRIP\Google-icon.png" />
+    <Content Include="Images\ROUNDTRIP\Home.png" />
+    <Content Include="Images\ROUNDTRIP\hotel.png" />
+    <Content Include="Images\ROUNDTRIP\icons\baggage.png" />
+    <Content Include="Images\ROUNDTRIP\icons\FAQ.png" />
+    <Content Include="Images\ROUNDTRIP\icons\Meals.png" />
+    <Content Include="Images\ROUNDTRIP\icons\Other.png" />
+    <Content Include="Images\ROUNDTRIP\icons\seat.png" />
+    <Content Include="Images\ROUNDTRIP\icon_shape.png" />
+    <Content Include="Images\ROUNDTRIP\info.gif" />
+    <Content Include="Images\ROUNDTRIP\Insurance.png" />
+    <Content Include="Images\ROUNDTRIP\Loader.gif" />
+    <Content Include="Images\ROUNDTRIP\loaderH.gif" />
+    <Content Include="Images\ROUNDTRIP\loaderR.gif" />
+    <Content Include="Images\ROUNDTRIP\loc_icon_small.png" />
+    <Content Include="Images\ROUNDTRIP\logo.png" />
+    <Content Include="Images\ROUNDTRIP\logo_white.png" />
+    <Content Include="Images\ROUNDTRIP\MEAL.png" />
+    <Content Include="Images\ROUNDTRIP\Not-Support.png" />
+    <Content Include="Images\ROUNDTRIP\orgToDes.png" />
+    <Content Include="Images\ROUNDTRIP\prime.png" />
+    <Content Include="Images\ROUNDTRIP\roundtrip.png" />
+    <Content Include="Images\ROUNDTRIP\RoundWait.gif" />
+    <Content Include="Images\ROUNDTRIP\seat.png" />
+    <Content Include="Images\ROUNDTRIP\session-Expired.png" />
+    <Content Include="Images\ROUNDTRIP\soon.gif" />
+    <Content Include="Images\ROUNDTRIP\spicemax.png" />
+    <Content Include="Images\ROUNDTRIP\spritnew.png" />
+    <Content Include="Images\ROUNDTRIP\sunbed.png" />
+    <Content Include="Images\ROUNDTRIP\Train.png" />
+    <Content Include="Images\ROUNDTRIP\User.png" />
+    <Content Include="Images\ROUNDTRIP\visa.png" />
+    <Content Include="Images\RoundWait.gif" />
+    <Content Include="Images\session-RB.png" />
+    <Content Include="Images\session-RI.png" />
+    <Content Include="Images\session-RU.png" />
+    <Content Include="Images\soon.gif" />
+    <Content Include="Images\sprite_pre.png" />
+    <Content Include="Images\Success.png" />
+    <Content Include="Images\Theme4\add-on.png" />
+    <Content Include="Images\Theme4\AddMoney.gif" />
+    <Content Include="Images\RIYA\Agent\banner.png" />
+    <Content Include="Images\RIYA\Agent\contact_bg.png" />
+    <Content Include="Images\RIYA\Agent\shape1.png" />
+    <Content Include="Images\RIYA\Agent\shape2.png" />
+    <Content Include="Images\RIYA\Agent\shape3.png" />
+    <Content Include="Images\RIYA\Agent\shape4.png" />
+    <Content Include="Images\RIYA\Agent\shape5.png" />
+    <Content Include="Images\RIYA\Agent\shape6.png" />
+    <Content Include="Images\Theme4\air-go.png" />
+    <Content Include="Images\Theme4\baggage.png" />
+    <Content Include="Images\Theme4\BajajAllianzLogo.png" />
+    <Content Include="Images\Theme4\balance.gif" />
+    <Content Include="Images\Theme4\clearout.png" />
+    <Content Include="Images\Theme4\Credit.png" />
+    <Content Include="Images\Theme4\FAQ.png" />
+    <Content Include="Images\Theme4\flight_icon_Arrival.png" />
+    <Content Include="Images\Theme4\flight_icon_Departure.png" />
+    <Content Include="Images\Theme4\icons\Control Panel.svg" />
+    <Content Include="Images\Theme4\icons\Control.png" />
+    <Content Include="Images\Theme4\icons\flight.png" />
+    <Content Include="Images\Theme4\icons\Flight.svg" />
+    <Content Include="Images\Theme4\icons\flight_icon_1.png" />
+    <Content Include="Images\Theme4\icons\flight_icon_2.png" />
+    <Content Include="Images\Theme4\icons\Home.png" />
+    <Content Include="Images\Theme4\icons\Home.svg" />
+    <Content Include="Images\Theme4\icons\hotel.png" />
+    <Content Include="Images\Theme4\icons\Hotel.svg" />
+    <Content Include="Images\Theme4\icons\Tours.png" />
+    <Content Include="Images\Theme4\icons\utility.png" />
+    <Content Include="Images\Theme4\indeskLogin.png" />
+    <Content Include="Images\Theme4\loader.gif" />
+    <Content Include="Images\Theme4\loader_old.gif" />
+    <Content Include="Images\Theme4\loginpg.png" />
+    <Content Include="Images\Theme4\login_bg.png" />
+    <Content Include="Images\Theme4\logo.png" />
+    <Content Include="Images\RIYA\Logo_R.png" />
+    <Content Include="Images\Theme4\Meals.png" />
+    <Content Include="Images\Theme4\Other.png" />
+    <Content Include="Images\Theme4\prime.png" />
+    <Content Include="Images\Theme4\Riya-Connect.png" />
+    <Content Include="Images\Theme4\search_bg.png" />
+    <Content Include="Images\Theme4\seat.png" />
+    <Content Include="Images\Theme4\spicemax.png" />
+    <Content Include="Images\Theme4\spritnew.png" />
+    <Content Include="Images\Theme4\User.png" />
+    <Content Include="Images\Theme5\1.jpg" />
+    <Content Include="Images\Theme5\2.jpg" />
+    <Content Include="Images\Theme5\3.jpg" />
+    <Content Include="Images\Theme5\4.jpg" />
+    <Content Include="Images\Theme5\Avail_Info.gif" />
+    <Content Include="Images\Theme5\Bkg.png" />
+    <Content Include="Images\Theme5\Dashboard\db1.png" />
+    <Content Include="Images\Theme5\Dashboard\db2.png" />
+    <Content Include="Images\Theme5\Dashboard\db3.png" />
+    <Content Include="Images\Theme5\Dashboard\db4.png" />
+    <Content Include="Images\Theme5\Dashboard\db5.png" />
+    <Content Include="Images\Theme5\Dashboard\db6.png" />
+    <Content Include="Images\Theme5\Dashboard\db7.png" />
+    <Content Include="Images\Theme5\Dashboard\dummy_F.png" />
+    <Content Include="Images\Theme5\Dashboard\dummy_M.png" />
+    <Content Include="Images\Theme5\Dashboard\Gift Card.png" />
+    <Content Include="Images\Theme5\Dashboard\map.png" />
+    <Content Include="Images\Theme5\Dashboard\no-record.jpg" />
+    <Content Include="Images\Theme5\Dashboard\nodata.png" />
+    <Content Include="Images\Theme5\Dashboard\profile_img.png" />
+    <Content Include="Images\Theme5\Dashboard\unnamed.png" />
+    <Content Include="Images\Theme5\Dashboard\welcome-img.png" />
+    <Content Include="Images\Theme5\eticket.png" />
+    <Content Include="Images\Theme5\favicon.ico" />
+    <Content Include="Images\Theme5\footer_bg.png" />
+    <Content Include="Images\Theme5\footer_bghome.png" />
+    <Content Include="Images\Theme5\icons\aeroplane.png" />
+    <Content Include="Images\Theme5\icons\baggage.png" />
+    <Content Include="Images\Theme5\icons\FAQ.png" />
+    <Content Include="Images\Theme5\icons\hotel.png" />
+    <Content Include="Images\Theme5\icons\Meals.png" />
+    <Content Include="Images\Theme5\icons\Other.png" />
+    <Content Include="Images\Theme5\icons\seat.png" />
+    <Content Include="Images\Theme5\icons\sunbed.png" />
+    <Content Include="Images\Theme5\icons\visa.png" />
+    <Content Include="Images\Theme5\icon_shape.png" />
+    <Content Include="Images\Theme5\loader.gif" />
+    <Content Include="Images\Theme5\logo.png" />
+    <Content Include="Images\Theme5\logo_white.png" />
+    <Content Include="Images\Theme5\seat.png" />
+    <Content Include="Images\Theme5\session-Expired.png" />
+    <Content Include="Images\train.png" />
+    <Content Include="Images\TR_logo.ico" />
+    <Content Include="Images\TR_logo.png" />
+    <Content Include="Images\UAE\calendar_icon.png" />
+    <Content Include="Images\UAE\Car.png" />
+    <Content Include="Images\UAE\favicon.ico" />
+    <Content Include="Images\UAE\layout_logo.png" />
+    <Content Include="Images\UAE\loader.gif" />
+    <Content Include="Images\UAE\loc_icon_small.png" />
+    <Content Include="Images\UAE\login.png" />
+    <Content Include="Images\UAE\orgToDes.png" />
+    <Content Include="Images\UAE\Seat.png" />
+    <Content Include="Images\UAE\Tours.png" />
+    <Content Include="Images\UAE\Train.png" />
+    <Content Include="Images\UAE\travrayslogin.png" />
+    <Content Include="Images\UAE\utility.png" />
+    <Content Include="Images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Images\visa.png" />
+    <Content Include="Images\visa_mastercard_logo.gif" />
+    <Content Include="Images\wallet.png" />
+    <Content Include="Images\Warning.png" />
+    <Content Include="js\Amchart\amcharts.js" />
+    <Content Include="js\Amchart\light.js" />
+    <Content Include="js\Amchart\pie.js" />
+    <Content Include="js\Amchart\serial.js" />
+    <Content Include="js\AppsJS\AppsJs.js" />
+    <Content Include="js\AppsJS\Cancellation.js" />
+    <Content Include="js\AppsJS\common.js" />
+    <Content Include="js\AppsJS\login.js" />
+    <Content Include="js\AppsJS\MobileAvailabiliy.js" />
+    <Content Include="js\AppsJS\AvailSelect.js" />
+    <Content Include="js\AppsJS\Booking.js" />
+    <Content Include="js\AppsJS\CBTAPPS.js" />
+    <Content Include="js\AppsJS\DashBoard.js" />
+    <Content Include="js\AppsJS\Layout.js" />
+    <Content Include="js\AppsJS\MailTabs.js" />
+    <Content Include="js\AppsJS\QueueTicketing.js" />
+    <Content Include="js\AppsJS\RequestFilter.js" />
+    <Content Include="js\AppsJS\Reshedule.js" />
+    <Content Include="js\AppsJS\sampleAvailform.js" />
+    <Content Include="js\AppsJS\WebValidation.js" />
+    <Content Include="js\bootstrap-brogressbar-manager.js" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\BulkMail\bootstrap-multiselect.js" />
+    <Content Include="js\BulkMail\FileUpload.js" />
+    <Content Include="js\BulkMail\jquery.columns.js" />
+    <Content Include="js\BulkMail\mustache.min.js" />
+    <Content Include="js\BulkMail\TElibrary.js" />
+    <Content Include="js\BulkMail\textedit.js" />
+    <Content Include="js\cbpFWTabs.js" />
+    <Content Include="js\chosen.jquery.js" />
+    <Content Include="js\CircleJS\main.js" />
+    <Content Include="js\CircleJS\vendors.min.js" />
+    <Content Include="js\Column_Table\jquery.columns.js" />
+    <Content Include="js\Column_Table\jquery.columns.min.js" />
+    <Content Include="js\Column_Table\jquery.columns.min.js.map">
+      <DependentUpon>jquery.columns.js</DependentUpon>
+    </Content>
+    <Content Include="js\Column_Table\mustache.min.js" />
+    <Content Include="js\CommonJS\bootstrap-typeahead.js" />
+    <Content Include="js\CommonJS\custom-main.js" />
+    <Content Include="js\CommonJS\footable.js" />
+    <Content Include="js\CommonJS\jquery-1.11.1.js" />
+    <Content Include="js\CommonJS\jquery-ui-new.js" />
+    <Content Include="js\CommonJS\jquery.mask.js" />
+    <Content Include="js\CommonJS\popup.js" />
+    <Content Include="js\CommonJS\swiper-slider.js" />
+    <Content Include="js\commontable_boostrap.js" />
+    <Content Include="js\Component.js" />
+    <Content Include="js\core.js" />
+    <Content Include="js\Counter\jquery.counterup.min.js" />
+    <Content Include="js\Counter\waypoints.min.js" />
+    <Content Include="js\d3.v3.js" />
+    <Content Include="js\daterangepicker.js" />
+    <Content Include="js\detect.js" />
+    <Content Include="js\download.js" />
+    <Content Include="js\DTBL\bootstrap-table-filter.js" />
+    <Content Include="js\DTBL\Bootstrap-table.js" />
+    <Content Include="js\DTBL\bs-table.js" />
+    <Content Include="js\holder.js" />
+    <Content Include="js\iframe\iframeResizer.js" />
+    <Content Include="js\jquery.blockUI.js" />
+    <Content Include="js\jquery.countTo.js" />
+    <Content Include="js\jquery.nice-select.js" />
+    <Content Include="js\jquery.tooltipster.min.js" />
+    <Content Include="js\jquery.xml2json.js" />
+    <Content Include="js\jqxtable\jqx-all.js" />
+    <Content Include="js\jqxtable\jqx.base.css" />
+    <Content Include="js\jqxtable\jqx.energyblue.css" />
+    <Content Include="js\jqxtable\jqxchart.core.js" />
+    <Content Include="js\jqxtable\jqxcore.js" />
+    <Content Include="js\jqxtable\modernizr.js" />
+    <Content Include="js\LayoutJS\Layout.js" />
+    <Content Include="js\lobibox.js" />
+    <Content Include="js\maniac.js" />
+    <Content Include="js\moment.min.js" />
+    <Content Include="js\Multicity\CBTMultiCity.js" />
+    <Content Include="js\owlCarousel\owl.carousel.js" />
+    <Content Include="js\Pushme.js" />
+    <Content Include="js\raysModal.js" />
+    <Content Include="js\rickshaw.min.js" />
+    <Content Include="js\Slider\camera.js" />
+    <Content Include="js\Slider\jquery.easing.1.3.js" />
+    <Content Include="js\tinysort.js" />
+    <Content Include="js\W2Grid.js" />
+    <Content Include="js\w2ui-1.5.js" />
+    <Content Include="js\webslidemenu.js" />
+    <Content Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="Content\CSS\Dahboard\fonts\icomoon.ttf" />
+    <Content Include="Content\Fonts\font-awesome\fontawesome-webfont.eot" />
+    <Content Include="Content\Fonts\font-awesome\fontawesome-webfont.ttf" />
+    <Content Include="Content\Fonts\font-awesome\fontawesome-webfont.woff" />
+    <Content Include="Content\Fonts\font-awesome\fontawesome-webfont.woff2" />
+    <Content Include="Content\Fonts\icofont\icofont.ttf" />
+    <Content Include="Content\Fonts\momicons\momicons.ttf" />
+    <Content Include="Content\Fonts\momicons\momicons.woff" />
+    <Content Include="Content\Fonts\momicons\momocons.ttf" />
+    <Content Include="Content\Fonts\momicons\momocons.woff" />
+    <Content Include="Content\Fonts\simple-line-icons\Simple-Line-Icons.woff2" />
+    <Content Include="Content\Fonts\soap-icons\soap-icons.woff" />
+    <Content Include="Content\Fonts\themify\themify.woff" />
+    <Content Include="Content\Fonts\webfonts\fa-brands-400.eot" />
+    <Content Include="Content\Fonts\webfonts\fa-brands-400.ttf" />
+    <Content Include="Content\Fonts\webfonts\fa-brands-400.woff" />
+    <Content Include="Content\Fonts\webfonts\fa-brands-400.woff2" />
+    <Content Include="Content\Fonts\webfonts\fa-regular-400.eot" />
+    <Content Include="Content\Fonts\webfonts\fa-regular-400.ttf" />
+    <Content Include="Content\Fonts\webfonts\fa-regular-400.woff" />
+    <Content Include="Content\Fonts\webfonts\fa-regular-400.woff2" />
+    <Content Include="Content\Fonts\webfonts\fa-solid-900.eot" />
+    <Content Include="Content\Fonts\webfonts\fa-solid-900.ttf" />
+    <Content Include="Content\Fonts\webfonts\fa-solid-900.woff" />
+    <Content Include="Content\Fonts\webfonts\fa-solid-900.woff2" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\AfterBooking\FormingInvoiceDetails.cshtml" />
+    <Content Include="Views\AfterBooking\PnrVerification.cshtml" />
+    <Content Include="Views\AfterBooking\PrintTickets.cshtml" />
+    <Content Include="Views\B2C\_MyBookingsB2C.cshtml" />
+    <Content Include="Views\B2C\_MyprofileB2C.cshtml" />
+    <Content Include="Views\B2C\_MyTravellersB2C.cshtml" />
+    <Content Include="Views\B2C\_SupportB2C.cshtml" />
+    <Content Include="Views\B2C\About.cshtml" />
+    <Content Include="Views\B2C\Contactus_RT.cshtml" />
+    <Content Include="Views\B2C\DashBoard.cshtml" />
+    <Content Include="Views\B2C\Disclaimer.cshtml" />
+    <Content Include="Views\B2C\GoogleIntegration.cshtml" />
+    <Content Include="Views\B2C\PrintETicket.cshtml" />
+    <Content Include="Views\B2C\Privacypolicy.cshtml" />
+    <Content Include="Views\B2C\productsandserivces.cshtml" />
+    <Content Include="Views\B2C\termsandconditions.cshtml" />
+    <Content Include="Views\B2C\Useragreement.cshtml" />
+    <Content Include="Views\CntrlPanel\_Outstanding.cshtml" />
+    <Content Include="Views\CntrlPanel\Agentdetail.cshtml" />
+    <Content Include="Views\CntrlPanel\AgentDetailsReport.cshtml" />
+    <Content Include="Views\CntrlPanel\AirlinePNRWiseSales.cshtml" />
+    <Content Include="Views\CntrlPanel\BulkMail.cshtml" />
+    <Content Include="Views\CntrlPanel\Changepassword.cshtml" />
+    <Content Include="Views\CntrlPanel\Customerprofile.cshtml" />
+    <Content Include="Views\CntrlPanel\Smartscore.cshtml" />
+    <Content Include="Views\CntrlPanel\Transaction.cshtml" />
+    <Content Include="Views\Flights\Flights.cshtml" />
+    <Content Include="Views\Flights\Flights-Theme2.cshtml" />
+    <Content Include="Views\Flights\Flights-Theme4.cshtml" />
+    <Content Include="Views\Flights\GDSFlights.cshtml" />
+    <Content Include="Views\Flights\MobileFlights.cshtml" />
+    <Content Include="Views\Flights\RetriveBooking.cshtml" />
+    <Content Include="Views\Flights\SeatMpas.cshtml" />
+    <Content Include="Views\Home\B2B_Home.cshtml" />
+    <Content Include="Views\Home\HomeBoard.cshtml" />
+    <Content Include="Views\Home\HomeMaster.cshtml" />
+    <Content Include="Views\Login\AgentRequest.cshtml" />
+    <Content Include="Views\Login\BOALogin.cshtml" />
+    <Content Include="Views\Login\Contactus.cshtml" />
+    <Content Include="Views\Login\Download.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Login\Login_T3.cshtml" />
+    <Content Include="Views\Login\Login_T4.cshtml" />
+    <Content Include="Views\Login\Registration.cshtml" />
+    <Content Include="Views\Login\RiyaLogin.cshtml" />
+    <Content Include="Views\Login\RTRegistration.cshtml" />
+    <Content Include="Views\Login\Thankyou.cshtml" />
+    <Content Include="Views\OtherProduct\Checktopup.cshtml" />
+    <Content Include="Views\OtherProduct\EmergencyEvacuation.cshtml" />
+    <Content Include="Views\OtherProduct\OtherProduct.cshtml" />
+    <Content Include="Views\OtherProduct\Topup.cshtml" />
+    <Content Include="Views\Pnr\Bestbuyfarerule.cshtml" />
+    <Content Include="Views\Redirect\AccessDenied.cshtml" />
+    <Content Include="Views\Redirect\Admin.cshtml" />
+    <Content Include="Views\Redirect\Airline_Payment.cshtml" />
+    <Content Include="Views\Redirect\Comingsoon.cshtml" />
+    <Content Include="Views\Redirect\EditKey.cshtml" />
+    <Content Include="Views\Redirect\EditXML.cshtml" />
+    <Content Include="Views\Redirect\EmergencyUpdate.cshtml" />
+    <Content Include="Views\Redirect\Error.cshtml" />
+    <Content Include="Views\Redirect\Redirect.cshtml" />
+    <Content Include="Views\Redirect\SessionExp.cshtml" />
+    <Content Include="Views\Report\CashPaymentdetails.cshtml" />
+    <Content Include="Views\RetriveBooking\RetrieveAccounting.cshtml" />
+    <Content Include="Views\Search\Availability.cshtml" />
+    <Content Include="Views\Shared\_AvailSelect.cshtml" />
+    <Content Include="Views\Shared\_AvailSelect_BSA.cshtml" />
+    <Content Include="Views\Shared\_BookedHistory.cshtml" />
+    <Content Include="Views\Shared\_BookingSuccess.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LayoutBSA.cshtml" />
+    <Content Include="Views\Shared\_LayoutBSA_Home.cshtml" />
+    <Content Include="Views\Shared\_LayoutTheme2.cshtml" />
+    <Content Include="Views\Shared\_LayoutTheme3.cshtml" />
+    <Content Include="Views\Shared\_LayoutTheme4.cshtml" />
+    <Content Include="Views\Shared\_NoShow.cshtml" />
+    <Content Include="Views\Shared\_PartialCancellation.cshtml" />
+    <Content Include="Views\Shared\_PnrVerfication.cshtml" />
+    <Content Include="Views\Shared\_PNRWiseSales.cshtml" />
+    <Content Include="Views\Shared\_Rechedule.cshtml" />
+    <Content Include="Views\Shared\_Rechedule_COM.cshtml" />
+    <Content Include="Views\Shared\_Ticketingsuccess.cshtml" />
+    <Content Include="Views\Shared\partialMSearch.cshtml" />
+    <Content Include="Views\Visa\BookedHistory.cshtml" />
+    <Content Include="Views\Visa\ManageBooking.cshtml" />
+    <Content Include="Views\Visa\PGRedirectpage.cshtml" />
+    <Content Include="Views\Visa\ThaiVisa.cshtml" />
+    <Content Include="Views\Visa\ViewPNR.cshtml" />
+    <Content Include="Views\Visa\Visa.cshtml" />
+    <Content Include="Views\Visa\VisaOfflinecreation.cshtml" />
+    <Content Include="Views\Visa\VisaThankyou.cshtml" />
+    <Content Include="Views\CntrlPanel\AgentBalance.cshtml" />
+    <Content Include="Views\CntrlPanel\AgentProductiveAnalysis.cshtml" />
+    <Content Include="Views\CntrlPanel\ClientTransaction.cshtml" />
+    <Content Include="Views\Shared\_Cancellation.cshtml" />
+    <Content Include="Views\Shared\_flashNews.cshtml" />
+    <Content Include="Views\Shared\_Groupstatus.cshtml" />
+    <Content Include="Views\Flights\BookInsurance.cshtml" />
+    <Content Include="Content\Fonts\momocons\momicons.ttf" />
+    <Content Include="Content\Fonts\momocons\momicons.woff" />
+    <Content Include="Content\Fonts\momocons\momocons.ttf" />
+    <Content Include="Content\Fonts\momocons\momocons.woff" />
+    <Content Include="Content\Fonts\icomoon_t6\icomoon.eot" />
+    <Content Include="Content\Fonts\icomoon_t6\icomoon.ttf" />
+    <Content Include="Content\Fonts\icomoon_t6\icomoon.woff" />
+    <Content Include="Content\Fonts\line-awesome\la-brands-400.ttf" />
+    <Content Include="Content\Fonts\line-awesome\la-brands-400.woff" />
+    <Content Include="Content\Fonts\line-awesome\la-brands-400.woff2" />
+    <Content Include="Content\Fonts\line-awesome\la-regular-400.eot" />
+    <Content Include="Content\Fonts\line-awesome\la-regular-400.ttf" />
+    <Content Include="Content\Fonts\line-awesome\la-regular-400.woff" />
+    <Content Include="Content\Fonts\line-awesome\la-regular-400.woff2" />
+    <Content Include="Content\Fonts\line-awesome\la-solid-900.eot" />
+    <Content Include="Content\Fonts\line-awesome\la-solid-900.ttf" />
+    <Content Include="Content\Fonts\line-awesome\la-solid-900.woff" />
+    <Content Include="Content\Fonts\line-awesome\la-solid-900.woff2" />
+    <Content Include="Content\Fonts\line-awesome\line-awesome.eot" />
+    <Content Include="Content\Fonts\Flaticon.woff" />
+    <Content Include="Content\Fonts\icomoon_t5\icomoon.eot" />
+    <Content Include="Content\Fonts\icomoon_t5\icomoon.ttf" />
+    <Content Include="Content\Fonts\icomoon_t5\icomoon.woff" />
+    <Content Include="Content\Fonts\SeagulHv.ttf" />
+    <Content Include="Content\Fonts\ionicons\ionicons.ttf" />
+    <None Include="Properties\PublishProfiles\COMMON_PROFILES.pubxml" />
+    <Content Include="Views\CntrlPanel\UserCreation.cshtml" />
+    <None Include="Web References\InplantService\Inplantservice.disco" />
+    <Content Include="XMLFile1.xml" />
+    <Content Include="XML\CityAirport_Lst.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="XML\LOGIN - Deira Beta.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="XML\LOGIN - Copy.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="XML\LOGIN.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="XML\ProductAccess.xml" />
+    <Content Include="XML\ProductDetails.xml" />
+    <Content Include="XML\ProductSupportDetails.xml" />
+    <Content Include="XML\VERSION\Scriptversion.txt" />
+    <None Include="Web References\InplantService\Inplantservice.wsdl" />
+    <None Include="Web References\InplantService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\Rays_service\RaysService.disco" />
+    <Content Include="Content\FILES\AirlineNameFormat.html" />
+    <Content Include="XML\AirlineNames.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="XML\City.xml" />
+    <Content Include="XML\City_Airport.xml" />
+    <Content Include="XML\Country.xml" />
+    <Content Include="XML\LccAirlines.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="XML\Location.xml" />
+    <Content Include="XML\State.xml" />
+    <Content Include="Content\Fonts\cJZKeOuBrn4kERxqtaUH3VtXRa8TVwTICgirnJhmVJw.woff2" />
+    <Content Include="Content\Fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\Fonts\ionicons.ttf" />
+    <Content Include="Content\Fonts\k3k702ZOKiLJc3WVjuplzOgdm0LZdjqr5-oayXSOefg.woff2" />
+    <Content Include="Content\Fonts\MTP_ySUJH_bn48VBG8sNSugdm0LZdjqr5-oayXSOefg.woff2" />
+    <Content Include="Content\Fonts\soap-icons.woff" />
+    <Content Include="Content\Fonts\momicons.ttf" />
+    <Content Include="Content\Fonts\momicons.woff" />
+    <Content Include="Content\Fonts\momocons.woff" />
+    <Content Include="Content\Fonts\momocons.ttf" />
+    <Content Include="Content\Fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Fonts\DXI1ORHCpsQm3Vp6mXoaTegdm0LZdjqr5-oayXSOefg.woff2" />
+    <Content Include="Content\FILES\agreement.html" />
+    <Content Include="Content\FILES\Privacypolicy.html" />
+    <Content Include="Content\FILES\TermsandCondition.html" />
+    <None Include="Web References\Mailref\Mailservice.disco" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <None Include="Web References\Mailref\Mailservice.wsdl" />
+    <None Include="Web References\Mailref\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\Rays_service\RaysService.wsdl" />
+    <None Include="Web References\Rays_service\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="PDF\AgentLogo\" />
+    <Folder Include="PDF\Logo\" />
+    <Folder Include="PDF\TICKETCOPY\" />
+    <Folder Include="PDF\VisaImages\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://115.124.97.108/TRAVRAYS_APPS_SERVICE/RaysEmail_Insurance/">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\Mailref\</RelPath>
+      <UpdateFromURL>http://115.124.97.108/TRAVRAYS_APPS_SERVICE/RaysEmail_Insurance/</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>STSTRAVRAYS_Mailref_MyService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://115.124.97.109/RIYA_BOA_V3_WSDL/RaysService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\Rays_service\</RelPath>
+      <UpdateFromURL>http://115.124.97.109/RIYA_BOA_V3_WSDL/RaysService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>STSTRAVRAYS_Rays_service_RaysService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://rtappsbeta.mywebcheck.in/Inplantservice.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\InplantService\</RelPath>
+      <UpdateFromURL>http://rtappsbeta.mywebcheck.in/Inplantservice.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>STSTRAVRAYS_InplantService_Inplantservice</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>55973</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:55555/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

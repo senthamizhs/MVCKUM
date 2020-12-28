@@ -1,0 +1,330 @@
+﻿@{
+    Layout = "";
+}
+
+<style>
+    .outer {
+        margin-top: 20px;
+        background: #fff;
+        margin-bottom: 50px;
+        border-radius: 2px;
+        box-shadow: 0px 0px 5px 0px #ddd;
+        padding: 15px;
+    }
+
+        .outer .hdr {
+            font-size: 16px;
+        }
+
+        .outer .txtarea {
+            width: 100%;
+            border: 0px solid #f2f2f2;
+            max-height: 500px;
+            height: 350px;
+            overflow-y: auto;
+            border-top: 2px solid #eee;
+        }
+
+    .inner {
+        border: 1px solid #f2f2f2;
+        margin-top: 10px;
+        padding: 0px 0px;
+    }
+
+        .inner p.hdrxml {
+            padding: 10px 0px 0px 0px;
+        }
+
+            .inner p.hdrxml span {
+                color: #fff;
+                padding: 6px 12px;
+                font-size: 13px;
+                font-weight: 600;
+                margin-left: -10px;
+            }
+
+    .leftxml p.hdrxml span {
+        background: #ff7272;
+    }
+
+    .rightxml p.hdrxml span {
+        background: #7289ff;
+    }
+
+    .leftxml .txtarea {
+        background: #f5f5f5;
+    }
+
+    .rightxml .txtarea {
+        background: #fdfdfd;
+    }
+
+    .Header {
+        padding: 5px;
+        background: #28a5f5;
+        color: #fff;
+        border: 1px solid #fff;
+        box-shadow: 1px 0px 2px 1px #6a82e4;
+    }
+
+    .AddKey {
+        width: 100%;
+        background: linear-gradient( to bottom,#4864dc,#050f3a);
+        height: 35px;
+        border: 1px solid #162462;
+        border-radius: 5px;
+        color: #fff;
+    }
+
+    .DeleteKey {
+        width: 100%;
+        background: linear-gradient( to bottom,red,#231415);
+        height: 35px;
+        border: 1px solid #cf0c04;
+        border-radius: 5px;
+        color: #fff;
+    }
+
+    .updateKey {
+        float: left;
+        padding: 5px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+            list-style: none;
+    }
+
+        .updateKey:hover {
+            background: #e6d4d4;
+            color: #000;
+        }
+
+    .ActiveTab {
+        background: #202d61;
+        color: #fff;
+    }
+
+    .avtiveDiv {
+        display: block !important;
+    }
+</style>
+<section class="container outer">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+        .modal-header, h4, .close {
+            background-color: darkblue;
+            color: white !important;
+            text-align: center;
+            font-size: 30px;
+        }
+    </style>
+    <div class="Readwebdiv" style="display: block;">
+        <div class="row row5" id="headerdiv" style="margin-top: -15px;">
+            <div class="col-lg-12" style="padding-left: 0px; margin-top: 30px;">
+                <ul>
+                    <li class="updateKey ActiveTab" id="liupdatekey" onclick="toggleclassadd(1)">Update config</li>
+                    <li class="updateKey" id="liupdatexml" onclick="redirectURL(1)">Update XML</li>
+                    <li class="updateKey" id="liaddkey" onclick="toggleclassadd(2)">Add Key's</li>
+                    <li class="updateKey" id="liupdatexml" onclick="redirectURL()" style="float:right !important">Logout</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row avtiveDiv" id="divUpdateKeys" margin-top 3%;">
+            <div class="col-xs-12">
+                <p class="hdr Header">Web Config Keys</p>
+                <div class="row">
+                    <div class="col-lg-12" id="WebconfigKeys" style="line-height:40px">
+                    </div>
+                </div>
+                <center><button id="btnUpdateconfig" class="btn btn-3 btn-3e btnTbmt" style="margin:20px; max-width:250px;background-color:#28a5f5;color:#fff;" type="button">Update Config <i class="fa fa-arrow-right"></i></button></center>
+            </div>
+        </div>
+
+        <div id="NewConfigKeyAdd" style="display:none">
+            <div class="NewKeys">
+                <div class="row AddRowcounts" id="divAddkeys_1" style="display: block; margin: 15px; padding: 15px;">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="margin-bottom: 1%;">
+                        <input type="text" id="txtAddkey_1" placeholder="Key" value="" style="width: 100%; color: #000;height: 35px;" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="margin-bottom: 1%;">
+                        <input type="text" id="txtAddvalues_1" value="" placeholder="Value" style="width: 100%; color: #000;height: 35px;" />
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" style="margin-bottom: 1%;">
+                        <input type="button" value="Add" class="AddKey" id="btnAddkey_1" onclick="KeyAddFn(1, this.id)" />
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" style="margin-bottom: 1%;">
+                        <input type="button" value="Remove" class="DeleteKey" id="btndeletekey_1" disabled />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <center><button id="btnInsertconfig" class="btn btn-3 btn-3e btnTbmt" style="margin:20px; max-width:250px;background-color:#28a5f5;color:#fff;" type="button">Update Config <i class="fa fa-arrow-right"></i></button></center>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        var listOf_AppKeys = $("<div/>").html(@Html.Raw(Json.Encode(ViewBag.WebConfigString))).text();;
+        var ListOfKeys = JSON.parse(listOf_AppKeys);
+        AppkeyGenaratin(ListOfKeys);
+    });
+
+    function AppkeyGenaratin(ListOfKeys) {
+        var str_Key = "";
+        for (var i = 0; i < ListOfKeys.length; i++) {
+            str_Key += '<div class="row AppkeyList" id="Rowcount_' + i + '">'
+            str_Key += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><label id="Keys_' + i + '">' + ListOfKeys[i].Keys + '</label></div>'
+            str_Key += ' <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><input type="text"  id="Values_' + i + '" value="' + ListOfKeys[i].Values + '" style=" width: 100%;color:#000;"></div>'
+            str_Key += '</div>'
+        }
+        $("#WebconfigKeys").html(str_Key);
+    }
+
+    function redirectURL(arg)
+    {
+        if (arg==1) {
+            window.location.href = '@Url.Action("EditXML", "Redirect")';
+        }
+        else {
+            window.location.href = '@Url.Action("Admin", "Redirect")';
+        }
+    }
+    $("#btnUpdateconfig").click(function () {
+        var rowid = "";
+        var totalKeys = "";
+        var _key = "";
+        var _values = "";
+        $(".AppkeyList").each(function (e) {
+            rowid = this.id; Listofkes = [];
+            _key = $('#Keys_' + rowid.split('_')[1]).html();
+            _values = $('#Values_' + rowid.split('_')[1]).val();
+
+
+            totalKeys += _key + "~" + _values + "*";
+        });
+        var str_keys = totalKeys;
+        var param = { newConfig: str_keys }
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("UpdateKey", "Redirect")",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(param),
+            success: function (data) {
+                if (data.status == "01") {
+                    alert("Web Config updated successfully.");
+                    window.location.href = window.location.href;
+                }
+                else {
+                    alert("Unable to update Web Config file. Please do it manually.");
+                }
+            },
+            error: function (err) {
+                alert(err.statusText + ". Please do it manually.");
+            }
+        });
+    });
+
+    function KeyAddFn(cnt, ids) {
+        if (cnt > 10) {
+            $("#btnAddkey_" + cnt).attr("disabled", true);
+            return false;
+        }
+        var addkeys = "";
+        $("#btndeletekey_" + cnt).attr("disabled", true);
+        $("#btnAddkey_" + cnt).attr("disabled", true);
+        cnt++;
+        addkeys += '<div class="row AddRowcounts" id="divAddkeys_' + cnt + '" style="display: block; margin: 15px; padding: 15px;">'
+        addkeys += '<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="margin-bottom: 1%;">'
+        addkeys += '<input type="text" id="txtAddkey_' + cnt + '" placeholder="Key" value="" style="width: 100%; color: #000;height: 35px;" />'
+        addkeys += '</div>'
+        addkeys += '<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="margin-bottom: 1%;">'
+        addkeys += '<input type="text" id="txtAddvalues_' + cnt + '" value="" placeholder="Value" style="width: 100%; color: #000;height: 35px;" />'
+        addkeys += '</div>'
+        addkeys += '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" style="margin-bottom: 1%;">'
+        addkeys += '<input type="button" value="Add" class="AddKey" id="btnAddkey_' + cnt + '"  onclick="KeyAddFn(' + cnt + ',this.id)"/>'
+        addkeys += '</div>'
+        addkeys += '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" style="margin-bottom: 1%;">'
+        addkeys += '<input type="button" value="Remove" class="DeleteKey" onclick="removelist(' + cnt + ',this.id)" id="btndeletekey_' + cnt + '"/>'
+        addkeys += '</div>'
+        addkeys += ' </div>'
+        $(".NewKeys").append(addkeys);
+    }
+
+    function removelist(cnt, id) {
+        $("#btnAddkey_" + cnt).attr("disabled", false);
+        $("#divAddkeys_" + cnt).remove();
+        cnt--;
+        $("#btnAddkey_" + cnt).attr("disabled", false);
+        if (cnt > 1) {
+            $("#btndeletekey_" + cnt).attr("disabled", false);
+        }
+    }
+
+    $("#btnInsertconfig").click(function () {
+        var rowid = "";
+        var totalKeys = "";
+        var _key = "";
+        var _values = "";
+        var checkvalidation = true;
+        $(".AddRowcounts").each(function (e) {
+            rowid = this.id; Listofkes = [];
+            _key = $('#txtAddkey_' + rowid.split('_')[1]).val();
+            if (_key == "") {
+                checkvalidation = false;
+            }
+            _values = $('#txtAddvalues_' + rowid.split('_')[1]).val();
+            totalKeys += _key + "~" + _values + "*";
+        });
+        if (checkvalidation==false) {
+            alert("Please enter valid key and values");
+            return false;
+        }
+        var str_keys = totalKeys;
+        var param = { NewConfig: str_keys }
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddNewKeys", "Redirect")",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(param),
+            success: function (data) {
+                if (data.status == "01") {
+                    alert("Web Config inserted successfully.");
+                    window.location.href = window.location.href;
+                }
+                else {
+                    alert("Unable to insert Web Config file. Please do it manually.");
+                }
+            },
+            error: function (err) {
+                alert(err.statusText + ". Please do it manually.");
+            }
+        });
+    });
+
+    function toggleclassadd(arg) {
+        if (arg == 1) {
+            $('#liupdatekey').addClass('ActiveTab');
+            $('#liaddkey').removeClass('ActiveTab');
+            $('#divUpdateKeys').addClass('avtiveDiv');
+            $('#NewConfigKeyAdd').removeClass('avtiveDiv');
+            $('#NewConfigKeyAdd').hide();
+            $("#divUpdateKeys").show();
+        }
+        else {
+            $('#liupdatekey').removeClass('ActiveTab');
+            $('#liaddkey').addClass('ActiveTab');
+            $('#divUpdateKeys').removeClass('avtiveDiv');
+            $('#NewConfigKeyAdd').addClass('avtiveDiv');
+            $('#NewConfigKeyAdd').show();
+            $("#divUpdateKeys").hide();
+        }
+    }
+</script>

@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "BookInsurance";
+    string fileversion = System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"] != null ? System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"].ToString() : "";
+  
+}
+
+<html>
+<head runat="server">
+    <title></title>
+    <link href="Styles/Base.css?@fileversion" rel="stylesheet" />
+    
+    <script src="~/js/CommonJS/jquery-1.11.1.js?@fileversion"></script>
+     <style>
+        .PGDivMain {  
+            width:75%;
+            margin:25px auto;
+        }
+        .PGInnerContent { 
+            border:solid 5px #F2F2F2;
+            border-radius:5px;
+            padding:10px;
+        }
+            .PGInnerContent p { color:red; padding:10px; font-family:Verdana; font-weight:900; font-size:24px;  text-align:center; }
+            .PGInnerContent div { padding:10px; font-weight:700; font-size:13px; }
+    </style>
+     <script>
+         $(document).ready(function () {
+             
+             $("#Key").val('@ViewBag.Key');
+             document.frmpost.action = '@ViewBag.hdnurl';
+             document.frmpost.submit();
+         });
+    </script>
+</head>
+<body>
+    <input type="hidden" id="hdnurl" />
+    <form id="frmpost" method="post" name="frmpost" action="" >
+        <input type="hidden" name="Key" id="Key" value=""/>
+    </form>
+    <form id="form1" action="">
+    <div>
+    <div class="PGDivMain" >
+               
+                <div class="PGInnerContent" >
+                    <p id="ErrorMsg"> Please Do not Refresh (or) Reload the Page </p>
+                    <div> Please wait..... </div>
+                </div>
+            </div>
+    </div>
+    </form>
+    
+    
+   
+</body>
+</html>

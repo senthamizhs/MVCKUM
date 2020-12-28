@@ -1,0 +1,174 @@
+﻿@{
+    string strUserPassword = Session["PWD"] != null && Session["PWD"].ToString() != "" ? Session["PWD"].ToString() : "";
+    string strTerminalType = Session["TERMINALTYPE"] != null && Session["TERMINALTYPE"].ToString() != "" ? Session["TERMINALTYPE"].ToString() : System.Configuration.ConfigurationManager.AppSettings["TerminalType"].ToString().ToUpper();
+}
+@if (strTerminalType != "M")
+{
+    <div class="dash-area col-sm-12 col-xs-12 breadcrumb-area mb-10" style="padding:20px 15px;">
+        <h1 class="fnt-siz-18 float-left m-0">Dashboard</h1>
+        <ol class="breadcrumb float-left">
+            <li class="item"><a href="ChangeTabs('MyDashBoard','D')"><i class="las la-user-circle fnt-siz-18"></i></a></li>
+            <li class="item">My Profile</li>
+        </ol>
+    </div>
+}
+<div class="dash-area float-left w-100 mg-btm-15-res">
+    <div class="col-sm-12 col-xs-12 brdr-btm-full mg-btm-20">
+        <h1 class="font-14 fnt-wt-600 float-left mg-btm-15">Edit Profile</h1>
+        <span class="float-left pad-18-10 widget_data font-13 pad-btm-0-res hidden-xs">update your personal information</span>
+        <span class="float-right" id="btn_reset" onclick="ResetProfile()">
+            Reset
+        </span>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-xs-12">
+            <div class="form-group row row0">
+                <div class="col-sm-3 col-xs-12"></div>
+                <div class="col-sm-6 col-xs-12">
+                    <h1 class="font-13 fnt-wt-600 mt-0">Customer Info:</h1>
+                </div>
+            </div>
+            <div class="form-group row row0 mg-btm-20 col-xs-12 pad-0-res">
+                <div class="col-sm-3 col-xs-12">
+                    <label class="widget_data float-right txt-al-rgt txt-al-lft w-100">Profile</label>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <div class="pos-rel userprof">
+                        <img src="" class="clsUserProfileImg" />
+                        <input type="file" id="UserProfileImg" style="display:none;" accept="image/*" class="flt-lft w-100" />
+                        <div class="pos-abs uploadsec" onclick="$('#UserProfileImg').click()">
+                            <i class="fa fa-pencil"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row row0 mg-btm-15 col-sm-12 col-xs-6 pad-0-res">
+                <div class="col-sm-3 col-xs-12">
+                    <label class="widget_data float-right txt-al-rgt txt-al-lft w-100 font-12">Title<span class="mandatoryMark">*</span></label>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <select id="profile_title" class="fnt-wt-600 font-13 widget_label form-control">
+                        <option value="">--Select--</option>
+                        <option value="Mr">Mr</option>
+                        <option value="Ms">Ms</option>
+                        <option value="Mrs">Mrs</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row row0 mg-btm-15 col-sm-12 col-xs-6 pad-0-res">
+                <div class="col-sm-3 col-xs-12">
+                    <label class="widget_data float-right txt-al-rgt txt-al-lft w-100 font-12">First Name<span class="mandatoryMark">*</span></label>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <input type="text" id="profile_fname" class="fnt-wt-600 font-13 widget_label form-control clsAlpha" name="first-name" data-regtype="validFirstName" data-errormsg="Enter a valid first name" maxlength="25" value="">
+                </div>
+            </div>
+            <div class="form-group row row0 mg-btm-15 col-sm-12 col-xs-6 pad-0-res">
+                <div class="col-sm-3 col-xs-12">
+                    <label class="widget_data float-right txt-al-rgt txt-al-lft w-100 font-12">Last Name<span class="mandatoryMark">*</span></label>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <input type="text" id="profile_lname" class="fnt-wt-600 font-13 widget_label form-control clsAlpha" name="last-name" data-regtype="validLastName" data-errormsg="Enter a valid last name" maxlength="15" value="">
+                </div>
+            </div>
+            <div class="form-group row row0">
+                <div class="col-sm-3 col-xs-12"></div>
+                <div class="col-sm-6 col-xs-12">
+                    <h1 class="font-13 fnt-wt-600 mt-0">Contact Details:</h1>
+                </div>
+            </div>
+            <div class="form-group row row0 mg-btm-15">
+                <div class="col-sm-3">
+                    <label class="widget_data float-right txt-al-rgt txt-al-lft w-100 font-12">Email ID<span class="mandatoryMark">*</span></label>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <input type="email" class="fnt-wt-600 font-13 widget_label form-control" disabled placeholder="" id="profile_Email" value="">
+                </div>
+            </div>
+            <div class="form-group row row0 mg-btm-15">
+                <div class="col-sm-3">
+                    <label class="widget_data float-right txt-al-rgt txt-al-lft w-100 font-12">Password<span class="mandatoryMark">*</span></label>
+                </div>
+                <div class="col-sm-6 col-xs-12 pos-rel">
+                    <input type="password" name="password" class="fnt-wt-600 font-13 widget_label form-control clsPassword" disabled autocomplete="new-password" placeholder="" id="profilepassword" value="@strUserPassword">
+                    <span id="spn_paswrd_vw" class="fa fa-fw fa-eye field-icon toggle-password" style="position: absolute;right: 25px;top: 10px;" onclick="ShowHidePassword('profilepassword')"></span>
+                </div>
+                <div class="col-sm-3 col-xs-12 hidden-xs">
+                    <a class="float-left w-100 txt-center font-11 fnt-wt-600 mt-5" href="#" id="clearPasswordFields" data-toggle="modal" onclick="PasswordPopup()">Change Password</a>
+                </div>
+            </div>
+            <div class="form-group row row0 mg-btm-15 col-sm-12 col-xs-6 pad-0-res">
+                <div class="col-sm-3 col-xs-12">
+                    <label class="widget_data float-right txt-al-rgt txt-al-lft w-100 font-12">Mobile Number<span class="mandatoryMark">*</span></label>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <input type="text" name="mobile" class="fnt-wt-600 font-13 widget_label form-control clsNumeric" placeholder="XXXXXXXXXX" id="profile_MobileNO" value="" data-regtype="internationalphoneno" data-errormsg="Input should be number only">
+                </div>
+            </div>
+            <div class="form-group row row0 mg-btm-15 col-sm-12 col-xs-6 pad-0-res">
+                <div class="col-sm-3 col-xs-12">
+                    <label class="widget_data float-right txt-al-rgt txt-al-lft w-100 font-12">Passport Number</label>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <input type="text" class="fnt-wt-600 font-13 widget_label form-control clsAlphaNumeric" maxlength="15" placeholder="" id="profile_PassportNO" value="">
+                </div>
+            </div>
+            <div class="form-group row row0 mg-btm-15 col-sm-12 col-xs-6 pad-0-res">
+                <div class="col-sm-3 col-xs-12">
+                    <label class="widget_data float-right txt-al-rgt txt-al-lft w-100 font-12">Date Of Birth<span class="mandatoryMark">*</span></label>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <input type="text" class="fnt-wt-600 font-13 widget_label form-control" placeholder="" readonly="readonly" id="profile_DOB" value="" style="cursor:default">
+                </div>
+            </div>
+            <div class="form-group row row0 mg-btm-15 col-sm-12 col-xs-6 pad-0-res">
+                <div class="col-sm-3 col-xs-12">
+                    <label class="widget_data float-right txt-al-rgt txt-al-lft w-100 font-12 ">Issued Country</label>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <select id="profile_PassportCountry" class="fnt-wt-600 font-13 widget_label form-control clsCountry">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row row0 mg-btm-15 col-sm-12 col-xs-6 pad-0-res">
+                <div class="col-sm-3 col-xs-12">
+                    <label class="widget_data float-right txt-al-rgt txt-al-lft w-100 font-12">Passport Exp Date</label>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <input type="text" class="fnt-wt-600 font-13 widget_label form-control" placeholder="" id="profile_PassportExp" readonly="readonly" value="" style="cursor:default">
+                </div>
+            </div>
+            <div class="form-group row row0 mg-btm-15 col-sm-12 col-xs-6 pad-0-res">
+                <div class="col-sm-3 col-xs-12">
+                    <label class="widget_data float-right txt-al-rgt txt-al-lft w-100 font-12">Address<span class="mandatoryMark">*</span></label>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <textarea type="text" id="profile_Address" class="txt-anim clshideErr  losefocus fnt-wt-600 fnt-siz-13 has-content clsAlphaNumeric" placeholder="" value="" maxlength="250"></textarea>
+                </div>
+            </div>
+            <div class="form-group row row0 mg-btm-15 col-sm-12 col-xs-6 pad-0-res">
+                <div class="col-sm-3 col-xs-12">
+                    <label class="widget_data float-right txt-al-rgt txt-al-lft w-100 font-12">City<span class="mandatoryMark">*</span></label>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <input type="text" id="profile_City" class="fnt-wt-600 font-13 widget_label form-control clsAlpha" placeholder="" value="" maxlength="25">
+                </div>
+            </div>
+            <div class="form-group row row0 mg-btm-15 col-sm-12 col-xs-6 pad-0-res">
+                <div class="col-sm-3 col-xs-12">
+                    <label class="widget_data float-right txt-al-rgt txt-al-lft w-100 font-12">Postal Code<span class="mandatoryMark">*</span></label>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <input type="text" class="fnt-wt-600 font-13 widget_label form-control clsNumeric" id="profile_Pincode" placeholder="" value="" maxlength="6">
+                </div>
+            </div>
+            <div class="form-group row row0 mg-btm-15">
+                <div class="col-sm-3 col-sm-offset-4 col-xs-12">
+                    <a class="btn btn-riya btn-block" id="btn_profilesave" onclick="UpdateMyProfile()">
+                        Save Updates
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

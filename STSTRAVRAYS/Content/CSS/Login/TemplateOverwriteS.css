@@ -1,0 +1,2285 @@
+﻿
+body {
+  font-family: 'Quicksand'!important;
+}
+.TDK label {
+        font-weight: 500 !important;
+}
+.TDK h5 {
+    font-weight: 500 !important;
+}
+.switch-toggle input:focus ~ span a, .switch-toggle input:focus + label {
+outline-color: #ea443c !important;
+}
+.sortfnt {
+     font-weight: 500 !important;
+}
+input#txtMOrigin1,input#txtMDestinations1,input#txtMDeparturdtFlight1,input#Flightno1,input#Via1,
+input#txtMDeparturdtFlight2,input#txtMOrigin2, {
+    font-weight: 500 !important;
+}
+/*.widthchange > .smllogo a img {
+    width: 146px !important;
+    height: 65px !important;
+}*/
+.bg-bg-chrome, .bg-tdk, .bg {
+    display: none;
+}
+
+.TRVLCAL, .totbook, .Flttravl, #weather  {
+    background: url('../../Img/Sameera/SameeraSprite.png') no-repeat;
+}
+
+.EMPdtl, .PAdtl, .GSTDtl, .FDtl, .money-bg, .slidesjs-navigation.slidesjs-next, .slidesjs-navigation.slidesjs-previous, .fileHist, .PNRViewEye,
+.remCal, .rehis, .setFtl, .dvnewemployeecreate, .dvnewviewempdt, .money-ba,.corpdts,.flgtcald,.smsicon,.MailIcon,.excelIcon,.PrinterIcon {
+    background: url('../../Img/Sameera/SameeraSprite_flbook.png') no-repeat;
+}
+.smssec .popup-text img {
+    display:none !important;
+}
+.smsicon {
+ background-position:-339px -578px;
+	width: 32px;
+	height: 32px;
+}
+.MailIcon {
+     background-position:-339px -464px;
+	width: 32px;
+	height: 32px;
+}
+.excelIcon {
+     background-position:-339px -523px;
+	width: 32px;
+	height: 32px;
+}
+.PrinterIcon {
+     background-position:-339px -403px;
+	width: 32px;
+	height: 32px;
+}
+.money-bg {
+    background-position: -935px -247px;
+	width: 41px;
+	height: 42px;
+    position: absolute;
+}
+
+.money-ba {
+    background-position: -34px -439px;
+    width: 39px;
+    height: 40px;
+    position: absolute;
+    top: 1px;
+    left: 15px;
+}
+.marginrgtretreviewclass > .wsmenu {
+    padding: 0px 6px 0px 0px !important;
+}
+.wsmenu {
+    height:0px !important
+}
+.fileHist {
+    background-position: -937px -330px;
+	width: 19px;
+	height: 24px;
+    position: absolute;
+    left: 115px;
+    top: 8px;
+}
+
+.PNRViewEye {
+    background-position: -938px -414px;
+	width: 23px;
+	height: 24px;
+    position: absolute;
+    left: 424px;
+    top: 6px;
+}
+
+.remCal {
+    background-position: -937px -373px;
+	width: 24px;
+	height: 24px;
+    position: absolute;
+        right: 522px;
+    top: 5px;
+}
+
+.rehis {
+    background-position: -516px -595px;
+	width: 19px;
+	height: 19px;
+    position: absolute;
+        top: 5px;
+    right: 231px;
+}
+
+#tbnavbkdhistory > h5 > .hidden-xs {
+    position: relative;
+    left: 4px;
+    top: 4px;
+}
+
+#tbnavviewpnr > h5 > .hidden-xs {
+    position: relative;
+    left: 1px;
+    top: 02px;
+}
+
+#tbnavcancel > h5 > .hidden-xs {
+    position: relative;
+    left: 6px;
+    top: 2px;
+}
+
+#tbnavreschedul > h5 > .hidden-xs {
+    position: relative;
+    left: 4px;
+    top: 0px;
+}
+
+.money-bg.text-muted {
+    padding-left: 37px;
+}
+
+.money-bg.mt-2 {
+    padding-left: 37px;
+}
+
+.TRVLCAL {
+    background-position: -17px -41px;
+    width: 31px;
+    height: 26px;
+    position: absolute;
+    margin: 14px -37px;
+}
+
+.homedashboard {
+    width: 77px !important;
+}
+
+.totbook {
+    background-position: -17px -160px;
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    margin-left: 12px;
+}
+
+.Flttravl {
+    background-position: -16px -109px;
+    width: 22px;
+    height: 21px;
+    position: absolute;
+    margin-left: 12px;
+}
+.flgtcald {
+    background-position:-516px -595px;
+	width: 19px;
+	height: 19px;
+}
+.input-style .flgtcald {
+    vertical-align: middle;
+    position: absolute;
+    left: 3px;
+    top: 8px;
+    z-index: 1;
+}
+.addclssnewsub > .row > .form-field > .input-style > img {
+    display:block;
+}
+
+
+
+body[data-color="theme-3"] .sidebar-category.color-2 a:hover, body[data-color="theme-3"] .sidebar-category.color-2 li.active > a {
+    background: #fff !important;
+}
+
+.sidebar-category.color-2 a:hover, .sidebar-category.color-2 li.active > a {
+    background: #fff !important;
+}
+
+.Flttravlcon, .totbookcon {
+    margin-left: 54px;
+}
+
+.setFtl {
+    background-position: -16px -476px;
+	width: 32px;
+	height: 27px;
+    position: absolute;
+    left: 10px;
+    left: 7px;
+    top: 10px;
+}
+
+.tabheaderflg > .col-sm-3 > .h5tg {
+    margin-left: 42px;
+    margin-top: 7px;
+    margin-bottom: 5px;
+    font-size: 15px !important;
+    text-transform: capitalize;
+}
+
+
+.h5tg {
+    margin-left: 36px;
+    margin-top: 7px;
+    margin-bottom: 5px;
+    font-size: 15px !important;
+}
+
+.EMPdtl {
+ background-position: -207px -260px;
+	width: 19px;
+	height: 25px;
+    position: absolute;
+    top: -2px;
+    left: 3px;
+}
+
+.PAdtl {
+    background-position: -934px -129px;
+    width: 34px;
+	height: 19px;
+    position: absolute;
+    top: 3px;
+}
+
+.GSTDtl {
+    background-position: -407px -478px;
+    width: 27px;
+    height: 26px;
+    position: absolute;
+    top: 0px;
+    left: 5px;
+}
+
+.FDtl {
+    background-position: -15px -219px;
+	width: 28px;
+	height: 25px;
+    position: absolute;
+    top: 10px;
+    left: 11px;
+}
+
+.EMPdtl + #headerEmp {
+    text-transform: capitalize;
+    margin-left: 30px;
+    margin-top: 7px;
+    margin-bottom: 4px;
+    font-size: 14px !important;
+}
+
+.dvnewemployeecreate {
+    background-position: -16px -369px;
+	width: 27px;
+	height: 29px;
+    position: absolute;
+    top: 12px;
+    left: 304px;
+}
+
+.dvnewviewempdt {
+    background-position: -938px -414px;
+	width: 23px;
+	height: 24px;
+    position: absolute;
+    top: 20px;
+    right: 45%;
+}
+
+.myicon {
+    margin-top: 3px !important;
+    color: #27a5f5 !important;
+    margin-top: 12px !important;
+    font-size: 12px;
+}
+i.myicon.fa.fa-angle-down {
+    margin-top: 14px !important;
+}
+i.pricemix1_1, .i.arrivmix1_1, i.arrivmix1_1, i.departmix1_1{
+     margin: -3px 5px !important;
+    font-size: 16px !important;
+}
+    
+
+.totbook, .Flttravl, .TRVLCAL, .setFtl, .EMPdtl, 
+.PAdtl, .GSTDtl, .FDtl, .money-bg, 
+.fileHist, .PNRViewEye, .remCal, .rehis, .dvnewemployeecreate, .dvnewviewempdt, .money-ba,.smsicon,.MailIcon,.excelIcon,.PrinterIcon/*.flgtcald,*/ {
+    display: block !important;
+}
+
+#aBookedcount > .fa-check-circle-o {
+    display: none;
+}
+
+#aBookedcount > .fa-paper-plane-o {
+    display: none;
+}
+
+#dvtravelcal > a > .TRVLCAL {
+    display: none;
+}
+
+#aTravelledcount > .fa-paper-plane-o {
+    display: none;
+}
+
+TRVLCAL
+/*#dvMeetingDetDatas > .col-md-8 > .row > .col-xs-12 > .row > .col-xs-12 > .tabheaderflg > .row h5:nth-of-type(1) {
+    background-position:-6px -105px;
+	width: 22px;
+	height: 21px;
+    padding;4px 44px;
+}*/
+.bg-tdk {
+    background: none !important;
+}
+
+#h3welcomenote {
+    color: #333 !important;
+    text-align: center;
+    font-weight: 500 !important;
+    margin: 0 !important;
+    padding: 10px;
+    position: absolute;
+    top: 25px;
+    font-size: 16px;
+    display: none;
+}
+
+.full-height .sidebar-title {
+    color: #333 !important;
+    font-size: 12px;
+    letter-spacing: 0px !important;
+}
+
+#dvCalSearch {
+    border: 1px solid #ddd !important;
+    background: #fff;
+}
+
+.full-height .container div:nth-child(2) hr {
+    display: none;
+}
+
+.clsMainLogo {
+    margin-left: 28px;
+}
+
+.full-height .container .row:nth-child(3) .col-md-4 > .rowin {
+    /*margin-top: 50px;*/
+    border: 1px solid #ddd;
+    background: #fff;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+.full-height .container .row:nth-child(3) .col-md-4 > .rowinn {
+    border: 1px solid #ddd;
+    background: #fff;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+.tabs-content > #dvCalSearch {
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+
+}
+
+.full-height .container .row:nth-child(3).groupAvailroot {
+    margin-bottom: 0% !important;
+}
+
+.full-height .container .row:nth-child(3) hr {
+    display: none;
+}
+
+.clsSingleSearch {
+    /*margin: 0% !important;*/
+}
+
+#SearchPG > .tab-content {
+    background: none !important;
+}
+
+#SearchPG {
+    /*background-color: #fff;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);*/
+}
+
+#dvMainFilteration {
+    box-shadow: 0px 1px 3px 2px #e4e4e4 !important;
+    border: 1px solid #e2e2f2;
+}
+
+#AvailColumn .list-header {
+    box-shadow: 0 0 4px 0 rgba(0,0,0,.1);
+    border: 1px solid #e2e2f2;
+}
+
+#dvMulTripType .c-button.b-50 {
+    /*width: 80% !important;*/
+}
+
+    #dvMulTripType .c-button.b-50 .fa {
+        font-size: 15px !important;
+        top: 0px !important;
+        left: -5px !important;
+    }
+
+#Avail_Response {
+    background: #f2f2f2;
+    margin: -2px !important;
+    margin-left: -1% !important;
+    
+}
+
+body {
+    background: #f9f9fa;
+}
+
+.smllogo {
+    box-sizing: border-box !important;
+    margin-top: 0% !important;
+}
+
+.widthchange > .smllogo {
+    margin-top: -25px !important;
+    margin-left: 0px;
+}
+
+#SearchPG .search-controls-My_request, #SearchPGutilhtl .search-controls-My_request {
+    width: 100% !important;
+}
+
+.headerfull {
+    background: #fff !important;
+    /*border: 1px solid #eee;*/
+    height:0px !important; /*Ram c Hide scroll header*/
+}
+
+.type-4 {
+    padding-left: 1px !important;
+}
+
+.Nameholder {
+    font-size: 11px !important;
+}
+
+.marginrgtretreviewclass > nav {
+    padding-top: 10px !important;
+}
+.wsmenu > .wsmenu-list > li > a.active {
+    background: none !important;
+    border: none !important;
+}
+
+.wsmenu > .wsmenu-list > li > a .fa {
+    color: #da251c !important;
+    font-size: 15px !important;
+}
+.wsmenu > .wsmenu-list > li > a .fa-home {
+        font-size: 18px !important;
+        padding-right: 5px;
+    margin: 0px -2px;
+}
+.wsmenu > .wsmenu-list li:hover > a {
+    background-color: #da251c !important;
+}
+
+
+header.color-10 nav > ul > li > a {
+    color: #333 !important;
+    font-weight: bold !important;
+    font-size:12px !important;
+    /*z-index:1000;*/
+}
+
+.wsmenu-list > li > a {
+    border-right: none !important;
+    line-height: 40px !important;
+}
+
+.pm_buttoncolors > .widthchange {
+    background:#fff;
+}
+.hovered > .clsTriphidemenu > .row > .col-md-12 > .nav {
+   margin-right: -33px !important;
+    margin-left: -17px !important;
+}
+
+
+.marginrgtretreviewclass .wsmenu > .wsmenu-list > li:hover > a .fa {
+    color: #fff !important;
+}
+
+
+.filterfixed {
+    top: 46px !important;
+    width: 22.7% !important;
+}
+body[data-color="theme-3"] .sidebar-category.color-2 a:hover, body[data-color="theme-3"] .sidebar-category.color-2 li.active > a {
+    color: #333 !important;
+}
+
+#weather {
+    background-position: -17px -201px !important;
+    width: 27px !important;
+    height: 29px !important;
+    position: absolute !important;
+    left: 25px !important;
+    top: 11px;
+}
+
+#tbbodyviewpnr > .AirplineViewPnr {
+    padding: 0% 5% 0% 5%;
+    !important;
+}
+
+}
+
+#weather + .sidebar-title {
+    padding-left: 60px !important;
+    margin-bottom: 2px !important;
+    border-bottom: 1px solid #eee !important;
+    color: #333 !important;
+    padding-top: 7px !important;
+    padding-bottom: 7px !important;
+}
+
+.sidebar-title {
+    padding-left: 10px !important;
+    border-bottom: 1px solid #eee !important;
+    color: #333 !important;
+}
+
+.marbtm12 > .BaindAvailSingle > .containerpop {
+    border: 1px solid #E8EAEE;
+}
+
+
+.sidebar-category.color-2 li {
+    border-bottom: 1px solid #eee;
+}
+
+header.type-4 .top-header-bar {
+    padding: 5px 0px 5px;
+    display: block !important;
+}
+
+.top-header-block a {
+    padding: 3px 37px 0px 10px;
+}
+
+.top-weather-info {
+    /*padding-bottom: 0px !important;
+    margin-bottom: -10px !important;*/
+    display: none !important;
+}
+
+.simple-tab .tab-info {
+    padding: 0 !important;
+}
+
+.type-4 {
+    box-shadow: 0 3px 4px 0 rgba(0,0,0,.14), 0 3px 3px -2px rgba(0,0,0,.2), 0 1px 8px 0 rgba(0,0,0,.12); /* Ram C */
+}
+
+.ip-logo img .sidebar-title {
+    display: none;
+}
+
+#dvFiltertabBody .sidebar-title {
+    position: static !important;
+}
+
+@media (min-width: 991px) {
+    .smllogo {
+        margin-top: -3%;
+        float: left;
+        padding: 12px 0px 6px 0px !important;
+        background: #fff;
+    }
+}
+
+/* Start Ram C */
+.availresfrmFlt > .t-con-style-1 {
+    padding-top: 7px !important;
+}
+
+.mk-trc label {
+    height: inherit;
+    display: block;
+    cursor: pointer;
+    color: #a19c9c !important;
+}
+
+.mk-trc input:checked + label {
+    color: #333 !important;
+       padding-top: 0;
+    padding-bottom: 0px;
+    }
+.clsrbSegType .mk-trc {
+   padding: 5px 11px 6px 14px !important;
+   border-top: 3px solid #fff;
+    margin-top: 1px;
+}
+.clsactive {
+    background: #f4f4f8 !important;
+        padding-top: 0;
+    padding-bottom: 0px;
+    border-top: 3px solid #db2015 !important;
+}   
+.backtrans > .main-title > h3 {
+    font-weight:400 !important;
+}
+.backtrans > .main-title {
+    /* box-shadow: 0px 0px 5px 2px #fff; */
+    background-color: #fff !important;
+    color: #191310;
+    
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+.wsmenu-submenu {
+    top: 38px !important;
+}
+
+.ip-header h1 {
+    display: none;
+}
+
+.ip-loader {
+    bottom: 50% !important;
+}
+
+.wsmenu-submenu li {
+    font-weight: 300 !important;
+}
+
+.t-con-style-1 > .search-controls-single-city {
+    border-bottom: 1px solid #ccc !important;
+    border-left: 1px solid #ccc !important;
+    border-right: 1px solid #ccc !important;
+    box-shadow: 0 3px 8px rgba(0,0,50,.15);
+}
+
+.col-md-12 > #ulsegType > .clsrbSegType {
+    /*border: 1px solid #ccc !important;*/
+}
+
+.container > #SearchPG {
+    margin-top: 28px !important;
+    margin-left: 11px !important;
+    margin-right: 10px !important;
+}
+
+/* Menu changes */
+
+.wsmenu-submenu li a {
+    color: #666666 !important;
+}
+.wsmenu-submenu li a:hover {
+    color: #fff !important;
+}
+
+li > .wsmenu-submenu > li > a:hover {
+    background-color: #db2015 !important;
+    color: #fff !important;
+}
+/*header.color-10 nav > ul > li.wsmenu-click:hover > a {
+  
+  color: #fff !important
+}*/
+
+.marginrgtretreviewclass .wsmenu > .wsmenu-list > li > a .fa {
+    color: #db2015 !important;
+}
+
+.marginrgtretreviewclass .wsmenu > .wsmenu-list > li > a:hover, .marginrgtretreviewclass .wsmenu > .wsmenu-list > li > a:hover .fa {
+    color: #fff !important;
+}
+
+
+.wsmenu > .wsmenu-list > li > a:hover {
+    background-color: #db2015 !important;
+    color: #fff !important;
+}
+
+.switch-toggle input + label {
+    font-weight: 300 !important;
+}
+
+.wsmenu > .wsmenu-list > li > a .fa:hover {
+    color: #fff !important;
+}
+
+.headerrgt > nav > ul > li > a > span.arrow {
+    position: absolute;
+    bottom: 0px;
+    left: -8px;
+    top: -9px;
+}
+
+.headerrgt > nav > ul > li > a > span:nth-of-type(6) {
+    top: -9px !important;
+}
+
+header.hovered.scrol {
+    background: #fff !important /*rgba(7,37,97,.8)*/;
+    /*height: 43px;*/
+    z-index: 1001;
+}
+
+.vertical-layout > .full-height {
+    z-index: 0;
+}
+
+@media screen and (max-width:480px) {
+    .headerfull {
+        height: 45px !important;
+    }
+
+    div#mainsearchdiv a.c-button.b-50.bg-aqua.hv-transparent.ClsSerachBtnB.getsrchbtn {
+        width: 92% !important;
+        margin: 0 15px !important;
+        border-radius: 4px;
+        left: 0%;
+        height: 45px !important;
+        box-shadow: none !important;
+        position: inherit;
+    }
+
+    .Zebra_DatePicker.dp_hidden {
+        left: 25px !important;
+    }
+
+    .wsmenu {
+        border: none !important;
+        height: 100% !important;
+    }
+}
+
+.mobile-sub > li:nth-child(1) {
+    display: none;
+}
+
+@media (min-width: 600px) {
+    .monthly-indicator-wrap {
+        padding: 0px 9px !important;
+    }
+}
+
+#dvFiltertabHeader.nav-tab-item {
+    border-radius: 4px;
+}
+/* End Ram C */
+
+.EmployeeCreation.b-tabs .simple-tab {
+    box-shadow: none !important;
+}
+
+.monthly-day-blank {
+    background: #fff !important;
+}
+
+@media (min-width: 600px) {
+    .monthly_span {
+        background-color: #fff;
+        color: #000000;
+        padding-left: 5px;
+        padding-right: 5px;
+        border-radius: 22px;
+        padding-bottom: 2px !important;
+        position: static;
+    }
+}
+
+@media only screen and (max-width: 780px) {
+    .wsmobileheader {
+        top: -9px !important;
+    }
+}
+
+.detail-content h6, .acc-body {
+    /*margin-left:9px;*/
+}
+
+#dv_parent, #dvAirI, #dv2 > .row {
+    background: #FFF !important;
+}
+
+.clsMegamenu {
+    padding: 3px 8px 0px 8px !important;
+    border-left: 1px solid #eee !important;
+    border-bottom: none !important;
+}
+
+.TDK #SearchPG .t-con-style-1 > .fltsec {
+    width: 96% !important;
+    }
+#SearchPG .t-con-style-1 > .fltsec {
+border-top: 1px solid #ccc !important;
+    border-left: 1px solid #ccc !important;
+    border-right: 1px solid #ccc !important;
+    border-bottom: 1px solid #ccc !important;
+    background: #fff !important;
+}
+
+.fltsec > .col-md-12 > #ulsegType {
+    position: relative;
+    left: -15px;
+    top: -1px;
+}
+
+#dvFiltertabHeader > #dvFiltertabHeadersub1 {
+    border-radius: 3px !important;
+    color:#333 !important;
+}
+#dvFiltertabHeader > #dvFiltertabHeadersub1.active {
+    border-radius: 3px !important;
+    color:#fff !important;
+}
+
+overlapblackbg > .row > .col-md-12 > .nav {
+    margin-right: -21px !important;
+}
+.simple-tab .nav-tab-item.active span#spn1block::after, .simple-tab .nav-tab-item span#spn2block::after {
+    color:#fff !important;
+}
+.simple-tab .nav-tab-item.active span#spn1block::before,.simple-tab .nav-tab-item span#spn2block::before {
+    color:#fff !important;
+}
+
+/*.simple-tab .nav-tab-item span#spn1block::after,.simple-tab .nav-tab-item span#spn2block::after  {
+    content: ")" !important;
+}
+
+.simple-tab .nav-tab-item span#spn1block::before,.simple-tab .nav-tab-item span#spn2block::before {
+    content: " (" !important;
+}*/
+#dvFiltertabHeadersub1 + .nav-tab-item {
+    color:#333 !important;
+        border-radius: 3px !important;
+}
+    #dvFiltertabHeadersub1 + .nav-tab-item.active span#spn2block,#dvFiltertabHeadersub1 + .nav-tab-item.active {
+        color:#fff !important;
+    }
+
+.layout-switch > #ip-container > .vertical-align > .container > #SearchPG > .tpl-tabs-cont {
+    border: none !important;
+    background: none !important;
+}
+
+.bordercornercolorcls > .tab-nav-wrapper > #dvFiltertabHeader {
+    border: none !important;
+    /*background:#27a5f5;
+       /*border-radius:3px;*/
+    /*margin:0px 4px !important;*/
+}
+
+.clsbkpage .hotel-item2 {
+    border-bottom: none !important;
+}
+
+#dvFilterSortingouter > .nav-tab.clearfix#dvFiltertabHeader {
+    background: #11afe4;
+}
+
+.sidebar-category a {
+    font-weight: 300 !important;
+}
+
+#dvcalendar > #mycalendar > .monthly-header {
+    height: 43px !important;
+}
+
+.social-content ul li {
+    font-weight: 300;
+}
+
+span.city-name.org, span.city-name.des {
+    font-weight: 400 !important;
+    font-size: 12px !important;
+}
+
+.detail-content h6, .acc-body h6 {
+    font-weight: 600 !important;
+}
+
+#divacccommon h4.sidebar-title {
+    font-weight: 600 !important;
+}
+
+.rowinn {
+    margin-top: 15px;
+    height: 373px;
+}
+/*.rowinn img{
+    width: 100%;
+    height: 100%;
+}*/
+.full-height > .vertical-align {
+    margin-top: 10px !important;
+    left: 15px !important;
+    width: 99%;
+}
+.wsmain {
+        background: #fff !important;
+        width:100% !important;
+}
+.headerrgt {
+        margin-right: 6% !important;
+}
+.hotel-item2.hotel-item.bg-white {
+    margin-left: -5px !important;
+}
+
+.SELFTS, GSTDTS, .FATLS, .COROELS, .MLSPCE {
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+.row10.FATLS {
+    padding-top: 0% !important;
+}
+
+.MLSPCE {
+    margin-top: 15px;
+    padding: 16px 10px !important;
+}
+
+.MLSMG {
+    margin-top: 4%;
+}
+
+.MealPF {
+    border: solid 1px #E8EAEE !important;
+    margin-top: 17px !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,.15), 0 0 1px rgba(0,0,0,.08);
+}
+.tab-content > .Trvl_Desk_Trip_Rts {
+    margin-top: -70px !important;
+}
+.container.dvviewContainer {
+    padding: 0.5% 3% !important; /*box-shadow: 0 2px 4px rgba(0,0,0,.15), 0 0 1px rgba(0,0,0,.08);*/
+}
+
+.row.row10.tabheaderflg.corpdet h5 {
+    color: #333 !important;
+    margin: 7px 4px !important;
+    font-size: 15px !important;
+}
+.row.row10.tabheaderflg.corpdet {
+    border-bottom: 1px Dashed #E8EAEE !important;
+}
+
+@media (min-width: 992px) {
+    #div_BookView .container {
+        width: 94.5% !important;
+    }
+}
+
+.col10 .row.row10.tabheaderflg.corpdet {
+    background: #fff !important;
+}
+
+.dvviewContainer {
+    padding: 0% 3% !important;
+}
+
+    .dvviewContainer > #dvMeetingDetDatas {
+        margin-bottom: 40px !important;
+    }
+
+.container > .tpl-tabs-cont {
+    margin-top: 14px !important;
+}
+
+.PassDTL > .col-xs-12 > .row10 > .col10 > .acc-body {
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+.PassDTL > .col-xs-12 > .row10 > .col10 > .tabheaderflg {
+    border-top: 1px solid #E8EAEE;
+    border-left: 1px solid #E8EAEE;
+    border-right: 1px solid #E8EAEE;
+    box-shadow: 0 2px 4px rgba(0,0,0,.15), 0 0 1px rgba(0,0,0,.08);
+}
+
+.GSTDeTL {
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+    /*border-bottom:1px solid #E8EAEE;*/ 
+}
+
+.FaREDTLS {
+    
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+    margin-top: -11px !important;
+}
+
+    .FaREDTLS > .col-xs-12 {
+        padding-top: 0% !important;
+    }
+
+/*.FaREDTLS > .col-xs-12 > .acc-body {
+     border-left:1px solid #E8EAEE;
+    border-right:1px solid #E8EAEE;
+    box-shadow: 0 2px 4px rgba(0,0,0,.15), 0 0 1px rgba(0,0,0,.08);
+    border-bottom:1px solid #E8EAEE;
+}*/
+.corpratedet01 {
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+    margin-bottom: 3px !Important;
+}
+
+.corpratedet.row hr {
+    border-top: none !important;
+}
+
+#Empdetails {
+    border-top: 1px solid #E8EAEE;
+    border-left: 1px solid #E8EAEE;
+    border-right: 1px solid #E8EAEE;
+    box-shadow: 0 0px 0px 0 rgba(0,0,0,.14), 0 0px 0px 0px rgba(0,0,0,.2), 0 0px 0px 0 rgba(252, 251, 251, 0.12);
+}
+.tabheaderflg {
+    border-bottom:1px solid rgba(0,0,0,0.2) !important;
+}
+#defaultemployee_det {
+    border-left: 1px solid #E8EAEE;
+    border-right: 1px solid #E8EAEE;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+.clsgetpaxGuest_1 a:hover {
+    background: #da251c !important;
+    color: #fff !important;
+}
+.clsgetpaxGuest_1 a {
+    background: #fff !important;
+    border: 2px solid #da251c;
+    color: #da251c !important;
+    border-radius: 4px !important;
+    padding: 4px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+}
+.clsgetpaxGuest_1 a span {
+     font-size: 13px !important;
+    font-weight: 500 !important;
+    line-height: 1px !important;
+}
+
+.card-body > .font-weight-bold, text-primary {
+    padding-left: 50px;
+}
+
+.card-body > .text-primary {
+    padding-left: 45px;
+}
+
+/*slide control*/
+#slides > .slidesjs-container {
+    height: 367px !important;
+    z-index: 1 !important;
+}
+
+.slidesjs-navigation.slidesjs-previous {
+    background-position: -212px -546px;
+    width: 13px;
+    height: 20px;
+    border-left: 2px solid #aaa;
+}
+
+.slidesjs-navigation.slidesjs-next {
+    background-position: -183px -546px;
+    width: 13px;
+    height: 20px;
+    border-right: 2px solid #aaa;
+}
+
+a.slidesjs-next {
+    margin: 6px 0 0;
+    float: left;
+    list-style: none;
+    position: absolute;
+    right: -0.8%;
+    margin-top: -290px;
+    z-index: 7;
+    background-color: rgba(255,255,255,0.6);
+    padding: 10px;
+    text-indent: -9999px;
+    border-radius: 30px;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+}
+
+a.slidesjs-previous {
+    margin: 6px 0 0;
+    float: right;
+    list-style: none;
+    position: absolute;
+    right: 95.5%;
+    margin-top: -290px;
+    z-index: 7;
+    background-color: rgba(255,255,255,0.6);
+    padding: 10px;
+    text-indent: -9999px !important;
+    border-radius: 30px;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+}
+
+#slides > .slidesjs-pagination {
+    bottom: 35px;
+}
+
+.slidesjs-stop, .slidesjs-play {
+    display: none !important;
+}
+
+.b-tabs > .simple-tab > .tab-nav-wrapper > .nav-tab > .fligh-tbkHistroy:nth-child(2) {
+    border-left: 2px solid #ddd !important;
+    border-right: 2px solid #ddd !important;
+}
+.trcalbd {
+     border: 1px solid #E8EAEE;
+}
+
+.b-tabs > .simple-tab > .tab-nav-wrapper > .nav-tab > .fligh-tbkHistroy:nth-child(3) {
+}
+
+.b-tabs > .simple-tab > .tab-nav-wrapper > .nav-tab > .fligh-tbkHistroy:nth-child(4) {
+    border-left: 2px solid #ddd !important;
+}
+
+@media (min-width: 780px) {
+}
+/*/*.wsmenu {
+    border:none !important;
+    height:40px !important;
+}*/
+#dvFrequentFlyer {
+    box-shadow: 0 2px 4px rgba(0,0,0,.15), 0 0 1px rgba(0,0,0,.08);
+    border-bottom:1px solid rgba(0,0,0,0.2) !important;
+}
+
+.dealDailyHeader {
+    text-align: center;
+    border-bottom: 1px dashed #bbb;
+    height:54px;
+}
+
+#tbbodybkdhistory {
+    margin: 0px 19px;
+}
+
+#tbbodyviewpnr {
+    border: 1px solid #e2e2f2 !important;
+}
+
+#tbbodycancel {
+    border: 1px solid #e2e2f2 !important;
+}
+
+#tbbodyreschedul {
+    border: 1px solid #e2e2f2 !important;
+}
+
+.offerTitle {
+    font-size: 13px;
+    font-weight: bold;
+    color: #ff6600 !important;
+}
+
+.offerDescription {
+    font-size: 15px;
+    color: #616B77;
+}
+
+a.weak {
+    color: #0000ff !important;
+}
+
+a {
+    outline: 0;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.offerSpan {
+    height: 100px;
+    margin: 26px 99px 10px 70px;
+    z-index: 2;
+}
+#hdercorpname {
+    background:#fff !important;
+}
+.dealSliderTitle {
+    text-transform: uppercase;
+    position: relative;
+    /*top: 0;*/
+    float:left;
+     left: 36px; 
+    font-size: 12px;
+    font-weight: 700;
+}
+.cls-social-section .social-icon {
+    left: 32px !important;
+}
+.clsnot4gds > .row > .col-lg-12 {
+    top: 4px !important;
+}
+.checkbox-group1 label span {
+    left: -11px !important;
+}
+.colract {
+    margin-top: 10px;
+    padding-left: 66px !important;
+    font-size:14px !important;
+    font-weight: 700 !important;
+}
+.totbookcon,.sidebar-category a,#Bookedcount {
+    font-size: 12px !important;
+    font-weight:500 !important;
+}
+
+.dealDailyHeader > span > img {
+    position: relative;
+    left: -180px;
+    height: 54px;
+}
+
+body[data-color="theme-3"] .simple-tab.color-1 #dvtravelcal {
+    border-top: none !important;
+}
+
+/*searchView icon*/
+body[data-color="theme-3"] .mk-trc[data-style=radio] i {
+    display:none !important;
+}
+
+.simple-tab .nav-tab-item.active {
+    border-bottom: none;
+}
+
+.offerTitle strong {
+    line-height: 16px;
+}
+
+.offerTitle > .span22 {
+    font-size: 12px;
+}
+
+.container > .EmployeeCreation {
+    border: solid 1px #E8EAEE !important;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+    margin-top: 38px !important;
+}
+
+#SearchPGRail > .section-text {
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+/*#SearchPG .tpl-tabs-cont, #SearchPGutilhtl .tbl-tabs-cont {
+    border: 1px solid #e8eaee !important;
+    background: #fff !important;
+}*/
+#retriveinformation > .col-lg-12 {
+    border: 1px solid #e8eaee;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+.monthly-header-title > #chngsmonth, .monthly-header-title > #chngsyear {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+}
+
+#mainsearchdiv > .requestpage > .submit + .getsrchbtn {
+    bottom: 48px;
+}
+
+.layout-switch > .full-height > .vertical-align > .container > #SearchPG > .t-con-style-1 {
+    background: none !important;
+    box-shadow: none!important;
+}
+
+#SearchPG .search-controls-My_request:nth-child(1) {
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+.top-header-bar {
+    border-bottom: none !important;
+}
+
+.b-tabs > .simple-tab > .tab-nav-wrapper > .nav-tab > #tbnavbkdhistory {
+    margin-bottom: 4px !important;
+}
+
+.b-tabs > .simple-tab > .tab-nav-wrapper > .nav-tab > #tbnavviewpnr {
+    margin-bottom: 5px !important;
+}
+
+.b-tabs > .simple-tab > .tab-nav-wrapper > .nav-tab > #tbnavcancel {
+    margin-bottom: 5px !important;
+}
+
+body[data-color="theme-3"] .clsMegamenu {
+    border: none !important;
+    box-shadow: none !important;
+}
+.clsMegamenu {
+    border-top: none !important;
+}
+
+.search-controls-single-city {
+    margin: -0.1% 2% 1% 2% !important;
+}
+
+.gdsribb-bg {
+    top: -1px !important;
+}
+
+a > .fa-paper-plane-o + .arrow {
+    display: none !important;
+}
+
+.manualbg {
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+    background: #fff;
+}
+
+.manualbgdiv {
+    background: #fff;
+    box-shadow: 0px 0px 0px 0px rgba(0,0,0,.14);
+    border-top: 1px solid #e8eaee;
+    border-left: 1px solid #e8eaee;
+    border-right: 1px solid #e8eaee;
+}
+
+
+#divToptransaction .columns .ui-table tbody tr.ui-table-rows-even {
+    background: #fff !important;
+    border-bottom: 1px dashed #0963a6 !important;
+    color: #fff;
+}
+
+#divToptransaction .columns .ui-table tbody tr.ui-table-rows-odd {
+    background: #fff !important;
+    border-bottom: 1px dashed #0963a6 !important;
+}
+
+
+#divToptransaction .Seccess-transactaion {
+    color: #13be27 !important;
+    transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    background: none !important;
+}
+
+#divToptransaction .SAbort-transactaion {
+    background: none !important;
+    color: #fd7e14 !important;
+    transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+#divToptransaction .Failed-transactaion {
+    color:#ff0000 !important;
+    transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    background: none !important;
+}
+.columns .ui-table tbody tr td {
+    border-right: 1px solid #E8EAEE !important;
+    border-bottom: 1px dashed #e8eaee !important;
+}
+
+.columns .ui-table tbody {
+    border: 1px solid #E8EAEE !important;
+}
+
+/************** Booking History ********************/
+
+.simple-tab .nav-tab {
+    background: #fff;
+       padding: 0px 5px;
+}
+ hr{
+border:none !important;
+}
+
+body[data-color="theme-3"] .simple-tab.color-1 .fligh-tbkHistroy.active {
+    background-color: #fff !important;
+    border-top: 5px solid #f60 !important;
+    color: #333;
+}
+
+body[data-color="theme-3"].b-tabs > .simple-tab.color-1 .fligh-tbkHistroy.active {
+    background-color: none !important;
+}
+
+.simple-tab .nav-tab-item.active span {
+    color: #333;
+    font-weight: 600;
+    font-size: 12px;
+    padding: 0px 0px 0px 0px !important;
+}
+
+.simple-tab .nav-tab-item {
+    border: none !important;
+}
+
+    .simple-tab .nav-tab-item.active span#spn1block {
+        color: #FFF;
+        /* float: left; */
+        font-weight: 700;
+        font-size: 12px;
+        padding: 0px 1px 0px 7px !important;
+        margin-left: 1% !important;
+    }
+
+.simple-tab > .tab-nav-wrapper > .nav-tab > #dvtravelcal {
+    border: none !important;
+}
+
+body[data-color="theme-3"] .simple-tab.color-1 #dvtravelcal {
+    background: none !important;
+}
+
+#tbbodyreschedul > .AirlineReschedule {
+    padding: 2% 5% 3% 5% !important;
+}
+
+
+
+#SearchPG > .misreport {
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+    background: #fff !important;
+}
+
+#SearchPG > .miswidth {
+    width: 91% !important;
+    margin-top: 54px;
+    margin-left: 63px !important;
+}
+
+.tab-content.tpl-tabs-cont.section-text.t-con-style-1.miswidth {
+    margin-left: 45px !important;
+}
+
+.b-tabs > .AirHiswidth {
+    margin-left: 20px;
+    width: 96.2%;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+.top-header-block a {
+    border-left: none !important;
+}
+
+.wsmenu {
+    border-left: none !important;
+}
+/****** Start Hotel******/
+.FirstDiv > .mlp {
+    background-color: #fff !important;
+}
+
+#dt-travel-booking-search + div {
+    border: 1px solid #ddd;
+    background: #fff !important;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+.user-profile > .row > .col-xs-12 > .b-tabs {
+    margin-top: 36px;
+}
+
+.detail-content, .acc-body {
+    padding: 10px !important;
+}
+
+.input-style input {
+    /*: 4px 30px !important;*/
+}
+
+    
+body[data-color="theme-3"] .bg-aqua {
+    background:#fff !important;
+    color:#da251c !important;
+}
+.clsSingleSearch .tabs-block {
+    left: 2px !important;
+}
+
+.switch-toggle.switch-candy.switch-candy-orange.fontSize i {
+    font-style: normal;
+}
+
+.chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+    /*font-family: 'Roboto', sans-serif !important;*/
+}
+
+.clsMultiCityRoutes .input-style input {
+    padding: 8px 32px !important;
+}
+
+#btnCloseMRow2 > .fa-close, #btnCloseMRow1 > .fa-close {
+    /*padding-left: 1px !important;*/
+}
+
+input#dp1455770556716 {
+    padding-left: 7px;
+}
+
+/*div#modal-groupcomparison .modal-header .close {
+    padding: 11px 5px 11px 5px !important;
+}*/
+
+#lblcntandcurrency em {
+    font-style: normal !important;
+}
+.spngrpavilindcat > .samehidden {
+    font-style: normal;
+}
+
+#balancecheck < i {
+    font-style: normal !important;
+}
+
+.h5.text-primary.mt-2.mb-0 > i {
+    font-style: normal !important;
+}
+.wsmenu-list > li > a {
+   padding: 0px 19px 0px 0px !important;
+}
+#SearchPG .requestpage, #SearchPGutilhtl .requestpage {
+    padding: 10px 15px !important;
+}
+
+.Zebra_DatePicker_Icon_Wrapper > #TranstxtFromdate, #TranstxtTodate {
+    padding-left: 5px !important;
+    padding-right:5px !important;
+
+}
+
+#BookflighLodingImage {
+    border-radius: 65% !important;
+    padding-left: 0px !important;
+}
+
+.wsmenu-list > li a.menuhomeicon {
+    padding: 0px 17px !important;
+}
+
+.EmployeeCreation .innerdiv {
+    background-color: #fff !important;
+}
+.boreachclass > #amontgrp_0 {
+        padding: 1px 18px !important;
+}
+
+.clsMegamenu .title {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    /*font-family:'Lato', sans-serif;*/
+}
+.tabs-content > #dvCalSearch{
+    margin-bottom:15px;
+}
+font#ffPreparedAir {
+    font-weight: 500!important;
+    font-size: 14px !important;
+    text-transform: capitalize !important;
+    
+}
+select#grpcmbFlightClass {
+    font-weight: 400!important;
+    font-size: 14px !important;
+    text-transform: capitalize !important;
+}
+.corpdts {
+    display:block;
+    background-position:-206px -308px;
+	width: 27px;
+	height: 27px;
+    position: absolute;
+    left: 10px;
+    left: 5px;
+    top: 7px;
+}
+    .corpdts+h5 {
+        padding-left: 31px;
+    }
+.clsFlightNum {
+    padding-top: 5px !important;
+}
+.clsInternational label {
+    display:none;
+}
+.clsDomestic label {
+    display:none;
+}   
+#dvinnerAvail_Response #Sort_filter {
+        line-height: 20px ;
+    padding: 4px 0px 0px 0px;
+    font-size:14px !important;
+}
+button#btnprevavail, button#btnnextavail {
+    font-family:'Open Sans', sans-serif !important;
+}
+.show-MulpopFaredesc {
+    font-size:1.1255em !important;
+   top:3px !important;
+    font-weight: 600 !important;
+    line-height: 0;
+}
+/*login design*/
+.colorclssam {
+    background-color:#fff !important;
+}
+
+#Sort_filterleft > .row.row10 > .col-sm-3.col-md-2 {
+    line-height: 20px ;
+    font-weight: 700 !important;
+    
+}
+.sorthdr #Sort_filterleft{
+    padding-top:2px !important;
+}
+.sorthdr #Sort_filterright{
+    padding-top:2px !important;
+}
+body[data-color="theme-3"] #dvcartconnouter_cart_6E1 {
+    background: #fff
+}
+.ManualBookingGet,.RailManualBookingGet {
+    padding:2.5px !important;
+}
+.mob10margintop > .show-MulpopFaredesc {
+    margin-left: -23px !important;
+}
+#dvFiltertabHeadersub1 b,.nav-tab-item.active b {
+    font-size: 12px ;
+}
+#dvFiltertabHeadersub1.active b #spnblock1,.nav-tab-item.active b #spnblock2 {
+    color:#fff !important;
+}
+.mutlstfils {
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+    .mutlstfils > .tabheaderflg > h5 {
+        color: #333 !important;
+    margin: 7px !important;
+    font-size: 15px !important;
+    }
+.clsPadd2Table thead tr th {
+        text-transform: capitalize !important;
+}
+
+.clspadding {
+    font-size: 12px !important;
+    font-weight: 500 !important;
+}
+.dvprntsplfare {
+    box-shadow:0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12) !important;
+
+}
+.availableseat {
+    white-space:nowrap !important;
+}
+.SELFTS .bg-orange {
+    background: none !important;
+
+}
+.roundTripCls {
+    right:-3px !important;
+}
+.dvabsSpecialFare .roundTripCls {
+    right:-100% !important;
+}
+.CBT .full-height
+{
+    margin-top:7%!important;
+}
+.simple-tab .nav-tab
+{
+    top: 0px !important;
+    left: 0px!important;
+}
+.CBT #dvfxedtriptabhead
+{
+    width:99.9%;
+}
+
+.CBT #dvtripmain
+{
+    margin-top:-3%!important;
+}
+.CBT #dvselectedTripShow
+{
+    top:-2px!important;
+}
+ /* Ram 30-06-2018*/
+.dvviewContainer > #dvMeetingDetDatas h5 { 
+    font-weight:500 !important;
+}
+.clsPadd2Table > thead > tr > td {
+
+}
+body[data-color="theme-3"] .c-button.bg-dr-blue-2 {
+    border: 2px solid #da251c;
+}
+body[data-color="theme-3"] .bg-dr-blue-2 {
+    background: #da251c;    
+}
+body[data-color="theme-3"] .c-button.hv-dr-blue-2-o:hover {
+       border: 2px solid #da251c;
+    color: #da251c;
+}
+body[data-color="theme-3"] #scrolls {
+    background:#da251c ;
+}
+body[data-color="theme-3"] .c-button.bg-aqua:hover {
+    background:#ea443c !important;
+    color:#fff !important;
+    transition: all 0.35s ease-in-out;
+     border: 2px solid #ea443c !important;
+}
+body[data-color="theme-3"] .c-button.bg-aqua {
+         border: 2px solid #ea443c !important;
+    color: #ea443c !important;
+    background: #fff !important;
+    transition: all 0.35s ease-in-out;
+
+}
+body[data-color="theme-3"] .color-red-3 {
+    color: #fff;
+    border: #ea443c 2px solid;
+    background-color: #ff4d53;
+}
+body[data-color="theme-3"] .c-button.hv-red-3-o:hover {
+    background-color: #ea443c;
+}
+.groupAvailroot .dvgroupavail .bg-white {
+    border-left: 3px solid #db2015 !important;
+}
+#dvinnerAvail_Response .sorthdr {
+    /*background: linear-gradient(92deg, #db2015, #824f4a) !important;*/
+}
+#AvailColumn .list-header {
+    box-shadow:none !important;
+}
+.sortcolr {
+    background:#585451 !important;
+}
+.list-header {
+    background: #fff !important;
+}
+
+
+/*body[data-color="theme-3"] .simple-tab.type-2 .nav-tab-item.active {
+     background-color: #1f1a17;
+}*/
+body[data-color="theme-3"] .c-button.bg-red-3 {
+    border: 2px solid #ea443c;
+}
+body[data-color="theme-3"] .bg-red-3 {
+    background-color: #db2015;
+}
+body[data-color="theme-3"] .c-button.bg-red-3:hover {
+    background-color: #ea443c;
+}
+#btnModifySearch:hover {
+     background-color: #db2015 !important;
+}
+body[data-color="theme-3"] .simple-tab.type-2 .nav-tab-item.active {
+     background-color: #585451;
+}
+#dvFiltertabBody {
+    border-top: 3px solid #585451 !important;
+}
+.btn-radio svg path {
+    stroke:#da251c !important;
+}
+.TDK input[type=checkbox]:checked ~ label .box,.CBT input[type=checkbox]:checked ~ label .box {
+    background: #db2015 !important;
+}
+body[data-color="theme-3"] .simple-tab.type-2 .nav-tab-item.active:before {
+    border-color: #585451 transparent transparent transparent;
+}
+#lblcntandcurrency .cur_type {
+    background: #595959 !important;
+}
+.dest-time span {
+    background: #595959 !important;
+}
+.amountpopgrp:hover {
+    background:#ea443c !important;
+    color: #fff !important;
+}
+.amountpopgrp {
+    color: #ea443c !important;
+    border: #ea443c 2px solid !important;
+}
+/* Avial  CSS*/
+div#modal-groupcomparison h4.farecomp-tit {
+    background: #F9F9F9 !important;
+    border-bottom: 1px solid rgba(0,0,0,0.2) !important;
+    color:#666 !important;
+}
+
+.clsBacktoAvail {
+     background-color:#fff;
+    border: 2px solid rgba(218,37,28,1) !important; 
+    color: #1f1a17;
+    }
+    .clsBacktoAvail:hover, .clsBacktoAvail:active {
+        color:#fff !important;
+        background-color: rgba(218,37,28,1) !important; 
+        transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+#getalldata > .switch-candy-orange {
+    border-color: #db2015!important;
+}
+#dvMulTripType input, #dvMulTripType .form-control, #dvMulTripType input, #dvMulTripType .form-control {
+    border:solid 1px #E8EAEE !important;
+}
+#dvMulTripType input:focus, #dvMulTripType .form-control:focus, #dvMulTripType input:focus, #dvMulTripType .form-control:focus {
+    border:solid 1px #1f1a17 !important;
+}
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, .drop-wrap-s-3:focus, select:focus {
+    box-shadow: none !important;/*box-shadow: 0px 0px 5px #1f1a17 inset !important;*/
+}
+body[data-color="theme-3"] .link-list label:after {
+    color: #1f1a17 !important;
+    transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+#dvMeetingDetDatas input[type="text"]:focus, #dvMeetingDetDatas input[type="email"]:focus, #dvMeetingDetDatas input[type="password"]:focus, #dvMeetingDetDatas .drop-wrap-s-3:focus, #dvMeetingDetDatas select:focus {
+     box-shadow: none !important;/*box-shadow: 0px 0px 5px #1f1a17 inset !important;*/
+}
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, .drop-wrap-s-3:focus, select:focus,.EmployeeCreation .AddressFormControl {
+    box-shadow: none !important; /*box-shadow: 0px 0px 5px #1f1a17 inset !important;*/
+}
+input#Txtcncl_Spnr, #ddlExpensetype, #ddlStatus, #ddlclaimtype, #ddltraveltype, #ddlPayableby, #Myreq_fromdate, #Myreq_todate, #Appreq_fromdate, #Appreq_todate, #Resreq_fromdate, #Resreq_todate, #ddlproducttype, #Txtres_Spnr {
+border: 1px solid #E8EAEE !important;
+}
+.EmployeeCreation input[type="text"], input[type="email"], input[type="password"], select,.EmployeeCreation .AddressFormControl {
+   border: 1px solid #E8EAEE !important;
+   padding-left:5px !important;
+}
+    .EmployeeCreation input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, select:focus { 
+            border: 1px solid #1f1a17 !important;
+    }
+    .EmployeeCreation .AddressFormControl:focus,.MisMainDivSelect:focus {
+         border: 1px solid #1f1a17 !important;
+    }
+.EmployeeCreation .main-title h3 {
+    border-bottom:1px solid rgba(0,0,0,0.2) !important;;
+}
+.EmployeeCreation .clsbrHeaderBtn {
+    background: #585451 !important;
+}
+.MisMainDivSelect {
+    border: 1px solid #E8EAEE !important;
+}
+.ClsbtnbrSend {
+        background-color: #da251c !important;
+}
+.submit input:hover {
+     background-color: #da251c !important;
+}
+body[data-color="theme-3"] .simple-tab.color-1 .nav-tab-item.active {
+    background-color: #fff !important;
+    color: #333 !important;
+    border-top: 5px solid #da251c !important;
+}
+.h5.text-primary.mt-2.mb-0 > .balancecheck,.h5.text-primary.mt-2.mb-0 > i {
+   color: #191310 !important;
+}
+
+.Zebra_DatePicker {
+    border-top: 6px solid #da251c !important;
+}
+    .Zebra_DatePicker td.dp_selected {
+            background:#da251c !important;
+    }
+     .Zebra_DatePicker td:hover {
+            background:#da251c !important;
+    }
+    .Zebra_DatePicker td.dp_current {
+        border: 2px solid #da251c !important;
+    }
+
+.arrow-2:active:enabled, .arrow-2:focus:enabled {
+        background: #595959 !important;
+    color: #fff !important;;
+}
+.arrow-2:hover:enabled {
+    background:linear-gradient(to right, #db2015,#c15151);
+    border-color:#db2015 !important; 
+}
+body[data-color="theme-3"] .switch-candy-orange a {
+         background-color: #db2015 !important; 
+          /*border:solid 1px #fff !important;*/
+}
+.switch-candy-orange > label:focus {
+    border:none !important;
+
+}
+.activeadv > .clsMegamenu {
+    background-color: #ffffff !important ;
+}
+
+#dv_parent {
+    border-top: 2px solid #E8EAEE !important;
+}
+#SearchPG .main-title h3, #SearchPGutilhtl .main-title h3, #SearchPGRail .main-title h3 {
+    border-bottom:1px solid rgba(0,0,0,0.2) !important;
+}
+.ip-header .ip-loader svg path.ip-loader-circle {
+    stroke: #db2015 !important;
+}
+#divToptransaction .ui-table-sortable {
+    background: #585451 !important;
+   transition: all 0.35s ease-in-out;
+}
+.tgl-flip + .tgl-btn:before {
+    background: #ea443c !important;
+   transition: all 0.35s ease-in-out;
+}
+#MulAvailCarousel .sticky2 {
+         transition: all 0.35s ease-in-out;
+}
+input[type=checkbox]:checked ~ label .box {
+    background:#db2015 !important;
+}
+.multi .check {
+        margin-left: 6px !important;
+}
+.clsAddNewforMCity:hover {
+    border: 2px solid #db2015 !important;
+    border-radius: 5px;
+    background-color: #db2015 !important;
+    color: #fff  !important;
+}
+.clsmultibtn + label:after {
+    color: #db2015 !important;
+    border: #db2015 2px solid !important;
+}
+#dvinnerAvail_Response .mulAvailresp > .sticky2 {
+    background: #db2015 !important;
+}
+
+#grpchkpopchkMonthlyAccSumm label .check {
+    margin-top: 16px !important;
+    margin-left: 7px !important;
+}
+
+input[type=checkbox]:checked ~ label .box {
+   background-color: #db2015 !important;
+}
+.checkbox-group1 label .box {
+    background: #f2f2f2 !important;
+}
+label#lblcntandcurrency > em {
+     background: #ddd !important;
+}
+#hdercorpname {
+     background: #fff !important;
+}
+body[data-color="theme-3"] .color-blue-2 {
+    color: #27a5f5;
+}
+.ui-slider .ui-slider-handle {
+    background:#1f1a17 !important;
+    border: solid 1px #1f1a17 !important;
+}
+.misreport input, .misreport .form-control, .misreport input, .misreport .form-control {
+    border: 1px solid #ddd !important; 
+}
+.addntitle {
+    background: #565351 !important
+}
+.udk-crm-management-details .form-control:focus {
+    border-color: #191310 !important;
+    outline: 0;
+    -webkit-box-shadow: 0 0 2px rgb(25, 19, 16) !important;
+    box-shadow:  0 0 2px rgb(25, 19, 16) !important;
+}
+input[type="text"], input[type="email"], input[type="password"], select {
+    border-color: #E8EAEE !important;
+}
+#bkdHstrymain input[type="text"]:focus, #bkdHstrymain input[type="email"]:focus, #bkdHstrymain input[type="password"]:focus, #bkdHstrymain .drop-wrap-s-3:focus, #bkdHstrymain select:focus {
+    border: 1px solid #191310 !important;
+}
+#bkdHstrymain input {
+    border:1px solid #E8EAEE !important;
+}
+.c-button.hv-blue-2:hover {
+    color: #fff !important;
+    background-color:#ea443c !important;
+    border-color: #ea443c !important;
+}
+body[data-color="theme-3"] .color-blue-2 {
+    color: #585451 !important;
+}
+.clsAddNewforMCity {
+     color: #585451 !important;
+}
+.clsbkpage input[type="text"]:focus,.clsbkpage input[type="email"]:focus,.clsbkpage input[type="password"]:focus,
+.clsbkpage .drop-wrap-s-3:focus,.clsbkpage select:focus,.clsbkpage textarea:focus {
+    border: 1px solid #191310 !important;
+}
+.ui-datepicker-calendar .ui-state-hover {
+    background: #db2015 !important;
+}
+.dvgroupavailroot > .spngrpavilindcat {
+    top: -11px !important;
+}
+body[data-color="theme-3"] .Selecttype {
+    border: 1px solid #ea443c !important;
+    background: #ea443c !important;
+}
+#modal-Passenger-Details .ui-table-sortable {
+    background: #585451 !important;
+}
+.spngrpavilindcat {
+    top: -11px !important;
+}
+.CBT .headerrgt {
+        margin-right: 6% !important;
+}
+.CBT .sidebar-category.color-2 li {
+       border-bottom: none !important;
+}
+.CBT #mycalendar {
+    border-bottom: 1px solid #E8EAEE;
+    border-right: 1px solid #E8EAEE;
+    border-left: 1px solid #E8EAEE;
+}    
+/*travel coordinator*/
+.CBT #Avail_Response
+{
+    margin-top:10px!important;
+    padding:0px!important;
+    margin-left:0%!important;
+}
+
+.CBT #dvtripmain #dvTripLeft .triptitle {
+    box-shadow:none !important;
+    color:#1f1a17 !important;
+}
+.headerclor {
+     background: #585451 !important;
+}
+.palbdcolr {
+    border: 1px solid #585451 !important;
+}
+#OfflineTravelRqustForm .main-title h3 {
+border-bottom:1px solid rgba(0,0,0,0.2) !important;
+}
+#OfflineTravelRqustForm .form-control {
+    border:1px solid #E8EAEE !important;
+}
+    #OfflineTravelRqustForm .form-control:focus {
+        border: 1px solid #585451 !important;
+        box-shadow:none !important;
+    }
+    #OfflineTravelRqustForm .form-control[disabled], #OfflineTravelRqustForm .form-control[readonly], #OfflineTravelRqustForm fieldset[disabled] .form-control {
+    background-color: #f7f7f7 !important;
+    }
+.CBT .marginrgtclass {
+        margin-right: 12% !important;
+}
+.CBT .fltsec {
+    width: 96%!important;
+        margin-left: 24px!important;
+    
+}
+.CBT .clstbheadtrip.nav-tab-item:hover {
+    background: none !important;
+}*/
+.CBT .search-controls-single-city {
+     width: 100% !important;
+}
+.CBT .search-controls-single-city {
+        margin: -0.1% 0% 1% 0% !important;
+}
+
+.fl {
+    float: inherit!important;
+}
+.TopTag .main-title h3 {
+    border-bottom: 1px solid rgba(0,0,0,0.2) !important;
+}
+.CBT .bx-shdw {
+    box-shadow:none !important;
+}
+.TxBandNew {
+    background-color:#585451 !important;
+}
+#SearchPG .main-title h3, #SearchPGutilhtl .main-title h3, #SearchPGRail .main-title h3 {
+        border-bottom: 1px solid #E8EAEE !important;
+}
+.btnbrVisa {
+    background-color:#ea443c !important;
+}
+.CBT .cb:checked ~ .cbx {
+        background: #ea443c !important;
+}
+.CBT .Button {
+     background-color:#ea443c !important;
+}
+   .CBT .Button:hover {
+        background: #fff !important;
+    color: #ea443c !important;
+    border: 2px solid #ea443c !important;
+    }
+.CBT #mainsearchdiv {
+    box-shadow:none !important;
+}
+body[data-color="theme-3"] #btnSubmit {
+    background: #ea443c !important;
+    border: 2px solid #ea443c !important;
+    color:#fff !important;
+}
+#btnSubmit:hover {
+    background: none !important;
+    color: #fff !important;
+    border: 2px solid #ea443c !important;
+
+}
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, .drop-wrap-s-3:focus, select:focus {
+    border: 1px solid #585451 !important;
+}
+.CBT #SearchPG input, #SearchPG .form-control, #SearchPGutilhtl input, #SearchPGutilhtl .form-control {
+    border: 1px solid rgba(0,0,0,0.2) !important;
+
+}
+.form-control:focus {
+    border: 1px solid #585451 !important;
+}
+.form-control {
+    border: 1px solid #E8EAEE !important;
+}
+#mainsearchdiv a#btnSubmit:hover {
+    color: #ea443c !important;
+}
+.clswithtraveltripid {
+    background-color:#ea443c !important;
+}
+.ClsbtnbrSend:hover {
+    border:2px solid #da251c  !important
+}
+.nwexpdiv {
+    border: 1px solid #E8EAEE !important;
+}
+    .nwexpdiv .WithGST {
+            margin: -32px 46px !important;
+    }
+.CBT #tbbodytripCar .clsbrHeaderBtn {
+    border-bottom: 1px solid rgba(0,0,0,0.2) !important;
+}
+#Insurancedetails h3, #Insurancepages h3 {
+     border-bottom: 1px solid rgba(0,0,0,0.2) !important;
+}
+.CBT #SearchPG > .tab-content {
+    background: #fff !important;
+    margin-top:20px;
+}
+.CBT .clstbheadtrip {
+    text-align: center;
+    border-right: 1px solid lightgrey !important;
+}
+.CBT #tbbodytripFlight #SearchPG {
+    background:#fff !important;
+}
+.CBT #dvfxedtriptabhead {
+    border: 1px solid #E8EAEE !important;
+}
+.TDK .navImbr{
+    border-right: 1px solid #E8EAEE !important;
+}
+.TDK #dvemployeecreate {
+     border-left: 1px solid #E8EAEE !important;
+}
+.sidebar-category i {
+    margin-right: 22px !important;
+    margin-left: 7px !important;
+}
+.CBT .fltsec {
+    width: 100% !important;
+}
+
+.sprit_flight, .sprit_hotel, .sprit_car, .sprit_train, .sprit_bus,.UserGuideIcon {
+    display: inline-block !important; background: url('../../Img/Sameera/BOAsprit.png') no-repeat!important; overflow: hidden !important;text-indent: -9999px; text-align: left; 
+}
+
+.sprit_flight { background-position: -269px -16px !important; width: 40px; height: 38px; }
+.sprit_hotel { background-position:-270px -66px !important; width: 40px; height: 38px; }
+.sprit_car { background-position:-263px -294px !important; width: 40px; height: 38px; }
+.sprit_train { background-position:-263px -214px !important;  width: 40px; height: 38px; }
+.sprit_bus { background-position:-265px -114px!important;  width: 40px; height: 38px; }
+
+.clstbheadtrip.nav-tab-item {
+    color:#585451 !important;
+}
+.CBT .clstoggleuserguid > img {
+    display:none !important;
+}
+.UserGuideIcon {
+     display:block !important;
+     background-position: -335px -32px !important;
+	width: 23px;
+	height: 21px;
+}
+.CBT #tbbodytripFlight .fltsec{
+    margin-left: 0px !important;
+}
+.CBT #SearchPG .t-con-style-1 > .fltsec {
+    width: 100% !important;
+    }
+#tblCarRequition th {
+    background:#585451 !important;
+}
+.wsmenu-list > li {
+        padding: 0px 5px !important;
+}
+header.color-10 nav > ul > li > a {
+    padding-left: 5px !important;
+}
+.second-title h2 {
+    color:#585451 !important;
+    font-weight:500 !important;
+}
+.flighthid
+{
+    z-index:1000!important;
+}
+.menuhomeicon
+{
+    z-index:100!important;
+}
+
+.fligh-tbkHistroy .fa.scls.fa-file, .fligh-tbkHistroy .fa.scls.fa-eye, .fligh-tbkHistroy .fa.scls.fa-remove, .fligh-tbkHistroy .fa.scls.fa-history {
+    display:none;
+}
+#modal-payment .modal-title{
+    background:#585451 !important;
+}
+.infocls {
+    white-space: normal !important;
+}
+#tbnairutil > h5,#tbnHtlutil > h5 {
+   color:#585451 !important;
+
+}
+.nav-tab-item h5 {
+    color:#333 !important;
+}
+.newchkboxcls {
+    background-color: #ea443c!important;
+    border-color: #ea443c !important;
+    margin:10px;
+}
+.TDK .scrl-btm-line {
+        border-bottom: 2px solid #ccc !important;
+}

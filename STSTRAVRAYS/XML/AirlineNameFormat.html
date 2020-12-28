@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" content="" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="HandheldFriendly" content='true' />
+    <meta name="MobileOptimized" content="320" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <script src="../js/CommonJS/jquery-1.11.1.js"></script>
+    <link href="../Content/CSS/bootstrap.css" rel="stylesheet" />
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.blockUI.js"></script>
+</head>
+<body>
+    <div class="col-lg-12">
+        <div id="txtformattable" class="RulePreclass" style=""></div>
+    </div>
+    <script>
+        OnLoad();
+        function OnLoad() {
+            $.blockUI({
+                message: '<img alt="Please Wait..." src="@Url.Content("~/Images/Loader.gif")" style="background-color:#fff; border-radius:8px; margin-top:12%;" id="FareRuleLodingImage" />',
+                css: { padding: '5px' }
+            });
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "/Home/AirlineNameFormat",
+                dataType: "json",
+                success: function (json) {
+                    if (json.Status == "00") {
+                        alert(json.Message);
+                    }
+                    if (json.Status == "01") {
+                        var data = json.strbuild;
+                        $('#txtformattable').html(data);
+                        $.unblockUI();
+                    }
+                    $.unblockUI();
+                },
+                error: function (result) {
+                    $.unblockUI();
+                    alert("Unable to connect Internal server error!.", "", "");
+                }
+            });
+        }
+    </script>
+</body>
+</html>

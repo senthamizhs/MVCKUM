@@ -1,0 +1,2600 @@
+﻿@using System.Configuration;
+@{
+    string Fileversion = ConfigurationManager.AppSettings["UpdateVersion"] != null ? ConfigurationManager.AppSettings["UpdateVersion"].ToString() : "";
+    string AppTheme = ConfigurationManager.AppSettings["apptheme"] != null ? ConfigurationManager.AppSettings["apptheme"].ToString() : "THEME1";
+    string FLAG = Session["FLAG"] != null ? Session["FLAG"].ToString() : "";
+    string StrTKTFLAG = Session["TKTFLAG"] != null && Session["TKTFLAG"].ToString() != "" ? Session["TKTFLAG"].ToString() : "DTKT";
+    string PNRFlag = ConfigurationManager.AppSettings["PNRlbl"] != null ? ConfigurationManager.AppSettings["PNRlbl"].ToString() : "";
+    string Productname = ConfigurationManager.AppSettings["Appname"] != null ? ConfigurationManager.AppSettings["Appname"].ToString() : "";
+    string Producttype = ConfigurationManager.AppSettings["Producttype"] != null ? ConfigurationManager.AppSettings["Producttype"].ToString() : "";
+    string DateValidation = ConfigurationManager.AppSettings["Reportdatecheck"] != null ? ConfigurationManager.AppSettings["Reportdatecheck"].ToString() : "";
+    string strTerminalType = Session["TERMINALTYPE"] != null && Session["TERMINALTYPE"].ToString() != "" ? Session["TERMINALTYPE"].ToString() : ConfigurationManager.AppSettings["TerminalType"].ToString().ToUpper();
+    string allowcredit = (Session["ALLOW_CREDIT"] != null && Session["ALLOW_CREDIT"].ToString() != "") ? Session["ALLOW_CREDIT"].ToString() : "N";
+    string allowtopup = (Session["ALLOW_TOPUP"] != null && Session["ALLOW_TOPUP"].ToString() != "") ? Session["ALLOW_TOPUP"].ToString() : "N";
+    string strBOAAgentType = ViewBag.BOAAgentType != null && ViewBag.BOAAgentType != "" ? ViewBag.BOAAgentType : "B2B";
+    string strImageURL = ConfigurationManager.AppSettings["LogoUrl"] != null ? ConfigurationManager.AppSettings["LogoUrl"].ToString() : "";
+    string strLoaderURL = strImageURL + "/" + Producttype + "/" + "loader.gif?" + Fileversion;
+    string strFavicon = ConfigurationManager.AppSettings["LogoUrl"] + Producttype + (Producttype == "RIYA" ? "/favicon.png?" : "/favicon.ico?") + Fileversion;
+    string containercls = AppTheme == "THEME5" ? "container" : "container-fluid";
+    string strBranchAccess = Session["BRANCH_ACCESS"] != null && Session["BRANCH_ACCESS"].ToString() != "" ? Session["BRANCH_ACCESS"].ToString() : "ALL";
+    string strBranchCredit = ConfigurationManager.AppSettings["BRANCHALLOWCREDITBOOKING"].ToString();
+    string strMigratedAgent = "N";
+}
+
+@if (FLAG == "M")
+{
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta content="JOD" name="description" />
+    <meta content="JOD" name="author" />
+    <link rel="shortcut icon" href="@strFavicon" />
+    @Styles.Render("~/Content/LayoutCommonCSS")
+    @Styles.Render("~/Content/CommonAllCSS")
+    @Styles.Render("~/Content/LayoutOtherCSS")
+    <link href="~/Content/CSS/jod/jod_flight.css?@Fileversion" rel="stylesheet" />
+    <link href="~/Content/CSS/homecss.css?@Fileversion" rel="stylesheet" />
+    <script src="~/js/CommonJS/jquery-1.11.1.js"></script>
+    <script src="~/js/CommonJS/jquery-ui-1.8.20.min.js"></script>
+    @Scripts.Render("~/bundles/CommonAllJS")
+    @Scripts.Render("~/bundles/LayoutCommonJS")
+    @Scripts.Render("~/bundles/LayoutOtherJS")
+
+}
+<script src="~/js/cbpFWTabs.js"></script>
+<script src="~/js/commontable_boostrap.js"></script>
+<script src="~/js/AppsJS/AvailSelect.js?@Fileversion"></script>
+<script src="~/js/DTBL/Bootstrap-table.js?@Fileversion"></script>
+<script src="~/js/w2ui-1.5.js"></script>
+<script src="~/js/CommonJS/bootstrap-typeahead.js?@Fileversion"></script>
+<script src="~/js/jquery.nice-select.js"></script>
+<script src="~/js/lobibox.js"></script>
+<script src="~/js/AppsJS/common.js?@Fileversion"></script>
+<script src="~/js/Column_Table/jquery.columns.js"></script>
+<script src="~/js/CommonJS/jquery.mask.js"></script>
+<script src="~/js/AppsJS/AppsJs.js?@Fileversion"></script>
+<script src="~/js/AppsJS/Reshedule.js?@Fileversion"></script>
+<script src="~/js/AppsJS/Cancellation.js?@Fileversion"></script>
+<link href="~/Content/CSS/Controlpanel.css?@Fileversion" rel="stylesheet" />
+<link href="~/Content/CSS/DTBL/Boostrap-table.css" rel="stylesheet" />
+<link href="~/Content/CSS/w2ui-1.5.css" rel="stylesheet" />
+<link href="~/Content/CSS/Login/lobibox.css" rel="stylesheet" />
+<link href="~/Content/CSS/Search/jquerycalender-new.css" rel="stylesheet" />
+@if (AppTheme.ToUpper() == "THEME2")
+{
+    <link href="~/Content/CSS/Theme2/style.css" rel="stylesheet" />
+}
+else if (AppTheme.ToUpper() == "THEME1" && Producttype != "RBOA")
+{
+    <link href="~/Content/CSS/Theme1/style.css" rel="stylesheet" />
+}
+<style>
+    @@media screen and (max-width: 768px) and (min-width: 250px) {
+        #avoidpaddtop {
+            padding-top: 0px !important;
+        }
+    }
+
+    @@media screen and (max-width: 1500px) and (min-width: 769px) {
+        #avoidpaddtop {
+            padding-top: 0px;
+        }
+    }
+
+    .Viewtotal {
+        color: white;
+        background-color: #2a9ee7;
+    }
+
+    #viewpnrdetailstable > tbody > tr:nth-of-type(odd) {
+        background-color: #FFF !important;
+        border: 1px solid #ddd !important;
+        border-bottom: 1px solid #ddd !important;
+    }
+
+    #viewpnrdetailstable > tbody > tr > .farecls {
+        padding: 30px !important;
+    }
+
+    #viewpnrdetailstable > thead > tr > th > label {
+        text-transform: none !important;
+    }
+
+    #viewpnrdetailstable > tbody > tr > td {
+        border-right: 1px solid #ddd !important;
+        border: 1px solid #ddd !important;
+        border-bottom: 1px solid #ddd !important;
+    }
+
+    @@media (max-width:768px) {
+        #viewpnrdetailstable > tbody > tr > .farecls {
+            padding: 10px !important;
+            padding-left: 50% !important;
+        }
+
+        #viewpnrdetailstable > tbody > tr > td {
+            border-right: 1px solid #ddd !important;
+            border: 1px solid #ddd !important;
+            border-bottom: 1px solid #ddd !important;
+            padding-left: 48% !important;
+        }
+
+        #viewpnrdetailstable.table td, .table th {
+            max-width: none !important;
+        }
+    }
+
+    .mouseover_bkh:hover {
+        background-color: #4CAF50;
+    }
+
+    .vpnrtbl {
+        background-size: 100% 200%;
+        background-color: #f7f5ff;
+    }
+
+        .vpnrtbl:hover {
+        }
+
+        .vpnrtbl.table > tbody > tr > td, .vpnrtbl.table > tbody > tr > th {
+            text-align: left !important;
+        }
+
+        .vpnrtb2.table > tbody > tr > td > .leftaln, .vpnrtbl.table > tbody > tr > th {
+        }
+
+    .vpnrtb2 {
+        background-size: 100% 200%;
+        background-color: #f7f5ff;
+    }
+
+    .rotate_a {
+        -moz-transition: all 1s linear;
+        -webkit-transition: all 1s linear;
+        transition: all 1s linear;
+    }
+
+        .rotate_a.down {
+            -moz-transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+
+    .rotate_b {
+        -moz-transition: all 1s linear;
+        -webkit-transition: all 1s linear;
+        transition: all 1s linear;
+    }
+
+        .rotate_b.down {
+            -moz-transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+
+    .rotate_c {
+        -moz-transition: all 1s linear;
+        -webkit-transition: all 1s linear;
+        transition: all 1s linear;
+    }
+
+        .rotate_c.down {
+            -moz-transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+
+    .maindivcontact {
+        text-align: left;
+        margin-bottom: 15px;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    .clsFareruleSelect {
+        font-size: 15px;
+        cursor: pointer;
+        font-weight: bold;
+        border: 1px solid #a9a9a9;
+        padding: 5px 10px;
+        background: #d3d3d3;
+        color: #000;
+        float: left;
+        background-color: #d3d3d3;
+        color: #000000;
+        border-color: #a9a9a9;
+    }
+
+    .clsSgFareRule {
+        width: 100%;
+        float: left;
+        padding-top: 10px;
+        border: 1px dashed #a9a9a9;
+        padding-left: 5px;
+        color: #000 !important;
+        background: #d3d3d3;
+    }
+
+    .clsRuleHead {
+        width: 100%;
+        font-size: 12px;
+        font-weight: bold;
+        /* border-bottom: 1px dashed; */
+        padding: 10px 0px;
+        color: #000;
+        cursor: pointer;
+    }
+
+    .clsFaretextArea:read-only {
+        width: 100%;
+        /* height: 450px; */
+        border: #fff;
+        color: black;
+        background: #efefef;
+        display: none;
+    }
+
+    .clsFaretextArea {
+        width: 100%;
+        /* height: 450px; */
+        border: #fff;
+        color: black;
+        background: #efefef;
+        display: none;
+    }
+
+    pre {
+        display: block;
+        padding: 9.5px;
+        margin: 0 0 10px;
+        font-size: 13px;
+        line-height: 1.42857143;
+        color: #333;
+        word-break: break-all;
+        word-wrap: break-word;
+        /*background-color: #f5f5f5;*/
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .rescheduleavail {
+        opacity: 1 !important;
+        -webkit-appearance: radio !important;
+        height: 15px !important;
+        position: inherit !important;
+    }
+
+    .btn-gradient-primary {
+        font-weight: 600;
+        font-size: 12px;
+        width: 100% !important;
+        border-radius: 2px !important;
+        border: none !important;
+        padding: 10px !important;
+        color: #fff;
+        font-family: sans-serif;
+        padding: 1rem 3rem;
+        letter-spacing: .3px;
+        outline: 0 !important;
+        font-weight: 700;
+        border-radius: 2rem;
+        -webkit-transition: .5s;
+        -o-transition: .5s;
+        -moz-transition: .5s;
+        transition: .5s;
+        background-image: -webkit-gradient(linear,left top,right top,from(#cc4646),color-stop(51%,#c92a2a),to(#ffffff));
+        background-image: -webkit-linear-gradient(left,#cc4646 0,#c92a2a 51%,#ffffff 100%);
+        background-image: -moz-linear-gradient(left,#cc4646 0,#c92a2a 51%,#ffffff 100%);
+        background-image: -o-linear-gradient(left,#cc4646 0,#c92a2a 51%,#ffffff 100%);
+        background-image: linear-gradient(to right,#cc4646 0,#c92a2a 51%,#ffffff 100%);
+        background-position: left center;
+        -webkit-background-size: 200% auto;
+        background-size: 200% auto;
+    }
+</style>
+
+<div class="inner-tab p-t-25 fadeInDownSmall @containercls rbcon">
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12  inner-tab p-t-25 fadeInDownSmall" id="avoidpaddtop" style="padding: 0px">
+            <div class="tabs tabs-style-topline" id="ChartTabspnr" style="margin-top: 10px">
+                <nav>
+                    <ul>
+                        <li class="p_1 comman">
+                            <a href="#section-topline-1" class="fa fa-book ">
+                                <span>Booked History</span>
+                            </a>
+                        </li>
+                        <li class="p_2 comman">
+                            <a href="#section-topline-2" class="fa fa-street-view">
+                                <span>PNR Verification</span>
+                            </a>
+                        </li>
+                        <li class="p_3 comman">
+                            <a href="#section-topline-3" class="fa fa-close">
+                                <span>Cancellation</span>
+                            </a>
+                        </li>
+                        @if (StrTKTFLAG == "DTKT") // DIRECT TICKETING OR QTICKETING
+                        {
+                        <li class="p_4 comman">
+                            <a href="#section-topline-4" class="fa fa-calendar">
+                                <span>Reschedule</span>
+                            </a>
+                        </li>
+                        }
+                        @if (Producttype == "RIYA")
+                        {
+                        <li class="p_5 comman">
+                            <a href="#section-topline-5" class="fa fa-users">
+                                <span>Group Status</span>
+                            </a>
+                        </li>
+                        <li class="p_6 comman">
+                            <a href="#section-topline-6" class="fa fa-eye-slash">
+                                <span>No Show</span>
+                            </a>
+                        </li>
+                        }
+                    </ul>
+                </nav>
+                <div class="mycss-content-wrap">
+                    <div class="content-wrap">
+                        <section id="section-topline-1" style="display:none;">
+                            <!-- slide-->
+                            <div class="row">
+                                @Html.Partial("_BookedHistory")
+                            </div>
+                        </section>
+                        <section id="section-topline-2" style="display:none;">
+                            <div class="row">
+                                @Html.Partial("_PnrVerfication")
+                                @*       @Html.Partial("_Ticketingsuccess")*@
+                            </div>
+                        </section>
+                        <section id="section-topline-3" style="display:none;">
+                            <div class="row">
+                                @Html.Partial("_Cancellation")
+                                @*@Html.Partial("_PartialCancellation")*@
+                            </div>
+                        </section>
+                        @if (StrTKTFLAG == "DTKT") // DIRECT TICKETING OR QTICKETING// && ConfigurationManager.AppSettings["APP_HOSTING"] != "BSA"
+                        {
+                        <section id="section-topline-4" style="display:none;">
+                            <div class="row">
+                                @Html.Partial("_Rechedule")
+                            </div>
+                        </section>
+                        }
+                        @if (Producttype == "RIYA" && StrTKTFLAG == "DTKT" && ConfigurationManager.AppSettings["APP_HOSTING"] != "BSA")
+                        {
+                        <section id="section-topline-5" style="display:none;">
+                            <div class="row">
+                                @Html.Partial("_Groupstatus")
+                            </div>
+                        </section>
+                        <section id="section-topline-6" style="display:none;">
+                            <div class="row">
+                                @Html.Partial("_NoShow")
+                            </div>
+                        </section>
+                        }
+                    </div>
+                </div>
+                <!-- /content -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@*//popup code*@
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class=" modal-content animated bounceInDown">
+            <div class="modal-header">
+                <button type="button" id="closepopup" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirmation Alert</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Remarks
+                <p>
+                    <textarea id="txtfareRuleID" rows="4" cols="50"></textarea>
+                    <label id="lblError"></label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="BtnOk" class="btn  bgo" style="background-color: orange; color: white">Ok</button>
+                <button type="button" class="btn bgg" data-dismiss="modal" style="background-color: green; color: white">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal_cancellation" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class=" modal-content animated bounceInDown">
+            <div class="modal-header">
+                <button type="button" id="closepopup_1" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body" id="cancel_body">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal_cancellation_viewpnr" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class=" modal-content animated bounceInDown">
+            <div class="modal-header">
+                <button type="button" id="viewpopup_1" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body" id="viewpnr_body">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal_toticket" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class=" modal-content animated bounceInDown">
+            <div class="modal-header">
+                <button type="button" id="closepopup_toticket" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Manage Tickets</h4>
+            </div>
+            <div class="modal-body" id="toticket_body">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModalP" tabindex="-1" role="dialog" aria-hidden="true" style="padding-right: 0px !important;">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content" style="padding-bottom: 60px;">
+            <div class="modal-header clsPopupHead">
+                <button type="button" class="close" data-dismiss="modal" style="height:25px;"><span aria-hidden="true">&times;</span></button>
+                <h1 style="font-size: 14px; line-height: 0; padding:10px 0px; letter-spacing: 2px; margin-top: 0px; margin-bottom: 0px;float:left;">Reschedule Availability</h1>
+            </div>
+            <div class="modal-body clsPopupBody scroll-resavail" id="dvReschedule" style="max-height: 362px; overflow: auto; font-size: 13px;">
+            </div>
+            <hr class="mt-0" />
+            <center style="padding-left: 15px; padding-right: 10px;">
+                <span id="ASelectRescheduleFlight" onclick="javascript:RescheduleAvail();" style="width: 20%;height: 38px;cursor: pointer;margin-left: 40%;line-height: 20px;top:10px;" class="action-button action-buttonO shadow animate color cmn-bg-clr btn-round cmn-bg-clr btn-round">Submit</span>
+            </center>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal_reschdule_confirm" role="dialog">
+    <div class="modal-dialog modal-md">
+        <!-- Modal content-->
+        <div class=" modal-content animated fadeInLeft" id="height_popup_reschedule">
+            <div class="modal-header">
+                <button type="button" id="Reschedule_close" class="close" data-dismiss="modal" onclick="javascript: Cancelreschedule(); return">&times;</button>
+                <h4 class="modal-title">Required Confirmation</h4>
+            </div>
+            <div class="modal-body" id="Reschedule_body">
+                <div id="Exist_flight_details"></div>
+                <div id="Reschedule_paxdet"></div>
+                <div id="Reschedule_faredetails"></div>
+            </div>
+            <div class="modal-footer" id="get_fare_reschedule">
+                <div class="col-xs-6 col-md-6 col-sm-2 col-sm-offset-4 col-lg-2 col-lg-offset-4">
+                    @*<i id="iLoading" class="fa fa-spinner fa-spin" style="font-size: 16px; color: #292929; display: none;"></i>
+                        <input type="button" id="" class="action-button action-buttonO shadow animate color" style="width: 100%" value="Get Fare" onclick="Reschedule_confirm_request();">*@
+                    <button id="get_pnr" class="c-button b-50 bg-aqua hv-transparent cmn-bg-clr btn-round" onclick="Reschedule_confirm_request();">Get Fare<i id="iLoading" class="fa fa-spinner fa-spin" style="font-size: 16px; color: #292929; display: none;"></i></button>
+                </div>
+                <div class="col-xs-6 col-md-6 col-sm-2 col-lg-2">
+                    <button id="Clear" class="c-button b-50 bg-aqua hv-transparent cmn-bg-clr btn-round" onclick="close_confirm_request();">Cancel</button>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: 0; display: none;" id="confirm_reschedule">
+                <div class="col-xs-6 col-md-6 col-sm-2 col-sm-offset-4 col-lg-2 col-lg-offset-4">
+                    <input type="button" id="" onclick="javascript: Confirmreschedule(); return" class="c-button b-50 bg-aqua hv-transparent cmn-bg-clr btn-round" style="width: 100%" value="Confirm">
+                </div>
+                <div class="col-xs-6 col-md-6 col-sm-2 col-lg-2">
+                    <input type="button" id="" onclick="javascript: Cancelreschedule(); return" class="c-button b-50 bg-aqua hv-transparent cmn-bg-clr btn-round" style="width: 100%" value="Cancel">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal_reschedule_double" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class=" modal-content animated bounceInDown">
+            <div class="modal-header">
+                <button type="button" id="reschedule_double" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="color:#FFF">@Productname</h4>
+            </div>
+            <div class="modal-body" id="reschedule_body">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal_reschedule_availability" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class=" modal-content animated fadeInLeft">
+            <div class="modal-header" style="background-color: #27a5f5; text-align: center; color: white;">
+                <button type="button" id="reschedule_availability" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Flights</h4>
+            </div>
+            <div class="modal-body maindivcontact scrollbar-all" id="reschedule_body_availability">
+            </div>
+            <div class="modal-footer" style="border-top: 0;">
+                <div class="col-xs-6 col-md-12 col-sm-12 col-lg-4 col-lg-offset-2 ">
+                    <input type="button" id="" onclick="javascript: submitPassengerRowIndex_sr(); return" class="action-button action-buttonO shadow animate color" style="width: 100%" runat="server" value="Submit">
+                </div>
+                <div class="col-xs-6 col-md-12 col-sm-12 col-lg-4 ">
+                    <input type="button" id="" onclick="closeavailibity_popup();" class="action-button action-buttonB shadow animate  colorB1 " style="width: 100%" runat="server" value="Close">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*popup end*@
+
+<div id="modal-Fare" class="iziModal addtop" style="">
+</div>
+@*Cancellation alert popup*@
+<div class="modal fade" id="myModal_cancellation_popup" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class=" modal-content animated bounceInDown">
+            <div class="modal-header">
+                <button type="button" id="cancellation_close" onclick="Closecancellation();" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">@Productname</h4>
+            </div>
+
+            @if (Producttype == "RBOA" && strTerminalType == "T")
+            {
+                <div class="modal-body" id="cancel_penaltyamt" style="display:none"></div>
+                <div class="col-xs-12 col-md-12" style="padding:5px">
+                    <div class="col-xs-12 col-md-6 col-sm-6">Penalty Amount</div>
+                    <div class="col-xs-12 col-md-6 col-sm-6"><input class="txt-anim" type="text" id="hdn_airpenalty" /></div>
+                </div>
+                <div class="col-xs-12 col-md-12" style="padding:5px">
+                    <div class="col-xs-12 col-md-6 col-sm-6">Refund Amount</div>
+                    <div class="col-xs-12 col-md-6 col-sm-6"><input class="txt-anim" type="text" id="hdn_refundamt" /></div>
+                </div>
+            }
+            else
+            {
+                <div class="modal-body" id="cancel_penaltyamt"></div>
+                <input type="hidden" id="hdn_airpenalty" value="" />
+                <input type="hidden" id="hdn_refundamt" value="" />
+            }  
+            <div class="modal-body">Are you sure want to Cancel the Ticket?</div>
+            <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="margin-bottom: 30px">
+                <div class="col-xs-12 col-md-6 col-sm-6 col-lg-6 txt-cntr">
+                    <label style="">Remarks<span style="color: red">*</span></label>
+                </div>
+                <div class="col-xs-12 col-md-6 col-sm-6 col-lg-6">
+                    <input id="txt_cancel_remarks" style="border: 1px solid #27a5f5; width: 100%;" maxlength="200" runat="server" value="" class="txt-anim" type="text" autocomplete="off" />
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: 0;">
+                <div class="col-xs-6 col-md-12 col-sm-12 col-lg-4 col-lg-offset-2 ">
+                    <input type="button" id="" onclick="javascript: Confirmcancelltion(); return" class="action-button action-buttonO shadow animate color" style="width: 100%" runat="server" value="Yes">
+                </div>
+                <div class="col-xs-6 col-md-12 col-sm-12 col-lg-4 ">
+                    <input type="button" id="" onclick="Closecancellation();" class="action-button action-buttonB shadow animate  colorB1 " style="width: 100%" runat="server" value="No">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*Cancellation alert popup*@
+
+@*Cancellation alert popup*@
+<div class="modal fade" id="myModal_cancellation_request" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class=" modal-content animated bounceInDown">
+            <div class="modal-header">
+                <button type="button" id="cancellation_req_close" class="close" data-dismiss="modal" onclick="javascript: closepenaltyrequest(); return">&times;</button>
+                <h4 class="modal-title">@Productname</h4>
+            </div>
+            <div class="modal-body">Are you sure want to Cancel the Ticket?</div>
+            <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="margin-bottom: 30px">
+                <label style="">Remarks<span style="color: red">*</span></label>
+                <input id="txt_cancel_request_remarks" style="border: 1px solid #27a5f5; width: 100%;" maxlength="200" runat="server" value="" class="txt-anim" type="text" autocomplete="off" />
+            </div>
+            <div class="modal-footer" style="border-top: 0;">
+                <div class="col-xs-6 col-md-12 col-sm-12 col-lg-4 col-lg-offset-2 ">
+                    <input type="button" id="" onclick="javascript: Fetchcancelrequest(); return" class="action-button action-buttonO shadow animate color" style="width: 100%" runat="server" value="Yes">
+                </div>
+                <div class="col-xs-6 col-md-12 col-sm-12 col-lg-4 ">
+                    <input type="button" id="" onclick="javascript: closepenaltyrequest(); return" class="action-button action-buttonB shadow animate  colorB1 " style="width: 100%" runat="server" value="No">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*Cancellation alert popup*@
+
+@*pnr function popup*@
+@*@if (FLAG == "M")
+    {*@
+@*<div class="modal fade" id="pnrpopup" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="col-lg-6 col-lg-offset-3 col-xs-12 col0">
+       
+            <div class="modal-content animated bounceInDown">
+                <div class="modal-header float-left w-100">
+                    <h4 class="modal-title float-left">Manage Booking</h4>
+                    <div class="cls-boa float-right">
+                        <label class="" onclick="javascript: return CanOTAappsFunction();" style="cursor: pointer; font-weight: 900; text-align: right; padding-bottom: 0px; padding-top: 0px; margin-bottom: 0px !important; color: #27a5f5">x</label>
+                    </div>
+                </div>
+                <div class="modal-body clsPopupBody" style="padding: 20px 10px;">
+                    <div class="main">
+                        <div class="row spncls">
+                            <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="/* border: 1px solid; */">
+                                <button class="myButt four" style="width: 100%;background-color: #27a5f5;" onclick="javascript: return OTAappviewpnrFunction();">
+                                    <div class="icon" style="font-size: 16px;">
+                                        <span class="fa fa-street-view" style="font-size: 34px; margin-left: 25px;" />
+                                    </div>
+                                    <em class="spritepage" style="display: none;"><span class="sprit_view"></span></em>
+                                    <span class="boa-align">View pnr </span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row spncls">
+                            <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 " style="/* border: 1px solid; */">
+                                <button class="myButt four" style="width: 100%; background-color: #27a5f5;" onclick="javascript: return cancellation_process();">
+                                    <div class="icon" style="font-size: 24px;">
+                                        <span class="fa fa-close" />
+                                    </div>
+                                    <em class="spritepage" style="display: none;"><span class="sprit_cancel"></span></em>
+                                    <span class="boa-align">Cancellation</span>
+                                </button>
+                            </div>
+                        </div>
+                        @if (StrTKTFLAG == "DTKT")
+                            {
+                            <div class="row spncls">
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 " style="/* border: 1px solid; */">
+                                    <button class="myButt four" style="width: 100%; background-color: #27a5f5;" onclick="javascript: return bookhistoresche_process();">
+                                        <div class="icon" style="font-size: 24px;">
+                                            <span class="fa fa-calendar" style="margin-left: 23px;" />
+                                        </div>
+                                        <em class="spritepage" style="display: none;"><span class="sprit_reschedule"></span></em>
+                                        <span class="boa-align">Reschedule</span>
+                                    </button>
+                                </div>
+                            </div>
+                            }
+                        <div class="row spncls">
+                            <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 " style="/* border: 1px solid; */">
+                                <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4" onclick="javascript: return bookedhis_print();" style="padding: 0px">
+                                    <button class="myButt four bxs-non" style="width: 100%; background-color: #27a5f5;">
+                                        <div class="icon icon_spa" style="font-size: 22px;">
+                                            <span class="fa fa-print" />
+                                        </div>
+                                        <em class="spritepage" style="display: none;"><span class="sprit_printpnr"></span></em>
+                                        <span class="boa-align printmang">Print</span>
+                                    </button>
+                                </div>
+                                <div class="col-xs-4 col-md-3 col-sm-3 col-lg-3 mobtxt_center col10" id="singletic">
+                                    <input style="display: none; color: white; border: 1px solid #27a5f5 !important;" id="Chk_fare2_popup" class="cb db" type="checkbox" name="Chk_fare2_pop">
+                                    <label style="color: white; margin-left: 17px; margin-top: 5px;" class="cbx dbx" for="Chk_fare2_popup"></label>
+                                    <legend id="single" style="font-size: 12px; margin-top: -7px; margin-left: 2px; white-space: nowrap;" class="lbl" for="Chk_fare2_popup">Single Ticket</legend>
+                                </div>
+                                <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4 mobtxt_center col10" id="getfr">
+                                    <input style="display: none; color: white; border: 1px solid #27a5f5 !important;" id="Chk_fare_popup" class="cb db srna" type="checkbox" name="Chk_fare_popup">
+                                    <label style="color: white; margin-left: 18px; margin-top: 5px; float: left; margin-bottom: 4px;" class="cbx dbx " for="Chk_fare_popup"></label>
+                                    <legend id="withfare" style="font-size: 12px; float: left;" class="lbl srna">With Fare</legend>
+                                </div>
+                                <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4 mobtxt_center col10" id="getlogo">
+                                    <input style="display: none; color: white; border: 1px solid #27a5f5 !important;" id="Chk_logo_popup" class="cb db srna" type="checkbox" name="Chk_logo_popup">
+                                    <label style="color: white; margin-left: 18px; margin-top: 5px; float: left; margin-bottom: 4px;" class="cbx dbx " for="Chk_logo_popup"></label>
+                                    <legend id="withlogo" style="font-size: 12px; float: left;" class="lbl srna">With logo</legend>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+@*}*@
+
+<!-- SEND SMS #177 -->
+<div id="ViewPnrdetailSms" class="modal fade" tabindex="-1" role="dialog" aria-hidden="false">
+    @*Added by Murugesan  for view pnr send sms on 20190221*@
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header clsPopupHead" style="border-bottom: 1px solid #f68900;">
+                <button type="button" class="close" data-dismiss="modal"><span style="color: #000" aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Send SMS</h4>
+            </div>
+
+            <div class="modal-body text-center" id="dvinnersmsview" style="padding-bottom: 15px !important;">
+                <span class="boa-align">SMS Ticket</span>
+                <div class="row m-0">
+                    <div class="col-sm-12 dv-anim input-effect animationdive" style="margin: 20px 0% !important">
+                        <input class="txt-anim has-content " maxlength="10" onkeypress="isNumericVal(event)" id="txtSMSNumber" style="border: 1px solid #ccc; width: 100%;" />
+                        <label class="colrcls" for="txtSMSNumber"><span>Enter Mobile Number</span> </label>
+                    </div>
+                </div>
+                <div class="row m-0 modal-footer">
+                    <div class="col-sm-6 col-xs-6 col0 text-right">
+                        <a href="#" id="smssend" class="smssend color" onclick="btnSMSSend('V')">Send SMS</a>
+                    </div>
+                    <div class="col-sm-6 col-xs-6 text-left">
+                        <a href="#" id="mailcancel" class="mailcancel colorB1" onclick="CloseSMSPopup()">Cancel</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- SEND SMS -->
+<!-- SEND Email #177 -->
+<div id="modal-ViewpnrsendMail" class="modal fade" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header clsPopupHead" style="border-bottom: 1px solid #f68900;">
+                <button type="button" class="close" data-dismiss="modal"><span style="color: #000" aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Send Email</h4>
+            </div>
+
+            <div class="modal-body text-center" id="divpnremail" style="padding-bottom: 15px !important;">
+                <span class="boa-align">Email Ticket</span>
+                <div class="row m-0">
+                    <div class="col-sm-12 dv-anim input-effect animationdive" style="margin: 20px 0% !important">
+                        <input class="txt-anim has-content " maxlength="50" id="txtEmailId" style="border: 1px solid #ccc; width: 100%;" />
+                        <label class="colrcls" for="txtEmailId"><span>Enter Email Id</span> </label>
+                    </div>
+                </div>
+                <div class="row m-0 modal-footer">
+                    <div class="col-sm-6 col-xs-6 col0 text-right">
+                        <a href="#" id="txtsendmail" class="smssend color" onclick="btnEmailSend('V')">Send Email</a>
+                    </div>
+                    <div class="col-sm-6 col-xs-6 text-left">
+                        <a href="#" id="cancelmail" class="mailcancel colorB1" onclick="CloseEmailPopup()">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- SEND Email -->
+
+<div id="modal_Cancel_Remarks" class="iziModal">
+    <div class="iziModal-wrap" style="top: 0px;padding: 15px !important;">
+        <div class="iziModal-content" style="padding: 0px; max-height: 470px; overflow-y: auto;">
+            <div class="col-xs-12">
+                <label style="color:#000!important;font-weight:600 !important;font-size:14px !important;padding: 10px 0px;">
+                    Are you sure want to cancel the request?
+                </label>
+            </div>
+            <div class="col-xs-12">
+                <div class="dv-anim input-effect m-0 m-sm-t15">
+                    <label>Remarks<span style="color:RED!important;">*</span></label>
+                    <textarea id="txt_cancellation_remark" class="txt-anim form-control has-content" autocomplete="off"></textarea>
+                    <span class="focus-border">
+                        <i></i>
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="col-xs-6" style="margin-top:20px !important;">
+                    <input type="button" onclick="ConfirmCancellation('N', 'txt_cancellation_remark');" class="btn shadow animate color" style="width: 100%" value="Yes">
+                </div>
+                <div class="col-xs-6" style="margin-top:20px !important;">
+                    <input type="button" onclick="$('#modal_Cancel_Remarks').iziModal('close');" class="btn shadow animate colorB1 " style="width: 100%" value="No">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal_Penality_Breakup" class="iziModal">
+    <div class="iziModal-wrap" style="top: 0px;">
+        <div class="iziModal-content" style="padding: 0px;overflow-y: auto;max-height:700px !important">
+            <div class="col-xs-12 modal-body text-center" id="dvBreakup" style="padding-bottom: 15px !important;">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal-alert" class="iziModal"></div>
+<div id="modal-success" class="iziModal"></div>
+
+@*pnr function popup*@
+
+<input type="hidden" id="hdn_table_column" />
+<input type="hidden" id="hdn_Totpax_new" value="" />
+<input type="hidden" id="hdn_Tottckt_new" value="" />
+<input type="hidden" id="hdn_airpenalty" />
+<input type="hidden" id="hdn_refundamt" />
+<input type="hidden" id="hdn_reschedule_airpenalty" />
+<input type="hidden" id="hdn_reschedule_farediff" />
+<input type="hidden" id="hdfflightrowcount" />
+<input type="hidden" id="hdn_countryphonecode" value="@ConfigurationManager.AppSettings["Countryphonecode"]" />
+<input type="hidden" id="hdfRowIndexBook" />
+<input type="hidden" id="hdn_reschedulereqtype" />
+<input type="hidden" id="hdn_onwardrescheduleavail" />
+<input type="hidden" id="hdn_returnrescheduleavail" />
+<input type="hidden" id="hdn_pnrflag" value="@PNRFlag" />
+<input type="hidden" id="hdn_bajajurl" value="@ConfigurationManager.AppSettings["Bajajpolicyurl"]" />
+<input type="hidden" id="hdn_bajajusername" value="@ConfigurationManager.AppSettings["Bajajpolicyusername"]" />
+<input type="hidden" id="hdn_AppHosting" value="@ConfigurationManager.AppSettings["APP_HOSTING"].ToString()" />
+<script>
+    var errPdiv = "dvGrpBkngerr", errdiv_msg = "dvGrpBkngerr_msg";
+    var errPdiv_pnr = "dvGrpBkngerr_view", errdiv_msg_pnr = "dvGrpBkngerr_msg_viewpnr";
+    var cancel_errPdiv = "cancel_dvGrpBkngerr", cancel_errdiv_msg = "cancel_dvGrpBkngerr_msg";
+    var rech_dvGrpBkngerr = "rech_dvGrpBkngerr", rech_dvGrpBkngerr_msg = "rech_dvGrpBkngerr_msg";
+    var rech_dvGrpBkngerr_alert = "rech_dvGrpBkngerr_alert", rech_dvGrpBkngerr_msg_alert = "rech_dvGrpBkngerr_msg_alert";
+    var sessionExb = '@Url.Action("SessionExp", "Redirect")';
+    var StrTKTFLAG = '@StrTKTFLAG';
+    var productIds = [];
+    var Spinner = '@strLoaderURL';
+    $(document).ready(function () {
+        var options = {
+            start: "@ViewBag.tabflag"
+        };
+        new CBPFWTabs(document.getElementById('ChartTabspnr'), options);
+        $('.clscmbanim').niceSelect();
+    });
+    var loadingimg = '@strLoaderURL';
+    var LoaderURL = '@strLoaderURL';
+    var allowtopup = '@allowtopup';
+    var allowcredit = '@allowcredit';
+
+    function RequestBookedHistory() {
+        var Agentid = "";
+        var searhby = $("#op_searchBy").val();//op_searchBy
+        if (searhby == null || searhby == "") {
+            showlobiboxalert("warning", "Please Select Search!");
+            document.getElementById('op_searchBy').focus();
+            return false;
+        }
+
+
+        var rTraveldate = "no";
+        var rBlockPnr = "no";
+        var FromDT = $("#txt_AirBook_fromdate").val();
+        var ToDT = $("#txt_AirToodate").val();
+        var TravDate = "";
+        if (FromDT == "") {
+            //showError("Please select from date", errPdiv, errdiv_msg, "");
+            showlobiboxalert("warning", "Please select from date");
+            return false;
+        }
+        if (ToDT == "") {
+            //showError("Please select to date", errPdiv, errdiv_msg, "");
+            showlobiboxalert("warning", "Please select to date");
+            return false;
+        }
+        var strMigratedAgent = false;
+        if (document.getElementById("rTraveldate").checked == true) {
+            rTraveldate = "yes";
+            TravDate = $("#txt_AirBook_fromdate").val();
+        }
+        else {
+            rTraveldate = "no";
+            TravDate = "";
+        }
+        if (document.getElementById("rBlockPnr").checked == true) {
+            rBlockPnr = "yes";
+        }
+        else {
+            rBlockPnr = "no";
+        }
+        var strMigratedAgent = false;
+        if ('@DateValidation' == "Y") {
+            var Today = new Date();
+            var TDate = (Today.getDate() < 10 ? "0" : "") + Today.getDate();
+            var TMonth = ((Today.getMonth() + 1) < 10 ? "0" : "") + (Today.getMonth() + 1);
+            var TYear = Today.getFullYear();
+            Today = TDate + "/" + TMonth + "/" + TYear;
+            
+            if (FromDT != ToDT && ToDT == Today) {
+               // showError("Please avoid current date and previous date combination...", errPdiv, errdiv_msg, "");
+                showlobiboxalert("warning", "Please avoid current date and previous date combination...");
+                return false;
+            }
+        }
+        if ('@strTerminalType' == "T" && $("#bkddlclient").val() != "") {
+            Agentid = sessionStorage.getItem("clientid");
+        }
+        @*if ('@strTerminalType' == "T" && '@strMigratedAgent' == "Y") {
+            strMigratedAgent = $("#chkMigrated").is(":checked");
+        }*@
+        var strpayment = $("#op_Payment").val();
+
+        $.blockUI({
+            message: '<img alt="Please Wait..." src="@strLoaderURL" style="background-color:#fff; border-radius:8px; margin-top:12%;" id="FareRuleLodingImage" />',
+            css: { padding: '5px' }
+        });
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("RequestViewBookedFunction", "Pnr")",
+            data: '{fromdate:"' + FromDT + '" , todate:"' + ToDT + '" , traveldate:"' + TravDate + '", sPNR:"' + $("#txtSPNR").val() + '", csrPNR:"' + $("#txtCSRPNR").val()
+                + '", airPNR:"' + $("#txtAirPNR").val() + '",firstname:"' + $("#txtFirstName").val() + '",lastname:"' + $("#txtLastName").val() + '",status:"' + $("#op_searchBy").val()
+                + '",payment:"' + strpayment + '",rTraveldate:"' + rTraveldate + '",rBlockPnr:"' + rBlockPnr + '",airlinecode:"' + $("#txtAirLineName").val() + '",Flightno:"' + $("#txtFlightno").val() + '",AgentId:"' + Agentid
+                + '",strMigratedAgent:"' + strMigratedAgent + '"}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (json) {
+                var result = json.Result;
+                if (result[1] != "" && result[1] != null) {
+                    $("#dvGrpBkngerr").removeClass("has_error");
+                    var appendiv = document.getElementById("Div_Char").id;
+                    $('#Btn_excel').css('display', 'block');
+                    // CerateTable(result[1]);
+                    createTable(result[1]);
+                    $.unblockUI();
+                }
+                else {
+                    document.getElementById("Div_Char").style.display = "none";
+                    $('#Btn_excel').css('display', 'none');
+                    //  showError(result[0], errPdiv, errdiv_msg, "");
+                    showlobiboxalert("info", result[0]);
+                    $.unblockUI();
+                    return false;
+                }
+            },
+            error: function (e) {
+                if (e.statusText == "timeout") {
+                    document.getElementById("Div_Char").style.display = "none";
+                   // showError("Operation timeout. Please Search Again", errPdiv, errdiv_msg, "");
+                    showlobiboxalert("error", "Operation timeout. Please Search Again");
+                    return false;
+                }
+                if (e.status == "500") {
+                    document.getElementById("Div_Char").style.display = "none";
+                    // showError("An Internal Problem Occurred. Your Session will Expire.", errPdiv, errdiv_msg, "");
+                    showlobiboxalert("error", "An Internal Problem Occurred. Your Session will Expire.");
+                    window.top.location = sessionExb;
+                    return false;
+                }
+                $.unblockUI();
+            }
+        });
+        ClearCancellationPNR();
+        clear_rescheule_pnr();
+    }
+
+    function createTable(result) {
+
+        var columns = [];
+        var json = result;
+        var results = jQuery.parseJSON(json);
+        var jsondata = $.parseJSON(json);
+        $.each(jsondata[0], function (obj, val) {
+            if (obj == "TOTAL_PRICE") {
+                columns.push({ field: obj, caption: "Total Price", size: "150px", resizable: true, sortable: true, attr: "align=right" });
+            }
+            else if (obj == "SPNR") {
+                columns.push({
+                    field: obj, caption: "@PNRFlag", size: '160px', resizable: true, sortable: true,
+                    render: function (record, index, column_index) {
+                        if (record["SPNR"].split("|")[1] == "H") {
+                            var html = '<a class="boa-clr" style="color:#0000ff;cursor: pointer !important;" id="printSPRValue' + index + '" data-refid=' + record["SPNR"] + ' onclick="javascript:OappsFunction(' + index + ',' + column_index + ',\'' + record["PAYMENTMODE"] + '\');">' + record["SPNR"].split("|")[0] + '</a>';
+                            return html;
+                        }
+                        else {
+                            if (record["SPNR"].split("|")[1] == "B" || record["SPNR"].split("|")[1] == "I" || record["SPNR"].split("|")[1] == "W") {
+                                var html = '<a class="boa-clr" style="color:#0000ff;cursor: pointer !important;" id="printSPRValue' + index + '" data-refid=' + record["SPNR"] + ' onclick="javascript:OappsFunction(' + index + ',' + column_index + ',\'' + record["PAYMENTMODE"] + '\');" title="' + record["SPNR"].split("|")[0] + '|' + '">' + record["SPNR"].split("|")[0] + '</a>';
+                                return html;
+                            }
+                            else {
+                                var html = '<a class="boa-clr" style="color:#0000ff;cursor: pointer !important;" id="printSPRValue' + index + '" data-refid=' + record["SPNR"] + ' onclick="javascript:OTAappsFunction(' + index + ',' + column_index + ',\'' + record["PAYMENTMODE"] + '\');">' + record["SPNR"].split("|")[0] + '</a>';
+                                return html;
+                            }
+                        }
+                    }
+                })
+            }
+            else if (obj == "TerminalId") {
+                columns.push({ field: obj, caption: "Terminal ID", size: "150px", resizable: true, sortable: true, attr: "align=left" });
+            }
+            else if (obj == "AIRLINE_NAME") {
+                columns.push({ field: obj, caption: "Airline Name", size: "150px", resizable: true, sortable: true, attr: "align=left" });
+            }
+            else if (obj == "TICKET_STATUS") {
+                columns.push({ field: obj, caption: "Ticket Status", size: "150px", resizable: true, sortable: true, attr: "align=left" });
+            }
+            else if (obj == "CRSPNR") {
+                columns.push({ field: obj, caption: "CRS PNR", size: "150px", resizable: true, sortable: true, attr: "align=left" });
+            }
+            else if (obj == "AIRPNR") {
+                columns.push({ field: obj, caption: "Airline PNR", size: "150px", resizable: true, sortable: true, attr: "align=left" });
+            }
+            else if (obj == "FLIGHT_NO") {
+                columns.push({ field: obj, caption: "Flight No", size: "150px", resizable: true, sortable: true, attr: "align=left" });
+            }
+            else if (obj == "SECTOR") {
+                columns.push({ field: obj, caption: "Sector", size: "150px", resizable: true, sortable: true, attr: "align=left" });
+            }
+            else if (obj == "DEPT_DATE") {
+                columns.push({ field: obj, caption: "Dept. Date", size: "150px", resizable: true, sortable: true, attr: "align=left" });
+            }
+            else if (obj == "ARRIVAL_DATE") {
+                columns.push({ field: obj, caption: "Arrv. Date", size: "150px", resizable: true, sortable: true, attr: "align=left" });
+            }
+            else if (obj == "PASSENGER_NAME") {
+                columns.push({ field: obj, caption: "Passenger Name", size: "150px", resizable: true, sortable: true, attr: "align=left" });
+            }
+            else if (obj == "TRIP_TYPE") {
+                columns.push({ field: obj, caption: "Trip Type", size: "150px", resizable: true, sortable: true, attr: "align=left" });
+            }
+            else if (obj == "BOOKED_DATE") {
+                columns.push({ field: obj, caption: "Booked Date", size: "150px", resizable: true, sortable: true, attr: "align=left" });
+            }
+            else if (obj == "PAYMENTMODE") {
+                columns.push({
+                    field: obj, caption: "Payment Mode", size: "150px", resizable: true, sortable: true, attr: "align=left",
+                    render: function (record, index, column_index) {
+                        if (record["PAYMENTMODE"] == "T") {
+                            return "Topup";
+                        }
+                        else if (record["PAYMENTMODE"] == "C") {
+                            return "Credit";
+                        }
+                        else if (record["PAYMENTMODE"] == "P") {
+                            return "Payment Gateway";
+                        }
+                        else if (record["PAYMENTMODE"] == "B") {
+                            return "Pass Through";
+                        }
+                        else if (record["PAYMENTMODE"] == "H") {
+                            return "Cash";
+                        }
+                        else {
+                            return record["PAYMENTMODE"];
+                        }
+                    }
+                });
+            }
+            else {
+                columns.push({ field: obj, caption: obj, size: "150px", resizable: true, sortable: true, attr: "align=left" });
+            }
+        });
+        var count = 0;
+        for (var i = 0; i < jsondata.length; i++) {
+            var object1 = {
+                "recid": count++
+            }
+            $.extend(jsondata[i], object1);
+        }
+        $("#Div_Char").w2destroy('History');
+        $("#Div_Char").css("height", "400px");
+        $("#Div_Char").w2grid({
+            name: 'History',
+            recordHeight: 30,
+            show: { footer: true, toolbar: false },
+            columns: columns,
+            records: jsondata,
+            selectType: 'cell',
+        });
+
+        $("#Div_Char").show();
+
+
+    }
+
+    function ChangeFilterBased(ch_date) {
+        if (ch_date == "BD") {
+            document.getElementById('rTraveldate').checked = false;
+            document.getElementById('rBlockPnr').checked = false;
+            $("#datetextto")[0].innerHTML = "";
+            $("#datetextto")[0].innerHTML = "Booked";
+            $("#datetextfrom")[0].innerHTML = "";
+            $("#datetextfrom")[0].innerHTML = "Booked";
+            //document.getElementById('txtTraveldate').disabled = true;//.value="";//
+            document.getElementById("txt_AirBook_fromdate").disabled = false;
+            document.getElementById("txt_AirToodate").disabled = false;
+            $("#txt_AirBook_fromdate").datepicker("destroy");
+            $("#txt_AirToodate").datepicker("destroy");
+            $("#txt_AirBook_fromdate").val(currentDate);
+            $("#txt_AirBook_fromdate").datepicker({
+                maxDate: currentDate, dateFormat: "dd/mm/yy",
+            });
+            $("#txt_AirToodate").datepicker({
+                minDate: $("#txt_AirBook_fromdate").val(), maxDate: currentDate, dateFormat: "dd/mm/yy",
+
+            });
+            $("#txt_AirToodate").val(currentDate);
+            $("#txt_AirBook_fromdate").on('change keyup paste', function () {
+
+                $("#txt_AirToodate").datepicker("destroy");
+                $("#txt_AirToodate").datepicker({
+                    minDate: $("#txt_AirBook_fromdate").val(), maxDate: currentDate, dateFormat: "dd/mm/yy",
+                });
+                $("#txt_AirToodate").val(currentDate);
+            });
+            $("#txt_AirToodate").val(currentDate);
+            $('#Div_Char').css('display', 'none');
+        }
+        else if (ch_date == "TD") {
+            $("#datetextto")[0].innerHTML = "";
+            $("#datetextto")[0].innerHTML = "Travel";
+            $("#datetextfrom")[0].innerHTML = "";
+            $("#datetextfrom")[0].innerHTML = "Travel";
+            //document.getElementById("txtTraveldate").disabled = false;
+            document.getElementById("txt_AirBook_fromdate").disabled = false;
+            document.getElementById("txt_AirToodate").disabled = false;
+            document.getElementById('rbookdate').checked = false;
+            document.getElementById('rTraveldate').checked = true;
+            document.getElementById('rBlockPnr').checked = false;
+            $("#dvGrpBkngerr").removeClass("has_error");
+            $("#txt_AirBook_fromdate").datepicker("destroy");
+            $("#txt_AirBook_fromdate").val(currentDate);
+            $("#txt_AirToodate").datepicker("destroy");
+            $("#txt_AirToodate").val(currentDate);
+            $("#txt_AirBook_fromdate").datepicker({
+                dateFormat: "dd/mm/yy",
+            });
+
+            $("#txt_AirToodate").datepicker({
+                minDate: currentDate, dateFormat: "dd/mm/yy",
+
+            });
+            $("#txt_AirBook_fromdate").on('change keyup paste', function () {
+
+                $("#txt_AirToodate").datepicker("destroy");
+                $("#txt_AirToodate").datepicker({
+                    minDate: $("#txt_AirBook_fromdate").val(), dateFormat: "dd/mm/yy",
+                });
+                $("#txt_AirToodate").val($("#txt_AirBook_fromdate").val());
+            });
+            $('#Div_Char').css('display', 'none');
+
+        }
+        else if (ch_date == "BP") {
+            //document.getElementById("txtTraveldate").disabled = true ;
+            $("#txt_AirBook_fromdate").val(currentDate);
+            $("#txt_AirToodate").val(currentDate);
+            $("#dvGrpBkngerr").removeClass("has_error");
+            document.getElementById("txt_AirBook_fromdate").disabled = true;//.value="";//
+            document.getElementById("txt_AirToodate").disabled = true;//.value="";//
+            document.getElementById('rbookdate').checked = false;
+            document.getElementById('rTraveldate').checked = false;
+            document.getElementById('rBlockPnr').checked = true;
+            $('#Div_Char').css('display', 'none');
+        }
+    }
+    function Btn_clr_Click() {
+
+        document.getElementById("Div_Char").style.display = "none";
+        document.getElementById("Btn_excel").style.display = "none";
+        document.getElementById("txtSPNR").value = "";
+        document.getElementById("txtCSRPNR").value = "";
+        document.getElementById("txtAirPNR").value = "";
+        document.getElementById("txtFirstName").value = "";
+        document.getElementById("txtAirLineName").value = "";
+        document.getElementById("txtLastName").value = "";
+
+
+        document.getElementById("txtFlightno").value = "";
+        $("#txtFlightno").removeClass("has-content");
+
+
+        $("#txt_AirBook_fromdate").val(currentDate);
+        $("#txt_AirToodate").val(currentDate);
+        document.getElementById('rbookdate').checked = true;
+        $("#datetextto")[0].innerHTML = "";
+        $("#datetextto")[0].innerHTML = "Booked";
+        $("#datetextfrom")[0].innerHTML = "";
+        $("#datetextfrom")[0].innerHTML = "Booked";
+
+
+        document.getElementById("txt_AirBook_fromdate").disabled = false;
+        document.getElementById("txt_AirToodate").disabled = false;
+        $("#txt_AirBook_fromdate").datepicker("destroy");
+        $("#txt_AirToodate").datepicker("destroy");
+        $("#txt_AirBook_fromdate").val(currentDate);
+        $("#txt_AirBook_fromdate").datepicker({
+            maxDate: currentDate, dateFormat: "dd/mm/yy",
+        });
+        $("#txt_AirToodate").datepicker({
+            minDate: $("#txt_AirBook_fromdate").val(), maxDate: currentDate, dateFormat: "dd/mm/yy",
+
+        });
+        $("#txt_AirToodate").val(currentDate);
+        $("#txt_AirBook_fromdate").on('change keyup paste', function () {
+
+            $("#txt_AirToodate").datepicker("destroy");
+            $("#txt_AirToodate").datepicker({
+                minDate: $("#txt_AirBook_fromdate").val(), maxDate: currentDate, dateFormat: "dd/mm/yy",
+            });
+            $("#txt_AirToodate").val(currentDate);
+        });
+        $("#txt_AirToodate").val(currentDate);
+
+
+        $('#op_searchBy option[value=" "]').attr("selected", "selected");
+        if (allowtopup == "Y") {
+            $("#op_Payment").val("T");
+        }
+        else if (allowcredit == "Y") {
+            $("#op_Payment").val("C");
+        }
+
+        $("#dvGrpBkngerr").removeClass("has_error");
+        
+        $("#txtSPNR").removeClass("has-content");
+        $("#txtCSRPNR").removeClass("has-content");
+        $("#txtAirPNR").removeClass("has-content");
+
+        $("#txtFirstName").removeClass("has-content");
+        $("#txtLastName").removeClass("has-content");
+        $("#txtAirLineName").removeClass("has-content");
+
+        $("#op_searchBy").val("All");
+        $('#op_searchBy').niceSelect('destroy').niceSelect();
+        $('#op_Payment').niceSelect('destroy').niceSelect();
+        $("#bkddlclient").val("");
+    }
+
+
+    function get_pnr_Click(spnr, airlinepnr, crspnr, strpaymentmode) {
+
+        var S_PNR = "";
+        var Airline_PNR = "";
+        var CRS_PNR = "";
+
+        $(".hidediv_toticket").css('display', 'block');
+        $("#viewpnrShowDiv").css("display", "block");
+        if (spnr != null && spnr != "") {
+            S_PNR = spnr.replace(/\s+/, "");
+        }
+        else {
+
+            S_PNR = document.getElementById('txt_viewSPNR').value.trim();
+        }
+        if (airlinepnr != null && airlinepnr != "") {
+            Airline_PNR = airlinepnr.replace(/\s+/, "");
+        }
+        else {
+
+            Airline_PNR = document.getElementById('txt_viewAirPNR').value.trim();
+        }
+        if (crspnr != null && crspnr != "") {
+            CRS_PNR = crspnr.replace(/\s+/, "");
+        }
+        else {
+            CRS_PNR = document.getElementById('txt_viewCSRPNR').value.trim();
+        }
+
+        if (S_PNR == "" && Airline_PNR == "" && CRS_PNR == "") {
+
+           // showError("Please enter any PNR no.", errPdiv_pnr, errdiv_msg_pnr, "");
+            showlobiboxalert("warning", "Please enter any PNR No.");
+            $("#viewpnrShowDiv").css("display", "none");
+            return false;
+
+        }
+
+        var strPaymentmode = (strpaymentmode != null && strpaymentmode != undefined && strpaymentmode != "") ? strpaymentmode : $("#ddl_paymentmode").val();
+
+
+        $.blockUI({
+            message: '<img alt="Please Wait..." src="@strLoaderURL" style="background-color:#fff; border-radius:8px; margin-top:12%;" id="FareRuleLodingImage" />',
+            css: { padding: '5px' }
+        });
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("RequestViewPNRFunction", "Pnr")",
+            data: '{strSPNRNO:"' + S_PNR + '",strAirPNRNO:"' + Airline_PNR + '",strCRSPNRNO:"' + CRS_PNR + '",strPaymentmode:"' + strPaymentmode + '"}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (json) {
+                var result = json.Result;
+
+                document.getElementById('viewpnrShowDiv').innerHTML = result[1];
+                //$(".pnrviewtab").bootstrapTable();
+                $(".dispnone").css("display", "none");
+                if (result[1] != "" && result[1] != null) {
+
+
+                    if (result[3].length > 1) {
+                        var pnr_de = result[3].split("|");
+                        document.getElementById('txt_viewSPNR').value = pnr_de[0];
+
+                        document.getElementById('txt_viewAirPNR').value = pnr_de[2];
+                        document.getElementById('txt_viewCSRPNR').value = pnr_de[1];
+                    }
+                    else {
+                        document.getElementById('txt_viewSPNR').value = "";
+                        document.getElementById('txt_viewAirPNR').value = "";
+                        document.getElementById('txt_viewCSRPNR').value = "";
+                    }
+                    $("#dvGrpBkngerr_view").removeClass("has_error");
+                    $("#txt_viewSPNR").addClass("has-content");
+                    $("#txt_viewAirPNR").addClass("has-content");
+                    $("#txt_viewCSRPNR").addClass("has-content");
+                    $(".displayhide").css("display", "none");
+                    $.unblockUI();
+                }
+                else if (result[4] != "" && result[4] != null) {
+
+                    var sr = JSON.parse(result[4]);
+                    if (sr.Table1.length > 0) {
+
+                        var s = "";
+
+                        s += "<div style='margi'>";
+                        for (var i = 0; i < sr.Table1.length; i++) {
+                            s += "<div class='res_row' style='margin-bottom: 10px;'>";
+                            s += "<div id='pnrid' data-val='" + sr.Table1[i].S_PNR + "' ><span onclick='get_respnrdetail_view(this)' style='font-weight: 900;    cursor: pointer;'>" + sr.Table1[i].S_PNR + "</span></div>";
+                            s += "</div>";
+                        }
+                        s += "</div>";
+                        $("#viewpnr_body").html('');
+                        $("#viewpnr_body").append(s);
+                        $('#myModal_cancellation_viewpnr').modal('toggle');
+                    }
+
+                }
+
+                else {
+                    //showError(result[0], errPdiv_pnr, errdiv_msg_pnr, "");
+                    showlobiboxalert("info", result[0]);
+                    $.unblockUI();
+                    return false;
+                    //   alert(result[0]);
+                    //  $("#dvGrpBkngerr").removeClass("has_error");
+                }
+                $.unblockUI();
+            },
+            error: function (e) {
+                $.unblockUI();
+                if (e.statusText == "timeout") {
+                   // alert("Operation timeout. Please Search Again");
+                    showlobiboxalert("info", "Operation timeout. Please Search Again");
+                    return false;
+                }
+                if (e.status == "500") {
+                   // showError("An Internal Problem Occurred. Your Session will Expire.", errPdiv, errdiv_msg, "");
+                    showlobiboxalert("error", "An Internal Problem Occurred. Your Session will Expire.");
+                    window.top.location = sessionExb;
+                    return false;
+                }
+
+              //  $.unblockUI();
+            }
+        });
+
+        ClearCancellationPNR();
+        clear_rescheule_pnr();
+        Btn_clr_Click();
+
+    }
+
+
+
+    function Print_return() {
+        var test = "";
+        var pnr_lat = "";
+        Pnr = document.getElementById('txt_viewSPNR').value;
+        if (Pnr != null && Pnr != "") {
+            pnr_lat = Pnr;
+        }
+        else {
+            pnr_lat = sessionStorage.getItem("viewpnr_spnr");
+        }
+        if (document.getElementById("Chk_fare").checked == true) {
+            var fare = "yes";
+        }
+        else {
+            fare = "no";
+        }
+        if (document.getElementById("Chk_fare2").checked == true) {
+            {
+                var single = "yes";
+            }
+        }
+        else {
+            single = "no";
+        }
+        var strWithLogo = "NO";
+        if ($("#Chk_logo").is(":checked") == true) {
+            strWithLogo = "YES";
+        }
+        else {
+            strWithLogo = "NO";
+        }
+
+        if ($(window).width() < 768) { //For Mobile View...
+            var iurl = "@Url.Action("PrintTickets", "AfterBooking")" + "?strSPNRNO=" + pnr_lat + "|" + fare + "|" + strWithLogo + "&single=" + single + "&Page=" + "P";
+            var ititle = "Print Ticket";
+            var isubtitle = "";
+            var ifull = false;
+            IziModalIFramePop(iurl, ititle, isubtitle, ifull);
+        }
+        else {
+            newwindow = window.open("@Url.Action("PrintTickets", "AfterBooking")" + "?strSPNRNO=" + pnr_lat + "|" + fare + "|" + strWithLogo + "&single=" + single + "&Page=" + "P");
+        }
+
+        if (window.focus) {
+            newwindow.focus()
+        }
+        return false;
+
+    }
+    function bookedhis_print() {
+        var test = "";
+
+        Pnr = document.getElementById('txt_viewSPNR').value;
+
+        Pnr = sessionStorage.getItem("viewpnr_spnr");
+        if (document.getElementById("Chk_fare_popup").checked == true)
+            var fare = "yes";
+        else
+            fare = "no";
+        if (document.getElementById("Chk_fare2_popup").checked == true)
+            var single = "yes";
+        else
+            single = "no";
+        var strWithLogo = "NO";
+        if ($("#Chk_logo_popup").is(":checked") == true) {
+            strWithLogo = "YES";
+        }
+        else {
+            strWithLogo = "NO";
+        }
+
+        if ($(window).width() < 768) { //For Mobile View...
+            var iurl = "@Url.Action("PrintTickets", "AfterBooking")" + "?strSPNRNO=" + Pnr + "|" + fare + "|" + strWithLogo + "&single=" + single + "&Page=" + "P";
+            var ititle = "Print Ticket";
+            var isubtitle = "";
+            var ifull = false;
+            IziModalIFramePop(iurl, ititle, isubtitle, ifull);
+        }
+        else {
+            newwindow = window.open("@Url.Action("PrintTickets", "AfterBooking")" + "?strSPNRNO=" + Pnr + "|" + fare + "|" + strWithLogo + "&single=" + single + "&Page=" + "P");
+        }
+        if (window.focus) { newwindow.focus() }
+        return false;
+
+    }
+    // Reschedule_confirm_request()
+
+    function clear_pnr() {
+        $("#txt_viewSPNR").val("");
+        $("#txt_viewAirPNR").val("");
+        $("#txt_viewCSRPNR").val("");
+        $("#txt_viewSPNR").removeClass("has-content");
+        $("#txt_viewAirPNR").removeClass("has-content");
+        $("#txt_viewCSRPNR").removeClass("has-content");
+        $("#viewpnrShowDiv").css("display", "none");
+        $("#dvGrpBkngerr_view").removeClass("has_error");
+    }
+    function OTAappsFunction(arg, passenger_length, paymentmode) {
+        $("#wholecontentdiv").slideDown();
+        $("#sendsmsticket").slideUp();
+
+        $("#dvBookinsuccess_dxb").html('');
+        $("#dvBookinsuccess_dxb").css('padding', '0px');
+        var spnr = document.getElementById('printSPRValue' + arg).innerHTML;
+        sessionStorage.setItem("viewpnr_spnr", spnr);
+        sessionStorage.setItem("paymentmode", paymentmode);
+        if (passenger_length == 1) {
+            $('#singletic').css("display", "block");
+            // document.getElementById("Chk_fare").checked = false;
+            $("#Chk_fare2_popup")[0].checked = false;
+            $("#Chk_fare_popup")[0].checked = false;
+        }
+        else {
+            $("#Chk_fare2_popup")[0].checked = false;
+            $("#Chk_fare_popup")[0].checked = false;
+            $('#singletic').css("display", "none");
+        }
+       
+        $("#pnrpopup").modal({
+            backdrop: 'static',
+            show: true,
+            backdrop: true,
+            keyboard: true
+        });
+    }
+    function OTAappviewpnrFunction() {
+        $("#dvBookinsuccess_dxb").html('');
+        $("#dvBookinsuccess_dxb").css('padding', '0px');
+        $('#pnrpopup').modal('hide');
+        var Spnr = sessionStorage.getItem('viewpnr_spnr');
+        var ArinlineSpnr = "";
+        var CRSpnr = "";
+        var paymentmode = sessionStorage.getItem("paymentmode");
+        $("#ChartTabspnr  > nav > ul > li").removeClass("tab-current");
+        $("#ChartTabspnr .content-wrap > section").removeClass("content-current");
+        var options = {
+            start: 1
+        };
+        new CBPFWTabs(document.getElementById('ChartTabspnr'), options);
+        document.getElementById('txt_viewSPNR').value = Spnr;
+        document.getElementById('txt_viewAirPNR').value = "";
+        document.getElementById('txt_viewCSRPNR').value = "";
+        //document.getElementById('ddl_paymentmode').value = paymentmode;
+        get_pnr_Click(Spnr, "", "", paymentmode);
+    }
+    function get_respnrdetail_view(val) {
+        var spnr = val.innerHTML;
+        document.getElementById('txt_viewSPNR').value = spnr;
+        document.getElementById('txt_viewAirPNR').value = "";
+        document.getElementById('txt_viewCSRPNR').value = "";
+        $("#ChartTabspnr  > nav > ul > li").removeClass("tab-current");
+        $("#ChartTabspnr .content-wrap > section").removeClass("content-current");
+        var options = {
+            start: 1
+        };
+        new CBPFWTabs(document.getElementById('ChartTabspnr'), options);
+        $('#myModal_cancellation_viewpnr').modal('hide');
+        get_pnr_Click(spnr, "", "");
+    }
+    function closerespop() {
+        $('viewpnrShowDiv').css("display", "none") = "";
+    }
+    function OappsFunction(arg, passenger_length, paymentmode) {
+        var totick = "";
+        var spnr = "";
+        spnr = document.getElementById('printSPRValue' + arg).innerHTML;
+        spnr = spnr.trim();
+        totick += "<div style='margi'>";
+        totick += "<div id='toticid' class='res_row' style='margin-bottom: 10px;'>";
+        totick += "<div ><span onclick='javascript: return OTAtoticket();' style='font-weight: 900;cursor: pointer;'><i class='icofont icofont-plane-ticket'></i> To Ticket</span></div>";
+        totick += "</div>";
+        totick += "<div id='tocanid' class='res_row' style='margin-bottom: 10px;'>";
+        totick += "<div ><span  onclick='javascript: return OTAcancelticket();' style='font-weight: 900;cursor: pointer;'><i class='icofont icofont-close-circled'></i> To Cancel</span></div>";
+        totick += "</div>";
+        totick += "<div id='toviewpnr' class='res_row' style='margin-bottom: 10px;'>";
+        totick += "<div ><span  onclick='javascript: return OTAcancelticket();' style='font-weight: 900;cursor: pointer;'><i class='icofont icofont-eye'></i> View PNR</span></div>";
+        totick += "</div>";
+        totick += "</div>";
+        $("#toticket_body").html('');
+        $("#toticket_body").append(totick);
+        spnr = document.getElementById('printSPRValue' + arg).title;
+        if (spnr.substring(spnr.length - 1) == '|') {
+            $('#toticid').css("display", "none");
+            $('#tocanid').css("display", "none");
+            $('#toviewpnr').css("display", "block");
+            spnr = document.getElementById('printSPRValue' + arg).innerHTML;
+            $('#txt_viewSPNR')[0].value = spnr;
+            $('#txt_viewAirPNR')[0].value = "";
+            $('#txt_viewCSRPNR')[0].value = "";
+            //$('#ddl_paymentmode').val(paymentmode);
+            sessionStorage.setItem("viewpnr_spnr", spnr);
+            sessionStorage.setItem("paymentmode", paymentmode);
+        }
+        else {
+            $('#toviewpnr').css("display", "none");
+            $('#tocanid').css("display", "block");
+            $('#toticid').css("display", "block");
+            spnr = document.getElementById('printSPRValue' + arg).innerHTML;
+            $('#txt_viewSPNR')[0].value = spnr;
+            $('#txt_viewAirPNR')[0].value = "";
+            $('#txt_viewCSRPNR')[0].value = "";
+            //$('#ddl_paymentmode').val(paymentmode);
+            sessionStorage.setItem("viewpnr_spnr", spnr);
+            sessionStorage.setItem("paymentmode", paymentmode);
+        }
+        $('#myModal_toticket').modal('toggle');
+    }
+
+    function OTAtoticket() {
+        $("#dvBookinsuccess_dxb").html('');
+        $("#dvBookinsuccess_dxb").css('padding', '0px');
+        //  $("#dvBookinsuccess_dxb").css('background', 'white');
+        $("#viewpnrShowDiv").html('');
+        var s_pnr = sessionStorage.getItem('viewpnr_spnr');
+        $('#txt_viewSPNR').val = s_pnr;
+        $('#txt_viewAirPNR').val = "";
+        $('#txt_viewCSRPNR').val = "";
+        $("#ChartTabspnr  > nav > ul > li").removeClass("tab-current");
+        $("#ChartTabspnr .content-wrap > section").removeClass("content-current");
+        var options = {
+            start: 1
+        };
+        new CBPFWTabs(document.getElementById('ChartTabspnr'), options);
+        $('#myModal_toticket').modal('hide');
+        get_pnr_Click(s_pnr, null, null);
+
+
+        //window.location = "AirLineViewPNR.aspx?strSPNRNO=" + s_pnr;
+
+    }
+    function OTAcancelticket() {
+
+
+        var s_pnr = sessionStorage.getItem('viewpnr_spnr');
+
+        $('#txt_viewSPNR')[0].val = s_pnr;
+        $('#txt_viewAirPNR')[0].val = "";
+        $('#txt_viewCSRPNR')[0].val = "";
+        $("#ChartTabspnr  > nav > ul > li").removeClass("tab-current");
+        $("#ChartTabspnr .content-wrap > section").removeClass("content-current");
+        var options = {
+            start: 1
+        };
+        new CBPFWTabs(document.getElementById('ChartTabspnr'), options);
+        $('#myModal_toticket').modal('hide');
+        get_pnr_Click(null, null, null);
+
+
+    }
+    function Bookedhis(flg) {
+
+        for (var i = 1; i < 4; i++) {
+
+
+
+            $("#ChartTabspnr  > nav > ul > li").hasClass("tab-current");
+            $("#ChartTabspnr  > nav > ul > li").removeClass("tab-current");
+        }
+
+    }
+    function CanOTAappsFunction() {
+
+        $('#pnrpopup').modal('hide');
+    }
+
+    var AirCategory = "";
+    function GetFareRule(ids, val) {
+        var selected_id = ids.id;
+        AirCategory = $("#" + selected_id).data('airlinecatagory');
+        var AirCategory11 = $("#" + selected_id).data('inva');
+        var Flightno = $("#" + selected_id).data('flightid');
+        var Paxcount = $("#" + selected_id).data('paxcount');
+        var Triptype = $("#" + selected_id).data('pnrdetails').split('~')[3];
+        var Pnrdetails = $("#" + selected_id).data('pnrdetails');
+        var Cabin = $("#" + selected_id).data('pnrdetails').split('~')[4];
+        var Segmenttype = $("#" + selected_id).data('airportid');
+        $.blockUI({
+            message: '<img alt="Please Wait..." src="' + loadingimg + '" style="background-color:#fff; border-radius:8px; margin-top:12%;" id="FareRuleLodingImage" />',
+            css: { padding: '5px' }
+        });
+        var getfarerule = '@Url.Action("GetFlightFareRule", "Flights")';
+        $.ajax({
+            type: "POST", 		//GET or POST or PUT or DELETE verb
+            url: getfarerule, 		// Location of the service
+            data: '{FlightFareRuleid: "' + Flightno + '", FareRuleAvailstring: "' + AirCategory11 + '",Triptype:"' + Triptype + '",Paxcount:"' + Paxcount + '",Pnrdetails:"' + Pnrdetails + '",Cabin:"' + Cabin + '",Segmenttype:"' + Segmenttype + '" }',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: true,
+            success: function (json) {//On Successful service call
+                var result = json.Result;
+
+                $.unblockUI();
+                FareRuleFunctionBack(result);
+
+            },
+            error: function (e) {
+                $.unblockUI();
+                LogDetails(e.responseText, e.status, "Flight Select");
+                if (e.status == "500") {
+                   // alert("Session has been Expired.");
+                    showlobiboxalert("error", "Session has been Expired.");
+                    window.top.location = sessionExb;
+                    return false;
+                }
+
+            }
+
+        });
+    }
+    function FareRuleFunctionBack(arg) {
+        var strFareRuleBulid = ""
+        $('#FareRuleLodingImage').hide();
+        $('#closeimage').show();
+        if (arg[1] != "" && arg[1] != null) {
+            var category = AirCategory.split("SpLitPResna");
+            var Ititle = "";
+            var Isubtitle = "";
+            var IContent = "";
+            var Ifullopt = true;
+            var Itemp1 = "";
+            var Itemp2 = "";
+            if (category[6] == "FSC" || category[6] == "D3" || category[6] == "1A") {
+
+                var Resultss = $.xml2json(arg[1]);
+                var uniqueNames = [];
+                var TTrounddetails = [];
+                if (Resultss["Table1"].length > 0) {
+                    for (var i = 0; Resultss["Table1"].length > i; i++) {
+                        TTrounddetails.push(Resultss["Table1"][i].SEGMENT);
+                    }
+                }
+
+                if (TTrounddetails.length > 0) {
+                    $.each(TTrounddetails, function (i, el) {
+                        if ($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
+                    });
+                }
+                var new_arr = [];
+                var new_arrkjjj = [];
+                if (uniqueNames.length > 0) {
+                    for (var K = 0; K < uniqueNames.length ; K++) {
+                        new_arr = $.grep(Resultss["Table1"], function (n, i) {
+                            return n.SEGMENT == uniqueNames[K];
+                        });
+                        new_arrkjjj.push(new_arr);
+                    }
+                }
+
+                var str = '';
+
+                if (new_arrkjjj.length > 0) {
+                    for (var j = 0; j < new_arrkjjj.length ; j++) {
+                        if (j == 0) {
+                            str += '<span class="clsAllFarerule clsFareruleSelect" id="spnFareSelect' + j + '" onclick="javascript:ShowSegWiseFareRule(' + j + ');">' + new_arrkjjj[j][0].SEGMENT + '</span>';
+                        }
+                        else {
+                            str += '<span class="clsAllFarerule clsFarerule" id="spnFareSelect' + j + '" onclick="javascript:ShowSegWiseFareRule(' + j + ');">' + new_arrkjjj[j][0].SEGMENT + '</span>';
+                        }
+                    }
+                    str += '</div>';
+                    for (var i = 0; i < new_arrkjjj.length ; i++) {
+                        if (i == 0) {
+                            str += '<div  class="clsSgFareRule"  id="dvFareRuletbl_' + i + '"  >';
+                        }
+                        else {
+                            str += '<div  class="clsSgFareRule"  id="dvFareRuletbl_' + i + '" style="display:none" >';
+                        }
+                        for (var k = 0; k < new_arrkjjj[i].length ; k++) {
+                            str += '<div class="clsRuleHead" style="cursor:pointer;" id="dvcheck_' + new_arrkjjj[i][k].RULE.split('.')[0] + i + '" onclick="javascript:CloseSegWiseFareRule(this.id);">' + new_arrkjjj[i][k].RULE + '<i class="fa fa-chevron-down"></i></div>';
+                            str += '<div style="width:100%;border-bottom: 1px dashed;">';
+                            str += '<pre readonly="readonly" class="clsFaretextArea" id="' + new_arrkjjj[i][k].RULE.split('.')[0] + i + '" style="display: none;">' + new_arrkjjj[i][k].TEXT + '</pre>';
+                            str += '</div>';
+                        }
+                        str += '</div>';
+                    }
+                }
+
+
+                Ititle = "Fare Rule " + "<span>( " + category[1] + " - " + category[2] + ") " + "</span>";
+                Isubtitle = "";
+                IContent = str;
+                Ifullopt = false;
+                Itemp1 = "";
+                Itemp2 = "";
+                showpopuplogin(Ititle, Isubtitle, IContent, Ifullopt, Itemp1, Itemp2);
+
+            }
+            else if (category[0] == "LCC") {
+                Ititle = "Fare Rule";
+                Isubtitle = "";
+                IContent = "<pre>" + arg[1] + "</pre>";
+                Ifullopt = true;
+                Itemp1 = "";
+                Itemp2 = "";
+                showpopuplogin(Ititle, Isubtitle, IContent, Ifullopt, Itemp1, Itemp2);
+            }
+            else if (category[6] == "TZ") {
+                var Air_json = JSON.parse(arg[1]);
+                strFareRuleBulid += "<table>";
+                for (var jsoncount = 0; jsoncount < Air_json["FARERULE"].length; jsoncount++) {
+                    strFareRuleBulid += "<tr><td width=25%><pre style='white-space: pre-wrap;'>  " + Air_json["FARERULE"][jsoncount]["TEXT"] + "</pre> </td></tr>";
+                }
+                strFareRuleBulid += "</table>";
+                Ititle = "Fare Rule " + "<span>( " + category[1] + " - " + category2[1] + ") " + "</span>";
+                Isubtitle = "";
+                IContent = strFareRuleBulid;
+                Ifullopt = false;
+                Itemp1 = "";
+                Itemp2 = "";
+                showpopuplogin(Ititle, Isubtitle, IContent, Ifullopt, Itemp1, Itemp2);
+            }
+            else if (category[5] == arg[2]) {
+                // $('#div_fscFareRule').hide();
+                //$('#txtfareRuleID').show();
+                Ititle = "Fare Rule";
+                Isubtitle = "";
+                IContent = "<pre>" + arg[1] + "</pre>";
+                Ifullopt = true;
+                Itemp1 = "";
+                Itemp2 = "";
+                showpopuplogin(Ititle, Isubtitle, IContent, Ifullopt, Itemp1, Itemp2);
+                //document.getElementById('txtfareRuleID').innerHTML = arg[1];
+            }
+
+            else if (category[6] == "UAI") {
+                if (category[5] == arg[2]) {
+                    //$('#div_fscFareRule').hide();
+                    //$('#txtfareRuleID').show();
+                    Ititle = "Fare Rule";
+                    Isubtitle = "";
+                    IContent = "<pre>" + arg[1] + "</pre>";
+                    Ifullopt = true;
+                    Itemp1 = "";
+                    Itemp2 = "";
+                    showpopuplogin(Ititle, Isubtitle, IContent, Ifullopt, Itemp1, Itemp2);
+                    //document.getElementById('txtfareRuleID').innerHTML = arg[1];
+                }
+                else {
+
+                    var Resultss = $.xml2json(arg[1]);
+                    var uniqueNames = [];
+                    var TTrounddetails = [];
+                    if (Resultss["Table1"].length > 0) {
+                        for (var i = 0; Resultss["Table1"].length > i; i++) {
+                            TTrounddetails.push(Resultss["Table1"][i].SEGMENT);
+                        }
+                    }
+
+                    if (TTrounddetails.length > 0) {
+                        $.each(TTrounddetails, function (i, el) {
+                            if ($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
+                        });
+                    }
+                    var new_arr = [];
+                    var new_arrkjjj = [];
+                    if (uniqueNames.length > 0) {
+                        for (var K = 0; K < uniqueNames.length ; K++) {
+                            new_arr = $.grep(Resultss["Table1"], function (n, i) {
+                                return n.SEGMENT == uniqueNames[K];
+
+                            });
+                            new_arrkjjj.push(new_arr);
+                        }
+                    }
+
+                    var str = '';
+
+                    if (new_arrkjjj.length > 0) {
+
+                        for (var j = 0; j < new_arrkjjj.length ; j++) {
+                            if (j == 0) {
+                                str += '<span class="clsAllFarerule clsFareruleSelect" id="spnFareSelect' + j + '" onclick="javascript:ShowSegWiseFareRule(' + j + ');">' + new_arrkjjj[j][0].SEGMENT + '</span>';
+                            }
+                            else {
+                                str += '<span class="clsAllFarerule clsFarerule" id="spnFareSelect' + j + '" onclick="javascript:ShowSegWiseFareRule(' + j + ');">' + new_arrkjjj[j][0].SEGMENT + '</span>';
+                            }
+                        }
+
+                        str += '</div>';
+                        for (var i = 0; i < new_arrkjjj.length ; i++) {
+                            if (i == 0) {
+                                str += '<div  class="clsSgFareRule"  id="dvFareRuletbl_' + i + '"  >';
+                            }
+                            else {
+                                str += '<div  class="clsSgFareRule"  id="dvFareRuletbl_' + i + '" style="display:none" >';
+                            }
+                            for (var k = 0; k < new_arrkjjj[i].length ; k++) {
+
+                                str += '<div class="clsRuleHead" style="cursor:pointer;" id="dvcheck_' + new_arrkjjj[i][k].RULE.split('.')[0] + i + '" onclick="javascript:CloseSegWiseFareRule(this.id);">' + new_arrkjjj[i][k].RULE + '<i class="fa fa-chevron-down"></i></div>';
+                                str += '<div style="width:100%;border-bottom: 1px dashed;">';
+                                str += '<pre readonly="readonly" class="clsFaretextArea" id="' + new_arrkjjj[i][k].RULE.split('.')[0] + i + '" style="display: none;">' + new_arrkjjj[i][k].TEXT + '</pre>';
+                                str += '</div>';
+                            }
+                            str += '</div>';
+                        }
+                    }
+                    Ititle = "Fare Rule " + "<span>( " + category[1] + " - " + category2[1] + ") " + "</span>";
+                    Isubtitle = "";
+                    IContent = str;
+                    Ifullopt = false;
+                    Itemp1 = "";
+                    Itemp2 = "";
+                    showpopuplogin(Ititle, Isubtitle, IContent, Ifullopt, Itemp1, Itemp2);
+
+                }
+
+            }
+            else if (category[6] == "LCC") {
+                Ititle = "Fare Rule";
+                Isubtitle = "";
+                IContent = "<pre>" + arg[1] + "</pre>";
+                Ifullopt = true;
+                Itemp1 = "";
+                Itemp2 = "";
+                showpopuplogin(Ititle, Isubtitle, IContent, Ifullopt, Itemp1, Itemp2);
+
+            }
+            else if (category[6] == "LCCG9" || category[6] == "G9" || category[6] == "FZ") {
+                Ititle = "Fare Rule";
+                Isubtitle = "";
+                IContent = "<pre>" + arg[1] + "</pre>";
+                Ifullopt = true;
+                Itemp1 = "";
+                Itemp2 = "";
+                showpopuplogin(Ititle, Isubtitle, IContent, Ifullopt, Itemp1, Itemp2);
+
+
+            }
+            else if (category[6] == arg[2]) {
+                Ititle = "Fare Rule";
+                Isubtitle = "";
+                IContent = "<pre>" + arg[1] + "</pre>";
+                Ifullopt = true;
+                Itemp1 = "";
+                Itemp2 = "";
+                showpopuplogin(Ititle, Isubtitle, IContent, Ifullopt, Itemp1, Itemp2);
+            }
+            else if (category[6] == "OSC" || category[6] == "DXB") {
+                var Air_json = JSON.parse(arg[1]);
+                strFareRuleBulid += "<table>";
+                for (var jsoncount = 0; jsoncount < Air_json["FARERULE"].length; jsoncount++) {
+                    strFareRuleBulid += "<tr><td width=10%>" + Air_json["FARERULE"][jsoncount]["RULE"].replace("F.", "") + "</td><td width=25%><pre>  " + Air_json["FARERULE"][jsoncount]["TEXT"] + "</pre> </td></tr>";
+                }
+                strFareRuleBulid += "</table>";
+                Ititle = "Fare Rule";
+                Isubtitle = "";
+                IContent = strFareRuleBulid;
+                Ifullopt = true;
+                Itemp1 = "";
+                Itemp2 = "";
+                showpopuplogin(Ititle, Isubtitle, IContent, Ifullopt, Itemp1, Itemp2);
+            }
+            else if (category[6] == "RST") {
+                if (category[5] == arg[2]) {
+                    Ititle = "Fare Rule";
+                    Isubtitle = "";
+                    IContent = "<pre>" + arg[1] + "</pre>";
+                    Ifullopt = true;
+                    Itemp1 = "";
+                    Itemp2 = "";
+                    showpopuplogin(Ititle, Isubtitle, IContent, Ifullopt, Itemp1, Itemp2);
+                }
+                else {
+                    var Air_json = JSON.parse(arg[1]);
+                    strFareRuleBulid += "<table style='width:100%;'>";
+                    for (var jsoncount = 0; jsoncount < Air_json["FARERULE"].length; jsoncount++) {
+                        strFareRuleBulid += "<tr><td width=10%>" + Air_json["FARERULE"][jsoncount]["RULE"].replace("F.", "") + "</td><td width=25%><p style='width: 500px;' >  " + Air_json["FARERULE"][jsoncount]["TEXT"] + "</p> </td></tr>";
+                    }
+                    // strFareRuleBulid += "</table>";
+                    // $('#txtfareRuleID').hide();
+                    // $('#div_fscFareRule').show();
+                    // document.getElementById('div_fscFareRule').innerHTML = strFareRuleBulid;
+                    Ititle = "Fare Rule";
+                    Isubtitle = "";
+                    IContent = strFareRuleBulid;
+                    Ifullopt = true;
+                    Itemp1 = "";
+                    Itemp2 = "";
+                    showpopuplogin(Ititle, Isubtitle, IContent, Ifullopt, Itemp1, Itemp2);
+                }
+            }
+            else if (category[6] == "IRST") {
+                if (category[5] == arg[2]) {
+                    Ititle = "Fare Rule";
+                    Isubtitle = "";
+                    IContent = "<pre>" + arg[1] + "</pre>";
+                    Ifullopt = true;
+                    Itemp1 = "";
+                    Itemp2 = "";
+                    showpopuplogin(Ititle, Isubtitle, IContent, Ifullopt, Itemp1, Itemp2);
+                }
+                else {
+                    var Air_json = JSON.parse(arg[1]);
+                    strFareRuleBulid += "<table style='width:100%;'>";
+                    for (var jsoncount = 0; jsoncount < Air_json["FARERULE"].length; jsoncount++) {
+                        strFareRuleBulid += "<tr><td width=10%>" + Air_json["FARERULE"][jsoncount]["RULE"].replace("F.", "") + "</td><td width=25%><p style='width: 500px;' >  " + Air_json["FARERULE"][jsoncount]["TEXT"] + "</p> </td></tr>";
+                    }
+                    strFareRuleBulid += "</table>";
+                    //$('#txtfareRuleID').hide();
+                    //$('#div_fscFareRule').show();
+                    //document.getElementById('div_fscFareRule').innerHTML = strFareRuleBulid;
+                    Ititle = "Fare Rule";
+                    Isubtitle = "";
+                    IContent = strFareRuleBulid;
+                    Ifullopt = true;
+                    Itemp1 = "";
+                    Itemp2 = "";
+                    showpopuplogin(Ititle, Isubtitle, IContent, Ifullopt, Itemp1, Itemp2);
+                }
+            }
+            else {
+                Ititle = "Fare Rule";
+                Isubtitle = "";
+                IContent = "<pre>" + arg[1] + "</pre>";
+                Ifullopt = true;
+                Itemp1 = "";
+                Itemp2 = "";
+                showpopuplogin(Ititle, Isubtitle, IContent, Ifullopt, Itemp1, Itemp2);
+            }
+        }
+        else {
+            Ititle = "Fare Rule";
+            Isubtitle = "";
+            IContent = "<pre>" + arg[0] + "</pre>";
+            Ifullopt = true;
+            Itemp1 = "";
+            Itemp2 = "";
+            showpopuplogin(Ititle, Isubtitle, IContent, Ifullopt, Itemp1, Itemp2);
+        }
+    }
+
+
+    function ShowSegWiseFareRule(id) {
+        $('.clsSgFareRule').css("display", "none");
+        $('#dvFareRuletbl_' + id).css("display", "block");
+        $('.clsAllFarerule').removeClass('clsFareruleSelect').removeClass('clsFarerule');
+        $('.clsAllFarerule').addClass('clsFarerule');
+        $('#spnFareSelect' + id).removeClass('clsFarerule').addClass('clsFareruleSelect');
+    }
+
+    function CloseSegWiseFareRule(id) {
+        var Id = id.split('_')[1];
+        $('#' + Id).toggle(500);
+        $('#' + Id).focusin();
+        if ($('#dvcheck_' + Id + ' i').hasClass('fa-chevron-down')) {
+            $('#dvcheck_' + Id + ' i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+        }
+        else if ($('#dvcheck_' + Id + ' i').hasClass('fa-chevron-up')) {
+            $('#dvcheck_' + Id + ' i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+        }
+    }
+
+    function cancellation_process() {
+
+        $('#pnrpopup').modal('hide');
+        var spnr = sessionStorage.getItem('viewpnr_spnr');
+        var cancel_airline_pnr = sessionStorage.setItem('cancel_airline_pnr', '');
+        var cancel_crs_pnr = sessionStorage.setItem('cancel_crs_pnr', '');
+        var strPayment = sessionStorage.getItem('paymentmode');
+        $("#can_txt_viewSPNR")[0].value = spnr;
+        $("#can_txt_viewAirPNR")[0].value = "";
+        $("#can_txt_viewCSRPNR")[0].value = "";
+        //$("#can_ddl_paymentmode").val(strPayment);
+        $("#ChartTabspnr  > nav > ul > li").removeClass("tab-current");
+        $("#ChartTabspnr .content-wrap > section").removeClass("content-current");
+
+        var options = {
+            start: 2
+        };
+        new CBPFWTabs(document.getElementById('ChartTabspnr'), options);
+        GetCancellationPNR();
+    }
+
+    function get_cancellation_view(id) {
+
+        $('#myModal_cancellation').modal('hide');
+        $("#can_txt_viewSPNR")[0].value = id.innerHTML;
+        var strPayment = sessionStorage.getItem('paymentmode');
+        //$("#can_ddl_paymentmode").val(strPayment);
+        GetCancellationPNR();
+    }
+
+    //viewpnr toticket function  by sri
+    function toticket() {
+
+
+        if (confirm("Are You Sure Book the tickets.")) {
+            $.blockUI({
+                message: '<img alt="Please Wait..." src="@strLoaderURL" style="background-color:#fff; border-radius:8px; margin-top:12%;" id="FareRuleLodingImage" />',
+                css: { padding: '5px' }
+            });
+
+            var Spnr = document.getElementById('txt_viewSPNR').value;
+
+            $.ajax({
+                type: "POST", 		//GET or POST or PUT or DELETE verb
+                url: "@Url.Action("bookedhistoryToticket", "Pnr")",
+                //url: "NewAvailServers.asmx/Toticket", 		// Location of the service
+                data: '{SPNR: "' + Spnr + '",Page:"FVP" }',//,CancelationStatus: "' + $("#hdnPax")[0].value + '" ,BlockTicket: "' + BlockTicket + '",PaymentMode: "' + $("#ddlPaymode").val() + '",TourCode: "' + $("#Tour_Code").val() + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (json) {
+                    //$("#dvBookinsuccess_dxb").html(json);
+                    //$("#dvBookinsuccess_dxb").css("display", "block");
+                    //$("#dvBookinsuccess_dxb").css('padding', '15px');
+                    $(".hidediv_toticket").css("display", "none");
+                    RequestBookedHistory();
+                    get_pnr_Click(Spnr, "", "");
+                    $.unblockUI();
+
+                },
+                error: function (e) {//On Successful service call
+                    $.unblockUI();
+                    if (e.status == "500") {
+                        showlobiboxalert("error", "An Internal Problem Occurred. Your Session will Expire.");
+                        window.top.location = sessionExb;
+                        return false;
+                    }
+
+
+                }	// When Service call fails
+
+            });
+
+        }
+        else {
+
+            $.unblockUI();
+
+        }
+    }
+
+    //toticket function end
+
+
+    //tocancel
+    function cancelticket() {
+        $.blockUI({
+            message: '<img alt="Please Wait..." src="@strLoaderURL" style="background-color:#fff; border-radius:8px; margin-top:12%;" id="FareRuleLodingImage" />',
+            css: { padding: '5px' }
+        });
+
+        if (confirm("Are You Sure want to Cancel the Blockpnr.")) {
+            $.ajax({
+                type: "POST", 		//GET or POST or PUT or DELETE verb
+                url: "@Url.Action("cancelticket", "Pnr")",
+                //url: "NewAvailServers.asmx/cancelticket", 		// Location of the service
+                data: '{SPNR: "' + document.getElementById('txt_viewSPNR').value + '" }',
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (json) {
+                    var result = json.Result;
+                    if (result[1] != "") {
+                       // alert(result[1]);
+                        showlobiboxalert("info", result[1]);
+                        var spnr = $("#txt_viewSPNR")[0].innerHTML;
+                        RequestBookedHistory();
+                        get_pnr_Click(spnr, null, null);
+                        //document.getElementById("get_pnr").click();
+                        $("#dvBookinsuccess_dxb").html('');
+                        $("#dvBookinsuccess_dxb").css('padding', '0px');
+                        $.unblockUI();
+                    }
+                    else {
+                       // alert(result[0]);
+                        showlobiboxalert("info", result[0]);
+                        $.unblockUI();
+                    }
+                },
+                error: function (e) {
+                    $.unblockUI();
+                    if (e.status == "500") {
+                       // alert("An Internal Problem Occurred. Your Session will Expire.");
+                        showlobiboxalert("error", "An Internal Problem Occurred. Your Session will Expire.");
+                        window.top.location = sessionExb;
+                        return false;
+                    }
+
+
+                }	// When Service call fails
+
+            });
+        }
+        else {
+            $.unblockUI();
+
+        }
+    }
+
+    //to cancel end
+    var adult_data = "";
+    var child_data = "";
+    var infant_data = "";
+
+    var Totpax_new = "";
+
+
+    var fare_diff = "N";
+    var fare_change = "N";
+    var seqid = "";
+    var TotalPax = "";
+    var CancelationStatus = "";
+    var adultcount = 0;
+    var childcount = 0;
+    var Infantcount = 0;
+    var checkedAdult = 0;
+    var checkedChild = 0;
+    var checkedInfant = 0;
+
+    var rowss = "";
+    var adCount = 1;
+
+    function bookhistoresche_process() {
+
+        $('#pnrpopup').modal('hide');
+        var spnr = sessionStorage.getItem('viewpnr_spnr');
+        var cancel_airline_pnr = sessionStorage.setItem('cancel_airline_pnr', '');
+        var cancel_crs_pnr = sessionStorage.setItem('cancel_crs_pnr', '');
+        var strpayment = sessionStorage.getItem("paymentmode");
+        $("#reche_txt_viewSPNR")[0].value = spnr;
+        $("#reche_txt_viewAirPNR")[0].value = "";
+        $("#reche_txt_viewCSRPNR")[0].value = "";
+        //$("#reche_ddl_paymentmode").val(strpayment)
+        $("#ChartTabspnr  > nav > ul > li").removeClass("tab-current");
+        $("#ChartTabspnr .content-wrap > section").removeClass("content-current");
+
+        var options = {
+            start: 3
+        };
+        new CBPFWTabs(document.getElementById('ChartTabspnr'), options);
+        Reschedule_pnr();
+
+
+    }
+    function bookhis_performinvoice() {
+        $('#pnrpopup').modal('hide');
+
+        var spnr = sessionStorage.getItem('viewpnr_spnr');
+
+        var inputdata = {
+            SPNR: spnr,
+            AirPNR: "",
+            CRSPNR: ""
+        }
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("Invoice", "Pnr")",
+            data: JSON.stringify(inputdata),
+            dataType: "json",
+            success: function (data) {
+
+                $.unblockUI();
+                var a = document.createElement('a');
+                a.href = '@Url.Action("FormingInvoiceDetails", "Pnr")';
+                $(a).attr('target', '_blank');
+                a.click();
+            },
+            error: function (e) {
+
+                console.log(e.responseText);
+                //alert(e.responseText)
+            }
+        });
+
+    }
+
+    function get_reschedule_view(id) {
+
+        $('#myModal_reschedule_double').modal('hide');
+        $("#reche_txt_viewSPNR")[0].value = id.innerHTML;
+        var strpayment = sessionStorage.getItem("paymentmode");
+        //$("#reche_ddl_paymentmode").val(strpayment)
+        Reschedule_pnr();
+    }
+
+    $(".rotate_a").click(function () {
+        $(this).toggleClass("down");
+
+        //  $("#reschedule_contact_tbl").toggleClass();
+        $("#reschedule_contact_tbl").slideToggle();
+    });
+    $(".rotate_b").click(function () {
+        $(this).toggleClass("down");
+        $("#air_reschedule_table").slideDown("down");
+    })
+    $(".rotate_c").click(function () {
+
+        $(this).toggleClass("down");
+        $("#air_reschedule_table").slideToggle();
+    });
+
+
+
+    function getPassengerRowIndex(checkbox, rowindex) {
+
+        //  var y = document.getElementById("exit_pass_table").getElementsByTagName("tr");
+        //   y.style.backgroundColor = "white";
+        var p_type = document.getElementById("p_ty" + rowindex).innerHTML;
+        if (checkbox.checked) {
+            if (adCount <= 1) {
+
+                var x = document.getElementById("exit_pass_table").getElementsByTagName("tr");
+                x[rowindex + 1].style.backgroundColor = "#ccc";
+                //var clr = document.getElementById('exit_pass_table').getElementsByTagName('tr');
+                adCount++;
+            }
+            else {
+                //alert("Please Choose Limit Adult");
+                checkbox.checked = false;
+                var x = document.getElementById("exit_pass_table").getElementsByTagName("tr");
+                x[rowindex + 1].style.backgroundColor = "white";
+            }
+        }
+        else {
+            adCount = 1;
+        }
+    }
+
+    function submitPassengerRowIndex_sr() {
+
+        var tripty = "";
+        var sr_n = sessionStorage.getItem('adu_clickitem').toString();
+        var spt = sr_n.split(',');
+        var c = document.getElementsByName('chkbox');
+        var tab = document.getElementById("hdn_table_column").value;
+        var pAdultDetail = "";
+        var pChildDetail = "";
+        var pInfantDetail = "";
+        var checkedvalue = 0;
+        // alert("Total pass:" + c.length);
+        var fli_no = "";
+        for (var i = 0; i < parseInt(rowss) ; i++) {
+            //for (var i = 0; i < c.length; i++) {
+            if (c[i].checked === true) {
+                checkedvalue++;
+                fli_no = document.getElementById("p_ty" + i).innerHTML;
+
+            }
+        }
+        var RetValue = true;
+        if (checkedvalue == 0) {
+           // alert("Please select any one of the flight");
+            showlobiboxalert("warning", "Please select any one of the flight");
+            RetValue = false;
+         }
+        else {
+            var VPassDet = $("#srrech").find('table');
+            var table = $("#Reschedule_details_tbl")
+            for (var j = 0; j < VPassDet.length; j++) {
+
+                var par = VPassDet[j].rows;
+                var arr = sessionStorage.getItem('lenth_resch_arr');
+                for (var i = 0; i < arr; i++) {
+                    document.getElementById("flight_" + tab).value = fli_no;
+                    var pass = $("#pass_type" + i)[0].innerHTML;
+                    var trip_c = $("#trip_type" + i)[0].innerHTML;
+
+                    var origindata_ = $("#origindata_" + i)[0].value;
+                    var destidata_ = $("#destidata_" + i)[0].value;
+
+                    var origin_arg0 = spt[0];
+                    var desti_arg1 = spt[1];
+                    var date_arg2 = spt[2];
+
+
+                    if (pass == "I" && ((origindata_ == origin_arg0) && (destidata_ == desti_arg1))) {
+                        document.getElementById("flight_" + i).value = fli_no;
+                        document.getElementById("rechetxt_" + i).value = date_arg2;
+
+
+                        document.getElementById("origindata_" + i).value = origin_arg0;
+                        document.getElementById("destidata_" + i).value = desti_arg1;
+
+                        //$("#origindata_" + i)[0].value = origin_arg0;
+                        //$("#destidata_" + i)[0].value = desti_arg1;
+
+
+                        $("#rechetxt_" + i).addClass("has-content");
+                        $("#rechetxt_" + i).datepicker({
+                            minDate: date_arg2, dateFormat: "dd/mm/yy",
+                        });
+                    }
+
+                }
+            }
+            //  document.getElementById("flight_" + tab).value = fli_no;
+            $('#myModal_reschedule_availability').modal('hide');
+        }
+
+
+
+        return RetValue;
+    }
+
+    function closeavailibity_popup() {
+        $('#myModal_reschedule_availability').modal('hide');
+    }
+    function morepnrdetail() {
+
+        $('.mrepnrdetail').slideToggle(1000);
+        $('.fa-angle-double-down').toggleClass("rotate180");
+    }
+
+    function showError(msg, errPtagid, errtagid, focusid) {
+        $("#" + errPtagid).addClass("has_error");
+        $("#" + errPtagid + " .message").addClass("animation");
+        $("#" + errtagid).addClass("error_active");
+        setTimeout(function () {
+            $("#" + errPtagid + " .message").removeClass("animation");
+        }, 200);
+        $("#" + errtagid).html(msg);
+
+        if (focusid != "")
+            $('#focusid').focus();
+    }
+
+    $('.clsAlphaNumeric').keypress(function (e) {
+        var regex = new RegExp("^[a-zA-Z0-9]+$");
+        var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+        if (regex.test(str)) {
+            return true;
+        }
+        e.preventDefault();
+        return false;
+    });
+
+    $('.clsAlphabet').keypress(function (e) {
+        var regex = new RegExp("^[a-zA-Z]+$");
+        var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+        if (regex.test(str)) {
+            return true;
+        }
+        e.preventDefault();
+        return false;
+    });
+
+    function PrintInspolicy(PolicyId) {
+        window.location = $("#hdn_bajajurl").val() + PolicyId + "&user_name=" + $("#hdn_bajajusername").val();
+    }
+</script>
+<style>
+    .mrepnrdetail {
+        display: none;
+    }
+
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #c9e6da;
+    }
+
+    table.floatThead-table {
+        border-top: none;
+        border-bottom: none;
+        background-color: #fff;
+    }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        /*padding: 12px !important;*/
+        border-top: 1px solid rgba(0,0,0,.075) !important;
+    }
+
+    #pnrid:hover {
+        /*background-color:yellow;*/
+    }
+
+    .rotate {
+        -webkit-animation: spin 4s linear infinite;
+        -moz-animation: spin 4s linear infinite;
+        animation: spin 4s linear infinite;
+    }
+
+    @@-moz-keyframes spin {
+        100% {
+            -moz-transform: rotate(360deg);
+        }
+    }
+
+    @@-webkit-keyframes spin {
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @@keyframes spin {
+        100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    #cancel_details {
+        margin-bottom: 20px;
+    }
+
+    #Reschedule_details_tbl {
+        margin-bottom: 20px;
+    }
+
+    .bgcolor_blue {
+        background-color: #27a5f5 !important;
+    }
+
+    .res_row {
+        border-style: ridge;
+        border-color: #27a5f5 !important;
+        padding: 9px;
+        text-align: left;
+    }
+
+    .bordercss {
+        border-style: inset;
+        border-color: #777;
+        padding: 0px;
+        /*margin-bottom:25px;*/
+        border-radius: 6px;
+    }
+
+    #cancel_details.table > thead > tr > th {
+        font-size: 12px !important;
+        background-color: rgb(44, 193, 133) !important;
+        text-align: center;
+    }
+
+    #cancel_details.table > tbody > tr > td {
+        white-space: nowrap;
+        padding-bottom: 1px !important;
+        padding-top: 8px !important;
+        text-align: center;
+    }
+
+
+    .viewpnrec.table > thead > tr > th {
+        font-size: 12px !important;
+        background-color: rgb(44, 193, 133) !important;
+        text-align: center;
+    }
+
+    .viewpnrec.table > tbody > tr > td {
+        white-space: nowrap;
+        padding-bottom: 1px !important;
+        padding-top: 8px !important;
+    }
+
+    .viewpnrec {
+        margin-bottom: 20px;
+    }
+
+
+    #Reschedule_details_tbl.table > thead > tr > th {
+        font-size: 12px !important;
+        background-color: rgb(44, 193, 133) !important;
+        text-align: center;
+    }
+
+    #Reschedule_details_tbl.table > tbody > tr > td {
+        white-space: nowrap;
+        padding-bottom: 1px !important;
+        padding-top: 8px !important;
+    }
+
+    .bgo:hover {
+        background-color: #27a5f5 !important;
+        color: white !important;
+    }
+
+    .bgg:hover {
+        background-color: #27a5f5 !important;
+        color: white !important;
+    }
+
+    .db:checked ~ .dbx {
+        background: #2cc185 !important;
+    }
+
+    #exit_pass_table.table > thead > tr > th {
+        background-color: #27a5f5 !important;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: rgba(0,0,0,0.7);
+        text-align: center;
+    }
+
+
+
+    #exit_pass_table.table > tbody > tr {
+        border-bottom: 2px solid #e0e0e0;
+    }
+
+    #height_popup_reschedule {
+        height: 300px;
+    }
+
+
+
+    @@media screen and (max-width: 768px) and (min-width: 250px) {
+        .deftwid {
+            width: inherit !important;
+        }
+
+        #height_popup_reschedule {
+            height: 350px;
+        }
+
+        #viewtable1 {
+            display: none;
+        }
+
+        #viewtable2 {
+            display: block !important;
+        }
+
+
+        .resched {
+            padding: 10px !important;
+        }
+
+        .no-more-tables.table > tbody > tr > td {
+            padding-left: 45% !important;
+        }
+    }
+</style>

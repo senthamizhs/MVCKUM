@@ -1,0 +1,167 @@
+﻿.changepas_header {
+
+/*text-align:center;*/
+/*border: 1px solid #ddd;
+    padding: 0px;*/
+}
+
+.change_new_old_confirm_pass {
+
+    margin-bottom: 15px;
+    margin-top: 15px;
+
+
+}
+   .marbtmplus10 {
+    margin-bottom: 10px !important;
+    }
+
+.textarea {
+
+resize:none;
+}
+
+.InfoRed {
+   font-size: 13px;
+    /*padding: 8px 36px 24px 43px;*/
+    color: white;
+    background: #ff6a00;
+    /*height: 50px;*/
+}
+
+
+
+section.active {
+    display:block;
+}
+
+.marbtmplus20 {
+
+      margin-bottom: 25px;
+}
+
+.tabs nav li.tab-current a.active {
+    color: #74777b;
+    background: #f2f2f2;
+    border-bottom: 3px solid;
+}
+
+ @media screen and (max-width: 768px) and (min-width: 250px) {
+        #marginbtm {
+            margin-bottom: 20px;
+        }
+    .martpmins0 {
+    margin-bottom: 0px !important;
+    }
+     .marbtmplus15 {
+    margin-bottom: 15px !important;
+    }
+    .width100 {
+    
+    width:100%;
+    }
+    }
+
+    @media screen and (max-width: 992px) and (min-width: 769px) {
+        .martpmins15 {
+            margin-top: -15px;
+        }
+        .martpplus15 {
+        
+         margin-top: 15px !important;
+        }
+      
+    }
+
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+
+      .marbtmplus15 {
+            margin-bottom: 15px;
+        }
+}
+
+@media screen and (max-width: 1600px) and (min-width: 1200px) {
+}
+
+@media (min-width:767px) {
+    .martpplus10 {
+        margin-top: 10px;
+    }
+}
+
+/*end///*/
+
+/*.viewpnricon {
+background:url(Images/Viewpnr.png) no-repeat !important;
+}
+.bookedhisicon {
+background:url(Images/Documents-021.png) no-repeat !important;
+}
+.recheduleicon {
+background:url(Images/Reschedule.png) no-repeat !important;
+}
+.cancelicon {
+background:url(Images/Cancel.png) no-repeat !important;
+}*/
+
+
+
+/*.backgrdimg {
+
+background-image: url(../../Images/slide2.jpg)!important;
+
+}*/
+
+/*.lblcolrfff {
+
+color:#fff !important;
+}*/
+
+
+
+.bookedhis {
+
+background-image:Url("~/Images/icons/arrowrightwhite.png")
+
+}
+
+
+
+
+/*pnr details popup*/
+
+      .viewpnrec.table > thead > tr > th {
+        
+        font-size:12px !important;
+        background-color: rgb(44, 193, 133) !important;
+        text-align:center;
+
+        }
+
+          .viewpnrec.table > tbody > tr > td {
+    
+      
+    white-space: nowrap;
+    padding-bottom: 1px !important;
+    padding-top: 8px !important;
+
+    }
+
+           .viewpnrec {
+    
+    margin-bottom:20px;
+    }
+
+
+.text_href {
+
+        color: #0f2ec5 !important;
+    text-decoration: underline;
+    font-weight: bold;
+
+}
+/*@media (max-width:767px) {
+    .agentlogo {
+        display:none;
+    }
+}*/

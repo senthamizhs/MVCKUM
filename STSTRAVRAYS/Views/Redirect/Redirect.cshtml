@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "Redirect";
+}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Not Supported</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="Page-Enter" content="blendTrans(Duration=0)" />
+    <meta http-equiv="Page-Exit" content="blendTrans(Duration=0)" />
+    <meta http-equiv="cache-control" content="max-age=1" />
+    <meta http-equiv="cache-control" content="public" />
+    <meta http-equiv="expires" content="1" />
+    <meta http-equiv="pragma" content="public" />
+    <style>
+        .clsBoxShdow {
+            border-top: solid 3px #f00;
+            background-color: #fff;
+            width: 80%;
+            height: 400px;
+            margin-top: 8%;
+        }
+
+        .clsMyLabel {
+            font-family: Verdana,Arial,sans-serif;
+            color: #3f3f3f;
+            font-size: 20px;
+        }
+
+        .clsMySubLabel {
+            font-family: Verdana,Arial,sans-serif;
+            color: #878183;
+            font-size: 14px;
+        }
+
+        .clsTable {
+            border: solid 1px #e1e6ef;
+            border-radius: 8px;
+        }
+
+        .clsImage {
+            height: 120px;
+            width: 120px;
+            cursor: pointer;
+            padding: 10px;
+            border-bottom: 3px solid #0a79d8;
+        }
+
+        .clsTitleLabel {
+            font-family: Verdana,Arial,sans-serif;
+            color: #2471e3;
+            font-size: 11px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        a img {
+            border: none;
+        }
+    </style>
+</head>
+<body style="background-color:#e1e6ef;">
+    <center>
+        <div class="clsBoxShdow">
+            <h3 class="clsMyLabel">To Imporve Your Experience</h3>
+            <h4 class="clsMySubLabel"> Try one of these options to have a better experience on <font style="color:#0a79d8;">TravRays.</font></h4>
+            <table class="clsTable">
+                <tr>
+                    <td>
+                        <a href="http://windows.microsoft.com/en-IN/internet-explorer/download-ie"><img class="clsImage" alt="IE" src="@Url.Content("~/images/Browsers/ie.png")" title="Internet Explorer" /></a>
+                        <div class="clsTitleLabel">IE 9 or higher</div>
+                    </td>
+                    <td>
+                        <a href="https://www.mozilla.org/en-US/firefox/new/"><img class="clsImage" alt="Firebox" src="@Url.Content("~/images/Browsers/Firebox.png")" title="Mozilla Firefox" /></a>
+                        <div class="clsTitleLabel">Firefox 12 or higher</div>
+                    </td>
+                    <td>
+                        <a href="https://www.google.com/chrome/browser/desktop/index.html"><img class="clsImage" alt="Chrome" src="@Url.Content("~/images/Browsers/Chrome.png")" title="Google Chrome" /></a>
+                        <div class="clsTitleLabel">Chrome 18 or higher</div>
+                    </td>
+                    <td>
+                        <a href="http://www.opera.com/computer/windows"><img class="clsImage" alt="Opera" src="@Url.Content("~/images/Browsers/Opera.png")" title="Opera" /></a>
+                        <div class="clsTitleLabel">Opera 11.6 or higher</div>
+                    </td>
+                    <td>
+                        <a href="https://support.apple.com/en-in/HT204416"><img class="clsImage" alt="Safari" src="@Url.Content("~/images/Browsers/Safari.jpg")" title="Safari" /></a>
+                        <div class="clsTitleLabel">Safari 5 or higher</div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>
+                Still if you have any query Please contact support team<br />
+                Email : <a href="mailto:techsupport@travrays.com"> techsupport@travrays.com</a>
+            </p>
+        </div>
+    </center>
+</body>
+</html>

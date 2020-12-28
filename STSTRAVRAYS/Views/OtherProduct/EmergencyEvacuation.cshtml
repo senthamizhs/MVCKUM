@@ -1,0 +1,1252 @@
+﻿@using System.Configuration;
+@{
+    ViewBag.Title = "EmergencyEvacuation";
+    string strFileversion = ConfigurationManager.AppSettings["UpdateVersion"] != null ? ConfigurationManager.AppSettings["UpdateVersion"].ToString() : "";
+    string strProduct = ConfigurationManager.AppSettings["Producttype"].ToString();
+    string strLoaderURL = ConfigurationManager.AppSettings["LogoUrl"] +"/"+ strProduct + "/loader.gif?" + strFileversion;
+}
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<style>
+        .alert.alert-info {
+            background: #cce5ff;
+        }
+
+        @@media screen and (max-width: 768px) {
+            #aLinkLogo img {
+                width: 30% !important;
+                /* margin-top: 5px !important; */
+                left: 0;
+                margin: auto;
+                position: absolute;
+                top: 0;
+                float: left;
+            }
+
+            .headerdsn {
+                font-size: 16px !important;
+            }
+
+            .dvclsregistercontent {
+                width: 100% !important;
+            }
+
+            .hrinnerdsn {
+                display: none;
+            }
+
+            .hrinnerheader {
+                font-size: 12px;
+            }
+
+            .group {
+                margin-left: 0px !important;
+            }
+
+            .help-text {
+                white-space: normal !important;
+            }
+
+            .custom-control-label {
+                white-space: normal;
+            }
+        }
+
+        .alert-success {
+            color: #3c763d;
+            background-color: #dff0d8 !important;
+            border-color: #d6e9c6;
+        }
+
+        .alert.alert-success:before {
+            content: none;
+        }
+
+        .custom-control-label {
+            left: 30px;
+            top: 0px;
+            white-space: nowrap;
+            cursor: pointer;
+            /* z-index: 0; */
+            pointer-events: initial;
+        }
+
+        .captchaContainer {
+            background-color: #f9f9f9;
+            border: 1px solid #d4d4d4;
+            padding: 15px 40px 15px 30px;
+        }
+
+        .captchaWrapper {
+            line-height: 0;
+            float: left;
+        }
+
+        .captchaWrapper, .captchaContainer {
+            display: inline-block;
+        }
+
+        #hiddenCaptcha {
+            display: none;
+        }
+
+            #hiddenCaptcha:checked + .captchaLabel:after {
+                max-width: 25px;
+                opacity: 1;
+                overflow: inherit;
+            }
+
+        .captchaLabel {
+            font-weight: 700;
+            color: #4a4a4a;
+            padding: 2px 0 0 20px;
+            position: relative;
+            display: block;
+            float: left;
+            margin-top: -10px;
+        }
+
+            .captchaLabel:after {
+                font-family: FontAwesome;
+                position: absolute;
+                content: '\f00c';
+                max-width: 0;
+                overflow: hidden;
+                opacity: 0.5;
+                font-size: 30px;
+                top: -8px;
+                left: -24px;
+                color: #039F53;
+                -webkit-transition: all 0.7s;
+                -moz-transition: all 0.7s;
+                -ms-transition: all 0.7s;
+                transition: all 0.7s;
+            }
+
+        .captchaBox {
+            width: 24px;
+            height: 24px;
+            padding: 0;
+            outline: none;
+            border: 2px solid #b9b9b9;
+            border-radius: 2px;
+        }
+
+        .boxHover {
+            background-color: #fff;
+        }
+
+            .boxHover:hover {
+                cursor: pointer;
+                border: 2px solid #1E88E5;
+            }
+
+        .scaleDown {
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -ms-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+            transform: scale(0.2,0.2);
+        }
+
+        .circle {
+            border-top: 2px solid #1E88E5;
+            border-right-color: transparent;
+            border-bottom: 2px solid #1E88E5;
+            border-left-color: transparent;
+            border-radius: 12px;
+            background-color: #fafafa;
+        }
+
+        .scaleUp {
+            -webkit-transition: all 0.6s ease;
+            -moz-transition: all 0.6s ease;
+            -ms-transition: all 0.6s ease;
+            transition: all .6s ease;
+            transform: scale(1,1);
+        }
+
+        .rotation {
+            -webkit-transition: all 2s ease-out;
+            -moz-transition: all 2s ease-out;
+            -ms-transition: all 2s ease-out;
+            transition: all 2s ease-out;
+            transform: rotate(1080deg);
+        }
+
+        .fadeOut {
+            -webkit-transition: all 0.6s ease;
+            -moz-transition: all 0.6s ease;
+            -ms-transition: all 0.6s ease;
+            transition: all .6s ease;
+            border-color: transparent;
+        }
+
+        .captchaError {
+            box-shadow: 0 0 1px 1px #E53935;
+        }
+
+
+
+        select {
+            padding: 5px !important;
+            width: 100% !important;
+            background: #fff !important;
+            font-size: 14px !important;
+        }
+
+        #flight_wrapper {
+            background: #fff;
+            box-shadow: 0px 0px 6px 1px #ccc !important;
+        }
+
+        html {
+            background-color: #f1f1f1;
+            font-family: "Roboto";
+        }
+
+
+
+        .lock {
+            text-align: center;
+            color: white;
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: 0;
+            top: 0;
+            bottom: 0;
+            line-height: 65px;
+            font-size: 28px;
+        }
+
+        #bottom-head {
+            position: relative;
+            background: #00796b;
+            height: 35px;
+        }
+
+            #bottom-head::after {
+                content: "";
+                width: 0px;
+                height: 0px;
+                display: block;
+                position: absolute;
+                margin: auto;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-bottom: 7px solid white;
+                border-right: 7px solid rgba(0, 0, 0, 0);
+                border-left: 7px solid rgba(0, 0, 0, 0);
+                border-top: 7px solid rgba(0, 0, 0, 0);
+            }
+
+        .box h1 {
+            margin-left: 20px;
+            margin-top: 0;
+            font-size: 24px;
+            font-weight: 300;
+            color: #cfd8dc;
+            line-height: 35px;
+        }
+
+        .box button {
+            background: #cfd8dc;
+            border: 0;
+            color: #009688;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: 300;
+            width: 330px;
+            margin: 20px auto;
+            display: block;
+            cursor: pointer;
+            -webkit-transition: all 0.4s;
+            transition: all 0.4s;
+            border-radius: 2px;
+        }
+
+            .box button:active {
+                background: #009688;
+                color: #263238;
+            }
+
+            .box button:hover {
+                background: #009688;
+                color: #fff;
+                -webkit-transition: all 0.4s;
+                transition: all 0.4s;
+            }
+
+        .box p {
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .group {
+            position: relative;
+            margin-bottom: 35px;
+            margin-left: 40px;
+        }
+
+        .inputMaterial {
+            font-size: 14px;
+            padding: 10px 10px 10px 5px;
+            display: block;
+            width: 300px;
+            border: none;
+            border-bottom: 1px solid #757575;
+        }
+
+            .inputMaterial:focus {
+                outline: none;
+            }
+
+        /* LABEL ======================================= */
+
+        label {
+            color: #999;
+            font-size: 14px;
+            font-weight: normal;
+            position: absolute;
+            pointer-events: none;
+            left: 5px;
+            top: 10px;
+            transition: 0.2s ease all;
+            -moz-transition: 0.2s ease all;
+            -webkit-transition: 0.2s ease all;
+        }
+
+        /* active state */
+        .inputMaterial:focus ~ label,
+        .inputMaterial:valid ~ label {
+            top: -20px;
+            font-size: 14px;
+            color: #009688;
+        }
+
+        /* BOTTOM BARS ================================= */
+        .bar {
+            position: relative;
+            display: block;
+            width: 100%;
+        }
+
+            .bar:before,
+            .bar:after {
+                content: "";
+                height: 2px;
+                width: 0;
+                bottom: 1px;
+                position: absolute;
+                background: #009688;
+                transition: 0.2s ease all;
+                -moz-transition: 0.2s ease all;
+                -webkit-transition: 0.2s ease all;
+            }
+        /*.bar:before {
+      left: 50%;
+    }
+    .bar:after {
+      right: 50%;
+    }*/
+
+        /* active state */
+        .inputMaterial:focus ~ .bar:before,
+        .inputMaterial:focus ~ .bar:after {
+            width: 100%;
+        }
+
+        /* active state */
+        .inputMaterial:focus ~ .highlight {
+            -webkit-animation: inputHighlighter 0.3s ease;
+            -moz-animation: inputHighlighter 0.3s ease;
+            animation: inputHighlighter 0.3s ease;
+        }
+
+        /* ANIMATIONS ================ */
+        @@-webkit-keyframes inputHighlighter {
+            from {
+                background: #5264ae;
+            }
+
+            to {
+                width: 0;
+                background: transparent;
+            }
+        }
+
+        @@-moz-keyframes inputHighlighter {
+            from {
+                background: #5264ae;
+            }
+
+            to {
+                width: 0;
+                background: transparent;
+            }
+        }
+
+        @@keyframes inputHighlighter {
+            from {
+                background: #5264ae;
+            }
+
+            to {
+                width: 0;
+                background: transparent;
+            }
+        }
+
+
+
+        @@keyframes bounce-nds {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @@keyframes bounce-out-nds {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            to {
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+
+        .profile-name {
+            line-height: 60px;
+            left: -70px;
+            position: absolute;
+            font-family: "Roboto";
+            color: #455a64;
+        }
+
+            .profile-name:hover {
+                text-decoration: underline;
+            }
+
+        a:link,
+        a:visited {
+            text-decoration: none;
+        }
+
+
+        .mb20 {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            padding: 20px !important;
+        }
+
+        .dvclsregistercontent {
+            width: 700px;
+            margin: auto;
+        }
+
+        body {
+            font-family: Lusitana, Georgia, serif;
+        }
+
+        .card-footer {
+            padding: .75rem 1.25rem;
+            background-color: rgba(0,0,0,.03);
+            border-top: 1px solid rgba(0,0,0,.125);
+        }
+
+
+
+
+
+
+
+
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            align-self: flex-end;
+            margin: 0.5em 1em;
+        }
+
+            .logo img {
+                height: 2em;
+                width: 2em;
+            }
+
+            .logo p {
+                color: #9d9ba7;
+                margin: 0;
+                font-size: 1em;
+                font-weight: 700;
+                margin: .4em 0 .2em 0;
+            }
+
+            .logo small {
+                color: #9d9ba7;
+                margin: 0;
+                font-size: .8em;
+            }
+
+
+
+        ::selection {
+            background-color: transparent;
+            color: teal;
+        }
+
+        ::-moz-selection {
+            background-color: transparent;
+            color: teal;
+        }
+
+        .alert.alert-info:before, .alert:before {
+            content: none;
+        }
+
+        .disnone {
+            display: none;
+        }
+
+
+
+
+
+
+        .headerdsn {
+            margin-top: 20px;
+            color: rgb(0, 117, 193);
+            font-size: 35px;
+            text-align: center;
+            font-weight: 600;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        input {
+            -webkit-writing-mode: horizontal-tb !important;
+            text-rendering: auto;
+            color: -internal-light-dark-color(black, white);
+            letter-spacing: normal;
+            word-spacing: normal;
+            text-transform: none;
+            text-indent: 0px;
+            text-shadow: none;
+            display: inline-block;
+            text-align: start;
+            -webkit-appearance: textfield;
+            background-color: -internal-light-dark-color(white, black);
+            -webkit-rtl-ordering: logical;
+            cursor: text;
+            margin: 0em;
+            font: 400 13.3333px Arial;
+            padding: 1px 0px;
+            border-width: 2px;
+            border-style: inset;
+            border-color: initial;
+            border-image: initial;
+        }
+
+        .hrinnerdsn {
+            width: 70px;
+            top: 59px;
+            /* width: 36px; */
+            border-top: 2px solid #eee;
+            text-align: center;
+            left: 47%;
+            position: absolute;
+        }
+</style>
+
+
+<div class="container" style="position:relative">
+
+
+    <h1 class="headerdsn">Emergency Evacuation Form</h1>
+
+    <div style="font-size:13px;" class="alert alert-info dvclsinfomsg" role="alert">
+        @* <h4 class="alert-heading">Well done!</h4>*@
+        <p>
+            Due to the Lockdown many travellers have got stuck up in different parts of the Country. Many of our customers also are going through similar difficulties and have been requesting us to do something about this using our relationship with the Airlines. On an humanitarian basis, we have decided to pursue with the Airlines to operate special flights on the Chennai – Mumbai , Mumbai-Chennai , Chennai-Jodhpur and Jodhpur-Chennai sectors since most queries are from those wishing to travel between these two sectors.
+            We are undertaking this task purely with an intention to help people reach their homes. If we have enough requests for travel it may be possible for the Airline to operate the flight, subject to Government and Regulatory approval. We are not guaranteeing that the flight will operate .<b>The tentative date of the proposed flight is 15th May 2020 </b>
+        </p>
+        <hr>
+        <p class="mb-0">We request you to fill the below form and submit your request.</p>
+    </div>
+
+
+    <hr class="hrinnerdsn" style="">
+
+    <div class="dvclsregistercontent">
+
+        <h4 class="text-center hrinnerheader">Please fill in correct details </h4>
+
+        <br />
+
+
+        <div class="row">
+            <div class="col-sm-3 col-xs-12">
+                <div class="group">
+                    <select class="inputMaterial" data-mandatory="Y" name="Title" id="slttitle" required>
+                        <option value="0">Select</option>
+                        <option value="Mr.">Mr.</option>
+                        <option value="Ms.">Ms.</option>
+                        <option value="Mrs.">Mrs.</option>
+                        <option value="Dr.">Dr.</option>
+                    </select>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>Title</label>
+                </div>
+
+
+            </div>
+            <div class="col-sm-5 col-xs-12">
+                <div class="group">
+                    <input class="inputMaterial" id="txtfirstname" name="First Name" data-mandatory="Y" type="text" required>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>First Name</label>
+                </div>
+
+
+            </div>
+            <div class="col-sm-4 col-xs-12">
+                <div class="group">
+                    <input class="inputMaterial" id="txtlastname" name="Last Name" data-mandatory="Y" type="text" required>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>Last Name</label>
+                </div>
+
+
+            </div>
+            @*    <div class="col-sm-12 col-xs-12">
+                    <div class="group">
+                        <input type="text" class="inputMaterial" data-mandatory="Y" name="Last Name" id="Lastname" onkeypress="return ValidateAlpha(event)" maxlength="75" required />
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label for="Lastname">Last Name </label>
+                    </div>
+                </div>*@
+            <div class="col-sm-12 col-xs-12">
+                <div class="group">
+
+                    <input type="text" data-mandatory="Y" class="inputMaterial" data-inptype="email" name="Email" id="UAE_EMAILID" required />
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label for="UAE_EMAILID">Email Id</label>
+                </div>
+            </div>
+            <div class="col-sm-12 col-xs-12">
+                <div class="group">
+
+                    <input type="text" class="inputMaterial" data-mandatory="Y" data-minlength="10" name="Contact No." id="IND_CONTACT_NO" maxlength="10" onkeypress="return isNumericVal(event)" required />
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label for="IND_CONTACT_NO"> Contact No. </label>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="col-sm-12 col-xs-12">
+                <div class="group">
+                    <input type="text" class="inputMaterial" data-mandatory="Y" name="Curret Address" id="IND_ADDRESS" required />
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label for="IND_ADDRESS">Current Address </label>
+                </div>
+            </div>
+            <div class="col-sm-12 col-xs-12">
+                <div class="group">
+                    <input type="text" class="inputMaterial" data-mandatory="Y" name="Destination Address" id="DEST_ADDRESS" required />
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label for="DEST_ADDRESS">Destination Address </label>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-xs-12">
+                <div class="group">
+
+                    <select class="inputMaterial" data-mandatory="Y" name="Sector" id="Sector" required>
+                        <option value="0">Select</option>
+                        <option value="BOM-MAA">Mumbai - Chennai</option>
+                        <option value="MAA-BOM">Chennai-Mumbai</option>
+                        <option value="MAA-JDH">Chennai-Jodhpur</option>
+                        <option value="JDH-MAA">Jodhpur -Chennai</option>
+                    </select>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label for="Sector">Sector  </label>
+
+
+
+                </div>
+            </div>
+
+            <div class="col-sm-4 col-xs-12">
+                <div class="group">
+
+                    <input type="text" class="inputMaterial" maxlength="2" data-mandatory="Y" onkeypress="return isNumericVal(event)" name="Adult count" id="Adult" required />
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label for="Adult">Adult</label>
+                </div>
+            </div>
+
+            <div class="col-sm-4 col-xs-12">
+                <div class="group">
+
+                    <input type="text" class="inputMaterial" maxlength="2" onkeypress="return isNumericVal(event)" name="Passenger count" id="Child" required />
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label for="Adult">Child</label>
+                </div>
+            </div>
+
+            <div class="col-sm-4 col-xs-12">
+                <div class="group">
+
+                    <input type="text" class="inputMaterial" maxlength="2" onkeypress="return isNumericVal(event)" name="Passenger count" id="Infant" required />
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label for="Adult">Infant</label>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-xs-12">
+                <div class="group">
+
+                    <input type="text" class="inputMaterial" data-mandatory="Y" onkeypress="return ValidateAlpha(event)" name="Reason for Travel" id="ReasonforTravel" required />
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label for="ReasonforTravel">Reason for Travel</label>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-xs-12">
+                <div class="group">
+
+
+                    <select class="inputMaterial" data-mandatory="Y" name="Above field" id="Quarrantined" required>
+                        <option value="0">Select</option>
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
+                    </select>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label for="Quarrantined">Have you been quarrantined in last two months </label>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-xs-12">
+                <div class="group">
+
+                    <select class="inputMaterial" data-mandatory="Y" name="Above field" id="CovidTest" required>
+                        <option value="0">Select</option>
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
+                    </select>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label for="CovidTest">Have you undergone COVID Test </label>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-xs-12" style="display:none;">
+                <div class="group">
+
+                    <select class="inputMaterial" data-mandatory="Y" name="Above field" id="CovidResult" required>
+                        <option value="0">Select</option>
+                        <option value="Positive">Positive</option>
+                        <option value="Negative">Negative</option>
+                    </select>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label for="CovidResult">COVID-19 Test result </label>
+                </div>
+            </div>
+
+
+            <div class="col-sm-12 col-xs-12">
+                <div class="group">
+                    <div class="form-check-inline jsctcenter">
+                        <div style="margin: 5px;" class="custom-control custom-checkbox ">
+                            <input type="checkbox" id="paychk" class="custom-control-input">
+                            <label class="custom-control-label" for="paychk">
+                                I confirm that all information submitted by me is true and I will be liable for any misrepresentation
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-sm-12 col-xs-12 text-center">
+
+
+                <div class="group">
+                    <div class="captchaContainer">
+                        <div class="captchaWrapper">
+                            <button type="button" class="captchaBox boxHover"></button>
+                        </div>
+                        <input type="checkbox" name="hiddenCaptcha" id="hiddenCaptcha" disabled="disabled" />
+                        <label for="hiddenCaptcha" class="captchaLabel">I'm not a robot</label>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-xs-12">
+                <div class="help-text" style="color: #1b508f; padding: 10px;white-space:nowrap;">
+                    <strong>Note:</strong>  All flights will be operated subject to Government and Regulatory approvals . We do not guarantee operations
+                </div>
+            </div>
+
+
+
+            <div class="col-sm-12 col-xs-12 dvclsedithidrow disnone dvclsprierrmsg">
+                <div class="alert alert-danger " role="alert"></div>
+            </div>
+
+
+        </div>
+        <br />
+
+
+
+
+
+
+
+
+
+
+        <div class="dvclsedithidrow" style="text-align: center; margin: 10px 5px; padding: 15px 15px;">
+            <input type="submit" style="background: #6c757d; color: #fff;" value="Reset All" onclick="reset()" class="btn btn-secondary" name="reset" id="reset" />
+
+            <button class="btn btn-primary" onclick="insertfn()" name="submit" id="submit">Submit</button>
+        </div>
+
+        <br />
+        <br />
+    </div>
+    <div class="dvclssuccmsg" style="display: none;">
+        <div class="alert alert-success" role="alert" style="margin-top: 5px;">
+            <h4 class="alert-heading">
+                Registered Successfully!
+                <button class="btn btn-link float-right" onclick="location.reload()">Home</button>
+            </h4>
+            <p>Your Ref number is  <b style="font-size: 15px;" class="bclsrefno"></b></p>
+            <hr>
+            <p class="mb-0">
+                You can mention this ref number or you can login in our system and check the details will be provided in your email.
+                Email id: <b style="font-size: 15px;" class="bclsemailid"></b>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    var Country_Xml_URL = "@Url.Content("~/XML/Country.xml")";
+    var CityXML = "@Url.Content("~/XML/City.xml")";
+    var SateXML = "@Url.Content("~/XML/State.xml")";
+    var Current_ServerData_time = "@ViewBag.Serverdatetime"
+    var Termsancondrul = '@Url.Content("~/Img/termsandcondition.html")' + "?" + new Date().getTime();
+    var Lodinggif = '@Url.Content("~/Images/"+ strProduct + "/spinner.gif")';
+    var loaderurl = "@strLoaderURL";
+    $(document).ready(function () {
+        
+        var BOX = $('.captchaBox');
+        var WRAP = $('.captchaWrapper');
+        var CONTAINER = $('.captchaContainer');
+        var CHECK = $('#hiddenCaptcha');
+
+        $(function () {
+            if (CHECK.prop('checked')) {
+                BOX.removeClass();
+                BOX.addClass('captchaBox circle fadeOut');
+            }
+            CONTAINER.click(function () {
+                if (CONTAINER.hasClass('captchaError')) {
+                    CONTAINER.removeClass('captchaError');
+                }
+            })
+        });
+
+        BOX.click(function () {
+            setTimeout(scaleDown, 100);
+        })
+        function scaleDown() {
+            BOX.addClass('scaleDown');
+            setTimeout(scaleUp, 600);
+        }
+        function scaleUp() {
+            BOX.removeClass('scaleDown boxHover').addClass('circle scaleUp');
+            WRAP.addClass('rotation');
+            setTimeout(fadeToMark, 1200);
+        }
+        function fadeToMark() {
+            BOX.removeClass('scaleUp rotation').addClass('fadeOut');
+            setTimeout(checkItOut, 400);
+        }
+        function checkItOut() {
+            CHECK.prop('checked', true);
+        }
+
+
+    });
+
+    $("input[type='text']:not([data-noautocomplete]),input[type='email']").closest(".group").wrap("<form autocomplete='off'> </form>");
+
+    function insertfn() {
+        
+        $(".dvclsprierrmsg").hide().find(".alert-danger").html("");
+
+        var valerror = Commonvalidation('dvclsregistercontent');
+
+        if (valerror) {
+            return false
+        }
+
+        if (!$("#paychk").prop("checked")) {
+            $(".dvclsprierrmsg").show().find(".alert-danger").html("Please confirm that all information was submitted by you.");
+            return false;
+        }
+
+        if (!$("#hiddenCaptcha").prop("checked")) {
+            $(".dvclsprierrmsg").show().find(".alert-danger").html("Please ensure that you are human");
+            return false;
+        }
+
+
+        var input = {
+            UAE_PERSON_NAME: $("#slttitle").val().trim() + " " + $("#txtfirstname").val().trim() + " " + $("#txtlastname").val().trim(),
+            UAE_EMAILID: $("#UAE_EMAILID").val().trim(),
+            IND_CONTACT_NO: $("#IND_CONTACT_NO").val().trim(),
+            UAE_CONTACT_NO: $("#IND_CONTACT_NO").val().trim(),
+            IND_ADDRESS: $("#IND_ADDRESS").val().trim(),
+            BIRTHPLACE: $("#DEST_ADDRESS").val(),
+            ORIGIN: $("#Sector").val().trim(),
+            DESTINATION: $("#Sector").val().trim(),
+            paxlistname: $("#Adult").val() + "|" + $("#Child").val() + "|" + $("#Infant").val(),
+
+            TRAVEL_PRIORITY: $("#ReasonforTravel").val(),
+            Quarntine: $("#Quarrantined").val(),
+            CovidTest: $("#CovidTest").val(),
+            CovidResult: $("#CovidResult").val(),
+            NATIONALITY: "",
+            DOB: "01/01/1990",
+
+            BIRTHCOUNTRY: "",// $("#BirthCountry").val().trim(),
+            WHATSAPPNO: "",
+            IND_STATE: "",
+            IND_CITY: "",
+
+            NEAREST_AIRPORT: $("#ifany").prop("checked") ? "Yes" : "no",
+
+        }
+
+        $.blockUI({
+            message: '<img alt="Please Wait..." src="' + loaderurl + '" style="background-color:#fff; border-radius:8px; margin-top:12%;" id="FareRuleLodingImage" />',
+            css: { padding: '5px' }
+        });
+        $.ajax({
+            url: "@Url.Action("INSERT_FOI_DETAILS", "OtherProduct")",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(input),
+            dataType: "json",
+
+            type: "POST",
+            success: function (jdata) {
+                $.unblockUI();
+
+                if (jdata.Status == "0") {
+                    $(".dvclsprierrmsg").show().find(".alert-danger").html(jdata.Errormsg || "Unable to process your request. Please contact support team (#07)");
+
+                }
+                else {
+
+                    $(".dvclsregistercontent").hide();
+                    $(".dvclsinfomsg").hide();
+                    $(".dvclssuccmsg").show();
+                    $(".bclsrefno").html(jdata.Referenceid)
+                    if (jdata.Mailid != "")
+                        $(".bclsemailid").html(jdata.Mailid)
+                    else
+                        $(".bclsemailid").closest("p").hide();
+
+                    @*Lobibox.alert('success', {
+                     msg: jdata.Msg,
+                     closeOnEsc: false,
+                     callback: function ($this, type) {
+                         window.location.href = "@Url.Action("Home", "Home")";
+                     }
+                       });*@
+                }
+
+
+            },
+
+            error: function (err) {
+                $.unblockUI();
+                alert("Internal Error");
+            }
+        });
+    }
+
+
+    function ChangeDiv(e) {
+        
+        if ($('#Travel_Priority').val() == 'Urgent') {
+            $('#dvurgent').css('display', 'block');
+
+        }
+        else {
+
+            $('#dvurgent').css('display', 'none');
+        }
+    }
+
+
+    function Lasspaxdiv(t) {
+        
+        var prev = Number(t) - 1;
+        $(".addmore_" + prev).show();
+        $(".paxdiv_" + t).remove();
+    }
+
+
+    function showpopup(Ititle, Isubtitle, IContent, Ifullopt, Itemp1, Itemp2) {
+        $('#modal-content').iziModal('destroy');
+
+        $("#modal-content").html(IContent);
+        $("#modal-content").iziModal({
+            title: Ititle,
+            subtitle: Isubtitle,
+            fullscreen: Ifullopt,
+            iconClass: 'icon-stack',
+            headerColor: '#636363',
+            width: 700,
+            padding: 20
+        });
+        $('#modal-content').iziModal('open');
+    }
+
+
+    function visitterms() {
+        $.blockUI({
+            message: '<img alt="Please Wait..." src=' + Lodinggif + ' id="BookflighLodingImage" />',
+            css: { backgroundColor: '#fff', padding: '5px', }
+        });
+        $.ajax({
+            url: Termsancondrul,
+            dataType: 'html',
+            anync: false,
+            success: function (response) {
+                try {
+                    $.unblockUI();
+                    var foibldr = "";
+
+                    response = response.replace("#Termsandconditons#", foibldr);
+
+
+                    $("#Htmldiv").html(response);
+                    $("#Termsandcondition").modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                }
+                catch (ex) {
+                    alert("unable to load Terms and Condition (#07).");
+                }
+            },
+            error: function (e) {
+                alert("unable to load Terms and Condition (#03).");
+            }
+        });
+    }
+
+
+
+
+    function defaultValues(type) {
+        if (type.id == "Title") { $("#paxTitle_0").val($("#Title").val()) }
+        if (type.id == "Firstname") { $("#paxFirstname_0").val($("#Firstname").val()) }
+        if (type.id == "Lastname") { $("#paxLASTNAME_0").val($("#Lastname").val()) }
+        if (type.id == "UAE_EMIRATES") { $("#Origin").val($("#UAE_EMIRATES").val()) }
+
+    }
+    
+    $('body').off().on('change', '.inputMaterial', function () {
+        $(this).siblings(".spncmnclserormsg").remove();
+    });
+
+    function reset() {
+        $(".inputMaterial").val("");
+        $("input:checkbox").prop('checked', false);
+        $("#Nationality").val("IN");  //IND_STATE
+        $("#IND_STATE").val("");
+        length = $(".paxtitle").length;
+        for (var i = length; i > 0; i--) {
+            Lasspaxdiv(i);
+        }
+    }
+
+    function Showloginpop() {
+        $(".dvclslgndetails").find(".inputMaterial").val("");
+        $(".dvclslgnerrormsg").html("").hide();
+        $('#LoginModal').modal('show');
+    }
+
+    function Loginfn() {
+        $(".dvclslgnerrormsg").html("").hide();
+        var valerror = false;
+        valerror = Commonvalidation('dvclslgndetails');
+
+        if (valerror)
+            return false
+
+
+        var input = {
+            Emailid: $("#txtlgnmailid").val(),
+            Password: $("#txtlgnpassword").val()
+        }
+        $.blockUI({
+            message: '<img alt="Please Wait..." src=' + Lodinggif + ' id="BookflighLodingImage" />',
+            css: { backgroundColor: '#fff', padding: '5px', }
+        });
+        $.ajax({
+            url: "@Url.Action("FetchLogin", "Home")",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(input),
+            dataType: "json",
+
+            type: "POST",
+            success: function (jdata) {
+                $.unblockUI();
+
+                if (jdata.Status == "0") {
+                    $(".dvclslgnerrormsg").html(jdata.Message || "Unable to Login. Please contact support team (#07)").show();
+                }
+                else {
+                    var lgndetails = jdata.data || "";
+                    lgndetails = JSON.parse(lgndetails);
+                    var passengerdetails = lgndetails.Temp1 || [];
+                    lgndetails = lgndetails.Temp;
+
+                    var Namedet = lgndetails[0].UAE_PERSON_NAME.split(" ");
+                    $("#Title").val(Namedet[0]);
+                    $("#Firstname").val(Namedet[1]);
+                    $("#Lastname").val(Namedet[2]);
+
+
+                    for (key in lgndetails[0]) {
+                        if ($("#" + key).length)
+                            $("#" + key).val(lgndetails[0][key]);
+                    }
+                    $("#Nationality").val("IN");
+                    $(".dvclsedithidrow").hide();
+                    $('#LoginModal').modal('hide');
+                    $(".spnclregtitle").html("Hi! " + lgndetails[0].UAE_PERSON_NAME).css("font-size", "20px");
+
+                    $(".dvlgnlink").html('<button class="btn btn-link float-right" onclick="location.reload()" >Logout</button>');
+
+
+                    if (passengerdetails.length > 0) {
+                        for (var pcnt = 0; pcnt < passengerdetails.length; pcnt++) {
+                            if (pcnt != 0)
+                                Paxdetailbuilding(1);
+                            $("#paxTitle_" + pcnt).val(passengerdetails[pcnt]["PAX_PASSENGER_TITLE"]);
+                            $("#paxFirstname_" + pcnt).val(passengerdetails[pcnt]["PAX_PASSENGER_FIRST_NAME"]);
+                            $("#paxLASTNAME_" + pcnt).val(passengerdetails[pcnt]["PAX_PASSENGER_LAST_NAME"]);
+                            $("#visaStatus_" + pcnt).val(passengerdetails[pcnt]["PAX_VISA_TYPE"]);
+                            $("#VisExpdare_" + pcnt).val(passengerdetails[pcnt]["PAX_IDEXPIRY_DATE"]);
+                            $("#PaxPassport_No" + pcnt).val(passengerdetails[pcnt]["PAX_PROOFNO"]);
+
+                        }
+                    }
+
+                    $(".signup-content").find(".form-control , .custom-control-input, .btn-primary , .btn-danger").attr("disabled", true);
+                }
+
+
+            },
+
+            error: function (err) {
+                $.unblockUI();
+                alert("Internal Error");
+            }
+        });
+    }
+
+    function Commonvalidation(cls) {
+        var valerror = false;
+        $(".spncmnclserormsg").length ? $(".spncmnclserormsg").remove() : "";
+        $("." + cls).find(".inputMaterial").each(function () {
+            var currthis = $(this);
+            var inptype = currthis.attr("type") || "";
+            var attrname = currthis.attr("name") || "";
+            var valtype = currthis.data("inptype") || "";
+            var attrval = inptype == "checkbox" ? currthis.prop("checked") : (currthis.val() || "");
+            var mandatoryflag = currthis.data("mandatory") || "N";
+            var minlength = currthis.data("minlength") || "";
+            var bindingthis = currthis.siblings("label").length ? currthis.siblings("label") : currthis;
+            $(".spncmnclserormsg").length ? $(".spncmnclserormsg").remove() : "";
+            if (mandatoryflag == "Y" && (attrval == "" || attrval == "0")) { //|| attrval == false
+
+                var errormsg = inptype == "hidden" ? "Invalid value" : attrname + " is required ";
+
+                $("<span class='spncmnclserormsg text-danger'> " + errormsg + " </span>").insertAfter(bindingthis);
+                currthis.focus();
+                valerror = true;
+                return false;
+            }
+            if (attrval != "" && minlength != "" && attrval.length < Number(minlength)) {
+                $("<span class='spncmnclserormsg text-danger'> Minimum " + minlength + " digits required. </span>").insertAfter(bindingthis);
+                currthis.focus();
+                valerror = true;
+                return false;
+            }
+            if (mandatoryflag == "Y" && valtype == "email") {
+                var emailReg = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,45})?$/;
+                if (!emailReg.test(attrval)) {
+                    var errormsg = "Invalid " + attrname;
+                    $("<span class='spncmnclserormsg text-danger'> " + errormsg + " </span>").insertAfter(bindingthis);
+                    currthis.focus();
+                    valerror = true;
+                    return false;
+                }
+            }
+
+        });
+        return valerror;
+    }
+    
+    $("#CovidTest").change(function () {
+        $(this).val() == "Y" ? $("#CovidResult").closest(".col-sm-12").show() : $("#CovidResult").closest(".col-sm-12").hide();
+        $("#CovidResult").data("mandatory", $(this).val());
+    });
+
+</script>

@@ -1,0 +1,33 @@
+﻿@{
+    string Producttype = System.Configuration.ConfigurationManager.AppSettings["Producttype"] != null ? System.Configuration.ConfigurationManager.AppSettings["Producttype"].ToString() : "";
+}
+<div id="divMiddle">
+    <div class="container">
+        <div id="ContentPlaceHolder1_lbl">
+            <h4 class="tittle_head">Products &amp; Services </h4>
+           @if (Producttype.ToString().ToUpper() == "ROUNDTRIP")
+           {
+            <ul>
+                <li>Flight Tickets &ndash; Domestic &amp; International</li>
+                <li>Hotels &ndash; Domestic &amp; International</li>
+                <li>Holiday Packages &ndash; Domestic &amp; International</li>
+                <li>Travel Insurance</li>
+                <li>Visa</li>
+                <li>Forex</li>
+                <li>Bus tickets</li>
+                <li>Train tickets</li>
+                <li>Cars and transportation services</li>
+                <li>Other Travel related products &amp; services</li>
+            </ul>
+           }
+           else
+           {
+            <ul>
+                <li>Flight Tickets &ndash; Domestic &amp; International</li>
+                <li>Hotels &ndash; Domestic &amp; International</li>
+                <li>Holiday Packages &ndash; Domestic &amp; International</li>
+            </ul>
+           }
+        </div>
+    </div>
+</div>

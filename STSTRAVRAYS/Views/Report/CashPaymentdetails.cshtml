@@ -1,0 +1,344 @@
+﻿@using System.Configuration;
+@{
+    string strFileVersion = ConfigurationManager.AppSettings["UpdateVersion"].ToString();
+    string strProductType = ConfigurationManager.AppSettings["Producttype"].ToString();
+    string strApptheme = ConfigurationManager.AppSettings["apptheme"].ToString();
+}
+<link href="~/Content/CSS/bootstrap.css?@strFileVersion" rel="stylesheet" />
+<link href="~/Content/CSS/chosen.min.css?@strFileVersion" rel="stylesheet" />
+<link href="~/Content/CSS/CommonCSS/W2Grid.css?@strFileVersion" rel="stylesheet" />
+<link href="~/Content/CSS/Search/jquerycalender-new.css?@strFileVersion" rel="stylesheet" />
+
+@if (strProductType == "RBOA" && strApptheme == "THEME1")
+{
+    <link href="~/Content/CSS/Riya_BOA/riya_boa.css?@strFileVersion" rel="stylesheet" />
+}
+else
+{
+    <link href="~/Content/CSS/@strApptheme/style.css?@strFileVersion" rel="stylesheet" />
+}
+
+<style>
+    .fixed .wrapper, .fixed-leftside .wrapper {display: inherit;margin-top: 100px;}
+</style>
+
+<div class="container">
+    <div class="row row0">
+        <div class="M_be007">
+            <div class="col-xs-12 col-md-12 col-sm-12 col0" id="cash_paydets">
+                <div class="cls-header m-b-10" id="Heading">
+                    <h4 class="Rpt_headertilte">
+                        <span class="sprit_payment" style="float:left;"></span>
+                        <span>Cash Payment Details</span>
+                    </h4>
+                </div>
+                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 m-b-10">
+                    <div class="col-xs-12 col-sm-3">
+                        <label style="font-size: 12px; margin-bottom: 0px;">From Date<span style="color:red;">*</span></label>
+                        <div class="dv-anim input-effect m-0 m-sm-t15" style="">
+                            <input class="txt-anim clsClear" readonly id="TxtFromDate" type="text" style="text-transform: uppercase; border-radius: 0px 3px 3px 0px !important;" />
+                            <span class="focus-border">
+                                <i></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-3">
+                        <label style="font-size: 12px; margin-bottom: 0px;">To Date<span style="color:red;">*</span></label>
+                        <div class="dv-anim input-effect m-0 m-sm-t15" style="">
+                            <input class="txt-anim clsClear" readonly id="TxtToDate" type="text" style="text-transform: uppercase; border-radius: 0px 3px 3px 0px !important;" />
+                            <span class="focus-border">
+                                <i></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-3">
+                        <label style="font-size: 12px; margin-bottom: 0px;">Branch</label>
+                        <div class="dv-anim input-effect m-0 m-sm-t15" style="">
+                            <select class="txt-anim clsClear clsAlpha" id="TxtBranch" type="text" style="text-transform: uppercase; border-radius: 0px 3px 3px 0px !important;">
+                                <option value="">ALL</option>
+                            </select>
+                            <span class="focus-border">
+                                <i></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-3">
+                        <label style="font-size: 12px; margin-bottom: 0px;">Product Type<span style="color:red;">*</span></label>
+                        <div class="dv-anim input-effect m-0 m-sm-t15" style="">
+                            <select class="txt-anim w-100" id="ddlProduct" type="text" style="text-transform: uppercase; border-radius: 0px 3px 3px 0px !important;">
+                                <option value="AIR" selected>Airline</option>
+                            </select>
+                            <span class="focus-border">
+                                <i></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 col0 m-b-10" style="margin: 30px 0px;">
+                        <div class="col-xs-6 col-md-2 col-sm-3 col-lg-2 col-lg-offset-4 col-md-offset-3 col-sm-offset-2 ">
+                            <input type="button" class="action-button shadow animate color" id="btnGetDetails" onclick="GetDetails()" style="width: 100%;" value="Get">
+                        </div>
+                        <div class="col-xs-6 col-md-2 col-sm-3 col-lg-2">
+                            <input type="button" id="btnClearDetails" class="action-button action-buttonB shadow animate  colorB1" style="width: 100%;" onclick="ClearRecords()" value="Clear">
+                        </div>
+                        <div class="hidden-xs col-md-2 col-sm-3 col-lg-2" id="margintop">
+                            @using (Html.BeginForm("ExportData", "Report", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                <input type="submit" id="BtnExportDetails" class="action-button shadow animate colorG" style="width: 100%; display: none;" value="Export to Excel">
+                            }
+                        </div>
+                    </div>
+                    <div id="dvRecords" style="display:none;"></div>
+                    <div id="DvError" class="text-center" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/jquery-1.11.1.js?@strFileVersion"></script>
+<script src="~/js/jquery.blockUI.js?@strFileVersion"></script>
+<script src="~/js/LibraryJs/jquery-ui.js?@strFileVersion"></script>
+<script src="~/js/chosen.jquery.js?@strFileVersion"></script>
+<script src="~/js/bootstrap.min.js?@strFileVersion"></script>
+<script src="~/js/bootstrap-typeahead.js?@strFileVersion"></script>
+<script src="~/js/W2Grid.js?@strFileVersion"></script>
+<script>
+    var CurrentDate = GetTodayDate();
+    var MinDate = CustomDateFormat(CurrentDate, 1, 0, 0, '-');
+    var MaxDate = CurrentDate;
+    var GetClientDetailsURL = '@Url.Action("GetClientData", "Home")';
+    var LoaderURL = '@Url.Content("~/Images/"+ strProductType + "/Loader.gif")';
+    var sessionExpURL = '@Url.Action("SessionExp", "Redirect")';
+    var GetReportDataURL = '@Url.Action("GetCashPaymentDetailReport", "Report")';
+
+    $(document).ready(function () {
+        LoadClient();
+        $("#ddlProduct").chosen();
+    })
+
+    $("#TxtFromDate").datepicker('destroy');
+    $("#TxtFromDate").datepicker({
+        numberOfMonths: 1,
+        showButtonPanel: false,
+        dateFormat: "dd/mm/yy",
+        changeMonth: true,
+        changeYear: true,
+        maxDate: MaxDate,
+        minDate: MinDate,
+    });
+    $("#TxtFromDate").val(CurrentDate)
+    $("#TxtToDate").datepicker('destroy');
+    $("#TxtToDate").datepicker({
+        numberOfMonths: 1,
+        showButtonPanel: false,
+        dateFormat: "dd/mm/yy",
+        changeMonth: true,
+        changeYear: true,
+        maxDate: MaxDate,
+        minDate: $("#TxtFromDate").val()
+    });
+    $("#TxtToDate").val(CurrentDate)
+    $(document).on('change', "#TxtFromDate", function () {
+        $("#TxtToDate").datepicker('destroy');
+        $("#TxtToDate").datepicker({
+            numberOfMonths: 1,
+            showButtonPanel: false,
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            maxDate: MaxDate,
+            minDate: $("#TxtFromDate").val()
+        });
+    });
+
+    function ClearRecords() {
+        $("#dvRecords,#DvError").html("");
+        $("#dvRecords,#DvError").hide();
+        $("#BtnExportDetails").hide();
+        $(".clsClear").val("");
+        $("#TxtFromDate,#TxtToDate").val(MaxDate);
+        $("#TxtFromDate").trigger('change');
+    }
+
+    function CustomDateFormat(date, years, months, days, type) {
+        var temp = date.split('/');
+        date = new Date(temp[2], Number(temp[1]) - 1, temp[0]);
+        if (type == '-') {
+            date.setFullYear(date.getFullYear() - Number(years));
+            date.setMonth(date.getMonth() - Number(months))
+            date.setDate(date.getDate() - Number(days))
+        }
+        else if (type == '+') {
+            date.setFullYear(date.getFullYear() + Number(years));
+            date.setMonth(date.getMonth() + Number(months))
+            date.setDate(date.getDate() + Number(days))
+        }
+        var day = (date.getDate() < 10 ? "0" : "") + (date.getDate());
+        var month = (date.getMonth() + 1 < 10 ? "0" : "") + (date.getMonth() + 1);
+        var year = date.getFullYear();
+        return day + "/" + month + "/" + year;
+    }
+
+    function GetTodayDate() {
+        var Today = new Date();
+        var TDate = (Today.getDate() < 10 ? "0" : "") + Today.getDate();
+        var TMonth = ((Today.getMonth() + 1) < 10 ? "0" : "") + (Today.getMonth() + 1);
+        var TYear = Today.getFullYear();
+        return TDate + "/" + TMonth + "/" + TYear;
+    }
+
+    $(document).on('input', '.clsAlpha', function () {
+        var txtQty = $(this).val().replace(/[^a-zA-Z\ ]/g, '');
+        txtQty = txtQty.replace(/  +/g, ' ');
+        $(this).val(txtQty);
+    });
+
+    function LoadClient() {
+        $.blockUI({
+            message: '<img alt="Please Wait..." src=' + LoaderURL + ' style="background-color:#fff; border-radius:8px; margin-top:12%;" id="FareRuleLodingImage" />',
+            css: { padding: '5px' }
+        });
+        $.ajax({
+            type: "POST",
+            url: GetClientDetailsURL,
+            contentType: "application/json; charset=utf-8",
+            timeout: 180000,
+            dataType: "json",
+            success: function (data) {
+                $.unblockUI();
+                try {
+                    var data = data["Data"];
+                    if (data.Status == "00") {
+                        CustomAlert(data.Error);
+                        console.log(data.Error);
+                    }
+
+                    if (data.Status == "01") {
+                        arr = JSON.parse(data.Result);
+                        var UniqueBranch = arr.reduce(function (memo, e1) {
+                            var matches = memo.filter(function (e2) {
+                                return e1.BID == e2.BID
+                            })
+                            if (matches.length == 0)
+                                memo.push(e1)
+                            return memo;
+                        }, [])
+                        $("#TxtBranch").html('<option value="">ALL</option>');
+                        $(UniqueBranch).each(function (n, i) {
+                            $("#TxtBranch").append('<option value="' + i["BID"] + '">' + i["BNAME"] + '</option>');
+                        });
+                        if ($("#TxtBranch_chosen").length) {
+                            $('#TxtBranch').chosen('destroy');
+                        }
+                        $("#TxtBranch").chosen();
+                    }
+                    else {
+                        $('#TxtBranch').val("")
+                    }
+                }
+                catch (err) {
+                    console.log(err.message);
+                    $('#TxtBranch').val("")
+                }
+            },
+            error: function (e) {
+                $.unblockUI();
+                console.log(e.responseText);
+                $('#TxtBranch').val("")
+            }
+        });
+    }
+
+    function GetDetails() {
+        try {
+            var strFromDate = $("#TxtFromDate").val();
+            var strToDate = $("#TxtToDate").val();
+            var strBranch = $("#TxtBranch").val();
+            var strProduct = $("#ddlProduct").val();
+
+            if (strFromDate == "") {
+                CustomAlert("please select from date");
+                return false;
+            }
+            if (strToDate == "") {
+                CustomAlert("please select to date");
+                return false;
+            }
+            if (strProduct == "") {
+                CustomAlert("please select product type");
+                return false;
+            }
+            $("#DvError").hide();
+            var param = {
+                strFromDate: strFromDate,
+                strToDate: strToDate,
+                strBranch: strBranch,
+                strProduct: strProduct
+            };
+            $.blockUI({
+                message: '<img alt="Please Wait..." src=' + LoaderURL + ' style="background-color:#fff; border-radius:8px; margin-top:12%;" id="FareRuleLodingImage" />',
+                css: { padding: '5px' }
+            });
+            $.ajax({
+                type: "POST",
+                url: GetReportDataURL,
+                contentType: "application/json; charset=utf-8",
+                timeout: 180000,
+                dataType: "json",
+                data: JSON.stringify(param),
+                success: function (data) {
+                    $.unblockUI();
+                    if (data.Status == "01") {
+                        var jsondata = JSON.parse(data.Result);
+                        jsondata = jsondata["Table"];
+                        var columns = [];
+                        $.each(jsondata[0], function (obj, val) {
+                            columns.push({ field: obj, caption: obj.replace("_", " "), size: "150px", resizable: true, sortable: true, attr: "align=left" });
+                        });
+                        var count = 0;
+                        for (var i = 0; i < jsondata.length; i++) {
+                            var object1 = {
+                                "recid": count++
+                            }
+                            $.extend(jsondata[i], object1);
+                        }
+                        $("#dvRecords").w2destroy('CashPaymentReport');
+                        $("#dvRecords").css("height", "400px");
+                        $("#dvRecords").w2grid({
+                            name: 'CashPaymentReport',
+                            recordHeight: 40,
+                            show: { footer: true, toolbar: false },
+                            columns: columns,
+                            records: jsondata,
+                        });
+                        $("#dvRecords").show();
+                        $("#BtnExportDetails").show();
+                    }
+                    else {
+                        var Message = data.Error != null && data.Error != "" && data.Error != undefined ? data.Error : "unable to process your request.Please contact support team.(#03)";
+                        CustomAlert(Message);
+                    }
+                },
+                error: function (e) {
+                    $.unblockUI();
+                    console.log(e);
+                    CustomAlert("unable to process your request.Please contact support team(#07)");
+                }
+            });
+        }
+        catch (e) {
+            $.unblockUI();
+            console.log(e);
+            CustomAlert("unable to process your request.Please contact support team(#09)");
+        }
+    }
+
+    function CustomAlert(msg, timout, session) {
+        $("#DvError").html("<span style='background-color: #ff0000;padding:10px;color:#fff;'>" + msg + "<span>");
+        $("#DvError").show();
+        setTimeout(function () {
+            $("#DvError").html("");
+            $("#DvError").hide();
+        }, 5000);
+    }
+
+</script>

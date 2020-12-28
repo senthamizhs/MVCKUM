@@ -1,0 +1,169 @@
+﻿@{
+    Layout = "";
+}
+<style>
+    .outer {
+        margin-top: 20px;
+        background: #fff;
+        margin-bottom: 50px;
+        border-radius: 2px;
+        box-shadow: 0px 0px 5px 0px #ddd;
+        padding: 15px;
+    }
+
+        .outer .hdr {
+            font-size: 16px;
+        }
+
+        .outer .txtarea {
+            width: 100%;
+            border: 0px solid #f2f2f2;
+            max-height: 500px;
+            height: 350px;
+            overflow-y: auto;
+            border-top: 2px solid #eee;
+        }
+
+    .inner {
+        border: 1px solid #f2f2f2;
+        margin-top: 10px;
+        padding: 0px 0px;
+    }
+
+        .inner p.hdrxml {
+            padding: 10px 0px 0px 0px;
+        }
+
+            .inner p.hdrxml span {
+                color: #fff;
+                padding: 6px 12px;
+                font-size: 13px;
+                font-weight: 600;
+                margin-left: -10px;
+            }
+
+    .leftxml p.hdrxml span {
+        background: #ff7272;
+    }
+
+    .rightxml p.hdrxml span {
+        background: #7289ff;
+    }
+
+    .leftxml .txtarea {
+        background: #f5f5f5;
+    }
+
+    .rightxml .txtarea {
+        background: #fdfdfd;
+    }
+
+    .Header {
+        padding: 5px;
+        background: #28a5f5;
+        color: #fff;
+        border: 1px solid #fff;
+        box-shadow: 1px 0px 2px 1px #6a82e4;
+    }
+
+    .AddKey {
+        width: 100%;
+        background: linear-gradient( to bottom,#4864dc,#050f3a);
+        height: 35px;
+        border: 1px solid #162462;
+        border-radius: 5px;
+        color: #fff;
+    }
+
+    .DeleteKey {
+        width: 100%;
+        background: linear-gradient( to bottom,red,#231415);
+        height: 35px;
+        border: 1px solid #cf0c04;
+        border-radius: 5px;
+        color: #fff;
+    }
+
+    .updateKey {
+        float: left;
+        padding: 5px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        list-style: none;
+    }
+
+        .updateKey:hover {
+            background: #e6d4d4;
+            color: #000;
+        }
+
+    .ActiveTab {
+        background: #202d61;
+        color: #fff;
+    }
+
+    .avtiveDiv {
+        display: block !important;
+    }
+</style>
+<section class="container outer">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+        .modal-header, h4, .close {
+            background-color: darkblue;
+            color: white !important;
+            text-align: center;
+            font-size: 30px;
+        }
+    </style>
+    <div class="container ">
+        <div class="modal-content loginpage" style="width: 400px; margin-top: 50px; margin-left: 350px;">
+            <div class="modal-header" style="padding:5px 5px;">
+                <h5><span class="glyphicon glyphicon-lock"></span> LOGIN</h5>
+            </div>
+            <div class="modal-body" style="padding:5px 5px;">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="usrname"><span class="glyphicon glyphicon-user"></span> Username</label>
+                        <input type="text" class="form-control" id="UserName" autocomplete="off" placeholder="Enter Username">
+                    </div>
+                    <div class="form-group">
+                        <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
+                        <input type="password" class="form-control" id="Password" autocomplete="new-password" placeholder="Enter password">
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-success btn-block" onclick="weblogin()" value="Login" style="width: 80px;background-color:darkblue;margin-left: 125px;" ;" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    function weblogin() {
+        var data = { "user": $("#UserName").val().toUpperCase(), "pass": $("#Password").val().toUpperCase(), "Message": "" };
+        $("#message").html("Logging in...");
+        $.ajax({
+            url: "@Url.Action("webconfiglogin", "Redirect")",
+            type: "POST",
+            data: JSON.stringify(data),
+            dataType: "json",
+            contentType: "application/json",
+            success: function (res) {
+                if (res == 1) {
+                    window.location.href = '@Url.Action("EditKey", "Redirect")'
+                }
+                else {
+                    alert("login failed");
+                }
+
+            },
+            error: function (e) {
+                alert("login failed");
+            }
+        });
+    }
+</script>

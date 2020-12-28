@@ -1,0 +1,495 @@
+﻿@{
+    string strfileversion = System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"] != null ? System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"].ToString() : "";
+    string strallowlogincountry = System.Configuration.ConfigurationManager.AppSettings["Logincountry"] != null ? System.Configuration.ConfigurationManager.AppSettings["Logincountry"].ToString() : "";
+    string strProductType = System.Configuration.ConfigurationManager.AppSettings["Producttype"] != null ? System.Configuration.ConfigurationManager.AppSettings["Producttype"].ToString() : "";
+    string strApptheme = System.Configuration.ConfigurationManager.AppSettings["apptheme"].ToUpper().ToString();
+    string strterminal_app = System.Configuration.ConfigurationManager.AppSettings["TerminalType"] != null ? System.Configuration.ConfigurationManager.AppSettings["TerminalType"].ToString() : "";
+    string strtitle = System.Configuration.ConfigurationManager.AppSettings["title"] != null ? System.Configuration.ConfigurationManager.AppSettings["title"].ToString() : "";
+    string strMeta_description = System.Configuration.ConfigurationManager.AppSettings["Meta_description"] != null ? System.Configuration.ConfigurationManager.AppSettings["Meta_description"].ToString() : "";
+    string strFavicon = System.Configuration.ConfigurationManager.AppSettings["LogoUrl"].ToString() + "/" + strProductType + "/favicon.ico?" + strfileversion;
+    string strAppname = System.Configuration.ConfigurationManager.AppSettings["Appname"] != null ? System.Configuration.ConfigurationManager.AppSettings["Appname"].ToString() : "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@strtitle</title>
+    <meta name="description" content="@strMeta_description" />
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="icon" href="@strFavicon" />
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=yes">
+    <link href="~/Content/CSS/Login/Login_Style.css?@strfileversion" rel="stylesheet" />
+    <link href="~/Content/CSS/Login/custombox.css?@strfileversion" rel="stylesheet" />
+    <link href="~/Content/CSS/Login/LOGIN_STYLE_New.css?@strfileversion" rel="stylesheet" />
+    @Styles.Render("~/Content/CommonAllCSS")
+    <script src="~/js/CommonJS/jquery-1.11.1.js"></script>
+    @Scripts.Render("~/bundles/CommonAllJS")
+    <script src="~/js/download.js?@strfileversion"></script>
+    @if (strterminal_app == "W")
+    {
+        <link href="~/Content/CSS/Login/travrays_login.css?@strfileversion" rel="stylesheet" />
+    }
+    else
+    {
+        <link href="~/Content/CSS/Login/travrays_support_login.css?@strfileversion" rel="stylesheet" />
+    }
+    <link href="~/Content/CSS/Login/travrays_style.css?@strfileversion" rel="stylesheet" />
+    <link href="~/Content/CSS/Login/NonMasterLayoutOverwrite.css?@strfileversion" rel="stylesheet" />
+    <link href="~/Content/CSS/Riya_BOA/riya_boa.css?@strfileversion" rel="stylesheet" />
+    <style>
+        .rkmd-form .field-label {
+            font-weight: 500 !important;
+        }
+        /*Forgot password Start*/
+        .errcls {
+            color: red;
+            /* padding-top: 3px; */
+            font-size: 12px;
+            position: relative;
+            font-weight: 600;
+            /* margin-top: 4px; */
+            top: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .txtnewcls {
+            padding: 0px 0px;
+            width: 100%;
+            box-shadow: none !important;
+        }
+
+        .animated {
+            -webkit-animation-duration: 2s !important;
+            animation-duration: 2s !important;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+
+        .btnforgotPwd {
+            background: #ff6600;
+            border: none;
+            border-radius: 2px;
+            line-height: 26px;
+            color: #fff;
+            font-size: 13px;
+            padding: 2px 15px;
+            outline: none;
+            font-weight: 500;
+            transition: .5s;
+            -webkit-appearance: none;
+            -webkit-transition: 5s;
+            font-weight: bold;
+        }
+
+        @@media (max-width:419px) {
+            .btnforgotPwd {
+                position: static !important;
+                max-width: 100% !important;
+            }
+
+            .cls-xs-center {
+                text-align: center;
+            }
+        }
+
+        .forgotpwdload {
+            width: 65px;
+            height: 65px;
+            margin-top: -10px;
+        }
+
+        .clsPopupHead {
+            /*border-radius: 6px;*/
+            background-color: #f7f5f5;
+            color: #000;
+        }
+
+        .modal-demo {
+            max-width: 800px !important;
+        }
+        /*End*/
+    </style>
+</head>
+<body id="riyaboa_loginbg" class="travrays_logbg">
+    <style>
+        .rkmd-form {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 2rem 3rem;
+            border-radius: 5px;
+        }
+
+        #divGetPassengerDet {
+            font-size: 12px;
+            max-height: 400px;
+            margin-top: 5%;
+            margin-bottom: 3%;
+        }
+
+        #modal-ForgotPswdTdk .modal-text {
+            padding: 0 5px 10px 5px;
+            border-bottom: none !important;
+        }
+
+        #modal-ForgotPswdTdk input#divFPsubmit {
+            width: 100%;
+        }
+
+        #txtMail {
+            background: rgb(255, 255, 255);
+            line-height: 25px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            text-indent: 8px;
+        }
+
+        #modal-ForgotPswdTdk .modal-close {
+            top: 3px !important;
+            background: none;
+            border: none;
+        }
+
+        #modal-ForgotPswdTdk .modal-title {
+            margin: 0;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 15px;
+        }
+
+        | .custombox-modal-container {
+            margin: 5% auto !important;
+        }
+
+        .clsBrPopUpBtn {
+            padding: 5px 10px;
+            border: 1px solid;
+            border-radius: 5px;
+            background-color: #fafafa;
+            width: 50%;
+            text-align: center;
+            background-color: #227ac0;
+            color: #fff;
+            font-weight: bolder;
+            cursor: pointer;
+            margin: 10px auto;
+        }
+
+        .col10 {
+            padding: 0px 10px;
+        }
+
+        .col0 {
+            padding: 0px;
+        }
+
+        input#txtMail:focus {
+            outline: none;
+            border: 1px solid #2ba1ff !important;
+        }
+
+        div#modal-ForgotPswdTdk button:focus {
+            outline: none;
+        }
+
+        #modal-ForgotPswdTdk button.modal-close {
+            line-height: 25px;
+        }
+
+        .custombox-modal img {
+            height: 12px;
+            opacity: 0.5;
+        }
+
+            .custombox-modal img:hover {
+                opacity: 0.7;
+            }
+
+        .custombox-modal-container {
+            width: 800px !important;
+        }
+
+        input {
+            font-family: sans-serif;
+        }
+
+        @@media only screen and (max-width:767px) {
+            #modal-ForgotPswdTdk input#divFPsubmit {
+                width: 100%;
+            }
+
+            .col-sm-3.col-xs-12.col10.cls-xs-center {
+                padding: 10px 15px;
+            }
+
+            img.clsMainLogo {
+                width: 150px;
+            }
+        }
+
+        @@media only screen and (max-width:500px) {
+            .custombox-modal-container {
+                width: 100% !important;
+            }
+        }
+
+        @@media (min-width:992px) {
+            .line-hight {
+                line-height: 20px;
+            }
+        }
+
+        .modal-demo {
+            display: none;
+        }
+
+       .style-4::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            background-color: #F5F5F5;
+        }
+
+        .style-4::-webkit-scrollbar {
+            width: 10px;
+            background-color: #F5F5F5;
+        }
+
+        .style-4::-webkit-scrollbar-thumb {
+            background-color: #000000;
+            border: 2px solid #555555;
+        }
+
+        .changpsd {
+            margin-bottom: 25px;
+        }
+    </style>
+
+    <!-- Main content -->
+    <div role="main" class="loginpanel">
+        <div class="mediahawkz-login travs_login">
+            <div class="space-header">
+                <div class="stars"></div>
+            </div>
+            <div class="div-left"></div>
+            <div class="div-right">
+                <div class="rkmd-form login price">
+                    <div class="log-tdk hidden-lg hidden-md hidden-sm" style="text-align: center; padding-bottom: 15px;">
+                        <img class="clsMainLogo" src="@Url.Content("~/Images/"+strProductType+"/logo.png")"  style="display:none;"/>
+                    </div>
+                    <h2 class="form-title textcolor" style="text-align: center;">Login</h2>
+                    <div class="message_wrap" id="loginpnl">
+                        <p class="message">
+                            <span id="empty-destination-box" class="error">All field(s) should not be empty.</span>
+                        </p>
+                    </div>
+
+                    @if (strterminal_app != "T")
+                    {
+                        <div class="dv-anim input-effect animationdive" style="width: 84% !important; display: none;">
+                            <input class="txt-anim clshideErr" name="username" autocomplete="off" autofocus="autofocus" maxlength="25" onkeypress="return ValidateSpecialChar(event);" style="text-transform: uppercase; padding: 0px 0px; width: 100%; box-shadow: none !important;" placeholder="" id="txt_id" />
+                            <label>Terminal&nbsp;ID</label>
+                            <span class="focus-border">
+                                <i id="iterminalvalidation" class="validationcls"></i>
+                            </span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="dv-anim input-effect animationdive" style="width: 84% !important; display: none;">
+                            <input class="txt-anim clshideErr" name="username" autocomplete="off" autofocus="autofocus" maxlength="25" onkeypress="return ValidateSpecialChar(event);" style="text-transform: uppercase; padding: 0px 0px; width: 100%; box-shadow: none !important;" placeholder="" id="txt_id" />
+                            <label>Terminal&nbsp;ID</label>
+                        </div>
+                    }
+
+                    <div class="dv-anim input-effect animationdivuser" style="width: 84% !important;">
+                        <input type="text" class="txt-anim clshideErr" name="username" autocomplete="off" maxlength="25" onkeypress="return ValidateSpecialChar(event);" style="padding: 0px 0px; width: 100%; box-shadow: none !important;" id="txt_usrnm" />
+                        <label>Username &nbsp;</label>
+                        <span class="focus-border">
+                            <i id="iusernamevalidation" class="validationcls"></i>
+                        </span>
+                    </div>
+
+                    <div class="col-sm-12 frgt-pass col0">
+                        <div class="dv-anim input-effect animationdive" style="width: 84% !important;">
+                            <input class="txt-anim clshideErr" type="password" name="username" autocomplete="off" maxlength="25" onkeypress="return AvoidSpace(event,'caps','spnCapslock');" onkeydown="if (event.keyCode == 13) document.getElementById('get_login').click()" id="txt_passwd" style="padding: 0px 0px; width: 100%; box-shadow: none !important;" />
+                            <label>Password &nbsp;</label>
+                            <span class="focus-border">
+                                <i id="ipasswordvalidation" class="validationcls"></i>
+                            </span>
+                            <span class="spneye" onclick="ShowHidePassword('txt_passwd')"><i class="fa fa-eye"></i></span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-row clearfix">
+                        <div class="remember float-left d-none">
+                            <input type="checkbox" name="rem" id="rem">
+                            <label for="rem">Stay Signed in</label>
+                        </div>
+                        <button id="get_login" class="loginbtn rkmd-btn btn-lightBlue ripple-effect float-right passcls">Log In <i id="iLoading" class="fa fa-spinner fa-spin" style="font-size: 25px; color: #292929; display: none;"></i></button>
+                  </div>
+
+                    <div class="copyright">
+                        <p style="">&copy; 2018 @strAppname. All Rights Reserved</p>
+                    </div>
+                </div>
+              </div>
+         </div>
+   </div>
+    <div class="modal-demo" id="modal-ForgotPswdTdk" style="width: 500px !important;">
+        <button type="button" class="modal-close" onclick="Custombox.close();">
+            <span class="popclose">
+                <img src="@Url.Content("~/Images/"+strProductType+"/close-icn.png")" /></span>
+       </button>
+        <h4 class="modal-title clsPopupHead ">Forgot Password</h4>
+        <div class="modal-text">
+            <div class="modal-body clsPopupBody">
+                <div id="divGetPassengerDet" style="">
+
+                    <div class="row">
+                        <div class="col-xs-12" style="padding-bottom: 5px;">
+                            <span>Enter your E-mail ID</span>
+                        </div>
+                        <div class="col-sm-9 col-xs-12 col5">
+                            <input id="txtMail" style="" type="text" maxlength="50" onkeypress="return SomeSpecialCharAllow(event)" />
+                            <span class="errcls"></span>
+                        </div>
+                        <div class="col-sm-3 col-xs-12 col10 cls-xs-center" style="">
+                            <input class="content btnforgotPwd " id="divFPsubmit" type="submit" value="SUBMIT" onclick="forgetpasswordtdk();" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal-demo" id="modal-fr" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header clsPopupHead" style="padding: 10px 40px 12px 15px; box-shadow: 0px 1px 1px 1px #ccc;">
+                    <label class="close" data-dismiss="modal" style="float: right; position: relative; right: -53px; top: -24px; BACKGROUND-COLOR: #2196F3; BORDER-RADIUS: 50%; WIDTH: 3%; BORDER-COLOR: #FFFF; border: 1px solid #fff; cursor: pointer;" onclick="closeprivacypop();"><span aria-hidden="true" style="MARGIN-LEFT: 4PX; COLOR: WHITE;">X</span></label>
+                    <label class="farecomp-tit" id="popuptittle" style="font-weight: bolder; position: relative;">Privacy Policy <span class="spnfarhderflightno"></span></label>
+                </div>
+                <div class="modal-body clsPopupBody" style="padding: 10px;">
+                    <div class="main">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div id="dvinnerFR" class="style-4" style="padding-top: 1%; max-height: 561px; overflow: auto;"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <center>
+                               <input type="button" id="agreebtn" value="I Agree"  class="btn btn-md btn-danger btn-width100" id="" style="background-color:#03a9f4;position:relative;right:10px" onclick="insert_agrement()"/>
+                              <input type="button"  id="deagreebtn" value="I Disagree" data-dismiss="modal" class="btn btn-md btn-danger btn-width100" id="btnclosepopcncl" style="background-color:#ff5722;position:relative;left:10px" onclick="Dagree_agrement()"/>
+                           
+                             </center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modal-changespassword" class="iziModal addtop" style="">
+
+
+
+        <div class="row  changpsd" style="margin-top: 10px;">
+            <div class="col-sm-6">
+                <div class="dv-anim input-effect m-0 m-sm-t20">
+                    <input id="Old_pwdd" class="txt-anim has-content" type="text" value="" />
+                    <label>Enter Old Password<span style="color: red;">&nbsp;*</span></label>
+                    <span class="focus-border">
+                        <i></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row changpsd">
+            <div class="col-sm-6">
+                <div class="dv-anim input-effect m-0 m-sm-t20">
+                    <input id="New_pwdd" class="txt-anim has-content" type="text" value="" />
+                    <label>Enter New Password<span style="color: red;">&nbsp;*</span></label>
+                    <span class="focus-border">
+                        <i></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row changpsd">
+            <div class="col-sm-6">
+                <div class="dv-anim input-effect m-0 m-sm-t20">
+                    <input id="Cnf_pwdd" class="txt-anim has-content" type="text" value="" />
+                    <label>Enter Confirm Password<span style="color: red;">&nbsp;*</span></label>
+                    <span class="focus-border">
+                        <i></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-xs-6" style="margin-top: 15px;">
+                <div id="dvGrpBkngerr">
+                    <div class="message_wrap showhide">
+                        <p class="message">
+                            <span id="dvGrpBkngerr_msg" class="error">All field(s) should not be empty.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 col-xs-12 m-sm-t15">
+
+                <button class="loginbtn rkmd-btn btn-lightBlue ripple-effect float-right passcls" onclick="submitchangepwd()">Log In <i id="iLoading_x" class="fa fa-spinner fa-spin" style="font-size: 25px; color: #292929; display: none;"></i></button>
+
+            </div>
+            <div class="col-md-4 col-xs-12 m-sm-t15">
+                <button class="loginbtn rkmd-btn btn-lightBlue ripple-effect float-right passcls" onclick="clear_password()">Clear</button>
+             </div>
+         </div>
+    </div>
+    <div id="modal-alert" class="iziModal"></div>
+
+  
+
+    <input type="hidden" id="hdn_product" value="@strProductType" />
+    <input type="hidden" id="hdn_apptheme" value="@strApptheme" />
+    <input type="hidden" id="hdnterminal_app" value="@strterminal_app" />
+    <script src="~/js/AppsJS/login.js"></script>
+    <script src="~/js/detect.js?@strfileversion"></script>
+
+    <script type="text/javascript">
+        var errPdiv = "dvGrpBkngerr", errdiv_msg = "dvGrpBkngerr_msg";
+        var ProductType = "@strProductType";
+        var TerminalApp = "@strterminal_app";
+        var allowlogincountry = '@strallowlogincountry';
+        var RedirectUrl = "@Url.Content("~/Redirect/Redirect")";
+        var Logout = "@Url.Action("Logout", "Login")";
+        var LoginSubmit = "@Url.Action("Loginsubmit", "Login")";
+        var HomeMaster = "@Url.Action("HomeMaster", "Home")";
+        var HomeFlight = "@Url.Action("Homeflight", "Home")";
+        var CommonLog = "@Url.Action("Commonlog", "Login")";
+        var ShowAgreement = "@Url.Content("~/Content/FILES/agreement.html")";
+        var InsertAgreement = "@Url.Action("Insert_agent_agrement", "Login")";
+        var TermsAndConditions = "@Url.Content("~/Content/FILES/TermsandCondition.html")";
+        var PrivacyPolicy = "@Url.Content("~/Content/FILES/Privacypolicy.html")";
+        var SessionExpire = "@Url.Action("SessionExp", "Redirect")";
+        var Registration = "@Url.Action("Registrationsubmit", "Login")";
+        var RBOAChangePassword = "@Url.Action("change_password", "CntrlPanel")";
+        var Login = "@Url.Action("Login", "Login")";
+        var GeoLocationUrl = "https://ipapi.co/json";
+        var strAppHost = "";
+        window.onload = window.history.forward(0);
+       
+
+    </script>
+  </body>
+</html>
+

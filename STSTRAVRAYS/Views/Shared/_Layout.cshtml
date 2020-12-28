@@ -1,0 +1,1238 @@
+﻿@using System.Configuration;
+@{
+
+    string strfileversion = ConfigurationManager.AppSettings["UpdateVersion"] != null ? ConfigurationManager.AppSettings["UpdateVersion"].ToString() : "";
+    string strAllowRetrieveBooking = (Session["ALLOW_RETRIEVE"] != null && Session["ALLOW_RETRIEVE"].ToString() != "") ? Session["ALLOW_RETRIEVE"].ToString() : "N";
+
+
+
+    string stragnId = Session["POS_TID"] != null ? Session["POS_TID"].ToString() : "";
+    string stragnNm = Session["agencyname"] != null ? Session["agencyname"].ToString() : "";
+    string strusrNm = Session["username"] != null ? Session["username"].ToString() : "";
+    string strEnvTyp = Session["EnvironmentType"] != null ? Session["EnvironmentType"].ToString() : "";
+    string stragntyp = Session["agenttype"] != null ? Session["agenttype"].ToString() : "";
+    string strProduct = ConfigurationManager.AppSettings["Producttype"].ToString();
+    string strLogourl = ConfigurationManager.AppSettings["LogoUrl"].ToString();
+    string strLogopath = (Session["Agentmainlogopath"] != null && Session["Agentmainlogopath"].ToString() != "") ? Session["Agentmainlogopath"].ToString() : (strLogourl + strProduct + "/layout_logo.png");
+    string strSublogopath = (Session["Agentsublogopath"] != null && Session["Agentsublogopath"].ToString() != "") ? Session["Agentsublogopath"].ToString() : "";
+    string[] strcntrlpanelrits = Session["cntrlpanelrits"] != null ? Session["cntrlpanelrits"].ToString().Split('|') : "".Split('|');
+    string strappthemeversion = ConfigurationManager.AppSettings["apptheme"] != null ? ConfigurationManager.AppSettings["apptheme"].ToString() : "THEME1";
+    string strprivilage = Session["privilage"] != null ? Session["privilage"].ToString() : "";
+    string[] strsmartScorcard = Session["AllowTab"] != null ? Session["AllowTab"].ToString().Split('|') : null;
+    string strterminal_app = ConfigurationManager.AppSettings["TerminalType"] != null ? ConfigurationManager.AppSettings["TerminalType"].ToString() : "";
+    string displcon = "";
+    string displyicon = "";
+    string strloginagent = (Session["agentid"] != null && Session["agentid"].ToString() != "") ? Session["agentid"].ToString() : "";
+    string strTerminalType = Session["TERMINALTYPE"] != null && Session["TERMINALTYPE"].ToString() != "" ? Session["TERMINALTYPE"].ToString() : "";
+    string strAllowpackage = ConfigurationManager.AppSettings["Allowpackage"].ToString();
+    string strblock = "block";
+    if (strTerminalType != null && strTerminalType != "" && (strTerminalType == "U" || strTerminalType == "L"))
+    {
+        strblock = "none";
+    }
+    string strAllowreports = Session["Allowreports"] != null && Session["Allowreports"].ToString() != "" ? Session["Allowreports"].ToString() : "";
+    string strFavicon = ConfigurationManager.AppSettings["LogoUrl"].ToString() + "/" + strProduct + "/favicon.ico?" + strfileversion;
+    string strtitle = ConfigurationManager.AppSettings["title"] != null ? ConfigurationManager.AppSettings["title"].ToString() : "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta content="stunner" name="description" />
+    <meta content="stunner" name="author" />
+
+    <title>@strtitle</title>
+    <link rel="icon" href="@strFavicon" />
+    <script src="~/js/CommonJS/jquery-1.11.1.js"></script>
+    <script src="~/js/CommonJS/jquery-ui-new.js"></script>
+    <script src="~/js/chosen.jquery.js"></script>
+    <script src="~/js/LayoutJS/Layout.js?@strfileversion"></script>
+    <link href="~/Content/CSS/raysModal.css" rel="stylesheet" />
+    <link href="~/Content/CSS/homecss.css?@strfileversion" rel="stylesheet" />
+    <script src="~/js/raysModal.js"></script>
+  
+    @Styles.Render("~/Content/LayoutCommonCSS")
+    @Styles.Render("~/Content/CommonAllCSS")
+    @Styles.Render("~/Content/LayoutOtherCSS")
+
+    @if (strProduct == "RBOA")
+    {
+        <link href="~/Content/CSS/Riya_BOA/riya_boa.css?@strfileversion" rel="stylesheet" />
+        <link href="~/Content/CSS/Riya_BOA/tbmtSprit.css?@strfileversion" rel="stylesheet" />
+    }
+
+    @if (strProduct == "EGY" || strProduct == "UAE" || strProduct == "BTN")
+    {
+        <link href="~/Content/CSS/Theme1/style.css" rel="stylesheet" />
+    }
+    <script src="~/js/CommonJS/bootstrap-typeahead.js?@strfileversion"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.xml2json.js"></script>
+
+    <style>
+             .modal-backdrop {
+            background-image: url("@Url.Content("~/Images/ui-bg_diagonals-thick_20_666666_40x40.png")")!important;
+            }
+    </style>
+    <style>
+        .nice-select .list {
+            z-index: 1000 !important;
+        }
+
+        .btnRays-1e:hover, .btnRays-2e:active {
+            color: #ccc;
+        }
+
+        .wsmenu-list > li > a.active, .wsmenu-list li:hover > a {
+            color: #fff !important;
+        }
+
+            .wsmenu-list > li > a.active, .wsmenu-list li:hover > a > i {
+                color: #fff !important;
+            }
+
+        .paymentpopups {
+            text-align: center;
+            height: 40px;
+            border: 1px solid #1faeff;
+            background: #1faeff url(UIImages/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 20px;
+            padding: 10px 0px 0px 0px;
+        }
+
+        .headerstrip {
+            background-color: #6C84E5;
+            background: url(../img/elements_header_background.png),linear-gradient(to bottom,#27a5f5,#27a5f5,rgba(0, 220, 175, 1));
+            background-size: 300px 300px, auto;
+        }
+
+        .headerstripVrtcal {
+            /*background-color: #fff;*/
+            /*background: url(../Images/elements_header_background.png);*/
+            box-shadow: 0px 1px 5px 0px #ccc;
+        }
+
+        .wsmenu-list > li > a,
+        .headerstripVrtcal,
+        .wsmenu {
+            background-image: url(../Images/elements_header_background.png);
+        }
+
+        .wsmenu-list.nav > li > a {
+            padding: 10px !important;
+        }
+
+            .wsmenu-list.nav > li > a > i.fa {
+                margin-right: 0px !important;
+            }
+
+        .clsagndetils {
+            font-size: 11px !important;
+            height: 20px !important;
+            width: 100% !important;
+            display: block !important;
+            line-height: 16px !important;
+            /*border: 1px solid;*/
+            color: #000;
+            font-weight: 500;
+            letter-spacing: 1px;
+            background-color: #fff;
+        }
+
+        .clsagndetilsmob {
+            font-size: 11px !important;
+            width: 100% !important;
+            display: block !important;
+            line-height: 15px !important;
+            border: 1px solid;
+            color: #000;
+            font-weight: 500;
+            margin-top: 2px;
+            max-width: 140px;
+            white-space: pre-wrap;
+        }
+
+
+        .clsAicon30 {
+            padding-top: 10px !important;
+            padding-bottom: 7px !important;
+        }
+
+            .clsAicon30 i {
+                font-size: 30px !important;
+            }
+
+        .clsAicon25 {
+            line-height: 27px !important;
+        }
+
+            .clsAicon25 i {
+                font-size: 25px !important;
+            }
+
+        .clsagnlogo {
+            width: 22px; /*40px;*/
+            background-color: rgba(0,0,0,0.1);
+        }
+
+        .thumb {
+            /*float: left;
+                margin-top: 4px;*/
+        }
+
+            .thumb a {
+                background-color: rgba(255,255,255,0.5); /*rgba(0,0,0,0.1);*/
+                border-radius: 50px;
+                padding: 2px 10px 2px 32px; /*6px 10px 8px 30px;*/
+                margin-left: -22px; /*-28px;*/
+                font-weight: 600;
+            }
+
+        .clslogout {
+            float: right;
+            margin-left: 10px;
+        }
+
+        .clsbiglogo {
+            /*width: 88px;
+                height: 114px;*/
+            width: 77%;
+            height: auto;
+            padding: 0 !important;
+            padding-top: 10px !important;
+        }
+
+        .clssmallogo {
+            display: none;
+            width: 83px;
+            height: 90px;
+            float: left;
+        }
+
+        .logo img {
+            transition: 0.5s;
+        }
+
+        .usrName-hf {
+            /*max-width: 120px;*/
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            display: block;
+            float: right;
+            /*margin-top: 5px;*/
+        }
+
+        .mob-usr-det {
+            text-align: center;
+            min-height: 105px;
+            margin-bottom: 2px;
+        }
+
+        .mob-usr-det-new {
+            text-align: center;
+            min-height: 140px;
+            margin-bottom: 2px;
+        }
+
+
+        .myButt {
+            outline: none;
+            border: none;
+            padding: 10px;
+            display: block;
+            margin: 10px auto;
+            cursor: pointer;
+            font-size: 13px;
+            background-color: transparent;
+            position: relative;
+            border: 2px solid #fff;
+            transition: all 0.5s ease;
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            -ms-transition: all 0.5s ease;
+        }
+
+        .four {
+            overflow: hidden;
+        }
+
+            .four span {
+                color: #fff;
+                display: inline-block;
+                transition: all 0.3s ease;
+                -webkit-transition: all 0.3s ease;
+                -moz-transition: all 0.3s ease;
+                -o-transition: all 0.3s ease;
+                -ms-transition: all 0.3s ease;
+            }
+
+            .four .icon {
+                position: absolute;
+                left: -64px;
+                top: 0;
+                color: #fff;
+                padding: 4px;
+                background-color: #2cc185;
+                transition: all 0.3s ease;
+                -webkit-transition: all 0.3s ease;
+                -moz-transition: all 0.3s ease;
+                -o-transition: all 0.3s ease;
+                -ms-transition: all 0.3s ease;
+            }
+
+            .four:hover .icon {
+                left: 0px;
+            }
+
+            .four:hover span {
+                color: #fff;
+                margin-left: 50px;
+            }
+
+        .five {
+            overflow: hidden;
+            color: #fff;
+        }
+
+            .five .layer {
+                color: #fff;
+                position: absolute;
+                top: -70px;
+                width: 100%;
+                left: 0;
+                padding: 0px 0;
+                background-color: #fff;
+                transition: all 0.3s ease;
+                -webkit-transition: all 0.3s ease;
+                -moz-transition: all 0.3s ease;
+                -o-transition: all 0.3s ease;
+                -ms-transition: all 0.3s ease;
+            }
+
+            .five:hover .layer {
+                top: 0;
+            }
+
+        .contact-number {
+            float: right;
+            width: 135px;
+            padding: 4px 0px 0 30px;
+            /*background: url(../Img/contact-bg.png) left top no-repeat;*/
+            height: 22px;
+        }
+
+        .contact-icon {
+            padding: 2px 0 0 15px;
+            height: 25px;
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        @@media screen and (min-width:200px) and (max-width:768px) {
+
+            .mobtxt_center {
+                text-align: center;
+            }
+        }
+
+        .icon_spa {
+            left: -27px !important;
+        }
+
+        legend {
+            border-bottom: 0px solid #e5e5e5;
+        }
+    </style>
+    <style>
+        /*#SHOWMONEY {
+                background-color: rgba(0,0,0,0.7);
+                border-radius: 3px;
+                padding: 16px 24px;
+            }*/
+
+
+        #SHOWMONEY h5 {
+            width: 100%;
+            padding-bottom: 4px;
+            font-style: normal;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 300 !important;
+            text-transform: capitalize;
+        }
+
+        #SHOWMONEY .AgentLabel {
+            color: #ffffff;
+            font-size: 15px;
+            padding: 18px 0;
+            border-bottom: 1px solid;
+        }
+
+        #SHOWMONEY #ddlclient_agentbal {
+            height: auto;
+            border-radius: 1px !important;
+            border: none;
+        }
+
+        /*#Agentamount {
+                color: #Fff;
+            }*/
+
+        .Notify-popup {
+            display: none;
+            position: absolute;
+            top: 44px;
+            right: 0px;
+            width: 400px !important;
+            background: #fff;
+            padding: 0px 18px 26px 19px;
+            -moz-box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.1);
+            z-index: 20;
+        }
+
+        .sedrtg {
+            position: relative;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 10px;
+            line-height: 5px;
+            text-transform: uppercase;
+        }
+
+        .displaynon {
+            display: none;
+        }
+
+
+        #SHOWMONEY {
+            background: #fff;
+            padding: 5px 5px !important;
+            max-width: 350px;
+            right: 1em;
+            z-index: 1000;
+            width: 250px !important;
+            font-size: 11px;
+            top: 53px;
+            border-radius: 2px;
+        }
+
+        #Agentamount {
+            color: #333;
+        }
+
+        #SHOWMONEY::after {
+            content: " ";
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            margin-left: -3px;
+            border-left: solid rgba(255, 255, 255, 0) 10px;
+            border-right: solid transparent 10px;
+            transform: translateX(-50%);
+            border-bottom: 10px solid #111;
+            border-bottom: 10px solid rgb(255, 255, 255);
+            margin-bottom: 1px;
+            left: 95%;
+            z-index: 2;
+            top: -10px;
+        }
+
+        #SHOWMONEY .AgentLabel:nth-child(even) label {
+            margin-bottom: 0px !important;
+            margin-top: 0px !important;
+            font-weight: 200;
+            font-size: 14px;
+            padding-bottom: 0px;
+        }
+
+        #SHOWMONEY .fa.fa-cog.fa-spin {
+            color: #333 !important;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        #SHOWMONEY .AgentLabel:last-child label {
+            border-bottom: none;
+        }
+    </style>
+</head>
+
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="fixed-leftside fixed-header wsmenucontainer clearfix _M_riyauae " id="_M_riyaboa">
+    <!-- PRELOADER START -->
+    @if (!Request.Browser.IsMobileDevice)
+    {
+        <div id="loader" class="load-full-screen" style="display: block;">
+            <div class="loading-animation">
+                <span><i class="fa fa-plane"></i></span>
+                <span><i class="fa fa-bed"></i></span>
+                <span><i class="fa fa-ship"></i></span>
+                <span><i class="fa fa-suitcase"></i></span>
+            </div>
+        </div>
+    }
+    <!-- PRELOADER END -->
+    <!-- BEGIN HEADER -->
+
+    @if (ConfigurationManager.AppSettings["Allowchat"] == "YES" && (ConfigurationManager.AppSettings["Allowchatagent"].ToString().Contains(stragnId) == true || ConfigurationManager.AppSettings["Allowchatagent"].ToString() == ""))
+    {
+            <!--Start of Tawk.to Script-->
+        <script type="text/javascript">
+            var agencyname = "@ViewBag.agencyname";
+            var Agencymail = "@ViewBag.agenmail";
+            var keycode = "@ConfigurationManager.AppSettings["Chatkey"]";
+            //var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+            var Tawk_API = {}, Tawk_LoadStart = new Date(); Tawk_API.visitor = { name: "", email: "" };
+            Tawk_API.visitor = {
+                name: agencyname,
+                email: Agencymail
+            };
+            (function () {
+                var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+                s1.async = true;
+                s1.src = 'https://embed.tawk.to/' + keycode + '/default';
+                s1.charset = 'UTF-8';
+                s1.setAttribute('crossorigin', '*');
+                s0.parentNode.insertBefore(s1, s0);
+            })();
+        </script>
+            <!--End of Tawk.to Script-->
+
+    }
+    <div class="overlapblackbg"></div>
+    <header id="manulajod" style="display:@strblock">
+        <div id="_Mriya_boa" class="_Friya_boa">
+            <nav class="navbar-static-top headerstripVrtcal flight_Availheader">
+
+                <div class="wsmobileheader clearfix">
+                    <a id="wsnavtoggle" class="animated-arrow"><span></span></a>
+                </div>
+
+                <div class="row row1 hidden-xs" style="background: rgba(0,0,0,0.2);">
+                    <div class="col-xs-11 col1 clssmallhdr">
+                        <ul>
+                            @if (strProduct.ToUpper() == "NAT")
+                            {
+                                <li>
+                                    <div><span class="scorecardlnk">Every day 24/7 Service</span></div>
+                                </li>
+                                <li>
+                                    <div><span class="scorecardlnk">+91 9944441985 / 8825668297</span></div>
+                                </li>
+                            }
+
+                            @if (strsmartScorcard != null && strsmartScorcard.Length > 1 && strsmartScorcard[7] != "0" && stragntyp != "DL")
+                            {
+                                <li><a class="mousecolor scorecardlnk" href="@Url.Content("~/CntrlPanel/Smartscore")"><i id="mouseoverwhite_1" class="fa fa-dashboard mouseoverwhite"></i><span>Smart View</span> </a></li>
+                            }
+                            <li class="animated my_fadeinright">
+                                <div class="nav-profile">
+                                    <div id="dv-desk-usrnm">
+                                        <div id="dvusrnm" class="thumb">
+                                            <img src="@Url.Content("~/Images/avatar.png")" class="img-circle clsagnlogo " alt="" />
+                                            <span class="scorecardlnk s">@strusrNm</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="hidden-xs">
+                                    <span class="scorecardlnk a">@stragnId</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="hidden-xs">
+                                    <span class="scorecardlnk av">@stragnNm</span>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row row1">
+                    <div class="col1 col-md-1 hidden-sm hidden-xs">
+                        <div class="clslogo animated my_bounce _Friya_boa">
+                            <a href="@Url.Action("HomeMaster", "Home")" class="logo">
+                                @*<img class="clsbiglogo" src="@Url.Content("~/Images/TR_logo.png")" />*@
+                                <img class="clsbiglogo" style="margin-top: -10px;" src="@strLogopath" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col1 col-md-9 col-xs-3">
+                        <div class="navbar-header nav navbar-nav" style="float: none !important;">
+
+                            <!--Main Menu HTML Code-->
+                            <nav class="wsmenu clearfix">
+                                @if (strProduct.ToUpper() == "NAT")
+                                {
+                                    <div class="mob-usr-det-new hidden-sm hidden-md hidden-lg">
+                                        <img class="clssmallogo" src="@Url.Content("~/Images/logo_big.png")" />
+                                        <div id="dv-mob-usrnm">
+                                            <div class="label label-md clsagndetilsmob d1">@strusrNm</div>
+                                            <div class="label label-md clsagndetilsmob d2">@stragnId</div>
+                                            <div class="label label-md clsagndetilsmob d3">@stragnNm</div>
+                                            <div class="label label-md clsagndetilsmob d4">Every day 24/7 Service</div>
+                                            <div class="label label-md clsagndetilsmob d5">+91 9944441985 / 8825668297</div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="mob-usr-det hidden-sm hidden-md hidden-lg">
+                                        <img class="clssmallogo" src="@Url.Content("~/Images/logo_big.png")" />
+                                        <div id="dv-mob-usrnm">
+                                            <div class="label label-md clsagndetilsmob d1">@strusrNm</div>
+                                            <div class="label label-md clsagndetilsmob d2">@stragnId</div>
+                                            <div class="label label-md clsagndetilsmob d3">@stragnNm</div>
+                                        </div>
+                                    </div>
+                                }
+
+                                @if (stragntyp == "DL")
+                                {
+                                    displcon = "none";
+                                }
+                                <ul class="mobile-sub wsmenu-list flightheader" id="menutabss" style="display:@displcon">
+
+                                    @if (strProduct != "UAE")
+                                    {
+                                        <li>
+                                            <a href="@Url.Content("~/Home/HomeMaster")" id="aHome">
+                                                <i class="ion-home clsmenuicon"></i><span class="hometext">Home</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a href="@Url.Content("~/Home/HomeMaster")">
+                                                <i class="ion-home clsmenuicon"></i><span class="hometext">Home</span>
+                                            </a>
+                                        </li>
+                                    }
+
+
+                                    @if (Session["airline"] != null && Session["airline"].ToString() != "" && Session["airline"].ToString() != "N")
+                                    {
+                                        <li>
+                                            <a href="#" id="tabflight">
+                                                <i class="ion-plane clsmenuicon"></i><span>Flight</span>
+                                                <i class="ion-chevron-down pull-right hidden-xs clsmenuarrow"></i>
+                                            </a>
+                                            <ul class="wsmenu-submenu">
+                                                <li><a id="Bookfli" href="@Url.Content("~/Flights/Flights")" class="clsAothers">Book a Flight</a></li>
+                                                @if (ConfigurationManager.AppSettings["apptheme"] == "THEME3" || strProduct == "RBOA")
+                                                {
+                                                    <li><a id="Bookhis" href="@Url.Content("~/Pnr/PnrVerification?Tab=0")" class="clsAothers" onclick="Bookedhis('1');">Manage Booking</a></li>
+                                                }
+                                                else
+                                                {
+
+                                                    <li><a id="Bookhis" href="@Url.Content("~/Pnr/PnrVerification?Tab=0")" class="clsAothers" onclick="Bookedhis('1');">Booked History</a></li>
+                                                    <li><a id="viewpnr" href="@Url.Content("~/Pnr/PnrVerification?Tab=1")" class="clsAothers" onclick="Bookedhis('2');">PNR Verification</a></li>
+                                                    <li><a id="cancella" href="@Url.Content("~/Pnr/PnrVerification?Tab=2")" class="clsAothers" onclick="Bookedhis('3');">Cancellation</a></li>
+                                                    <li><a id="rechedul" href="@Url.Content("~/Pnr/PnrVerification?Tab=3")" class="clsAothers" onclick="Bookedhis('4');">Reschedule</a></li>
+                                                }
+                                                @if (Session["CREDITSHELL"] != null && Session["CREDITSHELL"].ToString() != "" && Session["CREDITSHELL"].ToString() == "Y")
+                                                {
+                                                    <li><a href="#" class="clsAothers otherProduct _M001_R21" id="CSPNR">View Credit Shell PNR</a></li>
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
+                                    @if (Session["hotel"] != null && Session["hotel"].ToString() != "" && Session["hotel"].ToString() != "N")
+                                    {
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-bed clsmenuicon"></i><span>Hotel</span>
+                                                <i class="ion-chevron-down pull-right hidden-xs clsmenuarrow"></i>
+                                            </a>
+                                            <ul class="wsmenu-submenu">
+                                                <li><a href="#" id="H" class="clsAothers otherProduct">Book a Hotel</a></li>
+                                                <li><a href="#" class="clsAothers otherProduct" id="HBH">Booked History</a></li>
+                                                <li><a href="#" class="clsAothers otherProduct" id="HVP">PNR Verification</a></li>
+                                                <li><a href="#" class="clsAothers otherProduct" id="HCL">Cancellation</a></li>
+                                            </ul>
+                                        </li>
+                                    }
+                                    @if (Session["Insure"] != null && Session["Insure"].ToString() != "" && Session["Insure"].ToString() != "N")
+                                    {
+                                        <li>
+                                            <a href="#">
+                                                <i class="ion-umbrella clsmenuicon"></i><span>Insurance</span>
+                                                <i class="ion-chevron-down pull-right hidden-xs clsmenuarrow"></i>
+                                            </a>
+
+                                            <ul class="wsmenu-submenu">
+                                                <li><a href="#" class="clsAothers otherProduct" id="I">Book a Insurance</a></li>
+                                                <li><a href="#" class="clsAothers otherProduct" id="IBH">Booked History</a></li>
+                                                <li><a href="#" class="clsAothers otherProduct" id="IVP">PNR Verification</a></li>
+                                            </ul>
+
+
+                                        </li>
+                                    }
+                                    @if (Session["bus"] != null && Session["bus"].ToString() != "" && Session["bus"].ToString() != "N")
+                                    {
+                                        <li>
+                                            <a href="#">
+                                                <i class="ion-android-bus clsmenuicon"></i><span>Bus</span>
+                                                <i class="ion-chevron-down pull-right hidden-xs clsmenuarrow"></i>
+                                            </a>
+                                            <ul class="wsmenu-submenu">
+                                                <li><a href="#" class="clsAothers otherProduct" id="BUS">Book a Bus</a></li>
+                                                <li><a href="#" class="clsAothers otherProduct" id="BMB">Booked History</a></li>
+                                                <li><a href="#" class="clsAothers otherProduct" id="BMB">PNR Verification</a></li>
+                                                <li><a href="#" class="clsAothers otherProduct" id="BMB">Cancellation</a></li>
+                                            </ul>
+                                        </li>
+                                    }
+                                    @if (Session["train"] != null && Session["train"].ToString() != "" && Session["train"].ToString() != "N")
+                                    {
+                                        <li class="_Mdrop otherProduct" id="TRN">
+                                            <a href="#">
+                                                <i class="ion-android-train clsmenuicon"></i><span>Train</span>
+                                                <i class="ion-chevron-down pull-right hidden-xs clsmenuarrow"></i>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (strAllowRetrieveBooking!="Y" && (Session["Mobrech"] != null && Session["Mobrech"].ToString() != "" && Session["Mobrech"].ToString() != "N"))
+                                    {
+                                        <li>
+                                            <a href="#">
+                                                <i class="ion-android-phone-portrait clsmenuicon"></i><span>Mobile</span>
+                                                <i class="ion-chevron-down pull-right hidden-xs clsmenuarrow"></i>
+                                            </a>
+                                            <ul class="wsmenu-submenu">
+                                                <li><a href="#" class="clsAothers otherProduct" id="M">Recharge</a></li>
+                                                <li><a href="#" class="clsAothers otherProduct" id="MBH">Recharge History</a></li>
+                                            </ul>
+                                        </li>
+                                    }
+                                    @if (Session["Visa"] != null && Session["Visa"].ToString() != "" && Session["Visa"].ToString() != "N" && strterminal_app != "T")
+                                    {
+
+                                        <li class="hidden-xs">
+                                            <a href="@Url.Content("~/Visa/Visa")">
+                                                <i class="ion-android-list clsmenuicon"></i><span>Visa</span>
+                                                <i class="ion-chevron-down pull-right hidden-xs clsmenuarrow"></i>
+                                            </a>
+                                        </li>
+
+                                    }
+                                    @if (Session["Activity"] != null && Session["Activity"].ToString() != "" && Session["Activity"].ToString() != "N")
+                                    {
+                                        <li class="hidden-xs">
+                                            <a href="#">
+                                                <i class="ion-android-list clsmenuicon"></i><span>Activities</span>
+                                                <i class="ion-chevron-down pull-right hidden-xs clsmenuarrow"></i>
+                                            </a>
+                                            <ul class="wsmenu-submenu">
+                                                <li><a href="#" class="clsAothers otherProduct" id="A">Activity</a></li>
+                                                <li><a href="#" class="clsAothers otherProduct" id="AH">Activity History</a></li>
+                                            </ul>
+                                        </li>
+                                    }
+
+                                    @if (strAllowpackage != "" && strAllowpackage.Contains(strloginagent) == true)
+                                    {
+                                        <li class="hidden-xs">
+                                            <a href="#">
+                                                <img src="@Url.Content("~/Images/"+strProduct+"/Tours.png")" style="margin-right: -3px;" class="_Ricoimg_08" /><span>Packages</span>
+                                            </a>
+                                            <ul class="wsmenu-submenu">
+                                                <li><a href="#" id="PKG" class="clsAothers otherProduct _M001_R11">Book a Tour</a></li>
+                                                <li><a href="#" class="clsAothers otherProduct _M001_R12" id="PKGMB">Manage Booking</a></li>
+                                            </ul>
+                                        </li>
+                                    }
+                                    @if (strAllowRetrieveBooking == "Y")
+                                    {
+                                        <li><a id="retrivebook" href="@Url.Content("~/RetriveBooking/RetriveBooking")" class="clsAothers" onclick="Bookedhis('1');" style="padding: 2px 14px;"><i class="fa fa-book" style="font-size: 18px; padding-right: 7px;"></i>Retrieve Booking</a></li> @*1127*@
+                                    }
+                                    @if ((Session["UTILITY"] != null && Session["UTILITY"].ToString() != "" && Session["UTILITY"].ToString() != "N") || (Session["MONEYTRANSFER"] != null && Session["MONEYTRANSFER"].ToString() != "" && Session["MONEYTRANSFER"].ToString() != "N"))
+                                    {
+
+                                        <li class="_Mdrop otherProduct" id="MUA">
+                                            <a href="#" class="_Rancher">
+                                                <img src="@Url.Content("~/Images/"+strProduct+"/utility.png")" class="_Ricoimg_12" /><span>Utility Services</span>
+                                            </a>
+                                        </li>
+                                    }
+
+                                    @if ((Session["ANCILLARY"] != null && Session["ANCILLARY"].ToString() != "" && Session["ANCILLARY"].ToString() != "N") || (Session["CAR"] != null && Session["CAR"].ToString() != "" && Session["CAR"].ToString() != "N") || (Session["TITOS"] != null && Session["TITOS"].ToString() != "" && Session["TITOS"].ToString() != "N") || (Session["THEMEPARK"] != null && Session["THEMEPARK"].ToString() != "" && Session["THEMEPARK"].ToString() != "N"))
+                                    {
+
+                                        <li class="_Mdrop">
+                                            <a href="#" class="_Rancher">
+                                                <img src="~/Images/@strProduct/Icons/More.png" class="_Ricoimg_09" /><span> More</span>
+                                            </a>
+                                            <ul class="wsmenu-submenu">
+                                             
+                                                @if (Session["CAR"] != null && Session["CAR"].ToString() != "" && Session["CAR"].ToString() != "N")
+                                                {
+                                                    <li class="_Mdrop otherProduct" id="CAR">
+                                                        <a href="#" class="_Rancher">
+                                                            <span>Car</span>
+                                                        </a>
+                                                    </li>
+                                                }
+                                                @if (Session["ANCILLARY"] != null && Session["ANCILLARY"].ToString() != "" && Session["ANCILLARY"].ToString() != "N")
+                                                {
+                                                    <li class="_Mdrop otherProduct" id="ANC">
+                                                        <a href="#" class="_Rancher">
+                                                            <span>Ancillary Services</span>
+                                                        </a>
+                                                    </li>
+                                                }
+                                                @if (Session["THEMEPARK"] != null && Session["THEMEPARK"].ToString() != "" && Session["THEMEPARK"].ToString() != "N")
+                                                {
+                                                    <li><a href="#" class="clsAothers otherProduct _M001_R15" id="TMP">Theme Park</a></li>
+                                                }
+                                                @if (strTerminalType == "W")
+                                                {
+                                                    <li><a href="#" class="clsAothers otherProduct _M001_R16" id="BRL">Smazing</a></li>
+                                                    if (Session["TITOS"] != null && Session["TITOS"].ToString() != "" && Session["TITOS"].ToString() != "N")
+                                                    {
+                                                    <li><a href="#" class="clsAothers otherProduct _M001_R17" id="TOS">Tito's</a></li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
+
+                                    @if (strAllowreports.Contains("Update Agent Balance") && strProduct == "RBOA")
+                                    {
+                                        <li>
+                                            <a href="@Url.Content("~/CntrlPanel/AgentBalance")">
+                                                <i class="fa fa-money" style="font-size: 18px; padding-right: 7px;"></i><span>Update Agent Balance</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if ((strAllowreports.Contains("TransactionReport") == true || strAllowreports.Contains("Agent Sales") == true || strAllowreports.Contains("Update Agent Balance") == true || strAllowreports.Contains("AgentDetailsReport") == true || strAllowreports.Contains("CashBookingDetails") == true) && strterminal_app == "T")
+                                    {
+                                        <li class="hidden-xs">
+                                            <a href="#">
+                                                <i class="ion-android-list clsmenuicon" style="line-height: 40px; margin-top: 6px; float: left;"></i><span>Reports</span>
+                                                <i class="ion-chevron-down pull-right hidden-xs clsmenuarrow"></i>
+                                            </a>
+                                            <ul class="wsmenu-submenu">
+                                                @if (strAllowreports.Contains("TransactionReport"))
+                                                {
+                                                    if (strProduct == "RBOA" && strterminal_app == "T")
+                                                    {
+                                                    <li><a href="@Url.Content("~/CntrlPanel/Transaction?Flag=QTKT")" class="clsAothers otherProduct" id="AGT">Agent Transaction</a></li>
+                                                    }
+                                                    else
+                                                    {
+                                                    <li><a href="@Url.Content("~/CntrlPanel/Transaction")" class="clsAothers otherProduct" id="AGT">Agent Transaction</a></li>
+                                                    }
+                                                }
+                                                @if (strAllowreports.Contains("Update Agent Balance") && strProduct != "RBOA")
+                                                {
+                                                    <li><a href="@Url.Content("~/CntrlPanel/AgentBalance")" class="clsAothers otherProduct" id="">Update Agent Balance</a></li>
+                                                }
+                                                @if (strAllowreports.Contains("Agent Sales"))
+                                                {
+                                                    <li><a href="@Url.Content("~/CntrlPanel/AirlinePNRWiseSales")" class="clsAothers otherProduct" id="">Airline PNR Wise Sales</a></li>
+                                                }
+                                                @if (strAllowreports.Contains("AgentDetailsReport"))
+                                                {
+                                                    <li><a href="@Url.Content("~/CntrlPanel/AgentProductiveAnalysis")" class="clsAothers otherProduct" id="">Agent Analysis</a></li>
+                                                }
+                                                @if (strAllowreports.Contains("CashBookingDetails"))
+                                                {
+                                                    <li><a href="@Url.Action("CashPaymentdetails","Report")" class="clsAothers otherProduct">Cash Payment Details</a></li>
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
+                                    @if (strterminal_app == "T" && (strAllowreports.Contains("BookingTrack") || strAllowreports.Contains("WBRTACC") || strAllowreports.Contains("WBTKTCNL") || strAllowreports.Contains("WEBMNTKT")))
+                                    {
+                                        <li class="hidden-xs">
+                                            <a href="#">
+                                                <i class="ion-android-list clsmenuicon" style="line-height: 40px; margin-top: 6px; float: left;"></i><span>Action</span>
+                                                <i class="ion-chevron-down pull-right hidden-xs clsmenuarrow"></i>
+                                            </a>
+                                            <ul class="wsmenu-submenu">                                             
+                                               
+                                                @if (strAllowreports.Contains("BookingTrack"))
+                                                {
+                                                    <li><a href="#" class="clsAothers otherProduct" id="BTK">Booking Track</a></li>
+                                                }
+                                                @if (strAllowreports.Contains("WBTKTCNL"))
+                                                {
+                                                    <li><a href="#" class="clsAothers otherProduct" id="TTC">Ticket To Cancel</a></li>
+                                                }
+                                                @if (strAllowreports.Contains("WBRTACC"))
+                                                {
+                                                    <li><a href="#" class="clsAothers otherProduct" id="RTAC">Retrieve PNR Accounting</a></li>
+                                                    @*<li><a href="@Url.Action("RetrieveAccounting", "RetriveBooking")" class="clsAothers">Retrieve PNR Accounting</a></li>*@
+                                                }
+                                                @if (strAllowreports.Contains("WBCMAPR"))
+                                                {
+                                                    <li><a href="@Url.Action("BookingCommApproval", "CntrlPanel")" class="clsAothers otherProduct" id="BCOM">Commission Approval</a></li>
+                                                }
+                                                @if (strAllowreports.Contains("WEBMNTKT"))
+                                              {
+                                                    <li>
+                                                        <a href="#">
+                                                            <span class="clsAothers">Manual booking</span>
+                                                        </a>
+                                                        <ul class="wsmenu-submenu-sub">
+                                                            @if (true)
+                                                            {
+                                                                <li><a href="#" class="clsAothers otherProduct" id="MBAIR">Airline Manual Booking</a></li>
+                                                            }
+                                                                @*@if (true)
+                                                                    {
+                                                                        <li><a href="#" class="clsAothers otherProduct" id="MBBUS">BUS Manual Booking</a></li>
+                                                                    }
+                                                                    @if (true)
+                                                                    {
+                                                                        <li><a href="#" class="clsAothers otherProduct" id="MBHTL">Hotel Manual Booking</a></li>
+                                                                    }
+                                                                    @if (true)
+                                                                    {
+                                                                        <li><a href="#" class="clsAothers otherProduct" id="MBTRN">Train Manual Booking</a></li>
+                                                                    }
+                                                                    @if (true)
+                                                                    {
+                                                                        <li><a href="#" class="clsAothers otherProduct" id="MBCAR">Car Manual Booking</a></li>
+                                                                    }
+                                                                    @if (true)
+                                                                    {
+                                                                        <li><a href="#" class="clsAothers otherProduct" id="MBINS">Insurance Manual Booking</a></li>
+                                                                    }
+                                                                    @if (true)
+                                                                    {
+                                                                        <li><a href="#" class="clsAothers otherProduct" id="MBOTR">Other Manual Booking</a></li>
+                                                                    }*@
+                                                            </ul>
+
+                                                        </li>
+                                              }
+                                            </ul>
+                                        </li>
+                                    }
+                                </ul>
+                            </nav>
+                            <!--Menu HTML Code-->
+
+                        </div>
+                    </div>
+
+                    @if (strSublogopath != "")
+                    {
+                        displyicon = "col1 col-md-2 col-xs-8";
+                    }
+                    else
+                    {
+                        displyicon = "col1 col-md-2 col-xs-9";
+                    }
+                    <div class="@displyicon">
+                        <div class="navbar-right">
+                            <ul class="nav navbar-nav pull-right wsmenu-list flightheader">
+
+                                <li class="sedrtg">
+                                    <div class="" onclick="getbalance()" style="cursor: pointer;">
+                                        <i class="ion-card" style="font-size: 30px !important; color: #fff; position: relative; right: 13px; top: 11px; cursor: pointer; font-size: 14px;"></i>@*onclick="getbalance()"*@
+                                        <div class="Notify-popup displaynon" id="SHOWMONEY" style="WIDTH: 246px;">
+                                            <i class="fa fa-cog fa-spin displayblock" style="font-size: 25px; color: #4fb8f7; width: 40px;"></i>
+                                            <div class="displaynon" id="viewbalance_display"></div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="dropdown dropdown-box dropdown-notifications flat-mega-menu">
+                                    <a href="#" class="dropdown-toggle clsAicon30">
+                                        <i class="ion-gear-a"></i>
+                                    </a>
+                                    <ul class="nav navbar-nav drop-down hover-zoom">
+                                        @if (strterminal_app == "W")
+                                        {
+                                                if (strprivilage != "S")
+                                                {
+                                                    if (strcntrlpanelrits.Count() > 1 && strcntrlpanelrits[1] == "1")
+                                                    {
+                                            <li><a class="mousecolor" href="@Url.Content("~/CntrlPanel/Changepassword")"><i id="mouseoverwhite_2" class="fa fa-eye-slash mouseoverwhite"></i>Change Password </a></li>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (strcntrlpanelrits.Count() > 1 && strcntrlpanelrits[1] == "1")
+                                                    {
+                                            <li><a class="mousecolor" href="@Url.Content("~/CntrlPanel/Changepassword")"><i id="mouseoverwhite_2" class="fa fa-eye-slash mouseoverwhite"></i>Change Password </a></li>
+                                                    }
+
+                                                    if (strcntrlpanelrits.Count() > 3 && strcntrlpanelrits[3] == "1")
+                                                    {
+                                            <li><a class="mousecolor" href="@Url.Content("~/CntrlPanel/Transaction")"><i id="mouseoverwhite_3" class="fa fa-database mouseoverwhite"></i>Transaction details </a></li>
+                                                    }
+
+                                                    if (strcntrlpanelrits.Count() > 0 && strcntrlpanelrits[0] == "1" && strprivilage == "S")
+                                                    {
+                                            <li><a class="mousecolor" href="@Url.Content("~/CntrlPanel/Agentdetail")"><i id="mouseoverwhite_4" class="fa fa-info-circle mouseoverwhite"></i>Agent details </a></li>
+                                                    }
+
+                                                    if (strcntrlpanelrits.Count() > 6 && strcntrlpanelrits[6] == "1")
+                                                    {
+                                            <li><a class="color" href="@Url.Content("~/CntrlPanel/Customerprofile")"><i id="mouseoverwhite_5" class="fa fa-users mouseoverwhite"></i>Customers Profile </a></li>
+                                                    }
+                                                }
+                                            }
+                                            else if (strterminal_app == "T")
+                                            {
+                                            <li><a class="mousecolor" href="@Url.Content("~/CntrlPanel/Changepassword")"><i id="mouseoverwhite_2" class="fa fa-eye-slash mouseoverwhite"></i>Change Password </a></li>
+                                            }
+                                    </ul>
+                                </li>
+
+
+
+                                @if (strsmartScorcard != null && strsmartScorcard.Length > 1 && strsmartScorcard[7] != "0" && stragntyp != "DL")
+                                {
+                                    <li class="dropdown dropdown-box dropdown-tasks hidden-lg hidden-md hidden-sm animated my_fadeinright">
+                                        <a href="@Url.Content("~/CntrlPanel/Smartscore")" class="clsAicon25" data-toggle='tooltip' data-placement='bottom' title="Smart Score card">
+                                            <i class="fa fa-dashboard"></i>
+                                        </a>
+                                    </li>
+                                }
+
+                                @if (strEnvTyp != "M")
+                                {
+                                    <li class="dropdown dropdown-box show-sm-grid animated my_fadeinright aLogout">
+                                        <a href="#" id="aLogout" class="button clsAicon30 clslogout" data-toggle='tooltip' data-placement='bottom' title="Logout"><i class="ion-log-out"></i></a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    @if (strSublogopath != "")
+                    {
+                        <div class="col1 col-md-1 hidden-sm hidden-xs">
+                            <div class="clslogo_first animated my_bounce">
+                                <a class="logo_first">
+                                    <img class="clsbiglogo" style="margin-top: -10px;" src="@strSublogopath" />
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </nav>
+        </div>
+    </header>
+    <!-- END HEADER -->
+
+    <div class="wrapper">
+
+        @RenderBody()
+
+    </div>
+
+    <input type="hidden" id="time_interval" value="@ConfigurationManager.AppSettings["time_interval"]">
+    <input type="hidden" id="time_interval_alert" value="@ConfigurationManager.AppSettings["time_interval_alert"].ToString()">
+
+
+
+    <!--  Logout Comfirm Popup Start-->
+    <div class="modal fade" id="modal-fr" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-body clsPopupBody" style="padding: 10px;">
+                    <div class="main">
+                        <div class="row">
+                            <div class="col-xs-12" style="text-align: center;">
+                                <h2>Are you sure ?</h2>
+                                <p>Do you want to Logout.</p>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row" style="margin-bottom: 15px;">
+                            <div class="col-md-offset-3 col-md-3 col-xs-6">
+                                <input type="button" value="Yes" class="btn btn-md btn-primary width100per" id="btnyeslogout" />
+                            </div>
+                            <div class="col-md-3 col-xs-6">
+                                <input type="button" value="Cancel" data-dismiss="modal" class="btn btn-md btn-danger width100per" id="btnclosepop" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Logout Comfirm Popup End-->
+    @*pnr function popup*@
+    <div class="modal fade" id="pnrpopup" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="col-lg-6 col-lg-offset-3 col-xs-12 col0">
+                <div class="modal-content animated bounceInDown">
+                    <div class="" style="text-align: right; /* color: darkblue; */padding-right: 5px; padding-bottom: 0px; padding-top: 0xp;">
+                        <h4 class="modal-title" style="display: none;">Manage Booking</h4>
+                        <div class="cls-boa">
+                            <label class="" onclick="javascript: return CanOTAappsFunction();" style="FONT-WEIGHT: 904; cursor: pointer; font-weight: 900; text-align: right; padding-bottom: 0px; padding-top: 0px; margin-bottom: 0px !important; color: #27a5f5">x</label>
+                        </div>
+                    </div>
+                    <div class="modal-body clsPopupBody" style="padding: 20px 10px;">
+                        <div class="main">
+
+                            <div class="row spncls">
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="/* border: 1px solid; */">
+
+
+                                    <button class="myButt four" style="width: 100%; background-color: #27a5f5;" onclick="javascript: return OTAappviewpnrFunction();">
+                                        <div class="icon" style="font-size: 16px;">
+                                            <span class="fa fa-street-view" style="font-size: 34px; margin-left: 25px;" />
+                                        </div>
+                                        <em class="spritepage" style="display: none;"><span class="sprit_view"></span></em>
+                                        <span class="boa-align">View pnr </span>
+                                    </button>
+
+                                </div>
+                            </div>
+
+                            <div class="row spncls">
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 " style="/* border: 1px solid; */">
+                                    <button class="myButt four" style="width: 100%; background-color: #27a5f5;" onclick="javascript: return cancellation_process();">
+                                        <div class="icon" style="font-size: 24px;">
+                                            <span class="fa fa-close" />
+                                        </div>
+                                        <em class="spritepage" style="display: none;"><span class="sprit_cancel"></span></em>
+                                        <span class="boa-align">Cancellation</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row spncls">
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 " style="/* border: 1px solid; */">
+                                    <button class="myButt four" style="width: 100%; background-color: #27a5f5;" onclick="javascript: return bookhistoresche_process();">
+                                        <div class="icon" style="font-size: 24px;">
+                                            <span class="fa fa-calendar" style="margin-left: 23px;" />
+                                        </div>
+                                        <em class="spritepage" style="display: none;"><span class="sprit_reschedule"></span></em>
+                                        <span class="boa-align">Reschedule</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row spncls">
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 " style="/* border: 1px solid; */">
+                                    <div class="col-xs-5 col-md-5 col-sm-5 col-lg-5" onclick="javascript: return bookedhis_print();" style="padding: 0px">
+                                        <button class="myButt four bxs-non" style="width: 100%; background-color: #27a5f5;">
+                                            <div class="icon icon_spa" style="font-size: 22px;">
+                                                <span class="fa fa-print" />
+                                            </div>
+                                            <em class="spritepage" style="display: none;"><span class="sprit_printpnr"></span></em>
+                                            <span class="boa-align printmang">Print</span>
+                                        </button>
+                                    </div>
+                                    <div class="col-xs-4 col-md-3 col-sm-3 col-lg-3 mobtxt_center col10" id="singletic">
+                                        <input style="display: none; color: white; border: 1px solid #27a5f5 !important;" id="Chk_fare2_popup" class="cb db" type="checkbox" name="Chk_fare2_pop">
+                                        <label style="color: white; margin-left: 17px; margin-top: 5px;" class="cbx dbx" for="Chk_fare2_popup"></label>
+                                        <legend id="single" style="color: #27a5f5; font-size: 12px; margin-top: -7px; margin-left: 2px; white-space: nowrap;" class="lbl" for="Chk_fare2_popup">Single Ticket</legend>
+                                    </div>
+                                    <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 mobtxt_center col10" id="getfr">
+                                        <input style="display: none; color: white; border: 1px solid #27a5f5 !important;" id="Chk_fare_popup" class="cb db srna" type="checkbox" name="Chk_fare_popup">
+                                        <label style="color: white; margin-left: 18px; margin-top: 5px; float: left; margin-bottom: 4px;" class="cbx dbx " for="Chk_fare_popup"></label>
+                                        <legend id="withfare" style="color: #27a5f5; font-size: 12px; float: left;" class="lbl srna">With Fare</legend>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-agentlist-bal" tabindex="-1" role="dialog" style="display: none">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close popClose" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title custom_align stylishHeader" style="text-align: center; font-size: 20px; font-weight: bold; color: #5f9ea0;">Agent Balance</h5>
+                </div>
+                <div class="modal-body clsPopupBody" style="padding: 10px;">
+                    <div class="main form-group" style="height: 185px; margin-bottom: 0px;">
+                        <div id="hCorp_x" style="text-align: left; line-height: inherit; font-size: 14px; margin-bottom: 2px;">Agency Name</div>
+                        <input class="form-control ui-autocomplete-input" type="text" id="txtAgencyName" placeholder="Agency Name" style="margin-bottom: 15px;" />
+                        <div class="main form-group" style="margin-bottom: 0px;">
+                            <div class="displaynon" id="dvBalance"></div>
+                            @*id="viewbalance_display"*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-Fare" class="iziModal addtop" style=""></div>
+    <div id="modal-alert" class="iziModal"></div>
+    <div id="modal-content" class="iziModal"></div>
+    <div id="modal-iframe" class="iziModal"></div>
+
+    <input type="hidden" id="hdn_sessAgentLogin" value="@(Session["IsAgentLogin"] != null ? Session["IsAgentLogin"].ToString() : "N")" />
+    <input type="hidden" id="hdn_AppHosting" value="@ConfigurationManager.AppSettings["APP_HOSTING"].ToString().ToUpper()" />
+    <input type="hidden" id="hdnapptype" value="@strterminal_app" />
+    @*end *@
+
+    <div id="dvDataProp" data-airportxml-url="@Url.Content("~/XML/CityAirport_Lst.xml")" data-mulsearch-url="@Url.Action("FlightAvail", "Search")"
+         data-session-url="@Url.Action("SessionExp", "Redirect")" data-mulavail-url="@Url.Action("MultiCity", "MultiCity")"
+         data-airline-url="@ConfigurationManager.AppSettings["FlightUrl"].ToString()">
+    </div>
+    <link href="~/Content/CSS/Login/lobibox.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/LayoutCommonJS")
+    @Scripts.Render("~/bundles/LayoutOtherJS")
+    <script src="~/js/LayoutJS/Layout.js?@strfileversion"></script>
+    <script src="~/js/lobibox.js?@strfileversion"></script>
+    <script>
+        var Agentmasterlst = "";
+        var LoginUserUniqSessKey = '@Session["UniqueSessionid"]' != null ? '@Session["UniqueSessionid"]' : "";
+        var checkmobile = '@Request.Browser.IsMobileDevice';
+        var PaymentGatewayURL = "@Url.Action("Redirectpaymentpage", "Home")";
+        var ClientDetailsURL = "@Url.Action("GetClientData", "HOME")";//GetClientdetails
+        var BalanceCheckURL = '@Url.Action("BalanceCheck", "Home")';
+        var BalanceCheckBOAURL = '@Url.Action("BalanceCheckBOA", "Home")';
+        var SessionRedirectURL = "@Url.Action("SessionExp", "Redirect")";
+        var LogoutURL = "@Url.Action("Logoutpopup", "Login")";
+        var OtherProductURL = '@Url.Content("~/OtherProduct/OtherProduct")';
+        var PGRedirectURL = '@Url.Content("~/OtherProduct/PGRedirect")';
+        var strTerminalType = '@strTerminalType';
+        var ThemeVersion = '@strappthemeversion';
+        var SmsUrl = "@Url.Action("Sendsms", "AfterBooking")";
+        var loaderbal = "@Url.Content("~/Images/Theme4/balance.gif")";
+        var EMailsendingurl = '@Url.Action("btnEmail_pdforhtml_Click", "AfterBooking")';
+        var ImageUrl = '@strLogourl';
+
+        function ShowiFramePop(iurl, ititle, isubtitle, ifull) {
+            $('#modal-iframe').iziModal('destroy');
+            $("#modal-iframe").iziModal({
+                top: 200,
+                headerColor: '#000',
+                title: ititle, //'iziModal with iframe',
+                subtitle: isubtitle, //'Video example using the Vimeo embed.',
+                icon: 'icon-settings_system_daydream',
+                overlayClose: false,
+                iframe: true,
+                iframeURL: iurl, //https://player.vimeo.com/video/22439234?autoplay=1
+                iframeHeight: 700,
+                fullscreen: ifull, //true
+                openFullscreen: false,
+                group: 'grupo1'
+            });
+            $('#modal-iframe').iziModal('open');
+        }
+
+    </script>
+</body>
+</html>

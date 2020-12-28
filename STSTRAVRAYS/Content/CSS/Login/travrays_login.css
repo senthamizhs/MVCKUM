@@ -1,0 +1,30 @@
+﻿.travrays_logbg {
+    background: url("../../Images/riyalogin_bg.png") !important;
+    /*background-size: cover !important;*/
+}
+
+.travs_login {
+    background: none !important;
+}
+
+    .travs_login .div-right {
+        border-left: none;
+    }
+
+    .travs_login .div-left {
+        background-image: url(../../Images/riya_logo.png);
+       background-size: 50% !important; 
+        background-position: 50% 33% !important;
+    }
+        
+    .travs_login .loginbtn {
+        background: linear-gradient(45deg, #FF5722 0%, #ff2f35 100%) !important;
+        border-color: #d81e1e;
+        font-size: 15px !important;
+        min-width: 119px !important;
+        max-width: 100% !important;
+        padding: 0px !important;
+        margin: 0 !important;
+        border-radius: 2px !important;
+        height: 40px;
+    }

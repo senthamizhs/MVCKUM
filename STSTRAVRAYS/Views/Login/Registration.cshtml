@@ -1,0 +1,488 @@
+﻿@{
+    string fileversion = System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"] != null ? System.Configuration.ConfigurationManager.AppSettings["UpdateVersion"].ToString() : "";
+    string allowlogincountry = System.Configuration.ConfigurationManager.AppSettings["Logincountry"] != null ? System.Configuration.ConfigurationManager.AppSettings["Logincountry"].ToString() : "";
+    string country_code = System.Configuration.ConfigurationManager.AppSettings["COUNTRY"] != null ? System.Configuration.ConfigurationManager.AppSettings["COUNTRY"].ToString() : "";
+    string strProductType = System.Configuration.ConfigurationManager.AppSettings["Producttype"] != null ? System.Configuration.ConfigurationManager.AppSettings["Producttype"].ToString() : "";
+    string strFavicon = System.Configuration.ConfigurationManager.AppSettings["LogoUrl"].ToString() + "/" + strProductType + "/favicon.ico?" + fileversion;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Online Travel Agent Registration | B2B Travel Agency - Riya Connect</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Become a Travel Agent - Register with Riya Connect and become B2B travel agent & start ticket booking for flights, trains, bus, car, travel insurance online.">
+    <meta name="keywords" content="b2b agent registration, agent registration, travel agency registration">
+    <meta name="author" content="Riya Travel & Tours India Pvt Ltd">
+    <link rel="shortcut icon" href="@strFavicon" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" rel="stylesheet" />
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <link href="~/Content/CSS/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/CSS/RIYA/style-main.css?@fileversion" rel="stylesheet" />
+    <script src="~/js/CommonJS/jquery-1.11.1.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CFGNNP3W8P"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-CFGNNP3W8P');
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="@Url.Action("Login", "Login")" class="logo">
+                <img src="@Url.Content("~/Images/" + strProductType + "/riya-logo.png")" alt="" />
+            </a>
+            @*<a href="@Url.Action("Registration", "Login")" class="btn01 rigister-btn pull-right">Register Now</a>*@
+            <div class="pull-right agentHelpline agentHelpline2">
+                <span>Agent  Helpline&nbsp;</span>
+                <a class="mobilesOnly" href="tel:022-71200900" title="24/7 Customer Services | 24/7 Customer Supports for Agents & Customers"><i class="fas fa-phone"></i>+91 022 71200900</a>
+                <a class="mobilesOnly" href="tel:022-25744818">/&nbsp;+91 022 25744818</a>
+            </div>
+        </div>
+    </header>
+    <!--header spacer-->
+    <div class="header-spacer"></div>
+    <!--header-->
+    <!--section-->
+    <div class="bg-white padding-bottom form-rg-holder" style="background: url('@Url.Content("~/Images/" + strProductType + "/bg-register.jpg")') no-repeat center center; background-size: cover;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="details-box">
+                        <h1 class="heading03 heading04 heading05">Riya Connect – Registration </h1>
+                        <!--<p class="para-lightgry">Our Partnering Agents get to Book Multiple Travel & Leisure Services at Best Prices</p>-->
+                        <h6>Personal Details</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input class="effect-input clsAlpha" id="txtfirstname" type="text" maxlength="25" placeholder="First Name*">
+                                    <span class="focus-border"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input class="effect-input clsAlpha" id="txtlastname" type="text" maxlength="25" placeholder="Last Name*">
+                                    <span class="focus-border"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input class="effect-input clsNumeric" id="txtlandline" type="text" maxlength="15" placeholder="Landline">
+                                    <span class="focus-border"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input class="effect-input clsNumeric" id="txtmobilenumber" type="text" maxlength="15" placeholder="Mobile*">
+                                    <span class="focus-border"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input class="effect-input" id="txtemailid" type="text" placeholder="E-mail ID*" maxlength="50">
+                                    <span class="focus-border"><i></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <h6>Communication Details</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input class="effect-input clsAlphaNumeric" id="txtaddress1" type="text" placeholder="Address*" maxlength="100">
+                                    <span class="focus-border"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input class="effect-input clsAlphaNumeric" id="txtaddress2" type="text" placeholder="Landmark*" maxlength="50">
+                                    <span class="focus-border"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="input-effect select-option" id="txtcountryname">
+                                        <option value="">--Country*--</option>
+                                        <option value="IN" selected>India</option>
+                                    </select>
+                                    <span class="icon-color fas fa-caret-down">
+                                        <!--icon-->
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input class="effect-input clsNumeric" id="txtpincode" type="text" placeholder="Postal Code*" maxlength="6">
+                                    <span class="focus-border"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="effect-input select-option" id="txtstatename" onchange="Changecity();">
+                                        <option value="">--State*--</option>
+                                        <option value="AN">Andaman and Nicobar Island</option>
+                                        <option value="AP">Andhra Pradesh</option>
+                                        <option value="AR">Arunachal Pradesh</option>
+                                        <option value="AS">Assam</option>
+                                        <option value="BR">Bihar</option>
+                                        <option value="CG">Chattisgarh</option>
+                                        <option value="CH">Chandigarh</option>
+                                        <option value="DD">Daman and Diu</option>
+                                        <option value="DL">Delhi</option>
+                                        <option value="DN">Dadra and Nagar Haveli</option>
+                                        <option value="GA">Goa</option>
+                                        <option value="GJ">Gujarat</option>
+                                        <option value="HP">Himachal Pradesh</option>
+                                        <option value="HR">Haryana</option>
+                                        <option value="JH">Jharkhand</option>
+                                        <option value="JK">Jammu and Kashmir</option>
+                                        <option value="KA">Karnataka</option>
+                                        <option value="KL">Kerala</option>
+                                        <option value="LD">Lakshadweep</option>
+                                        <option value="MH">Maharashtra</option>
+                                        <option value="ML">Meghalaya</option>
+                                        <option value="MN">Manipur</option>
+                                        <option value="MP">Madhya Pradesh</option>
+                                        <option value="MZ">Mizoram</option>
+                                        <option value="NL">Nagaland</option>
+                                        <option value="OR">Orissa</option>
+                                        <option value="PB">Punjab</option>
+                                        <option value="PY">Pondicherry</option>
+                                        <option value="RJ">Rajasthan</option>
+                                        <option value="SK">Sikkim</option>
+                                        <option value="TN">Tamil Nadu</option>
+                                        <option value="TG">Telangana</option>
+                                        <option value="TR">Tripura</option>
+                                        <option value="UP">Uttar Pradesh</option>
+                                        <option value="UT">Uttaranchal</option>
+                                        <option value="WB">West Bengal</option>
+                                    </select>
+                                    <span class="icon-color fas fa-caret-down">
+                                        <!--icon-->
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="input-effect select-option" id="txtcityname">
+                                        <option value="">--city*--</option>
+                                    </select>
+                                    <span class="icon-color fas fa-caret-down">
+                                        <!--icon-->
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="button-holder">
+                            <!--<button type="submit" class="btn btn01">Submit</button>-->
+                            <div class="captcha-code">
+                                <div class="g-recaptcha" data-sitekey="6LenQ8UUAAAAACF9XHuQE-oen0T5gConJhMbsI8f" data-callback="verifyRecaptchaCallback" data-expired-callback="expiredRecaptchaCallback"></div>
+                            </div>
+                            <button class="btn btn01" onclick="submitdetails()" id="btnregsubmit">
+                                Submit
+                                <i id="iLoading" class="fa fa-spinner fa-spin" style="font-size: 16px; color: #292929; display: none;"></i>
+                            </button>
+                        </div>
+                        <div class="message_wrap col-sm-12" id="loginpnl" style="border: none;">
+                            <p class="message">
+                                <span id="empty-destination-box" style="height: 25px; padding-top: 5px;" class="error"></span>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-5">
+                    <div class="details-box rg-our-services">
+                        <h2 class="heading03 heading04 heading05">Array of Services </h2>
+                        <h3 class="para-lightgry">Our Partnering Agents get to Book Multiple Travel & Leisure Services at Best Prices</h3>
+                        <ul>
+                            <li><img src="@Url.Content("~/Images/" + strProductType + "/flight.png")" alt="B2B Agent Flight Booking"><p>Flights</p></li>
+                            <li><img src="@Url.Content("~/Images/" + strProductType + "/bus.png")" alt="B2B Bus Services"><p>Bus</p></li>
+                            <li><img src="@Url.Content("~/Images/" + strProductType + "/rail.png")" alt="Rail Services"><p>Rail</p></li>
+                            <li><img src="@Url.Content("~/Images/" + strProductType + "/hotel.png")" alt="Hotel Services"><p>Hotel</p></li>
+                            <li><img src="@Url.Content("~/Images/" + strProductType + "/cruise.png")" alt="Cruise Services"><p>Cruise</p></li>
+                            <li><img src="@Url.Content("~/Images/" + strProductType + "/car.png")" alt="Hire Car"><p>Car</p></li>
+                            <li><img src="@Url.Content("~/Images/" + strProductType + "/insurance.png")" alt="Travel Insurance"><p>Travel<br>Insurance</p></li>
+                            <li><img src="@Url.Content("~/Images/" + strProductType + "/meal.png")" alt="In-Flight Services | Food & Drinks"><p>In-Flight<br>Services</p></li>
+                            <li><img src="@Url.Content("~/Images/" + strProductType + "/travel.png")" alt="Baggage Insurance"><p>Baggage<br>Insurance</p></li>
+                            <li><img src="@Url.Content("~/Images/" + strProductType + "/lounge.png")" alt="Airport Lounge"><p>Airport<br>Lounge</p></li>
+                            <li><img src="@Url.Content("~/Images/" + strProductType + "/park.png")" alt="Theme Park Tickets"><p>Theme Park<br>Tickets</p></li>
+                            <li><img src="@Url.Content("~/Images/" + strProductType + "/sim.png")" alt="International Calling Card"><p>International<br>Calling Card</p></li>
+                            <li><img src="@Url.Content("~/Images/" + strProductType + "/more-services.png")" alt="B2B Agent Login Page | Riya Connect"><p>Many  More</p></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="copyright">
+            © Copyright 2019 b2b.riya.travel . All Rights Reserved Version V3.1
+        </div>
+    </footer>
+    <!--javascript-->
+    <script src="~/js/CommonJS/custom-main.js"></script>
+    <script src="~/js/CommonJS/popup.js"></script>
+    <script src="~/js/CommonJS/swiper-slider.js"></script>
+    <script>
+        $(document).ready(function () {
+            var country_code = '@country_code';
+            var Statelist = "";
+            $.ajax({
+                type: "GET",
+                url: '@Url.Content("~/XML/State.xml?v=0.1")',
+                dataType: "xml",
+                success: function (xmlResponse) {
+                    Statelist += "<option value=''>-- Select State--</option>";
+                    $(xmlResponse).find('STATE').each(function () {
+                        if ($(this).find('COUNTRY_ID').text() == country_code.toUpperCase()) {
+                            var stateid = $(this).find('STATE_ID').text();
+                            var statename = $(this).find('STATE_NAME').text();
+                            Statelist += "<option value=" + stateid + ">" + statename + "</option>";
+                        }
+                    });
+                    $("#txtstatename").html(Statelist);
+                },
+                error: function (e) {
+                }
+            });
+        });
+
+        function Changecity() {
+            $("#txtcityname option").remove();
+            var slctstateid = $('#txtstatename').val();
+            var Citylist = "";
+            $.ajax({
+                url: '@Url.Content("~/XML/City.xml")',
+                dataType: "xml",
+                success: function (xmlResponse) {
+                    Citylist += "<option value=''>--Select City--</option>";
+                    $(xmlResponse).find("CITY").each(function () {
+                        var eachstateid = $(this).find('STATE_ID').text();
+                        if (slctstateid == eachstateid) {
+                            var cityid = $(this).find('CITY_ID').text();
+                            var cityname = $(this).find('CITY_NAME').text();
+                            Citylist += "<option value=" + cityid + ">" + cityname + "</option>";
+                        }
+                    });
+                    $("#txtcityname").html(Citylist);
+                }
+
+            });
+        }
+        function submitdetails() {
+            try {
+
+
+                var Name = $("#txtfirstname").val();
+                var Lastname = $("#txtlastname").val();
+                var Landline = $("#txtlandline").val();
+                var Address1 = $("#txtaddress1").val();
+                var Address2 = $("#txtaddress2").val();
+                var Emailid = $("#txtemailid").val();
+                var MobileNumber = $("#txtmobilenumber").val();
+                var State = $("select[id=txtstatename] option:selected").val();
+                var City = $("select[id=txtcityname] option:selected").val();;
+                var pincode = $("#txtpincode").val();
+                var Country = $("select[id=txtcountryname] option:selected").val();;
+                var errorcls = false;
+
+                if (Name == null || Name == undefined || Name == "") {
+                    //showError("Please Enter your First Name");
+                    $("#txtfirstname").addClass('errorstyle');
+                    errorcls = true;
+                }
+                if (Lastname == null || Lastname == undefined || Lastname == "") {
+                    //showError("Please Enter your Last Name.");
+                    $("#txtlastname").addClass('errorstyle');
+                    errorcls = true;
+                }
+                if (MobileNumber == null || MobileNumber == undefined || MobileNumber == "") {
+                    //showError("Please Enter  Mobile Number.");
+                    $("#txtmobilenumber").addClass('errorstyle');
+                    errorcls = true;
+                }
+
+                if (Emailid == null || Emailid == undefined || Emailid == "") {
+                    //showError("Please Enter Email Id");
+                    $("#txtemailid").addClass('errorstyle');
+                    errorcls = true;
+                }
+
+                if (Address1 == null || Address1 == undefined || Address1 == "") {
+                    //showError("Please Enter Residential / Office Address");
+                    $("#txtaddress1").addClass('errorstyle');
+                    errorcls = true;
+                }
+                if (Address2 == null || Address2 == undefined || Address2 == "") {
+                    //showError("Please Enter Landmark");
+                    $("#txtaddress2").addClass('errorstyle');
+                    errorcls = true;
+                }
+                if (pincode == null || pincode == undefined || pincode == "") {
+                    //showError("Please Enter  Pincode.");
+                    $("#txtpincode").addClass('errorstyle');
+                    errorcls = true;
+                }
+
+                if (State == null || State == undefined || State == "") {
+                    //showError("Please Select State");
+                    $("#txtstatename").addClass('errorstyle');
+                    errorcls = true;
+                }
+                if (City == null || City == undefined || City == "") {
+                    //showError("Please Select City");
+                    $("#txtcityname").addClass('errorstyle');
+                    errorcls = true;
+                }
+                if (Country == null || Country == undefined || Country == "") {
+                    //showError("Please Select City");
+                    $("#txtcountryname").addClass('errorstyle');
+                    errorcls = true;
+                }
+                if (MobileNumber != "" && MobileNumber.length < 10) {
+                    showError("Please Enter Valid Mobile Number.");
+                    $("#txtmobilenumber").addClass('errorstyle');
+                    $("#btnregsubmit").focus();
+                    errorcls = true;
+                    return false;
+                }
+                var filter = /^([\w-]+(?:\.[\w-]+)*)@@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+                if (Emailid != "" && !filter.test(Emailid)) {
+                    showError("Please Enter Valid Email Id");
+                    $("#txtemailid").addClass('errorstyle');
+                    $("#btnregsubmit").focus();
+                    errorcls = true;
+                    return false;
+                }
+                if (pincode != "" && pincode.length < 6) {
+                    showError("Please Enter Valid Pincode");
+                    $("#txtpincode").addClass('errorstyle');
+                    errorcls = true;
+                    $("#btnregsubmit").focus();
+                    return false;
+                }
+
+                if (errorcls == true) {
+                    showError("Mandatory fields cannot be empty.");
+                    return false;
+                }
+                else {
+                    $(".errorstyle").removeClass('errorstyle');
+                }
+
+                var response = grecaptcha.getResponse();
+
+                if (response.length == 0) {
+                    showError("Please verify that you are not a robot.");
+                    return false;
+                }
+
+                var fileData = new FormData();
+                fileData.append("FirstName", Name);
+                fileData.append("LastName", Lastname);
+                fileData.append("Address1", Address1);
+                fileData.append("Address2", Address2);
+                fileData.append("StateName", State);
+                fileData.append("CityName", City);
+                fileData.append("Pincode", pincode);
+                fileData.append("MobileNumber", MobileNumber);
+                fileData.append("EmailId", Emailid);
+                fileData.append("LandLine", Landline);
+                fileData.append("ProofType", "");
+
+                $('#iLoading').show();
+                $.ajax({
+                    url: "@Url.Action("AgentRegistration", "Login")",
+                    contentType: "application/json; charset=utf-8",
+                    data: fileData,
+                    contentType: false,
+                    processData: false,
+                    dataType: "json",
+                    async: true,
+                    type: "POST",
+                    success: function (jdata) {
+                        $('#iLoading').hide();
+                        if (jdata.Result == "1") {
+                            ClearAgentdetail();
+                            window.location.href = "@Url.Action("Thankyou", "Login")";
+                        }
+                        else {
+                            showError(jdata.errMsg);
+                        }
+                    },
+                    error: function (e) {
+                        showError(e);
+                    }
+                });
+
+            }
+            catch (e) {
+                showError(e.message);
+                console.log(e.message);
+            }
+        }
+        function ClearAgentdetail() {
+            $("#txtfirstname").val("");
+            $("#txtlastname").val("");
+            $("#txtaddress1").val("");
+            $("#txtaddress2").val("");
+            $("#txtstatename").val("");
+            $("#txtcityname").val("");
+            $("#txtlandline").val("");
+            $("#txtmobilenumber").val("");
+            $("#txtpincode").val("");
+            $("#txtemailid").val("");
+            //$('#modal-Agentregister').iziModal('close');
+        }
+
+        $(document).on('input', '.clsAlpha', function () {
+            var txtQty = $(this).val().replace(/[^a-zA-Z\ ]/g, '');
+            txtQty = txtQty.replace(/  +/g, ' ');
+            $(this).val(txtQty);
+        });
+        $(document).on('input', '.clsAlphaNumeric', function () {
+            var txtQty = $(this).val().replace(/[^a-zA-Z0-9\ ]/g, '');
+            txtQty = txtQty.replace(/  +/g, ' ');
+            $(this).val(txtQty);
+        });
+        $(document).on('input', '.clsNumeric', function () {
+            var txtQty = $(this).val().replace(/[^0-9]/g, '');
+            $(this).val(txtQty);
+        });
+
+        function showError(msg) {
+            $(".message").addClass("animation");
+            $("#empty-destination-box").addClass("error_active");
+            $(".details-box").addClass("has_error");
+
+            setTimeout(function () {
+                $(".message").removeClass("animation");
+            }, 200);
+            $("#empty-destination-box").html(msg);
+            $("#empty-destination-box").focus();
+            setTimeout(function () {
+                $(".message").removeClass("animation");
+                $("#empty-destination-box").removeClass("error_active");
+                $(".details-box").removeClass("has_error");
+                $("#empty-destination-box").html("");
+
+            }, 5000);
+
+        }
+
+        $(document).on('click focus', '.errorstyle', function () {
+            var ids = this.id;
+            $("#" + ids).removeClass('errorstyle');
+        });
+    </script>
+</body>
+</html>

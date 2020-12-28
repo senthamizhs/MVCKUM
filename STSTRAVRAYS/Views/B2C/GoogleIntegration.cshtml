@@ -1,0 +1,9 @@
+﻿@{
+    string strIsLogin = Session["CustomerLogin"] != null && Session["CustomerLogin"].ToString() != "" ? Session["CustomerLogin"].ToString() : "";
+    string strUsername = Session["USERNAME"] != null && Session["USERNAME"].ToString() != "" ? Session["USERNAME"].ToString() : "";
+}
+<script>
+    localStorage.setItem("IsLoggedIN", '@strIsLogin');
+    localStorage.setItem('Username', '@strUsername');
+    window.close();//do not remove this page need for google integration page
+</script>
