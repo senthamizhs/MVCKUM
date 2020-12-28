@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Results>
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.DiscoveryDocumentReference" url="http://115.124.97.109/RIYA_BOA_V3_WSDL/RaysService.asmx?disco" filename="RaysService.disco" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://115.124.97.109/RIYA_BOA_V3_WSDL/RaysService.asmx?wsdl" filename="RaysService.wsdl" />
-  </Results>
-</DiscoveryClientResultsFile>
